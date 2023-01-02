@@ -34,20 +34,30 @@ const HeaderComponent = () => {
                 <span className="position-absolute top-1 start-10 translate-middle p-2 bg-danger border border-light rounded-circle"></span>
               </Nav.Link>
             </LinkContainer>
-              
-              <Nav.Link href="#pricing">
-                <Badge pill bg="danger">
-                    2
-                </Badge>
-                Cart
-              </Nav.Link>
               <NavDropdown title="John Doe" id="collapsible-nav-dropdown">
                 <NavDropdown.Item eventKey="/user/my-orders" as={Link} to="/user/my-orders">My orders</NavDropdown.Item>
                 <NavDropdown.Item eventKey="/user/" as={Link} to="/user">My profile</NavDropdown.Item>
                 <NavDropdown.Item>Logout</NavDropdown.Item>
-
-
               </NavDropdown>
+              <LinkContainer to="/login">
+              <Nav.Link>
+                Login                
+              </Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/register">
+              <Nav.Link>
+                Register                
+              </Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/cart">
+              <Nav.Link href="#pricing">
+                <Badge pill bg="danger">
+                    2
+                </Badge>
+                <i className="bi bi-cart"></i>
+                <span className="ms-1">Cart</span>
+              </Nav.Link>
+              </LinkContainer>
             </Nav>
           </Navbar.Collapse>
         </Container>
