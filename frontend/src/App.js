@@ -4,6 +4,9 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import HeaderComponent from "./components/HeaderComponent";
 import FooterComponent from "./components/FooterComponent";
 
+//user components
+import RoutesWithUserChatComponent from "./pages/user/RoutesWithUserChatComponent";
+
 // public pages
 import HomePage from "./pages/HomePage";
 import CartPage from "./pages/CartPage";
@@ -35,13 +38,16 @@ function App() {
     <BrowserRouter>
     <HeaderComponent />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/product-list" element={<ProductListPage />} />
-        <Route path="/product-details/:id" element={<ProductDetailsPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="*" element="404 - page does not exist" />
+        <Route element={<RoutesWithUserChatComponent />}>
+          {/* publicly available routes */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/product-list" element={<ProductListPage />} />
+          <Route path="/product-details/:id" element={<ProductDetailsPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="*" element="404 - page does not exist" />
+        </Route>
         {/* user protected routes */}
         <Route element={<ProtectedRoutesComponent admin={false}/>}>
           <Route path="/user"  element={<UserProfilePage />}/>
