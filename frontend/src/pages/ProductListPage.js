@@ -1,6 +1,11 @@
 import { Row, Col, Container, ListGroup, Button } from "react-bootstrap";
 import SortOptionsComponent from "../components/SortOptionsComponent";
 import PriceFilterComponent from "../components/filterQueryResultOptions/PriceFilterComponent";
+import RatingFilterComponent from "../components/filterQueryResultOptions/RatingFilterComponent";
+import CategoryFilterComponent from "../components/filterQueryResultOptions/CategoryFilterComponent";
+import AttributesFilterComponent from "../components/filterQueryResultOptions/AttributesFilterComponent";
+import ProductForListComponent from "../components/ProductForListComponent";
+import PaginationComponent from "../components/PaginationComponent";
 
 const ProductListPage = () => {
 
@@ -13,11 +18,9 @@ const ProductListPage = () => {
             <ListGroup variant="flush">
               <ListGroup.Item><SortOptionsComponent /></ListGroup.Item>
               <ListGroup.Item><PriceFilterComponent /></ListGroup.Item>
-              <ListGroup.Item>category</ListGroup.Item>
-              <ListGroup.Item>test</ListGroup.Item>
-              <ListGroup.Item>
-                test
-              </ListGroup.Item>
+              <ListGroup.Item><RatingFilterComponent/></ListGroup.Item>
+              <ListGroup.Item><CategoryFilterComponent/></ListGroup.Item>
+              <ListGroup.Item><AttributesFilterComponent/></ListGroup.Item>
               <ListGroup.Item>
                 <Button variant="primary">Primary</Button>
                 <Button variant="danger">Danger</Button>
@@ -26,8 +29,8 @@ const ProductListPage = () => {
           </Col>
           {/* width of 9 to show all the products (component) and pagination (other component) */}
           <Col md={9}>
-            products go here
-            pagination component here
+            <ProductForListComponent />
+            <PaginationComponent />
           </Col>
         </Row>
       </Container>
