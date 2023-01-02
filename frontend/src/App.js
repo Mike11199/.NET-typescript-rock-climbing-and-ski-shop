@@ -1,5 +1,10 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 
+//components
+import HeaderComponent from "./components/HeaderComponent";
+import FooterComponent from "./components/FooterComponent";
+
+// public pages
 import HomePage from "./pages/HomePage";
 import CartPage from "./pages/CartPage";
 import LoginPage from "./pages/LoginPage";
@@ -28,6 +33,7 @@ import AdminAnalyticsPage from "./pages/admin/AdminAnalyticsPage";
 function App() {
   return (
     <BrowserRouter>
+    <HeaderComponent />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/product-list" element={<ProductListPage />} />
@@ -56,6 +62,7 @@ function App() {
           <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
         </Route>        
       </Routes>
+      <FooterComponent />
     </BrowserRouter>
   );
 }
