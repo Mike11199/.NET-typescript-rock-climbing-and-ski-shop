@@ -6,6 +6,7 @@ import CategoryFilterComponent from "../components/filterQueryResultOptions/Cate
 import AttributesFilterComponent from "../components/filterQueryResultOptions/AttributesFilterComponent";
 import ProductForListComponent from "../components/ProductForListComponent";
 import PaginationComponent from "../components/PaginationComponent";
+import {RatingView} from 'react-simple-star-rating'
 
 const ProductListPage = () => {
 

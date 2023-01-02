@@ -18,12 +18,12 @@ const UserChatComponent = () => {
           <div className="cht-msg">
 
             {Array.from({ length: 20 }).map((_, id) => (
-              <div>
+              <div key={id}>
                 <p>
-                <b>You Wrote:</b>  Hello, world!  This is a toast message. 
-                <p className="bg-primary p-3 ms-4 mt-3 text-light rounded-pill">
-                <b>Support Wrote:</b>  Hello, world!  This is a toast message. 
+                  <b>You Wrote:</b>  Hello, world!  This is a toast message. 
                 </p>
+                <p className="bg-primary p-3 ms-4 mt-3 text-light rounded-pill">
+                  <b>Support Wrote:</b>  Hello, world!  This is a toast message.                 
                 </p>
               </div>
             ))
