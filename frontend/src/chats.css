@@ -1,0 +1,32 @@
+.chat-btn {
+    position: fixed;
+    right: 14px;
+    bottom: 30px;
+    cursor: pointer;
+    background-color: blue;
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+    color: #fff;
+    font-size: 22px;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-btn .close {
+    display: none;
+}
+
+#check:checked ~ .chat-btn i {
+    display: block;
+}
+
+#check:checked ~ .chat-btn .comment {
+    display: none;
+}
+
+#check {
+    display: none !important;
+}
