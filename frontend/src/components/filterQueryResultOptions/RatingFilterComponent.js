@@ -7,7 +7,7 @@ const RatingFilterComponent = () => {
   // https://www.npmjs.com/package/react-simple-star-rating
   //https://react-bootstrap.netlify.app/forms/checks-radios/#customizing-formcheck-rendering
   return (
-    <>    
+  <>    
     <span className='fw-bold'>Rating</span>
     {Array.from({length: 5}).map((_, idx) => (
         <Fragment key={idx}>
@@ -24,7 +24,6 @@ const RatingFilterComponent = () => {
         </Fragment>
 
     ))}
-
   </>
   );
 };

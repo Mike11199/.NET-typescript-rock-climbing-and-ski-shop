@@ -15,9 +15,10 @@ const ProductListPage = () => {
         {/* row default width = 12 :  9 + 3 = 12 for columns*/}
         <Row>
         {/* width of 3 for the side panel - this container sorting/filtering options; md is is mobile responsive if below medium size device */}
-          <Col md={3}>
+        <Col md={3}>
             <ListGroup variant="flush">
-              <ListGroup.Item><SortOptionsComponent /></ListGroup.Item>
+              <ListGroup.Item className="mb-3 mt-3"><SortOptionsComponent /></ListGroup.Item>
+              FILTER: <br/>
               <ListGroup.Item><PriceFilterComponent /></ListGroup.Item>
               <ListGroup.Item><RatingFilterComponent/></ListGroup.Item>
               <ListGroup.Item><CategoryFilterComponent/></ListGroup.Item>
