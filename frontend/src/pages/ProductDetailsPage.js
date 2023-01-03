@@ -10,19 +10,48 @@ import {
 } from "react-bootstrap";
 import { Rating } from "react-simple-star-rating";
 import AddedToCartMessageComponent from "../components/AddedToCartMessageComponent";
+import ImageZoom from "js-image-zoom";
+import { useEffect } from "react";
 
 const ProductDetailsPage = () => {
+  
+  let options = {
+    scale: 2,
+    offset: {vertical: 0, horizontal: 0},
+  }
+
+  useEffect(()=> {
+
+    new ImageZoom(document.getElementById("first"), options)
+    new ImageZoom(document.getElementById("second"), options)
+    new ImageZoom(document.getElementById("third"), options)
+    new ImageZoom(document.getElementById("fourth"), options)
+
+  })
+
   return (
     <Container>
       <AddedToCartMessageComponent />
       <Row className="mt-5">
-        <Col md={4}>
+        
+        {/* Images of Product */}
+        <Col style={{zIndex: 1}} md={4}>
           {/* https://react-bootstrap.netlify.app/components/images/#rb-docs-content */}
-          <Image fluid src="/images/games-category.png" />
-          <Image fluid src="/images/monitors-category.png" />
-          <Image fluid src="/images/tablets-category.png" />
-          <Image fluid src="/images/games-category.png" />
+          
+          <div style={{marginBottom: "10px"}} id="first">
+          <Image fluid crossOrigin="anonymous" src="/images/monitors-category.png" />  
+          </div>
+          <div style={{marginBottom: "10px"}} id="second">
+            <Image fluid crossOrigin="anonymous" src="/images/tablets-category.png" />       
+          </div>
+          <div style={{marginBottom: "10px"}} id="third">
+            <Image fluid crossOrigin="anonymous" src="/images/games-category.png" />       
+          </div>
+          <div style={{marginBottom: "10px"}} id="fourth">
+            <Image fluid crossOrigin="anonymous" src="/images/tablets-category.png" />       
+          </div>
         </Col>
+
         <Col md={8}>
           <Row>
             <Col md={8}>
