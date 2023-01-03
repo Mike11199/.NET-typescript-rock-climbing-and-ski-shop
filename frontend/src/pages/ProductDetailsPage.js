@@ -28,31 +28,35 @@ const ProductDetailsPage = () => {
             <Col md={8}>
               {/* https://react-bootstrap.netlify.app/components/list-group/#flush */}
               <ListGroup variant="flush">
-                <ListGroup.Item>Cras justo odio</ListGroup.Item>
+                <ListGroup.Item><h1>Product name</h1></ListGroup.Item>
                 <ListGroup.Item>
                   <Rating readonly size={20} initialValue={4} /> (1)
                 </ListGroup.Item>
-                <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-                <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
+                <ListGroup.Item>Price <span className="fw-bold">$395</span></ListGroup.Item>
+                <ListGroup.Item>
+                  Porta ac consectetur ac lorem ipsum dolor, sit amet consectetur adipicising elit. Perferendis ilio.
+                </ListGroup.Item>
               </ListGroup>
             </Col>
             <Col md={4}>
               <ListGroup>
-                <ListGroup.Item>Cras justo odio</ListGroup.Item>
-                <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
+                {/* ListGroup for quantity/price/add to cart button */}
+                <ListGroup.Item>Status:  in stock</ListGroup.Item>
+                <ListGroup.Item>Price: <span className="fw-bold">$395</span></ListGroup.Item>
                 <ListGroup.Item>
-                  {/* add to cart here later */}
+                  Quantity:
+                  {/*https://react-bootstrap.netlify.app/forms/select/#sizing */}
                   <Form.Select size="lg" aria-label="Default select example">
-                    <option>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option>1</option>
+                    <option value="1">2</option>
+                    <option value="2">3</option>
+                    <option value="3">4</option>
                   </Form.Select>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <Button variant="danger">Danger</Button>
+                  <Button variant="danger">Add to Cart</Button>
                 </ListGroup.Item>
-                <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+                
               </ListGroup>
             </Col>
           </Row>

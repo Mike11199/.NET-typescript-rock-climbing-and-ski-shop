@@ -12,7 +12,7 @@ const AttributesFilterComponent = () => {
      
       {/* map  items in value of each key, list of values for that attribute, to checkboxes*/}
         {item[Object.keys(item)].map((i,idx) => (
-          <Form.Check type="checkbox" id={idx} label={i} />
+          <Form.Check type="checkbox" id={idx} label={i}  />
         ))}
       
       </div>
