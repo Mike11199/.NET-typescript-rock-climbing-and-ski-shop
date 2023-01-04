@@ -51,10 +51,12 @@ const saveAttr = async (req, res, next) => {
     }
     try {
         const category = categoryChoosen.split("/")[0]
-        const categoryExists = await Category.findOne({name: category}).orFail()
+        const categoryExists = await Category.findOne({name: category}).orFail()  //throw error if category doesn't exist
+       
         if(categoryExists.attrs.length > 0) {
             // if key exists in the database then add a value to the key
             let keyDoesNotExistsInDatabase = true
+            
             categoryExists.attrs.map((item, idx) => {
                 if(item.key === key) {
                     keyDoesNotExistsInDatabase = false
