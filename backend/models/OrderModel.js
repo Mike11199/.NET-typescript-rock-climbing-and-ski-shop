@@ -5,7 +5,7 @@ const orderSchema = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: User,
+        ref: User,                 // with this can fetch from other document model
     },
     orderTotal: {
         itemsCount: {type: Number, required: true},
@@ -21,7 +21,7 @@ const orderSchema = mongoose.Schema({
         }
     ],
     transactionResult: {
-        status: {type: String},
+        status: {type: String},  
         createTime: {type: String},
         amount: {type: Number}
     },
