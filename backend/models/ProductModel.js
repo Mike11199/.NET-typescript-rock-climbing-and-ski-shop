@@ -50,7 +50,12 @@ const productSchema = mongoose.Schema({
 }, {
     timestamps: true,
 })
-productSchema.index()
+
+productSchema.index({name: "text", description: "text"}, {name: "TextIndex"})  //compound index so MongoDB can find products faster
+productSchema.index({"attrs.key": 1, "attrs.value":1})  //compound index so MongoDB can find products faster
+
+
+
 const Product = mongoose.model("Product", productSchema)
 
 module.exports = Product
