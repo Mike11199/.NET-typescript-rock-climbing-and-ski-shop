@@ -1,5 +1,11 @@
+const Category = require("../models/CategoryModel")
 
-const getCategories = (req, res) => {
-    res.send("Handling category routes, e.g. get all categories")
+const getCategories = async (req, res, next) => {
+    try {
+        const categories = await Category.find({}).sort({name: "asc"}).orFail()
+        res.json(categories)
+    } catch(error) {
+        next(error)
+    }
 }
 module.exports = getCategories
