@@ -3,6 +3,7 @@
         "Choosen",
         "crossorigin",
         "fileupload",
-        "mern"
+        "mern",
+        "uuidv"
     ]
 }
