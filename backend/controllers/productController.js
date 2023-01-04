@@ -1,7 +1,5 @@
-//controller to make database queries
 
 const getProducts = (req, res) => {
-    res.send("handling product routes here")
+    res.send("Handling product routes, e.g. search for products")
 }
-
 module.exports = getProducts
