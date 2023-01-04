@@ -3,6 +3,7 @@ const app = express()
 const port = 3000
 
 
+app.use(express.json())
 
 //use 'npx nodemon' to start server as nodemon is dev dependency
 
