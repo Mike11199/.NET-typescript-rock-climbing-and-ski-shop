@@ -10,9 +10,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/api',apiRoutes)
-// app.get('/api/products', (req, res) => {
-//   res.send("handle product routes here!!")
-// })
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

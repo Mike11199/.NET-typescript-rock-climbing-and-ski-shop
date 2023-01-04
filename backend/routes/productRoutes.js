@@ -1,10 +1,11 @@
 const express = require('express')
+const router = express.Router()
+const getProducts = require("../controllers/productController")
+
 
 //https://www.geeksforgeeks.org/express-js-express-router-function/
-const router = express.Router()
 
-router.get("/", (req, res) => {
-    res.send("handling product routes here")
-})
+
+router.get("/", getProducts)
 
 module.exports = router
