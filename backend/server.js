@@ -17,8 +17,6 @@ app.get('/', (req, res) => {
 })
 
 
-
-
 //MongoDB connection
 const connectDB = require("./config/db")
 connectDB();
