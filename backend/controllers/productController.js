@@ -1,5 +1,6 @@
 const Product = require("../models/ProductModel");
 const recordsPerPage = require("../config/pagination");
+const imageValidate = require("../utils/imageValidate")
 
 const getProducts = async (req, res, next) => {
   try {
@@ -181,5 +182,62 @@ const adminCreateProduct = async(req, res, next) => {
     }
 }
 
-module.exports = { getProducts, getProductById, getBestsellers, adminGetProducts, adminDeleteProduct, adminCreateProduct };
+const adminUpdateProduct = async (req, res, next) => {
+    try {
+       const product = await Product.findById(req.params.id).orFail()
+       const { name, description, count, price, category, attributesTable } = req.body
+       product.name = name || product.name
+       product.description = description || product.description 
+       product.count = count || product.count
+       product.price = price || product.price
+       product.category = category || product.category
+       if( attributesTable.length > 0 ) {
+           product.attrs = []
+           attributesTable.map((item) => {
+               product.attrs.push(item)
+           })
+       } else {
+           product.attrs = []
+       }
+       await product.save()
+       res.json({
+          message: "product updated" 
+       })
+    } catch(err) {
+        next(err)
+    }
+}
+
+const adminUpload = async (req, res, next) => {
+    try {
+        if(!req.files || !! req.files.images === false) {
+            return res.status(400).send("No files were uploaded.")
+        }
+
+        const validateResult = imageValidate(req.files.images)
+        if(validateResult.error) {
+            return res.status(400).send(validateResult.error)
+        }
+
+        const path = require("path")
+        const { v4: uuidv4 } = require("uuid")   //npm package for random name of the files to prevent code injection
+
+        let imagesTable = []
+        if (Array.isArray(req.files.images)) {
+            imagesTable = req.files.images
+        } else {
+            imagesTable.push(req.files.images)
+        }
+
+        for(let image of imagesTable) {
+            console.log(path.extname(image.name))
+            console.log(uuidv4())
+        }
+
+    } catch(err) {
+        next(err)
+    }
+}
+
+module.exports = { getProducts, getProductById, getBestsellers, adminGetProducts, adminDeleteProduct, adminCreateProduct, adminUpdateProduct, adminUpload };
 
