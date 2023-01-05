@@ -5,23 +5,29 @@ import { useState, useEffect } from "react";
 
 
 
-const UsersPageComponent = ({fetchUsers}) => {
+const UsersPageComponent = ({fetchUsers, deleteUser}) => {
 
   const [users, setUsers] = useState([])
+  const [userDeleted, setUserDeleted] = useState(false)
 
 
-  const deleteHandler = () => {   
-    if(window.confirm("Are you sure?")) alert("User deleted!");
- }
+  const deleteHandler = async (userId) => {   
+    if(window.confirm("Are you sure?")) {
+      const data = await deleteUser(userId)
+      if (data === "user removed") {
+        setUserDeleted(!userDeleted)
+      }
+    }
+  }
 
 
- useEffect(() => {
-  const abctrl = new AbortController();
-  fetchUsers(abctrl)
-  .then(res => setUsers(res))
-  .catch((er) => console.log(er.response.data.message ? er.response.data.message : er.response.data)) 
-  return () => abctrl.abort()  // if user leaves page, this will cancel the HTML request and prevent a memory leak (app slowdown)
- },[])
+  useEffect(() => {
+    const abctrl = new AbortController();
+    fetchUsers(abctrl)
+    .then(res => setUsers(res))
+    .catch((er) => console.log(er.response.data.message ? er.response.data.message : er.response.data)) 
+    return () => abctrl.abort()  // if user leaves page, this will cancel the HTML request and prevent a memory leak (app slowdown)
+  },[userDeleted])
 
 
   return (
@@ -60,7 +66,7 @@ const UsersPageComponent = ({fetchUsers}) => {
                         </Button>
                     </LinkContainer>
                     {" / "}
-                    <Button variant="danger" className="btn-sm" onClick={deleteHandler}>
+                    <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(user._id)}>
                         <i className="bi bi-x-circle"></i>
                     </Button>
                   </td>
