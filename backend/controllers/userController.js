@@ -66,12 +66,14 @@ const registerUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
   try {
-    const { email, password, doNotLogout } = req.body;
+    const { email, password, doNotLogout } = req.body
+
     if (!(email && password)) {
       return res.status(400).send("All inputs are required");
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).orFail()  // if user not found, fail log in 
+
     if (user && comparePasswords(password, user.password)) {
       let cookieParams = {
         httpOnly: true,
