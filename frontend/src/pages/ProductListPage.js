@@ -6,13 +6,12 @@ import CategoryFilterComponent from "../components/filterQueryResultOptions/Cate
 import AttributesFilterComponent from "../components/filterQueryResultOptions/AttributesFilterComponent";
 import ProductForListComponent from "../components/ProductForListComponent";
 import PaginationComponent from "../components/PaginationComponent";
-import {RatingView} from 'react-simple-star-rating'
 
-import axios from 'axios'
+// import axios from 'axios'
 
 const ProductListPage = () => {
 
-    axios.get("/api/products").then((res) => console.log(res))
+    // axios.get("/api/products").then((res) => console.log(res))
 
     return (
         <Container fluid>
