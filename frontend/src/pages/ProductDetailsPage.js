@@ -12,9 +12,22 @@ import { Rating } from "react-simple-star-rating";
 import AddedToCartMessageComponent from "../components/AddedToCartMessageComponent";
 import ImageZoom from "js-image-zoom";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux'
+import { addToCart } from "../redux/actions/cartActions";
+
 
 const ProductDetailsPage = () => {
-  
+
+
+  // update global state using redux for cart quantity
+  const dispatch = useDispatch()
+
+  const addToCartHandler = () => {
+      dispatch(addToCart());
+  }
+
+  const products = useSelector((state) => state.cart.value)  //retrieve value from global state
+
   let options = {
     scale: 2,
     offset: {vertical: 0, horizontal: 0},
@@ -83,7 +96,7 @@ const ProductDetailsPage = () => {
                   </Form.Select>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <Button variant="danger">Add to Cart</Button>
+                  <Button variant="danger" onClick={addToCartHandler}>Add to Cart</Button>
                 </ListGroup.Item>                
               </ListGroup>
             </Col>
