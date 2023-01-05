@@ -9,15 +9,25 @@ const reducer = combineReducers({
     userRegisterLogin: userRegisterLoginReducer
 })
 
-const middleware = [thunk]
-const store = createStore(
-    reducer, 
+// this is conditional chaining - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator
+const userInfoInLocalStorage = localStorage.getItem('userInfo')
+? JSON.parse(localStorage.getItem('userInfo')) 
+: sessionStorage.getItem('userInfo')
+? JSON.parse(localStorage.getItem('userInfo')) 
+: {}
 
-    
-    {cart:{value: 0}}, 
-    
-    
-    composeWithDevTools(applyMiddleware(...middleware)))
+const INITIAL_STATE = {
+    cart: {
+        value: 0,
+        },
+
+    userRegisterLogin: {
+        userInfo: userInfoInLocalStorage
+    }
+}
+
+const middleware = [thunk]
+const store = createStore(reducer, INITIAL_STATE, composeWithDevTools(applyMiddleware(...middleware)))
 
 
 export default store;
