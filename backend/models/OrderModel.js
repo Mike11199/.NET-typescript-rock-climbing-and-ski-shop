@@ -1,11 +1,11 @@
 const mongoose = require("mongoose")
-const User = require("./UserModel")  //import the USER model into this model, the ORDER model.  1 user to many orders relationship
+const User = require("./UserModel")
 
 const orderSchema = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: User,                 // with this can fetch from other document model
+        ref: User,
     },
     orderTotal: {
         itemsCount: {type: Number, required: true},
@@ -20,8 +20,12 @@ const orderSchema = mongoose.Schema({
             count: {type: Number, required: true}
         }
     ],
+    paymentMethod: {
+      type: String,
+      required: true,
+    },
     transactionResult: {
-        status: {type: String},  
+        status: {type: String},
         createTime: {type: String},
         amount: {type: Number}
     },
