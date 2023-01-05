@@ -1,11 +1,13 @@
 const express = require('express')
 const fileUpload = require('express-fileupload')
+const cookieParser = require('cookie-parser')
 const app = express()
 const port = 3000
 
 
 app.use(express.json())
 app.use(fileUpload())
+app.use(cookieParser())
 
 //use 'npx nodemon' to start server as nodemon is dev dependency
 
