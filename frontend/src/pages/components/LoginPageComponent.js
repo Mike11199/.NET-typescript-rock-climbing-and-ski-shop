@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 
 
-const LoginPageComponent = ({ loginUserApiRequest }) => {
+const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserState }) => {
 
   //react state for form - if validated or not
   const [validated, setValidated] = useState(false)
@@ -36,6 +36,12 @@ const LoginPageComponent = ({ loginUserApiRequest }) => {
           console.log(res)
           setLogInUserResponseState({success: res.success, loading: false, error: ""})
           setValidated(true)
+
+          // this dispatches the setReduxUserState action that is passed from the LoginPage.js component
+          // the action is passed to the userReducer to update global state the the user data
+          if (res.userLoggedIn) {
+            reduxDispatch(setReduxUserState(res.userLoggedIn))
+          }
 
           if (res.success === "user logged in" && !res.userLoggedIn.isAdmin){
             navigate("/user", {replace: true})
