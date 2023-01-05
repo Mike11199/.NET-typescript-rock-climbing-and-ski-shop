@@ -8,7 +8,11 @@ import ProductForListComponent from "../components/ProductForListComponent";
 import PaginationComponent from "../components/PaginationComponent";
 import {RatingView} from 'react-simple-star-rating'
 
+import axios from 'axios'
+
 const ProductListPage = () => {
+
+    axios.get("/api/products").then((res) => console.log(res))
 
     return (
         <Container fluid>
@@ -24,7 +28,7 @@ const ProductListPage = () => {
               <ListGroup.Item><CategoryFilterComponent/></ListGroup.Item>
               <ListGroup.Item><AttributesFilterComponent/></ListGroup.Item>
               <ListGroup.Item>
-                <Button variant="primary">Filter</Button>
+                <Button variant="primary">Filter</Button>{" "}
                 <Button variant="danger">Reset Filters</Button>
               </ListGroup.Item>
             </ListGroup>
