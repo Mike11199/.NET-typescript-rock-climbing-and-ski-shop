@@ -1,4 +1,4 @@
-import { LOGIN_USER } from "../constants/userConstants";
+import { LOGIN_USER, LOGOUT_USER } from "../constants/userConstants";
 
 export const userRegisterLoginReducer = (state = {}, action) => {
    
@@ -10,6 +10,10 @@ export const userRegisterLoginReducer = (state = {}, action) => {
                 ...state,
                 userInfo: action.payload
             }
+
+        case LOGOUT_USER:
+            return {} //return empty object to clear all state
+          
       
       
         default:
