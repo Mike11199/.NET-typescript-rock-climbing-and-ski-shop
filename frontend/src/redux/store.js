@@ -9,21 +9,27 @@ const reducer = combineReducers({
     userRegisterLogin: userRegisterLoginReducer
 })
 
-// this is conditional chaining - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator
-const userInfoInLocalStorage = localStorage.getItem('userInfo')
-? JSON.parse(localStorage.getItem('userInfo')) 
-: sessionStorage.getItem('userInfo')
-? JSON.parse(localStorage.getItem('userInfo')) 
-: {}
+// this for setting initial state - get user data from local storage or session storage if there 
+// only for conditional header link rendering - Use JSON web token for protected routes
+const userInfoInLocalStorage = () =>{
+    if(localStorage.getItem('userInfo')){
+        return JSON.parse(localStorage.getItem('userInfo')) 
+    }
+    else if(sessionStorage.getItem('userInfo')) {
+        return JSON.parse(sessionStorage.getItem('userInfo')) 
+    }
+    else return {}
+} 
 
+// set initial state values for redux
 const INITIAL_STATE = {
-    cart: {value: 0,},
-    userRegisterLogin: {userInfo: userInfoInLocalStorage}
+    cart: {value: 0},
+    userRegisterLogin: {userInfo: userInfoInLocalStorage()}
 }
+
 
 const middleware = [thunk]
 const store = createStore(reducer, INITIAL_STATE, composeWithDevTools(applyMiddleware(...middleware)))
-
 
 export default store;
 
