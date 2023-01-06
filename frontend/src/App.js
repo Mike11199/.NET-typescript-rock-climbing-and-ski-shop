@@ -57,7 +57,7 @@ function App() {
           <Route path="/user"  element={<UserProfilePage />}/>
           <Route path="/user/my-orders"  element={<UserOrdersPage />}/>
           <Route path="/user/cart-details"  element={<UserCartDetailsPage />}/>
-          <Route path="/user/order-details"  element={<UserOrderDetailsPage />}/>
+          <Route path="/user/order-details/:id"  element={<UserOrderDetailsPage />}/>
         </Route>
         {/* admin protected routes */}
         <Route element={<ProtectedRoutesComponent admin={true}/>}>
