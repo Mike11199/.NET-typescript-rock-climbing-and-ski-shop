@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 
 
 
-const UserOrderDetailsPageComponent = ({ userInfo, getUser, getOrder, loadScript  }) => {
+const UserOrderDetailsPageComponent = ({ userInfo, getUser, getOrder, loadPayPalScript  }) => {
 
     const [userAddress, setUserAddress] = useState({});
     const [paymentMethod, setPaymentMethod] = useState("");
@@ -76,20 +76,23 @@ const UserOrderDetailsPageComponent = ({ userInfo, getUser, getOrder, loadScript
             // if the order is not already paid, send external request to the paypal API
             // https://github.com/paypal/paypal-js#usage
             if (!isPaid) {              
-              try {
-                const paypal = await loadScript(
-                  {"client-id": "AXBC2IGDVF_ZQyQYrhAVa8UIs_OIvV8d2Q8LI6gsG7fCqQt4OjgOy4ijgibC5KGVXq0oeG39s6qt2aca"})                       
-                paypal.Buttons({}).render("#paypal-container-element")
-                  
-              } catch (error) {
-                console.error("failed to load Paypal JS script!!", error)
-              }
+            loadPayPalScript(cartSubtotal, cartItems, id, updateStateAfterOrder)   
 
             }
         } else {
             setOrderButtonMessage("Your order was placed. Thank you");
         }
     }
+
+    
+    const updateStateAfterOrder = (paidAt) => {
+      setOrderButtonMessage("Thank you for your payment!")
+      setIsPaid(paidAt)         // update date of payment in react local state to update the 'not paid yet' to 'paid at date"
+      setButtonDisabled(true)  //update state to disable the 'pay for your order button' so user can't submit order again    
+      paypalContainer.current.style = "display: none"    // toggle the paypal container div to hide paypal buttons
+    }
+
+
 
   return (
     <Container fluid>
