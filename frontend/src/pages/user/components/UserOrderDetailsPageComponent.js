@@ -8,10 +8,12 @@ import {
   Button,
 } from "react-bootstrap";
 import CartItemComponent from "../../../components/CartItemComponent";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 
-const UserOrderDetailsPageComponent = ({ userInfo, getUser, getOrder }) => {
+
+
+const UserOrderDetailsPageComponent = ({ userInfo, getUser, getOrder, loadScript  }) => {
 
     const [userAddress, setUserAddress] = useState({});
     const [paymentMethod, setPaymentMethod] = useState("");
@@ -21,6 +23,10 @@ const UserOrderDetailsPageComponent = ({ userInfo, getUser, getOrder }) => {
     const [cartSubtotal, setCartSubtotal] = useState(0);
     const [isDelivered, setIsDelivered] = useState(false);
     const [buttonDisabled, setButtonDisabled] = useState(false);
+
+    const paypalContainer = useRef()  //special react object to refer to div
+    console.log(paypalContainer)
+
 
     const { id } = useParams();
 
@@ -56,12 +62,29 @@ const UserOrderDetailsPageComponent = ({ userInfo, getUser, getOrder }) => {
        .catch((err) => console.log(err));
     }, [])
 
-    const orderHandler = () => {
-        setButtonDisabled(true);
+
+
+    const orderHandler = async () => {
+        
+        setButtonDisabled(true)
+        
+        //if payment method is PayPal
         if (paymentMethod === "pp") {
+            
             setOrderButtonMessage("To pay for your order click one of the buttons below");
-            if (!isPaid) {
-                // to do: load PayPal script and do actions
+            
+            // if the order is not already paid, send external request to the paypal API
+            // https://github.com/paypal/paypal-js#usage
+            if (!isPaid) {              
+              try {
+                const paypal = await loadScript(
+                  {"client-id": "AXBC2IGDVF_ZQyQYrhAVa8UIs_OIvV8d2Q8LI6gsG7fCqQt4OjgOy4ijgibC5KGVXq0oeG39s6qt2aca"})                       
+                paypal.Buttons({}).render("#paypal-container-element")
+                  
+              } catch (error) {
+                console.error("failed to load Paypal JS script!!", error)
+              }
+
             }
         } else {
             setOrderButtonMessage("Your order was placed. Thank you");
@@ -133,6 +156,10 @@ const UserOrderDetailsPageComponent = ({ userInfo, getUser, getOrder }) => {
                 <Button size="lg" onClick={orderHandler} variant="danger" type="button" disabled={buttonDisabled}>
                   {orderButtonMessage}
                 </Button>
+              </div>
+              {/* To Render Paypal Buttons - rendered by orderHandler() function dynamically in below div  */}
+              <div style={{position: "relative", zIndex:"1"}}>
+                <div ref={paypalContainer} id="paypal-container-element"></div>                
               </div>
             </ListGroup.Item>
           </ListGroup>
