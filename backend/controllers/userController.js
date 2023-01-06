@@ -66,14 +66,12 @@ const registerUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
   try {
-    const { email, password, doNotLogout } = req.body
-
+    const { email, password, doNotLogout } = req.body;
     if (!(email && password)) {
       return res.status(400).send("All inputs are required");
     }
 
-    const user = await User.findOne({ email }).orFail()  // if user not found, fail log in 
-
+    const user = await User.findOne({ email }).orFail();
     if (user && comparePasswords(password, user.password)) {
       let cookieParams = {
         httpOnly: true,
@@ -121,7 +119,6 @@ const updateUserProfile = async (req, res, next) => {
     const user = await User.findById(req.user._id).orFail();
     user.name = req.body.name || user.name;
     user.lastName = req.body.lastName || user.lastName;
-    user.email = req.body.email || user.email;
     user.phoneNumber = req.body.phoneNumber;
     user.address = req.body.address;
     user.country = req.body.country;
