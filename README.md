@@ -25,6 +25,7 @@ Added Paypal SDK to render buttons:
 
 ![image](https://user-images.githubusercontent.com/91037796/211099589-c11d22d6-c8c4-4404-ab45-f72c96fdc889.png)
 
+![image](https://user-images.githubusercontent.com/91037796/211104104-8a35acc6-766d-46af-ac0d-d6cdf55a0529.png)
 
 
 
