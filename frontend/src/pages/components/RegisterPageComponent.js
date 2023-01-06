@@ -9,24 +9,17 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
 
   //local react state values
   const [validated, setValidated] = useState(false);
-  
-  const [registerUserResponseState, setRegisterUserResponseState] = useState({
-    success: "",
-    error: "",
-    loading: false,
-  });
-
+  const [registerUserResponseState, setRegisterUserResponseState] = useState({success: "", error: "", loading: false})
   const [passwordsMatchState, setPasswordsMatchState] = useState(true);
-
 
 
   //onChange handler to ensure that passwords match
   const onChange = () => {
     
     //grab values from form
-    const password = document.querySelector("input[name=password]");
-    const confirmPassword = document.querySelector("input[name=confirmPassword]");
-    
+    const password = document.querySelector("input[name=password]")
+    const confirmPassword = document.querySelector("input[name=confirmPassword]")
+
     // set state value if values match.  state value used elsewhere to mark form valid/invalid
     if (confirmPassword.value === password.value) {
       setPasswordsMatchState(true);
@@ -35,9 +28,8 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
     }
   }
 
-
   // form submission to submit registration request to API and error handling 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
    
     event.preventDefault()
     event.stopPropagation()
@@ -61,32 +53,23 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
     ) 
 
 
-    if (valuesProvidedAndFormValid ) {
-      
-      // set spinner using redux state
-      setRegisterUserResponseState({ loading: true });
-     
-      // send request to API using function passed as parameter into component - set state with redux if successful/error
-      registerUserApiRequest(name, lastName, email, password)
-        .then((data) => {
-          setRegisterUserResponseState({
-            success: data.success,
-            loading: false,
-          });
-          reduxDispatch(setReduxUserState(data.userCreated));
-          
-        })
-        .catch((er) =>
-          setRegisterUserResponseState({
-            error: er.response.data.message
-              ? er.response.data.message
-              : er.response.data,
-          })
-        );
-    }
-
+  if (valuesProvidedAndFormValid ) {
+    
+    // set spinner using redux state
+    setRegisterUserResponseState({ loading: true });
+    
+    // send request to API using function passed as parameter into component - set state with redux if successful/error
+    try {
+        const data = await registerUserApiRequest(name, lastName, email, password)  // api request
+        setRegisterUserResponseState({success: data.success, loading: false})       // update local state
+        reduxDispatch(setReduxUserState(data.userCreated))                          // update redux state
+        
+    } catch (er) {
+        setRegisterUserResponseState({error: er.response.data.message ? er.response.data.message : er.response.data})  // update redux state
+    }      
     setValidated(true)
-  }
+    }}
+
 
 
   return (
@@ -213,8 +196,8 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default RegisterPageComponent;
+export default RegisterPageComponent
 
