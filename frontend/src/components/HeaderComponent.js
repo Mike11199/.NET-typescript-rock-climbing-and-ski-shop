@@ -9,6 +9,7 @@ const HeaderComponent = () => {
   
   const dispatch = useDispatch()
   const { userInfo } = useSelector((state) => state.userRegisterLogin)  //retrieve global state (redux) to toggle admin/user links on header
+  const itemsCount = useSelector((state) => state.cart.itemsCount);
 
    return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -95,7 +96,7 @@ const HeaderComponent = () => {
             <LinkContainer to="/cart">
               <Nav.Link>
                 <Badge pill bg="danger">
-                  2
+                {itemsCount === 0 ? "" : itemsCount}
                 </Badge>
                 <i className="bi bi-cart-dash"></i>
                 <span className="ms-1">CART</span>
