@@ -26,7 +26,7 @@
 
 - Used the Cloudinary service to allow an Admin to directly upload image files when creating a product to the Cloudinary REST API.
 - Referenced Cloudinary documentation for code:
-  - https://developer.paypal.com/sdk/js/reference/#createorder
+  - //https://cloudinary.com/documentation/upload_images#code_explorer_upload_multiple_files_using_a_form_unsigned
 - Stored URL of images in the MongoDB database as an array.  The front-end simply populates the image source with this URL to retrieve the resource from Cloudinary.
 
 <br/>
