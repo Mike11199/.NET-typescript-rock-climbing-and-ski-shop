@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, Fragment, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { changeCategory, setValuesForAttrFromDbSelectForm, setAttributesTableWrapper } from "./utils/utils";
 
 const onHover = {
   cursor: "pointer",
@@ -53,24 +54,7 @@ const EditProductPageComponent = ({
   const createNewAttrKey = useRef(null);
   const createNewAttrVal = useRef(null);
 
-  const setValuesForAttrFromDbSelectForm = (e) => {
-    if (e.target.value !== "Choose attribute") {
-      var selectedAttr = attributesFromDb.find(
-        (item) => item.key === e.target.value
-      );
-      let valuesForAttrKeys = attrVal.current;
-      if (selectedAttr && selectedAttr.value.length > 0) {
-        while (valuesForAttrKeys.options.length) {
-          valuesForAttrKeys.remove(0);
-        }
-        valuesForAttrKeys.options.add(new Option("Choose attribute value"));
-        selectedAttr.value.map((item) => {
-          valuesForAttrKeys.add(new Option(item));
-          return "";
-        });
-      }
-    }
-  };
+  
 
   const { id } = useParams();
 
@@ -135,45 +119,15 @@ const EditProductPageComponent = ({
     setAttributesTable(product.attrs);
   }, [product]);
 
-  const changeCategory = (e) => {
-    const highLevelCategory = e.target.value.split("/")[0];
-    const highLevelCategoryAllData = categories.find(
-      (cat) => cat.name === highLevelCategory
-    );
-    if (highLevelCategoryAllData && highLevelCategoryAllData.attrs) {
-      setAttributesFromDb(highLevelCategoryAllData.attrs);
-    } else {
-      setAttributesFromDb([]);
-    }
-    setCategoryChoosen(e.target.value);
-  };
+  
 
   const attributeValueSelected = (e) => {
       if (e.target.value !== "Choose attribute value") {
-          setAttributesTableWrapper(attrKey.current.value, e.target.value);
+          setAttributesTableWrapper(attrKey.current.value, e.target.value, setAttributesTable);
       }
   }
 
-  const setAttributesTableWrapper = (key, val) => {
-      setAttributesTable((attr) => {
-          if (attr.length !== 0) {
-              var keyExistsInOldTable = false;
-              let modifiedTable = attr.map(item => {
-                  if (item.key === key) {
-                      keyExistsInOldTable = true;
-                      item.value = val;
-                      return item;
-                  } else {
-                      return item;
-                  }
-              })
-              if (keyExistsInOldTable) return [...modifiedTable];
-              else return [...modifiedTable, { key: key, value: val }];
-          } else {
-             return [{ key: key, value: val }]; 
-          }
-      })
-  }
+  
 
   const deleteAttribute = (key) => {
       setAttributesTable((table) => table.filter((item) => item.key !== key));
@@ -199,7 +153,7 @@ const EditProductPageComponent = ({
       if (e.keyCode && e.keyCode === 13) {
           if (newAttrKey && newAttrValue) {
               reduxDispatch(saveAttributeToCatDoc(newAttrKey, newAttrValue, categoryChoosen));
-             setAttributesTableWrapper(newAttrKey, newAttrValue);
+             setAttributesTableWrapper(newAttrKey, newAttrValue, setAttributesTable);
              e.target.value = "";
              createNewAttrKey.current.value = "";
              createNewAttrVal.current.value = "";
@@ -267,7 +221,7 @@ const EditProductPageComponent = ({
                 required
                 name="category"
                 aria-label="Default select example"
-                onChange={changeCategory}
+                onChange={(e) => changeCategory(e, categories, setAttributesFromDb, setCategoryChoosen)}
               >
                 <option value="Choose category">Choose category</option>
                 {categories.map((category, idx) => {
@@ -293,7 +247,7 @@ const EditProductPageComponent = ({
                       name="atrrKey"
                       aria-label="Default select example"
                       ref={attrKey}
-                      onChange={setValuesForAttrFromDbSelectForm}
+                      onChange={(e)=>setValuesForAttrFromDbSelectForm(e, attrVal, attributesFromDb)}
                     >
                       <option>Choose attribute</option>
                       {attributesFromDb.map((item, idx) => (
