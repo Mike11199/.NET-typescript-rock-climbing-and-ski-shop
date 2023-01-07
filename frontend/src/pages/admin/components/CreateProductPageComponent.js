@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const CreateProductPageComponent = ({ createProductApiRequest, uploadImagesApiRequest }) => {
+const CreateProductPageComponent = ({ createProductApiRequest, uploadImagesApiRequest, uploadImagesCloudinaryApiRequest }) => {
   const [validated, setValidated] = useState(false);
   const [attributesTable, setAttributesTable] = useState([]);
   const [images, setImages] = useState(false);
@@ -37,11 +37,23 @@ const CreateProductPageComponent = ({ createProductApiRequest, uploadImagesApiRe
         createProductApiRequest(formInputs)
         .then(data => {
             if (images) {
+                if (process.env.NODE_ENV === "production") { // to do: change to !==
                 uploadImagesApiRequest(images, data.productId)
                 .then(res => {})
                 .catch((er) => setIsCreating(er.response.data.message ? er.response.data.message : er.response.data))
+                } else {
+                    uploadImagesCloudinaryApiRequest(images, data.productId);
+                }
             }
-            if (data.message === "product created") navigate("/admin/products");
+            return data;
+        })
+        .then(data => {
+            setIsCreating("Product is being created....");
+            setTimeout(() => {
+                 setIsCreating("");
+                 if (data.message === "product created") navigate("/admin/products");
+            }, 2000)
+
         })
         .catch(er => {
             setCreateProductResponseState({ error: er.response.data.message ? er.response.data.message : er.response.data });
