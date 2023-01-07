@@ -1,7 +1,7 @@
 
 <h1>Summary</h1>
 
-- A full stack e-commerce web application using the MERN (MongoDB, Express.js, React.js, Node.js) stack.  
+- A full stack e-commerce web application using the MERN stack (MongoDB, Express.js, React.js, Node.js).  
 - Used Redux to manage global state as opposed to context in past projects.
 
 <br/>
