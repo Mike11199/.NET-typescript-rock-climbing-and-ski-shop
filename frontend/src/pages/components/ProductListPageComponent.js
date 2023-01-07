@@ -22,8 +22,11 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
   const [price, setPrice] = useState(500);
   const [ratingsFromFilter, setRatingsFromFilter] = useState({});
   const [categoriesFromFilter, setCategoriesFromFilter] = useState({});
+  const [sortOption, setSortOption] = useState("");
 
   const { categoryName } = useParams() || "";
+  const { pageNumParam } = useParams() || "";
+  const { searchQuery } = useParams() || "";
   const location = useLocation();
 
   useEffect(() => {
@@ -61,7 +64,7 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
   }, [categoriesFromFilter, categories]);
 
   useEffect(() => {
-    getProducts()
+    getProducts(categoryName, pageNumParam, searchQuery, filters, sortOption)
       .then((products) => {
         setProducts(products.products);
         setLoading(false);
@@ -70,8 +73,8 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
         console.log(er);
         setError(true);
       });
-    console.log(filters);
-  }, [filters]);
+
+  }, [categoryName, pageNumParam, searchQuery,filters, sortOption]);
 
   const handleFilters = () => {
     setShowResetFiltersButton(true);
@@ -95,7 +98,7 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
         <Col md={3}>
           <ListGroup variant="flush">
             <ListGroup.Item className="mb-3 mt-3">
-              <SortOptionsComponent />
+              <SortOptionsComponent setSortOption={setSortOption} />
             </ListGroup.Item>
             <ListGroup.Item>
               FILTER: <br />
