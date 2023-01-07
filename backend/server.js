@@ -1,9 +1,12 @@
+require("dotenv").config();
+let helmet = require('helmet')
 const express = require("express");
 const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const app = express();
 const port = 5000;
 
+app.use(helmet())
 app.use(express.json());
 app.use(cookieParser());
 app.use(fileUpload());
