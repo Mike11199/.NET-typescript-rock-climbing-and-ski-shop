@@ -34,6 +34,10 @@ const CreateProductPageComponent = ({ createProductApiRequest, uploadImagesApiRe
         attributesTable: attributesTable
     }
     if (event.currentTarget.checkValidity() === true) {
+        if (images.length > 3) {
+            setIsCreating("to many files");
+            return
+        }
         createProductApiRequest(formInputs)
         .then(data => {
             if (images) {
@@ -45,15 +49,7 @@ const CreateProductPageComponent = ({ createProductApiRequest, uploadImagesApiRe
                     uploadImagesCloudinaryApiRequest(images, data.productId);
                 }
             }
-            return data;
-        })
-        .then(data => {
-            setIsCreating("Product is being created....");
-            setTimeout(() => {
-                 setIsCreating("");
-                 if (data.message === "product created") navigate("/admin/products");
-            }, 2000)
-
+            if (data.message === "product created") navigate("/admin/products");
         })
         .catch(er => {
             setCreateProductResponseState({ error: er.response.data.message ? er.response.data.message : er.response.data });

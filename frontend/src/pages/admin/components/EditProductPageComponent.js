@@ -29,7 +29,9 @@ const EditProductPageComponent = ({
   reduxDispatch,
   saveAttributeToCatDoc,
   imageDeleteHandler,
-  uploadHandler
+  uploadHandler,
+  uploadImagesApiRequest,
+  uploadImagesCloudinaryApiRequest
 }) => {
   const [validated, setValidated] = useState(false);
   const [product, setProduct] = useState({});
@@ -400,14 +402,23 @@ const EditProductPageComponent = ({
                     </Col>
                   ))}
               </Row>
-              <Form.Control type="file" multiple onChange={e => {
+              <Form.Control  type="file" multiple onChange={e => {
                  setIsUploading("upload files in progress ..."); 
-                 uploadHandler(e.target.files, id)
-                 .then(data => {
-                    setIsUploading("upload file completed"); 
-                    setImageUploaded(!imageUploaded);
-                 })
-                 .catch((er) => setIsUploading(er.response.data.message ? er.response.data.message : er.response.data));
+                 if (process.env.NODE_ENV === "production") {
+                     // to do: change to !==
+                     uploadImagesApiRequest(e.target.files, id)
+                     .then(data => {
+                         setIsUploading("upload file completed");
+                         setImageUploaded(!imageUploaded);
+                     })
+                      .catch((er) => setIsUploading(er.response.data.message ? er.response.data.message : er.response.data));
+                 } else {
+                     uploadImagesCloudinaryApiRequest(e.target.files, id);
+                      setIsUploading("upload file completed. wait for the result take effect, refresh also if neccassry");
+                      setTimeout(()=> {
+                          setImageUploaded(!imageUploaded);
+                      }, 5000)
+                 }
               }} />
                {isUploading}
             </Form.Group>
