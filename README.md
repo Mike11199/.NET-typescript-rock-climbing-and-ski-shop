@@ -2,7 +2,10 @@
 <h1>Summary</h1>
 
 - A full stack e-commerce web application using the MERN stack (MongoDB, Express.js, React.js, Node.js).  
+- Added the PayPal SDK and sandbox accounts to simulate live payment of an order and front/back end response of a submitted order.
+- Used the Cloudinary service to allow an Admin to upload and delete images of a product. 
 - Used Redux to manage global state as opposed to context in past projects.
+- Created various database relationships between collections in MongoDB using embedded documents (storing object IDs in other documents). 
 
 <br/>
 
@@ -26,7 +29,7 @@
 
 - Used the Cloudinary service to allow an Admin to directly upload image files when creating a product to the Cloudinary REST API.
 - Referenced Cloudinary documentation for code:
-  - //https://cloudinary.com/documentation/upload_images#code_explorer_upload_multiple_files_using_a_form_unsigned
+  - https://cloudinary.com/documentation/upload_images#code_explorer_upload_multiple_files_using_a_form_unsigned
 - Stored URL of images in the MongoDB database as an array.  The front-end simply populates the image source with this URL to retrieve the resource from Cloudinary.
 
 <br/>
@@ -38,7 +41,8 @@ const uploadImagesCloudinaryApiRequest = (images) => {
    
     //https://cloudinary.com/documentation/upload_images#code_explorer_upload_multiple_files_using_a_form_unsigned
 
-    const url = "https://api.cloudinary.com/v1_1/dwgvi9vwb/image/upload"  //dwgvi9vwb is env cloud name from cloudinary settings
+    //dwgvi9vwb is env cloud name from cloudinary settings
+    const url = "https://api.cloudinary.com/v1_1/dwgvi9vwb/image/upload"
     const formData = new FormData();
     
     for (let i = 0; i < images.length; i++) {
