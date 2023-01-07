@@ -1,49 +1,51 @@
-import { Navbar, Nav, Container, NavDropdown, Badge, Form, DropdownButton, Dropdown, Button, InputGroup } from "react-bootstrap"
-import { LinkContainer } from "react-router-bootstrap"
-import { Link } from "react-router-dom"
-import { logout } from "../redux/actions/userActions"
-import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
-import { getCategories } from "../redux/actions/categoryActions"
+import {
+  Navbar,
+  Nav,
+  Container,
+  NavDropdown,
+  Badge,
+  Form,
+  DropdownButton,
+  Dropdown,
+  Button,
+  InputGroup,
+} from "react-bootstrap";
+
+import { LinkContainer } from "react-router-bootstrap";
+import { Link } from "react-router-dom";
+import { logout } from "../redux/actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { getCategories } from "../redux/actions/categoryActions";
 
 const HeaderComponent = () => {
-  
-  
-  const dispatch = useDispatch()
-  const { userInfo } = useSelector((state) => state.userRegisterLogin)  //retrieve global state (redux) to toggle admin/user links on header
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.userRegisterLogin);
   const itemsCount = useSelector((state) => state.cart.itemsCount);
+  const { categories } = useSelector((state) => state.getCategories);
 
-  
+  const [searchCategoryToggle, setSearchCategoryToggle] = useState("All");
+
   useEffect(() => {
-      dispatch(getCategories())
-  }, [dispatch])
-  
+    dispatch(getCategories());
+  }, [dispatch]);
 
-   return (
+  return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
-
-        {/* STORE NAME */}
         <LinkContainer to="/">
-          <Navbar.Brand href="/">Rock Climbing & Ski Shop</Navbar.Brand>
+          <Navbar.Brand href="/">BEST ONLINE SHOP</Navbar.Brand>
         </LinkContainer>
-
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <InputGroup>
-
-              {/* DROPDOWN TO SEARCH IN A SPECIFIC CATEGORY */}
-              <DropdownButton id="dropdown-basic-button" title="All">
-                <Dropdown.Item>Ropes</Dropdown.Item>
-                <Dropdown.Item>Harnesses</Dropdown.Item>
-                <Dropdown.Item>Skis</Dropdown.Item>               
-                <Dropdown.Item>Tents</Dropdown.Item>
-                <Dropdown.Item>Backpacks</Dropdown.Item>
-                <Dropdown.Item>Jackets</Dropdown.Item>
+              <DropdownButton id="dropdown-basic-button" title={searchCategoryToggle}>
+                  <Dropdown.Item onClick={() => setSearchCategoryToggle("All")}>All</Dropdown.Item>
+                {categories.map((category, id) => (
+                  <Dropdown.Item key={id} onClick={() => setSearchCategoryToggle(category.name)}>{category.name}</Dropdown.Item>
+                ))}
               </DropdownButton>
-
-              {/* SEARCH INPUT AND SEARCH BUTTON*/}
               <Form.Control type="text" placeholder="Search in shop ..." />
               <Button variant="warning">
                 <i className="bi bi-search text-dark"></i>
@@ -51,26 +53,18 @@ const HeaderComponent = () => {
             </InputGroup>
           </Nav>
           <Nav>
-
-
-            {/* CONDITIONAL RENDERING OF HEADER LINKS SECTION */}
-            {userInfo && userInfo.isAdmin ? 
-            //IF AN ADMIN, DISPLAY THE LINK TO THE ADMIN ORDERS PAGE AND CONTROL PANEL 
-            (
-              //admin link to admin control panel
+            {userInfo.isAdmin ? (
               <LinkContainer to="/admin/orders">
                 <Nav.Link>
                   Admin
-                  <span className="position-absolute top-1 start-10 translate-middle p-2 bg-danger border border-light rounded-circle">                    
-                  </span>
+                  <span className="position-absolute top-1 start-10 translate-middle p-2 bg-danger border border-light rounded-circle"></span>
                 </Nav.Link>
               </LinkContainer>
-            
-            // ELSE IF NOT AN ADMIN AND USER HAS A NAME, DISPLAY FIRST AND LAST NAME FOR DROPDOWN 
-            ) : userInfo && userInfo.name && !userInfo.isAdmin ? 
-            (
-              //drop down for user to show order; profile; logout
-              <NavDropdown title={`${userInfo.name} ${userInfo.lastName}`} id="collasible-nav-dropdown">
+            ) : userInfo.name && !userInfo.isAdmin ? (
+              <NavDropdown
+                title={`${userInfo.name} ${userInfo.lastName}`}
+                id="collasible-nav-dropdown"
+              >
                 <NavDropdown.Item
                   eventKey="/user/my-orders"
                   as={Link}
@@ -85,11 +79,7 @@ const HeaderComponent = () => {
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>
-
-            // ELSE DISPLAY THE LOGIN AND REGISTER LINKS
-            ) : 
-            (
-              //login and register links
+            ) : (
               <>
                 <LinkContainer to="/login">
                   <Nav.Link>Login</Nav.Link>
@@ -99,12 +89,11 @@ const HeaderComponent = () => {
                 </LinkContainer>
               </>
             )}
-            {/* CONDITIONAL RENDERING - SECTION END*/}
 
             <LinkContainer to="/cart">
               <Nav.Link>
                 <Badge pill bg="danger">
-                {itemsCount === 0 ? "" : itemsCount}
+                  {itemsCount === 0 ? "" : itemsCount}
                 </Badge>
                 <i className="bi bi-cart-dash"></i>
                 <span className="ms-1">CART</span>
