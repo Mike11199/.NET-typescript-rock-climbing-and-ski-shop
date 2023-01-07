@@ -59,7 +59,7 @@ const uploadImagesCloudinaryApiRequest = (images) => {
 }
 ```
 
-![image](https://user-images.githubusercontent.com/91037796/211129433-b4bf4004-d703-40b4-872d-58f732613803.png)
+![image](https://user-images.githubusercontent.com/91037796/211130625-73228d61-b1ef-46a2-b017-237aa046221a.png)
 
 
 <br/>
