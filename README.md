@@ -22,5 +22,47 @@
 
 <br/>
 
+<h1> Cloudinary Image UploadD </h1>
+
+- Used the Cloudinary service to allow an Admin to directly upload image files when creating a product to the Cloudinary REST API.
+- Referenced Cloudinary documentation for code:
+  - https://developer.paypal.com/sdk/js/reference/#createorder
+  
+
+<br/>
+<br/>
+
+```js
+
+const uploadImagesCloudinaryApiRequest = (images) => {
+   
+    //https://cloudinary.com/documentation/upload_images#code_explorer_upload_multiple_files_using_a_form_unsigned
+
+    const url = "https://api.cloudinary.com/v1_1/dwgvi9vwb/image/upload"  //dwgvi9vwb is env cloud name from cloudinary settings
+    const formData = new FormData();
+    
+    for (let i = 0; i < images.length; i++) {
+        let file = images[i];
+        formData.append("file", file);
+        formData.append("upload_preset", "gdsFDSW32") //upload preset from cloudinary settings
+        fetch(url, {
+            method: "POST",
+            body: formData,
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+        })
+    }
+}
+```
+
+![image](https://user-images.githubusercontent.com/91037796/211129433-b4bf4004-d703-40b4-872d-58f732613803.png)
+
+
+<br/>
+
 
 
