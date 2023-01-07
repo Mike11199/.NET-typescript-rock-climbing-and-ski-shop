@@ -6,7 +6,6 @@
 - Used the Cloudinary service to allow an Admin to upload and delete images of a product. 
 - Used Redux to manage global state as opposed to context in past projects.
 - Created various database relationships between collections in MongoDB using embedded documents (storing object IDs in other documents). 
-  - For example, the orders collection has the ObjectID of the user who placed the order and ObjectID of each product in the order.
 
 <br/>
 
