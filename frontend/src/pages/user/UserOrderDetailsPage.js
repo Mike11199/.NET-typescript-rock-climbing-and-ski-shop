@@ -4,11 +4,18 @@ import axios from 'axios'
 import { loadScript } from "@paypal/paypal-js"
 
 
-//error-handling in page component itself
+// GET Request to retrieve order based on id in URL - error-handling in page component itself
+// this function is passed and called from within the page component 
 const getOrder = async (orderId) => {
     const { data } = await axios.get("/api/orders/user/" + orderId);
     return data;
 }
+
+// Paypal script to work with SDK using sandbox
+// this function is passed and called from within the component
+
+// business - sb-1gtla24828028@business.example.com  ; password = testtest
+// personal - sb-yhuyo24828035@personal.example.com  ; password = testtest
 
 const loadPayPalScript = async (cartSubtotal, cartItems, orderId, updateStateAfterOrder) => {
     try {
@@ -58,10 +65,11 @@ const buttons = (cartSubtotal, cartItems, orderId, updateStateAfterOrder) => {
 
                 console.log(orderData)
 
+                // this is the paypal response obj - look at it to see if order is APPROVED and amount matches cart
                 let transaction = orderData.purchase_units[0].payments.captures[0]
              
                 if (transaction.status === "COMPLETED" && Number(transaction.amount.value) === Number(cartSubtotal)) {                 
-                    updateOrder(orderId)
+                    updateOrder(orderId)  //update mongodb using put request
                     .then(data =>{
                         if(data.isPaid) {
                             updateStateAfterOrder(data.paidAt)
@@ -78,6 +86,7 @@ const onCancelHandler = () => {
     console.log('onCancelHandler')
 }
 
+//this update the order in the mongodb database
 const updateOrder = async(orderId) => {
     console.log('order id is ' + orderId)    
     const { data } = await axios.put("/api/orders/paid/" + orderId)

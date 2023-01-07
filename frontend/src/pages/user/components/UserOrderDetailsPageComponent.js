@@ -1,20 +1,13 @@
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Alert,
-  ListGroup,
-  Button,
-} from "react-bootstrap";
-import CartItemComponent from "../../../components/CartItemComponent";
-import { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
-
+import { Container, Row, Col, Form, Alert, ListGroup, Button } from "react-bootstrap"
+import CartItemComponent from "../../../components/CartItemComponent"
+import { useEffect, useState, useRef } from "react"
+import { useParams } from "react-router-dom"
 
 
 const UserOrderDetailsPageComponent = ({ userInfo, getUser, getOrder, loadPayPalScript  }) => {
 
+    
+    // set up all the local state variables
     const [userAddress, setUserAddress] = useState({});
     const [paymentMethod, setPaymentMethod] = useState("");
     const [isPaid, setIsPaid] = useState(false);
@@ -24,43 +17,116 @@ const UserOrderDetailsPageComponent = ({ userInfo, getUser, getOrder, loadPayPal
     const [isDelivered, setIsDelivered] = useState(false);
     const [buttonDisabled, setButtonDisabled] = useState(false);
 
-    const paypalContainer = useRef()  //special react object to refer to div
-    console.log(paypalContainer)
+
+
+    const paypalContainer = useRef()  //special react object to refer to div directly in react
+    // console.log(paypalContainer)
 
 
     const { id } = useParams();
 
-    useEffect(() => {
-        getUser()
-        .then(data => {
-           setUserAddress({ address: data.address, city: data.city, country: data.country, zipCode: data.zipCode, state: data.state, phoneNumber: data.phoneNumber }); 
-        })
-        .catch((err) => console.log(err));
+    // this useEffect to get user data from the database by userID and update state to display on page
+    useEffect(() => {   
+
+      const updateStateWithUserData = async () => {
+
+        try {
+          // func passed from page into this component
+          const data  = await getUser()  
+          // update state
+          setUserAddress({ address: data.address, 
+                           city: data.city, 
+                           country: data.country, 
+                           zipCode: data.zipCode, 
+                           state: data.state, 
+                           phoneNumber: data.phoneNumber }); 
+          
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      updateStateWithUserData()   
+    
     }, [])
 
+
+    // useEffect(() => {
+    //     getUser()
+    //     .then(data => {
+    //        setUserAddress({ address: data.address, city: data.city, country: data.country, zipCode: data.zipCode, state: data.state, phoneNumber: data.phoneNumber }); 
+    //     })
+    //     .catch((err) => console.log(err));
+    // }, [])
+
+
+
+    // useEffect(() => {
+    //    getOrder(id) 
+    //    .then(data => {
+    //        setPaymentMethod(data.paymentMethod);
+    //        setCartItems(data.cartItems);
+    //        setCartSubtotal(data.orderTotal.cartSubtotal);
+    //        data.isDelivered ? setIsDelivered(data.deliveredAt) : setIsDelivered(false);
+    //        data.isPaid ? setIsPaid(data.paidAt) : setIsPaid(false);
+    //        if (data.isPaid) {
+    //            setOrderButtonMessage("Your order is finished");
+    //            setButtonDisabled(true);
+    //        } else {
+    //           if (data.paymentMethod === "pp") {
+    //               setOrderButtonMessage("Pay for your order");
+    //           } else if(data.paymentMethod === "cod") {
+    //               setButtonDisabled(true);
+    //               setOrderButtonMessage("Wait for your order. You pay on delivery");
+    //           }
+    //        }
+
+    //    })
+    //    .catch((err) => console.log(err));
+    // }, [])
+
+
+    // this useEffect to get order data from the database by order ID and update state to display on page
     useEffect(() => {
-       getOrder(id) 
-       .then(data => {
-           setPaymentMethod(data.paymentMethod);
-           setCartItems(data.cartItems);
-           setCartSubtotal(data.orderTotal.cartSubtotal);
-           data.isDelivered ? setIsDelivered(data.deliveredAt) : setIsDelivered(false);
-           data.isPaid ? setIsPaid(data.paidAt) : setIsPaid(false);
-           if (data.isPaid) {
-               setOrderButtonMessage("Your order is finished");
-               setButtonDisabled(true);
-           } else {
-              if (data.paymentMethod === "pp") {
-                  setOrderButtonMessage("Pay for your order");
-              } else if(data.paymentMethod === "cod") {
-                  setButtonDisabled(true);
-                  setOrderButtonMessage("Wait for your order. You pay on delivery");
+
+      const updateStateWithOrderData = async () => {
+
+        try {
+          // func passed from page into this component
+          const data = await getOrder(id) 
+         
+          // update state based on order values - here we update the cart state with data from order request - from MongoDB
+          setPaymentMethod(data.paymentMethod)
+          setCartItems(data.cartItems)
+          setCartSubtotal(data.orderTotal.cartSubtotal)
+          
+          
+          data.isDelivered ? setIsDelivered(data.deliveredAt) : setIsDelivered(false);
+          data.isPaid ? setIsPaid(data.paidAt) : setIsPaid(false);
+
+          //  if it's paid update the button saying it's paid and disable the button
+          if (data.isPaid) {
+            setOrderButtonMessage("Your order is finished")
+            setButtonDisabled(true)
+          } 
+          //  if not paid, show different button based on if paypal or cash on delivery (disable option to pay if cash)
+          else {
+            if (data.paymentMethod === "pp") {
+              setOrderButtonMessage("Pay for your order")
+            } 
+  
+            else if(data.paymentMethod === "cod") {
+              setButtonDisabled(true);
+              setOrderButtonMessage("Wait for your order. You pay on delivery");
               }
-           }
+          }
+        } catch (error) {
+          console.log(error)
+        }}
 
-       })
-       .catch((err) => console.log(err));
-    }, [])
+        updateStateWithOrderData()   
+      
+      }, [])
+
 
 
 
