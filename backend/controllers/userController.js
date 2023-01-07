@@ -226,7 +226,7 @@ const updateUser = async (req, res, next) => {
         user.name = req.body.name || user.name;
         user.lastName = req.body.lastName || user.lastName;
         user.email = req.body.email || user.email;
-        user.isAdmin = req.body.isAdmin || user.isAdmin;
+        user.isAdmin = req.body.isAdmin 
 
         await user.save();
 
