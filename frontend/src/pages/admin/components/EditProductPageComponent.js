@@ -358,7 +358,7 @@ const EditProductPageComponent = ({
               </Row>
               <Form.Control  type="file" multiple onChange={e => {
                  setIsUploading("upload files in progress ..."); 
-                 if (process.env.NODE_ENV === "production") {
+                 if (process.env.NODE_ENV !== "production") {
                      // to do: change to !==
                      uploadImagesApiRequest(e.target.files, id)
                      .then(data => {
