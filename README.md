@@ -1,4 +1,9 @@
-https://recreational-equipment-shop.herokuapp.com/
+<h1>Live Website</h1>
+
+- https://recreational-equipment-shop.herokuapp.com/
+
+- Use the following User/Password at login for testing:     test@gmail.com
+
 
 <h1>Summary</h1>
 
