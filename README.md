@@ -2,7 +2,7 @@
 
 - https://recreational-equipment-shop.herokuapp.com/
 
-- Use the following User/Password at login for testing:     test@gmail.com
+- Use the following for both username and password at login for testing (or create a new account):     test@gmail.com
 
 
 <h1>Summary</h1>
