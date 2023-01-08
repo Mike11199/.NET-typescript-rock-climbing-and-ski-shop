@@ -1,5 +1,6 @@
 
 const mongoose = require("mongoose")
+require("dotenv").config();  //todo: delete for heroku
 
 mongoose.set("strictQuery", false);
 
