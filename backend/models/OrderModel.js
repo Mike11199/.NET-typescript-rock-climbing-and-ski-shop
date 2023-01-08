@@ -50,4 +50,14 @@ const orderSchema = mongoose.Schema({
 })
 
 const Order = mongoose.model("Order", orderSchema)
+
+//this will allow the app to listen for any change to the Orders collection
+Order.watch().on("change", (data) => {
+    console.log(data)  //realtime but not socket.io yet
+    if(data.operationType ==="insert") {
+        io.emit("newOrder", data.fullDocument)
+    }
+})
+
+
 module.exports = Order
