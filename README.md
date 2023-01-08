@@ -15,6 +15,21 @@
 
 <br/>
 
+<h1> Screenshots & GIFs </h1>
+
+- User adding an item to the cart, placing an order, and paying for the order via PayPal.
+
+
+<br/>
+
+![storeGif2](https://user-images.githubusercontent.com/91037796/211180465-9dcf14d8-eb64-4af0-9e88-dd1145f0f5cc.gif)
+
+
+
+<br/>
+<br/>
+
+
 <h1> PayPal Payment Integration </h1>
 
 - Used the Paypal SDK to simulate live payment of an order from the store. 
