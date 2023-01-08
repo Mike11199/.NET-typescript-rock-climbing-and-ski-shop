@@ -78,7 +78,10 @@ const registerUser = async (req, res, next) => {
       return res.status(400).send("All inputs are required");
     }
 
-    const userExists = await User.findOne({ email });
+    let lowerCaseEmail = email.toLowerCase()
+
+    const userExists = await User.findOne({ email: lowerCaseEmail });
+    
     if (userExists) {
       return res.status(400).send("user exists");
     } else {
@@ -126,7 +129,10 @@ const loginUser = async (req, res, next) => {
       return res.status(400).send("All inputs are required");
     }
 
-    const user = await User.findOne({ email }).orFail();
+    let lowerCaseEmail = email.toLowerCase()
+
+    const user = await User.findOne({ email: lowerCaseEmail }).orFail()
+
     if (user && comparePasswords(password, user.password)) {
       let cookieParams = {
         httpOnly: true,
@@ -145,7 +151,7 @@ const loginUser = async (req, res, next) => {
             user._id,
             user.name,
             user.lastName,
-            user.email,
+            user.lowerCaseEmail,
             user.isAdmin
           ),
           cookieParams

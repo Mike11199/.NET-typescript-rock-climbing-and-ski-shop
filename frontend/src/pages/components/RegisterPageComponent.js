@@ -65,7 +65,7 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
         reduxDispatch(setReduxUserState(data.userCreated))                          // update redux state
         
     } catch (er) {
-        setRegisterUserResponseState({error: er.response.data.message ? er.response.data.message : er.response.data})  // update redux state
+        setRegisterUserResponseState({error: er.response.data.message ? er.response.data.message : er.response.data})  // update state
     }      
     setValidated(true)
     }}

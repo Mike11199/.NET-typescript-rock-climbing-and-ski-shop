@@ -37,7 +37,7 @@ const UserCartDetailsPageComponent = ({cartItems, itemsCount, cartSubtotal, user
         .then((data) => {
             if (!data.address || !data.city || !data.country || !data.zipCode || !data.state || !data.phoneNumber) {
                 setButtonDisabled(true);
-                setMissingAddress(" .In order to make order, fill out your profile with correct address, city etc.");
+                setMissingAddress("In order to make order, fill out your profile with correct address, city etc.");
             } else {
                 setUserAddress({address: data.address, city: data.city, country: data.country, zipCode: data.zipCode, state: data.state, phoneNumber: data.phoneNumber})
                 setMissingAddress(false);
@@ -103,8 +103,7 @@ const UserCartDetailsPageComponent = ({cartItems, itemsCount, cartSubtotal, user
             <Row>
               <Col>
                 <Alert className="mt-3" variant="danger">
-                  Not delivered
-                  {missingAddress}
+                  Not Delivered
                 </Alert>
               </Col>
               <Col>
@@ -144,6 +143,9 @@ const UserCartDetailsPageComponent = ({cartItems, itemsCount, cartSubtotal, user
                 <Button size="lg" onClick={orderHandler} variant="danger" type="button" disabled={buttonDisabled}>
                   Place order
                 </Button>
+                <p style={{color: 'red', fontWeight:'500'}}>
+                  {missingAddress}
+                </p>
               </div>
             </ListGroup.Item>
           </ListGroup>

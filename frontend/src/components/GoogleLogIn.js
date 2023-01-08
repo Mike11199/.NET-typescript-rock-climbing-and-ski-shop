@@ -33,6 +33,8 @@ const GoogleLoginButton = ({googleLogin}) => {
 
 return (
   <div style={{justifyContent:"center", marginTop:"20px"}}> 
+
+  {/* //https://console.cloud.google.com/  */}
   <GoogleOAuthProvider  clientId="421793135719-tbnlgi65j46cc3oo2j74eot1ou5tg06n.apps.googleusercontent.com">
     <GoogleLogin
         width= "max"     
