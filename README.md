@@ -1,4 +1,9 @@
-https://recreational-equipment-shop.herokuapp.com/
+<h1>Live Website</h1>
+
+- https://recreational-equipment-shop.herokuapp.com/
+
+- Use the following User/Password at login for testing:     test@gmail.com
+
 
 <h1>Summary</h1>
 
@@ -23,6 +28,18 @@ https://recreational-equipment-shop.herokuapp.com/
 <br/>
 
 ![storeGif1](https://user-images.githubusercontent.com/91037796/211115640-cd6b2af0-b670-45f9-a01b-c51b9888f107.gif)
+
+
+
+<br/>
+
+<h1> Socket.IO </h1>
+
+- TODO:  Implement the Socket.IO libary to enable real-time, bi-directional communication between web clients and servers.  
+- This will allow for real-time chats between site users and the site admin, as well as real-time charts of sales data.
+
+<br/>
+<br/>
 
 <br/>
 
