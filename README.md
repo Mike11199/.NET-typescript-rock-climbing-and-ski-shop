@@ -12,6 +12,7 @@
 - Used the Cloudinary service to allow an Admin to upload and delete images of a product. 
 - Used Redux to manage global state as opposed to context in past projects.
 - Created various database relationships between collections in MongoDB using embedded documents (storing object IDs in other documents). 
+- Added Google OAuth2.0 Log In, decoding JWT credentials from Google, and locating the user by email in MongoDB to verify the user. 
 
 <br/>
 
@@ -101,5 +102,17 @@ const uploadImagesCloudinaryApiRequest = (images) => {
 
 <br/>
 
+<br/>
 
+<h1> Redux State Mangement </h1>
+
+
+![image](https://user-images.githubusercontent.com/91037796/211220213-8bdba8eb-f3f1-4aee-8992-2ef58e2eaac6.png)
+
+
+<h1> Google OAuth2.0 Log In </h1>
+
+<br/>
+
+![storeGif3](https://user-images.githubusercontent.com/91037796/211220292-558792a6-c0be-4a58-8466-f657da3c699d.gif)
 
