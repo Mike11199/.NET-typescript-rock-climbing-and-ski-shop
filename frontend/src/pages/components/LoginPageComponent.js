@@ -2,12 +2,14 @@ import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
+import GoogleLoginButton from "../../components/GoogleLogIn";
 
 
-const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserState }) => {
+const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserState, googleLogin }) => {
 
   //react state for form - if validated or not
   const [validated, setValidated] = useState(false)
+  
 
   const [LogInUserResponseState, setLogInUserResponseState] = useState(
       {success:"", error:"", loading: false}
@@ -115,10 +117,13 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
             </Row>
 
             {/* Submit Button */}
-            <Button variant="primary" type="submit">             
+            <div width="300px">
+            <Button variant="primary" type="submit"  style={{width:'230px'}}>             
             {displaySpinner()}
               Login
             </Button>
+            <GoogleLoginButton googleLogin={googleLogin}/>
+            </div>
 
             {/* Alert to show if wrong credentials -- wrong credentials string is the API response from server - userController.js if error*/}
             <Alert show={LogInUserResponseState && LogInUserResponseState.error ==="wrong credentials"} variant="danger">

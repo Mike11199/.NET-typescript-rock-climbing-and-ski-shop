@@ -3,6 +3,7 @@ const Review = require("../models/ReviewModel");
 const Product = require("../models/ProductModel");
 const { hashPassword, comparePasswords } = require("../utils/hashPassword");
 const generateAuthToken = require("../utils/generateAuthToken");
+const jwt = require("jsonwebtoken");
 
 const getUsers = async (req, res, next) => {
   try {
@@ -12,6 +13,63 @@ const getUsers = async (req, res, next) => {
     next(err);
   }
 };
+
+const googleLogIn = async (req, res) =>{
+  
+  console.log(req.body)
+  const googleToken = req.body.token
+  const decoded = jwt.decode(googleToken)
+  
+  console.log('Decoded token info:')
+  console.log(decoded)
+
+  const email = decoded.email
+
+  const user = await User.findOne({ email }).select('+password') 
+  // //check if User exists in the database
+  if(!user){
+      throw new UnAuthenticatedError('Invalid Credentials')
+  } 
+  console.log(user)
+
+  //create JSON web token to keep user logged in even if page refreshes
+  // const token = user.createJWT()
+  user.password = undefined   //to not show password in response
+ 
+  let cookieParams = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  };
+ 
+  cookieParams = { ...cookieParams, maxAge: 1000 * 60 * 60 * 24 * 7 }; // 1000=1ms
+
+  res
+        .cookie(
+          "access_token",
+          generateAuthToken(
+            user._id,
+            user.name,
+            user.lastName,
+            user.email,
+            user.isAdmin
+          ),cookieParams
+          
+        )
+        .status(201)
+        .json({
+          success: "user logged in",
+          userLoggedIn: {
+            _id: user._id,
+            name: user.name,
+            lastName: user.lastName,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            doNotLogout: true,
+          },
+        });
+}
+
 
 const registerUser = async (req, res, next) => {
   try {
@@ -40,22 +98,19 @@ const registerUser = async (req, res, next) => {
             user.lastName,
             user.email,
             user.isAdmin
-          ),
-          {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
-          }
+          ),cookieParams
+          
         )
         .status(201)
         .json({
-          success: "User created",
-          userCreated: {
+          success: "user logged in",
+          userLoggedIn: {
             _id: user._id,
             name: user.name,
             lastName: user.lastName,
             email: user.email,
             isAdmin: user.isAdmin,
+            doNotLogout,
           },
         });
     }
@@ -248,5 +303,5 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
-module.exports = { getUsers, registerUser, loginUser, updateUserProfile, getUserProfile, writeReview, getUser, updateUser, deleteUser };
+module.exports = { getUsers, registerUser, loginUser, updateUserProfile, getUserProfile, writeReview, getUser, updateUser, deleteUser, googleLogIn };
 

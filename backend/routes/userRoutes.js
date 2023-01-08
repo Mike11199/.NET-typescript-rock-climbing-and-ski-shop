@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const { verifyIsLoggedIn, verifyIsAdmin } = require("../middleware/verifyAuthToken");
-const {getUsers, registerUser, loginUser, updateUserProfile, getUserProfile, writeReview, getUser, updateUser, deleteUser} = require("../controllers/userController")
+const {getUsers, registerUser, loginUser, updateUserProfile, getUserProfile, writeReview, getUser, updateUser, deleteUser, googleLogIn} = require("../controllers/userController")
 
 router.post("/register", registerUser)
 router.post("/login", loginUser)
+router.route('/loginGoogle').post(googleLogIn)
 
 // user logged in routes:
 router.use(verifyIsLoggedIn);
