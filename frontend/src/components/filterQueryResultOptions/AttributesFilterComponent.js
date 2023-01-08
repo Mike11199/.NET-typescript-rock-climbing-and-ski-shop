@@ -52,4 +52,3 @@ const AttributesFilterComponent = ({ attrsFilter, setAttrsFromFilter }) => {
 };
 
 export default AttributesFilterComponent;
-

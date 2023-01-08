@@ -1,11 +1,28 @@
 import { Card, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
+const styles = {
+  card: {
+    boxShadow:"5px 0px 15px black",
+    // borderRadius: 55,
+    // padding: '3rem'
+  },
+  cardImage: {
+    height: "10px",    
+  }
+}
+
+
 const CategoryCardComponent = ({ category, idx }) => {
   
   return (
-    <Card>
-      <Card.Img crossOrigin="anonymous" variant="top" src={category.image ?? null} />
+    <>
+    <Card style={styles.card}>
+      <LinkContainer to={`/product-list/category/${category.name}`}>   
+      
+      <img src={category.image ?? null}  height="365px" style={styles.cardImage}></img>
+             
+      </LinkContainer>
       <Card.Body>
         <Card.Title>{category.name}</Card.Title>
         <Card.Text>
@@ -16,6 +33,7 @@ const CategoryCardComponent = ({ category, idx }) => {
         </LinkContainer>
       </Card.Body>
     </Card>
+    </>
   );
 };
 
