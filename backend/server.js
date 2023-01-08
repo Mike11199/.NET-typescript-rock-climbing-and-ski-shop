@@ -10,6 +10,7 @@ const app = express();
 const httpServer = createServer(app)
 global.io = new Server(httpServer); //global variable
 
+
 app.use(helmet({
 
   contentSecurityPolicy: false,

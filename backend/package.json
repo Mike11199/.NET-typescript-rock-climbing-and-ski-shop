@@ -10,7 +10,9 @@
     "client": "npm start --prefix ../frontend",
     "dev": "concurrently --kill-others-on-fail \"npm run server-dev\" \"npm run client\"",
     "seed:data": "node seeder/seeder",
-    "seed:data-d": "node seeder/seeder -d"
+    "seed:data-d": "node seeder/seeder -d",
+    "seed2:data": "node seeder2/seeder",
+    "seed2:data-d": "node seeder2/seeder -d"
   },
   "author": "",
   "license": "ISC",
