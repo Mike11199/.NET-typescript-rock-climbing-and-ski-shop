@@ -38,7 +38,7 @@
   - https://developer.paypal.com/sdk/js/reference/#createorder
   
 - Created business/personal PayPal sandbox accounts with fake credit/debit cards, and account balances to simulate a real order.
-- On a successful response from the Paypal API, the order is marked as paid in the MongoDB database.  An admin must later mark the product as delivered manually.
+- On a successful response from the PayPal API, the order is marked as paid in the MongoDB database.  An admin must later mark the product as delivered manually.
 
 <br/>
 <br/>
