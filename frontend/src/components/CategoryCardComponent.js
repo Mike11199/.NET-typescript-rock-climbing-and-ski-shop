@@ -4,6 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 const styles = {
   card: {
     boxShadow:"5px 0px 15px black",
+    border: "5px black"
     // borderRadius: 55,
     // padding: '3rem'
   },
