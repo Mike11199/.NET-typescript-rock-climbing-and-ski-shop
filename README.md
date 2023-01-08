@@ -29,6 +29,18 @@
 
 ![storeGif1](https://user-images.githubusercontent.com/91037796/211115640-cd6b2af0-b670-45f9-a01b-c51b9888f107.gif)
 
+
+
+<br/>
+
+<h1> Socket.IO </h1>
+
+- TODO:  Implement the Socket.IO libary to enable real-time, bi-directional communication between web clients and servers.  
+- This will allow for real-time chats between site users and the site admin, as well as real-time charts of sales data.
+
+<br/>
+<br/>
+
 <br/>
 
 <h1> Cloudinary Image Upload </h1>
