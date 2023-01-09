@@ -1,7 +1,7 @@
 import { Toast, Button, Form } from "react-bootstrap";
 import { Fragment, useState, useEffect } from "react";
 
-const AdminChatRoomComponent = ({ chatRoom, roomIndex, socketUser }) => {
+const AdminChatRoomComponent = ({ chatRoom, roomIndex, socket, socketUser }) => {
   [window["toast" + roomIndex], window["closeToast" + roomIndex]] =
     useState(true);
     const [rerender, setRerender] = useState(false);
@@ -21,6 +21,9 @@ const AdminChatRoomComponent = ({ chatRoom, roomIndex, socketUser }) => {
          return; 
       }
       chatRoom[1].push({ admin: msg.value });
+      socket.emit("admin sends message", {
+          message: v,
+      })
        setRerender(!rerender);
         msg.focus();
         setTimeout(() => {

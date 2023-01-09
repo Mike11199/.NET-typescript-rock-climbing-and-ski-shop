@@ -15,12 +15,21 @@ global.io = new Server(httpServer)    //global variable
 
 //back end connects to front end with this code, listening for this message
 io.on("connection", (socket) => {
+  
+  //server listens for a client message
   socket.on("client sends message", (msg) => {
       console.log(msg);
+      //server takes message received and emits to admin
       socket.broadcast.emit("server sends message from client to admin",{
         message: msg
       })
-})
+  })
+  
+  //server listens for admin message
+  socket.on('admin sends message', ({message}) => {
+    //server takes message from admin and emits back to clients
+    socket.broadcast.emit("server sends message from admin to client", message)
+   })
 })
 
 

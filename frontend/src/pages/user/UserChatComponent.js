@@ -13,7 +13,7 @@ const UserChatComponent = () => {
 
   const [chat, setChat] = useState([])
   const userInfo = useSelector((state) => state.userRegisterLogin.userInfo)
-
+  const [messageReceived, setMessageReceived] = useState(false);
 
   const [socket, setSocket] = useState(false)
 
@@ -21,6 +21,17 @@ const UserChatComponent = () => {
     if (!userInfo.isAdmin) {
       const socket = socketIOClient();
       setSocket(socket);                  // save socket client to local react state
+
+      //if not admin, client listens for message from server
+      socket.on("server sends message from admin to client", (msg)=> {
+          setChat((chat) => {
+            return [...chat, {admin: msg}]
+          })
+          setMessageReceived(true);
+          const chatMessages = document.querySelector(".cht-msg")
+          chatMessages.scrollTop = chatMessages.scrollHeight
+      })  
+
       return () => socket.disconnect();   //return so socket will disconnect on page close
     }
   }, [userInfo.isAdmin]);
@@ -32,6 +43,8 @@ const UserChatComponent = () => {
     if (e.keyCode && e.keyCode !== 13) {
         return
     }
+    setMessageReceived(false);
+
     const msg = document.getElementById("clientChatMsg")
 
     //trim or end function if message is empty
@@ -63,9 +76,12 @@ const UserChatComponent = () => {
       <input type="checkbox" id="check" />
       <label className="chat-btn" htmlFor="check">
         <i className="bi bi-chat-dots comment"></i>
+
         {/* alert for new chat message - https://getbootstrap.com/docs/5.1/utilities/position/#examples */}
-        <span className="position-absolute top-0 start-10 translate-middle p-2 bg-danger border border-light rounded-circle"></span>
+        {messageReceived &&<span className="position-absolute top-0 start-10 translate-middle p-2 bg-danger border border-light rounded-circle"></span>}
         <i className="bi bi-x-circle close"></i>
+
+
       </label>
       <div className="chat-wrapper">
         <div className="chat-header">
