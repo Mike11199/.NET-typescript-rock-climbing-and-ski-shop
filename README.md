@@ -46,17 +46,20 @@
 ![storeGif1](https://user-images.githubusercontent.com/91037796/211115640-cd6b2af0-b670-45f9-a01b-c51b9888f107.gif)
 
 
-
 <br/>
 
-<h1> Socket.IO </h1>
+<h1> Real Time Chats - Socket.IO </h1>
 
 - Implemented the Socket.IO libary to enable real-time, bi-directional communication between web clients and servers.  
 - This will allow for real-time chats between site users and the site admin, as well as real-time charts of sales data.
 - Used Redux so that an admin can be notified via an icon on the header and website sound that a new message has arrived from a user.
 
+<br/>
+<br/>
 
 ![storeGif5](https://user-images.githubusercontent.com/91037796/211240679-522a0592-a543-4f43-a91c-940d2d28fd48.gif)
+
+<br/>
 
 ```js
 Server.js
