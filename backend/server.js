@@ -26,13 +26,14 @@ io.on("connection", (socket) => {
   })
   
   
+
+  
   //server listens for admin message
   socket.on('admin sends message', ({message}) => {
     //server takes message from admin and emits back to clients
     socket.broadcast.emit("server sends message from admin to client", message)
    })
 })
-
 
 app.use(helmet({
   contentSecurityPolicy: false,
