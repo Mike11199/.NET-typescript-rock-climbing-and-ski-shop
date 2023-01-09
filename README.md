@@ -54,6 +54,31 @@
 - TODO:  Implement the Socket.IO libary to enable real-time, bi-directional communication between web clients and servers.  
 - This will allow for real-time chats between site users and the site admin, as well as real-time charts of sales data.
 
+```js
+Server.js
+
+//back end connects to front end with this code, listening for this message
+io.on("connection", (socket) => {
+  socket.on("client sends message", (msg) => {
+      console.log(msg);
+  })
+})
+
+```
+```js
+UserChatComponent.js
+
+  const clientSubmitChatMsg = (e) => {
+    // handler for chat message submit
+    // if the key is not enter, return
+    if (e.keyCode && e.keyCode !== 13) {
+        return
+    }
+    socket.emit("client sends message", "message from client")  //server is listening for this named event
+}
+```
+
+
 <br/>
 <br/>
 
