@@ -142,10 +142,12 @@ const uploadImagesCloudinaryApiRequest = (images) => {
 
 ![image](https://user-images.githubusercontent.com/91037796/211220213-8bdba8eb-f3f1-4aee-8992-2ef58e2eaac6.png)
 
+<br/>
 
 <h1> Google OAuth2.0 Log In </h1>
 
 <br/>
+
 
 ![storeGif3](https://user-images.githubusercontent.com/91037796/211220292-558792a6-c0be-4a58-8466-f657da3c699d.gif)
 
