@@ -1,23 +1,30 @@
 require("dotenv").config();
 var helmet = require('helmet')
-const { createServer } = require("http");
-const { Server } = require("socket.io");
+
+
 const express = require("express");
 const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const app = express();
 
+//Block below is for socket.io
+const { createServer } = require("http")
+const { Server } = require("socket.io")
 const httpServer = createServer(app)
-global.io = new Server(httpServer); //global variable
+global.io = new Server(httpServer)    //global variable
+
+//back end connects to front end with this code, listening for this message
+io.on("connection", (socket) => {
+  socket.on("client sends message", (msg) => {
+      console.log(msg);
+  })
+})
 
 
 app.use(helmet({
-
   contentSecurityPolicy: false,
   crossOriginEmbedderPolicy: false,
-
 }))
-
 
 app.use(express.json());
 app.use(cookieParser());
@@ -63,5 +70,5 @@ app.use((error, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+httpServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));

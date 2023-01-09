@@ -1,6 +1,29 @@
 import "../../chats.css";
+import { useEffect, useState } from "react"
+import socketIOClient from "socket.io-client"
+import { useSelector } from "react-redux"
 
 const UserChatComponent = () => {
+
+
+  const [socket, setSocket] = useState(false)
+
+  useEffect(() => {
+      const socket = socketIOClient()
+      setSocket(socket)                 // save socket client to local react state
+      return () => socket.disconnect()  //return so socket will disconnect on page close
+  }, [])
+
+  
+  const clientSubmitChatMsg = (e) => {
+    // handler for chat message submit
+    // if the key is not enter, return
+    if (e.keyCode && e.keyCode !== 13) {
+        return
+    }
+    socket.emit("client sends message", "message from client")  //server is listening for this named event
+}
+
   return (
     <>
       <input type="checkbox" id="check" />
@@ -32,11 +55,12 @@ const UserChatComponent = () => {
 
           </div>
           <textarea
+            onKeyUp={(e)=> clientSubmitChatMsg(e)}
             id="clientChatMsg"
             className="form-control"
             placeholder="Your Text Message"
           ></textarea>
-          <button className="btn btn-success btn-block">Submit</button>
+          <button onClick={(e)=> clientSubmitChatMsg(e)} className="btn btn-success btn-block">Submit</button>
         </div>
       </div>
     </>
