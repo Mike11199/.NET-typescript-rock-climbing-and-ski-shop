@@ -18,3 +18,12 @@ export const setSocket = (socket) => async (dispatch) => {
         }
     })
 }
+
+export const setMessageReceived = (value) => async (dispatch) => {
+    dispatch({
+        type: actionTypes.MESSAGE_RECEIVED,
+        payload: {
+           value: value, 
+        }
+    })
+}

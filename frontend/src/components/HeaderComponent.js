@@ -18,13 +18,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getCategories } from "../redux/actions/categoryActions";
 import socketIOClient from 'socket.io-client'
-import { setChatRooms, setSocket } from "../redux/actions/chatActions";
+import { setChatRooms, setSocket, setMessageReceived } from "../redux/actions/chatActions";
 
 const HeaderComponent = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userRegisterLogin);
   const itemsCount = useSelector((state) => state.cart.itemsCount);
   const { categories } = useSelector((state) => state.getCategories);
+
+  const { messageReceived } = useSelector((state) => state.adminChat);
 
   const [searchCategoryToggle, setSearchCategoryToggle] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
@@ -55,14 +57,18 @@ const HeaderComponent = () => {
 
   useEffect(() => {
     if (userInfo.isAdmin) {
+        let audio = new Audio("/audio/chat-msg.mp3")
         const socket = socketIOClient();
         socket.on("server sends message from client to admin", ({message}) => {
           dispatch(setSocket(socket))
       //   let chatRooms = {
       //     fddf54gfgfSocketID: [{ "client": "dsfdf" }, { "client": "dsfdf" }, { "admin": "dsfdf" }],
       //   };
-          dispatch(setChatRooms("exampleUser", message));         
+          dispatch(setChatRooms("exampleUser", message));       
+          dispatch(setMessageReceived(true));    
+          audio.play()
         })
+        return () => socket.disconnect()  //if we leave the page socket will disconnect
     }
 },[userInfo.isAdmin])
 
@@ -93,7 +99,7 @@ const HeaderComponent = () => {
               <LinkContainer to="/admin/orders">
                 <Nav.Link>
                   Admin
-                  <span className="position-absolute top-1 start-10 translate-middle p-2 bg-danger border border-light rounded-circle"></span>
+                  {messageReceived &&<span className="position-absolute top-1 start-10 translate-middle p-2 bg-danger border border-light rounded-circle"></span>}
                 </Nav.Link>
               </LinkContainer>
             ) : userInfo.name && !userInfo.isAdmin ? (

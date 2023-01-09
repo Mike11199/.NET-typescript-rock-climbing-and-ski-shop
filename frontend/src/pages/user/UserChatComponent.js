@@ -19,6 +19,11 @@ const UserChatComponent = () => {
 
   useEffect(() => {
     if (!userInfo.isAdmin) {
+
+      //get audio for message
+      let audio = new Audio("/audio/chat-msg.mp3")
+
+
       const socket = socketIOClient();
       setSocket(socket);                  // save socket client to local react state
 
@@ -28,6 +33,8 @@ const UserChatComponent = () => {
             return [...chat, {admin: msg}]
           })
           setMessageReceived(true);
+          audio.play() //play message
+
           const chatMessages = document.querySelector(".cht-msg")
           chatMessages.scrollTop = chatMessages.scrollHeight
       })  
