@@ -9,6 +9,7 @@
 
 - A full stack e-commerce web application using the MERN stack (MongoDB, Express.js, React.js, Node.js).  
 - Added the PayPal SDK and sandbox accounts to simulate live payment of an order and front/back end response of a submitted order.
+- Implemented Socket.IO to allow for bi-directional client and server communication, to enable real-time messaging an admin and users. 
 - Used the Cloudinary service to allow an Admin to upload and delete images of a product. 
 - Used Redux to manage global state as opposed to context in past projects.
 - Created various database relationships between collections in MongoDB using embedded documents (storing object IDs in other documents). 
