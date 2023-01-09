@@ -55,6 +55,9 @@
 - This will allow for real-time chats between site users and the site admin, as well as real-time charts of sales data.
 - Used Redux so that an admin can be notified via an icon on the header and website sound that a new message has arrived from a user.
 
+
+![storeGif5](https://user-images.githubusercontent.com/91037796/211240679-522a0592-a543-4f43-a91c-940d2d28fd48.gif)
+
 ```js
 Server.js
 
