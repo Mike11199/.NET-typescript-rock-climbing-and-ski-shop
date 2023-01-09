@@ -51,8 +51,9 @@
 
 <h1> Socket.IO </h1>
 
-- TODO:  Implement the Socket.IO libary to enable real-time, bi-directional communication between web clients and servers.  
+- Implemented the Socket.IO libary to enable real-time, bi-directional communication between web clients and servers.  
 - This will allow for real-time chats between site users and the site admin, as well as real-time charts of sales data.
+- Used Redux so that an admin can be notified via an icon on the header and website sound that a new message has arrived from a user.
 
 ```js
 Server.js
