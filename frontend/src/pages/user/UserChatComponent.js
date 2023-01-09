@@ -5,14 +5,25 @@ import { useSelector } from "react-redux"
 
 const UserChatComponent = () => {
 
+  //   let chat = [
+  //       {"client": "msg"},
+  //       {"client": "msg"},
+  //       {"admin": "msg"},
+  //   ]
+
+  const [chat, setChat] = useState([])
+  const userInfo = useSelector((state) => state.userRegisterLogin.userInfo)
+
 
   const [socket, setSocket] = useState(false)
 
   useEffect(() => {
-      const socket = socketIOClient()
-      setSocket(socket)                 // save socket client to local react state
-      return () => socket.disconnect()  //return so socket will disconnect on page close
-  }, [])
+    if (!userInfo.isAdmin) {
+      const socket = socketIOClient();
+      setSocket(socket);                  // save socket client to local react state
+      return () => socket.disconnect();   //return so socket will disconnect on page close
+    }
+  }, [userInfo.isAdmin]);
 
   
   const clientSubmitChatMsg = (e) => {
@@ -21,10 +32,33 @@ const UserChatComponent = () => {
     if (e.keyCode && e.keyCode !== 13) {
         return
     }
-    socket.emit("client sends message", "message from client")  //server is listening for this named event
+    const msg = document.getElementById("clientChatMsg")
+
+    //trim or end function if message is empty
+    let v = msg.value.trim()
+    if (v === "" || v === null || v === false || !v) {
+      return;
+    }
+
+    // socket.emit("client sends message", "message from client")  //server is listening for this named event
+    socket.emit("client sends message", v)  //server is listening for this named event
+    setChat((chat)=> {
+      return [...chat, {client: v}]
+    })
+
+    //clear message field after user submits message after 200ms and scroll down
+    msg.focus()
+    setTimeout(()=> {
+      msg.value=""
+      const chatMessages = document.querySelector(".cht-msg")
+      chatMessages.scrollTop = chatMessages.scrollHeight
+    }, 200)
+
+
 }
 
-  return (
+  //return the following HTML if the user is not an admin, or else null (ternary operator)
+  return !userInfo.isAdmin? (
     <>
       <input type="checkbox" id="check" />
       <label className="chat-btn" htmlFor="check">
@@ -40,18 +74,21 @@ const UserChatComponent = () => {
         <div className="chat-form">
           <div className="cht-msg">
 
-            {Array.from({ length: 20 }).map((_, id) => (
-              <div key={id}>
-                <p>
-                  <b>You Wrote:</b>  Hello, world!  This is a toast message. 
-                </p>
-                <p className="bg-primary p-3 ms-4 mt-3 text-light rounded-pill">
-                  <b>Support Wrote:</b>  Hello, world!  This is a toast message.                 
-                </p>
-              </div>
-            ))
-          }
-
+          {/* map array of chat values between admin/client to chat box */}
+          {chat.map((item,id) => (
+             <div key={id}>
+             {item.client && (
+               <p>
+                 <b>You wrote:</b> {item.client}
+               </p>
+             )}
+             {item.admin && (
+               <p className="bg-primary p-3 ms-4 text-light rounded-pill">
+                 <b>Support wrote:</b> {item.admin}
+               </p>
+             )}
+           </div>
+          ))}
 
           </div>
           <textarea
@@ -64,7 +101,7 @@ const UserChatComponent = () => {
         </div>
       </div>
     </>
-  );
+  ): null
 };
 
 export default UserChatComponent;

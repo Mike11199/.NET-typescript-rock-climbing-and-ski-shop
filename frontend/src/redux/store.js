@@ -5,12 +5,14 @@ import thunk from "redux-thunk"
 import { cartReducer } from "./reducers/cartReducers";
 import { userRegisterLoginReducer } from "./reducers/userReducers";
 import {getCategoriesReducer} from "./reducers/categoryReducers"
+import { adminChatReducer } from "./reducers/adminChatReducers";
 
 
 const reducer = combineReducers({
     cart: cartReducer,
     userRegisterLogin: userRegisterLoginReducer,
-    getCategories: getCategoriesReducer
+    getCategories: getCategoriesReducer,
+    adminChat: adminChatReducer
 })
 
 // this for setting initial state - get user data from local storage or session storage if there 
