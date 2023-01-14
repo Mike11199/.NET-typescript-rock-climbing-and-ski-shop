@@ -151,3 +151,11 @@ const uploadImagesCloudinaryApiRequest = (images) => {
 
 ![storeGif3](https://user-images.githubusercontent.com/91037796/211220292-558792a6-c0be-4a58-8466-f657da3c699d.gif)
 
+
+<h1> Filtering and Sorting </h1>
+
+- Filtering and sorting abilities of the website are configured on both the back and front-end, and are implemented by use of a query string which the back end processses and sends to MongoDB.  This returns a JSON object of the products that match the criteria selected.
+
+https://recreational-equipment-shop.herokuapp.com/api/products/?pageNum=null&price=500&rating=&category=Boots/Climbing/Sportiva,&attrs=color-yellow,&sort=price_1
+
+- For example, a category string could be '&category=Boots/Climbing/Sportiva'.
