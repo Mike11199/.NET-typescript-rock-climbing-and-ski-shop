@@ -4,27 +4,36 @@ const imageValidate = require("../utils/imageValidate");
 
 const getProducts = async (req, res, next) => {
   try {
+    
     let query = {};
     let queryCondition = false;
 
     let priceQueryCondition = {};
+    
+    
     if (req.query.price) {
       queryCondition = true;
       priceQueryCondition = { price: { $lte: Number(req.query.price) } };
     }
     let ratingQueryCondition = {};
+   
+   
     if (req.query.rating) {
       queryCondition = true;
       ratingQueryCondition = { rating: { $in: req.query.rating.split(",") } };
     }
     let categoryQueryCondition = {};
     const categoryName = req.params.categoryName || "";
+   
+   
     if (categoryName) {
       queryCondition = true;
       let a = categoryName.replaceAll(",", "/");
       var regEx = new RegExp("^" + a);
       categoryQueryCondition = { category: regEx };
     }
+    
+    
     if (req.query.category) {
       queryCondition = true;
       let a = req.query.category.split(",").map((item) => {
@@ -35,6 +44,8 @@ const getProducts = async (req, res, next) => {
       };
     }
     let attrsQueryCondition = [];
+    
+    
     if (req.query.attrs) {
       // attrs=RAM-1TB-2TB-4TB,color-blue-red
       // [ 'RAM-1TB-4TB', 'color-blue', '' ]

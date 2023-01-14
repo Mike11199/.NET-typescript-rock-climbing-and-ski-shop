@@ -7,6 +7,7 @@ const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const app = express();
 
+//https://socket.io/get-started/chat
 //Block below is for socket.io
 const { createServer } = require("http")
 const { Server } = require("socket.io")
