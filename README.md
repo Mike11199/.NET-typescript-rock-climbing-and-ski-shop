@@ -27,6 +27,14 @@
 ![storeGif2](https://user-images.githubusercontent.com/91037796/211180465-9dcf14d8-eb64-4af0-9e88-dd1145f0f5cc.gif)
 
 
+<br/>
+
+- Admin dashboard where an admin can edit/create new products, manage users, see real-time chart data with Socket.IO on sales, and response to various user chats.
+
+<br/>
+
+![adminScreens](https://user-images.githubusercontent.com/91037796/215300841-5ae4a0d5-5187-46f9-9e88-458ec37d15cc.gif)
+
 
 <br/>
 <br/>
