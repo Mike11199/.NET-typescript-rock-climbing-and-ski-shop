@@ -28,49 +28,45 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
     }
   }
 
-  // form submission to submit registration request to API and error handling 
-  const handleSubmit = async (event) => {
-   
-    event.preventDefault()
-    event.stopPropagation()
 
-    // get values from form
+  // form submission to submit registration request to API and error handling 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     const form = event.currentTarget.elements;
     const email = form.email.value;
     const name = form.name.value;
     const lastName = form.lastName.value;
     const password = form.password.value;
-
-    // check to ensure all values provided and 
-    const valuesProvidedAndFormValid =
-     (
+    if (
       event.currentTarget.checkValidity() === true &&
       email &&
       password &&
       name &&
       lastName &&
       form.password.value === form.confirmPassword.value
-    ) 
+    ) {
+      setRegisterUserResponseState({ loading: true });
+      registerUserApiRequest(name, lastName, email, password)
+        .then((data) => {
+          setRegisterUserResponseState({
+            success: data.success,
+            loading: false,
+          });
+          reduxDispatch(setReduxUserState(data.userCreated));
+          
+        })
+        .catch((er) =>
+          setRegisterUserResponseState({
+            error: er.response.data.message
+              ? er.response.data.message
+              : er.response.data,
+          })
+        );
+    }
 
-
-  if (valuesProvidedAndFormValid ) {
-    
-    // set spinner using redux state
-    setRegisterUserResponseState({ loading: true });
-    
-    // send request to API using function passed as parameter into component - set state with redux if successful/error
-    try {
-        const data = await registerUserApiRequest(name, lastName, email, password)  // api request
-        setRegisterUserResponseState({success: data.success, loading: false})       // update local state
-        reduxDispatch(setReduxUserState(data.userCreated))                          // update redux state
-        
-    } catch (er) {
-        setRegisterUserResponseState({error: er.response.data.message ? er.response.data.message : er.response.data})  // update state
-    }      
-    setValidated(true)
-    }}
-
-
+    setValidated(true);
+  };
 
   return (
     <Container>

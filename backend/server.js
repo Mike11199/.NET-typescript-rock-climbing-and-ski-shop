@@ -70,6 +70,8 @@ app.use((error, req, res, next) => {
   }
   next(error);
 });
+
+
 app.use((error, req, res, next) => {
   if (process.env.NODE_ENV === "development") {
     res.status(500).json({

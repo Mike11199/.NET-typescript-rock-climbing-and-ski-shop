@@ -101,19 +101,22 @@ const registerUser = async (req, res, next) => {
             user.lastName,
             user.email,
             user.isAdmin
-          ),cookieParams
-          
+          ),
+          {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+          }
         )
         .status(201)
         .json({
-          success: "user logged in",
-          userLoggedIn: {
+          success: "User created",
+          userCreated: {
             _id: user._id,
             name: user.name,
             lastName: user.lastName,
             email: user.email,
             isAdmin: user.isAdmin,
-            doNotLogout,
           },
         });
     }
