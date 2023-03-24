@@ -19,6 +19,8 @@ import { useEffect, useState } from "react";
 import { getCategories } from "../redux/actions/categoryActions";
 import socketIOClient from 'socket.io-client'
 import { setChatRooms, setSocket, setMessageReceived } from "../redux/actions/chatActions";
+import {setLightMode, setDarkMode } from "../redux/actions/darkModeActions";
+import '../darkMode.css';  // reference https://www.makeuseof.com/how-to-add-dark-mode-to-a-react-application/
 
 const HeaderComponent = () => {
   const dispatch = useDispatch();
@@ -31,11 +33,33 @@ const HeaderComponent = () => {
   const [searchCategoryToggle, setSearchCategoryToggle] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
+  const  mode  = useSelector((state) => state.DarkMode);
+  console.log(mode.mode.mode)
+  // console.log(messageReceived)
+
+  // const [theme, setTheme] = useState('light');
+
+
+  const toggleTheme = () => {
+
+
+
+    if (mode.mode.mode === 'light') {
+      dispatch(setLightMode('dark'))
+    } else {
+      dispatch(setLightMode('light'))
+    }
+  }
+
+   useEffect(() => {
+        document.body.className = mode.mode.mode;       
+    }, [mode.mode.mode]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getCategories());
+     dispatch(setLightMode('light'))
   }, [dispatch]);
 
   const submitHandler = (e) => {
@@ -75,6 +99,7 @@ const HeaderComponent = () => {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
+      <Button variant="danger" className="position-absolute top-10 start-0" style={{marginLeft:"1%"}} onClick={toggleTheme}>Dark Mode</Button>
         <LinkContainer to="/">
           <Navbar.Brand href="/">Recreational Equipment Shop</Navbar.Brand>
         </LinkContainer>
@@ -88,6 +113,7 @@ const HeaderComponent = () => {
                   <Dropdown.Item key={id} onClick={() => setSearchCategoryToggle(category.name)}>{category.name}</Dropdown.Item>
                 ))}
               </DropdownButton>
+              
               <Form.Control onKeyUp={submitHandler} onChange={(e) => setSearchQuery(e.target.value)} type="text" placeholder="Search in shop ..." />
               <Button onClick={submitHandler} variant="warning">
                 <i className="bi bi-search text-dark"></i>

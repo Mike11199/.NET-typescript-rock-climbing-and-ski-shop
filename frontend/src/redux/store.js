@@ -6,13 +6,15 @@ import { cartReducer } from "./reducers/cartReducers";
 import { userRegisterLoginReducer } from "./reducers/userReducers";
 import {getCategoriesReducer} from "./reducers/categoryReducers"
 import { adminChatReducer } from "./reducers/adminChatReducers";
+import { setDarkModeReducer } from "./reducers/darkModeReducers";
 
 
 const reducer = combineReducers({
     cart: cartReducer,
     userRegisterLogin: userRegisterLoginReducer,
     getCategories: getCategoriesReducer,
-    adminChat: adminChatReducer
+    adminChat: adminChatReducer,
+    DarkMode: setDarkModeReducer
 })
 
 // this for setting initial state - get user data from local storage or session storage if there 

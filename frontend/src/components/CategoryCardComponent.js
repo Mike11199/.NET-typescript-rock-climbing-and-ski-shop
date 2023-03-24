@@ -1,5 +1,6 @@
 import { Card, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 
 const styles = {
   card: {
@@ -13,12 +14,33 @@ const styles = {
   }
 }
 
+const stylesDark = {
+  card: {
+    boxShadow:"5px 0px 15px black",
+    border: "5px black",
+    color: 'white',
+    backgroundColor:'black'
+    // borderRadius: 55,
+    // padding: '3rem'
+  },
+  cardImage: {
+    height: "10px",    
+  }
+}
+
+
 
 const CategoryCardComponent = ({ category, idx }) => {
+
+  const mode  = useSelector((state) => state.DarkMode);
+  console.log('card component')
+  console.log(mode.mode.mode)
+  const cardStyle = mode.mode.mode === 'dark' ? stylesDark.card : styles.card;
   
+
   return (
     <>
-    <Card style={styles.card}>
+    <Card style={cardStyle}>
       <LinkContainer to={`/product-list/category/${category.name}`}>   
       
       <img src={category.image ?? null}  height="365px" style={styles.cardImage}></img>
