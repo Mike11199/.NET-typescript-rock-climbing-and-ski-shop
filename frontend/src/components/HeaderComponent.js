@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import { getCategories } from "../redux/actions/categoryActions";
 import socketIOClient from 'socket.io-client'
 import { setChatRooms, setSocket, setMessageReceived } from "../redux/actions/chatActions";
-import {setLightMode, setDarkMode } from "../redux/actions/darkModeActions";
+import { setDarkMode } from "../redux/actions/darkModeActions";
 import '../darkMode.css';  // reference https://www.makeuseof.com/how-to-add-dark-mode-to-a-react-application/
 
 const HeaderComponent = () => {
@@ -33,8 +33,8 @@ const HeaderComponent = () => {
   const [searchCategoryToggle, setSearchCategoryToggle] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const  mode  = useSelector((state) => state.DarkMode);
-  console.log(mode.mode.mode)
+  const { mode }  = useSelector((state) => state.DarkMode);
+  // console.log(mode)
   // console.log(messageReceived)
 
   // const [theme, setTheme] = useState('light');
@@ -44,22 +44,22 @@ const HeaderComponent = () => {
 
 
 
-    if (mode.mode.mode === 'light') {
-      dispatch(setLightMode('dark'))
+    if (mode === 'light') {
+      dispatch(setDarkMode('dark'))
     } else {
-      dispatch(setLightMode('light'))
+      dispatch(setDarkMode('light'))
     }
   }
 
    useEffect(() => {
-        document.body.className = mode.mode.mode;       
-    }, [mode.mode.mode]);
+        document.body.className = mode;       
+    }, [mode]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getCategories());
-     dispatch(setLightMode('light'))
+     dispatch(setDarkMode('light'))
   }, [dispatch]);
 
   const submitHandler = (e) => {
@@ -99,7 +99,15 @@ const HeaderComponent = () => {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
-      <Button variant="danger" className="position-absolute top-10 start-0" style={{marginLeft:"1%"}} onClick={toggleTheme}>Dark Mode</Button>
+      
+      {mode === 'light' ? (
+      <Button variant="danger" className="position-absolute top-10 start-0" style={{marginLeft:"1%"}} onClick={toggleTheme}>Dark Mode</Button>):
+      (
+      <Button variant="danger" className="position-absolute top-10 start-0" style={{marginLeft:"1%"}} onClick={toggleTheme}>Light Mode</Button>
+      )}
+
+
+
         <LinkContainer to="/">
           <Navbar.Brand href="/">Recreational Equipment Shop</Navbar.Brand>
         </LinkContainer>

@@ -1,10 +1,33 @@
 import { Card, Button, Row, Col } from "react-bootstrap";
 import { Rating } from "react-simple-star-rating";
 import { LinkContainer } from "react-router-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProductForListComponent = ({ productId, name, description, price, images, rating, reviewsNumber }) => {
+
+  const { mode }  = useSelector((state) => state.DarkMode)
+
+  // console.log('productforlistcomponent')
+  // console.log({mode})
+
+  const styles = {
+    color: 'black',
+    backgroundColor:'white',
+    marginTop: "30px",
+    marginBottom: "50px"
+  }
+
+  const darkStyles = {
+    color: 'white',
+    backgroundColor:'black',
+    marginTop: "30px",
+    marginBottom: "50px"
+  }
+
+  const productCardStyle = mode === 'light' ? styles : darkStyles;
+
   return (
-    <Card style={{ marginTop: "30px", marginBottom: "50px" }}>
+    <Card style={productCardStyle}>
       <Row>
         <Col lg={5}>
           <Card.Img

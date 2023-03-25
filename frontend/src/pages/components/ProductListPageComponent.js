@@ -6,6 +6,7 @@ import PriceFilterComponent from "../../components/filterQueryResultOptions/Pric
 import RatingFilterComponent from "../../components/filterQueryResultOptions/RatingFilterComponent";
 import CategoryFilterComponent from "../../components/filterQueryResultOptions/CategoryFilterComponent";
 import AttributesFilterComponent from "../../components/filterQueryResultOptions/AttributesFilterComponent";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
@@ -31,6 +32,12 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
   const { searchQuery } = useParams() || "";
   const location = useLocation();
   const navigate = useNavigate();
+  
+
+
+
+  const mode  = useSelector((state) => state.DarkMode)
+  console.log('on product list page!')
 
   useEffect(() => {
     if (categoryName) {

@@ -13,13 +13,13 @@ export const setDarkModeReducer = (state = MODE_INITIAL_STATE, action) => {
         case SET_DARK_MODE:
             return { 
                 ...state,
-                mode: action.payload
+                mode: action.payload.mode, // access mode value from payload directly
             }
 
         case SET_LIGHT_MODE:
             return { 
                 ...state,
-                mode: action.payload
+                mode: action.payload.mode, // access mode value from payload directly
             }
                 
       

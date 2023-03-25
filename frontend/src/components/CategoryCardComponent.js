@@ -32,10 +32,10 @@ const stylesDark = {
 
 const CategoryCardComponent = ({ category, idx }) => {
 
-  const mode  = useSelector((state) => state.DarkMode);
-  console.log('card component')
-  console.log(mode.mode.mode)
-  const cardStyle = mode.mode.mode === 'dark' ? stylesDark.card : styles.card;
+  const { mode }  = useSelector((state) => state.DarkMode)
+  // console.log('card component')
+  // console.log(mode.mode.mode)
+  const cardStyle = mode === 'dark' ? stylesDark.card : styles.card;
   
 
   return (
