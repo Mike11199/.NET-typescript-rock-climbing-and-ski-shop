@@ -1,7 +1,11 @@
 import { Row, Col, Image, ListGroup, Form, Button } from "react-bootstrap";
 import RemoveFromCartComponent from "./RemoveFromCartComponent";
+import { useDispatch, useSelector } from "react-redux";
 
 const CartItemComponent = ({ item, removeFromCartHandler = false, orderCreated = false, changeCount = false }) => {
+
+  const {mode}  = useSelector((state) => state.DarkMode)
+
   return (
     <>
       <ListGroup.Item>
@@ -9,7 +13,8 @@ const CartItemComponent = ({ item, removeFromCartHandler = false, orderCreated =
           <Col md={2}>
             <Image
               crossOrigin="anonymous"
-              src={item.image ? item.image.path ?? null : null}
+              src={item.image && mode === 'dark' ? `${item.image.path.replace('/upload/', '/upload/e_background_removal/')}` : item.image ? item.image.path ?? null : null}
+
               fluid
             />
           </Col>

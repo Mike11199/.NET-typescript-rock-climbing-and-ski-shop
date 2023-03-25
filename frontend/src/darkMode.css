@@ -47,3 +47,48 @@
     background-color: #000000;
     color: #ffffff;
   }
+
+  /* Dark mode table */
+.dark table {
+  background-color: #343a40;
+  
+  border-color: #010101;
+}
+
+.dark .table-dark tbody td {
+  color: white;
+}
+
+/* .dark table td */
+.dark table thead th {
+  border-color: #010101;
+  background-color: #201182;
+  color: white;
+}
+
+.light table  {
+  border-color: #010101;
+  
+}
+
+.light table thead th {
+  border-color: #000000;
+  border-width: 1px;
+  background-color: #2f287f;
+  color: white;
+}
+
+
+.dark table.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(122, 118, 118, 0.386);
+  color:white;
+}
+
+.dark table.table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.075);
+}
+
+.dark table.table-striped tbody td {
+  color: white;
+}
+
