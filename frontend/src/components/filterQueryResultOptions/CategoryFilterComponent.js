@@ -50,7 +50,7 @@ const CategoryFilterComponent = ({ setCategoriesFromFilter }) => {
   return (
     <>
       <span className="fw-bold">Category</span>
-      <Form>
+      <Form> 
         {categories.map((category, idx) => (
           <div key={idx}>
             <Form.Check type="checkbox" id={`check-api2-${idx}`}>

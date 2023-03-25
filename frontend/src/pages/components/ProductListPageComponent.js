@@ -36,7 +36,7 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
 
 
 
-  const mode  = useSelector((state) => state.DarkMode)
+  const {mode}  = useSelector((state) => state.DarkMode)
   console.log('on product list page!')
 
   useEffect(() => {
@@ -104,37 +104,43 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
     window.location.href = "/product-list";
   };
 
+  const listItemStyle = {
+    backgroundColor: mode === 'dark' ? 'rgb(45, 45, 45)' : 'rgb(255, 255, 255)',
+    color: mode === 'dark' ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
+  };
+
   return (
     <Container fluid>
       <Row>
-        <Col md={3}>
-          <ListGroup variant="flush">
-            <ListGroup.Item className="mb-3 mt-3">
+        <Col md={3}  >
+          <ListGroup variant="flush" >
+            <ListGroup.Item className="mb-3 mt-3" style={listItemStyle}>
               <SortOptionsComponent setSortOption={setSortOption} />
             </ListGroup.Item>
-            <ListGroup.Item>
+            <ListGroup.Item style={listItemStyle}>
               FILTER: <br />
               <PriceFilterComponent price={price} setPrice={setPrice} />
             </ListGroup.Item>
-            <ListGroup.Item>
+            <ListGroup.Item style={listItemStyle}>
               <RatingFilterComponent
+              
                 setRatingsFromFilter={setRatingsFromFilter}
               />
             </ListGroup.Item>
             {!location.pathname.match(/\/category/) && (
-              <ListGroup.Item>
+              <ListGroup.Item style={listItemStyle}>
                 <CategoryFilterComponent
                   setCategoriesFromFilter={setCategoriesFromFilter}
                 />
               </ListGroup.Item>
             )}
-            <ListGroup.Item>
+            <ListGroup.Item style={listItemStyle}>
               <AttributesFilterComponent
                 attrsFilter={attrsFilter}
                 setAttrsFromFilter={setAttrsFromFilter}
               />
             </ListGroup.Item>
-            <ListGroup.Item>
+            <ListGroup.Item style={listItemStyle}>
               <Button variant="primary" onClick={handleFilters}>
                 Filter
               </Button>{" "}
