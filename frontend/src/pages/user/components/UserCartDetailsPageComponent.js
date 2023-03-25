@@ -12,6 +12,10 @@ import CartItemComponent from "../../../components/CartItemComponent";
 import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
+import Confetti from 'react-dom-confetti';
+
+
+
 
 const UserCartDetailsPageComponent = ({cartItems, itemsCount, cartSubtotal, userInfo,addToCart, removeFromCart, reduxDispatch , getUser, createOrder}) => {
 
@@ -19,6 +23,23 @@ const UserCartDetailsPageComponent = ({cartItems, itemsCount, cartSubtotal, user
     const [userAddress, setUserAddress] = useState(false);
     const [missingAddress, setMissingAddress] = useState("");
     const [paymentMethod, setPaymentMethod] = useState("pp");
+    const [confetti, setConfetti] = useState(false);
+
+
+    const config = {
+      angle: 90,
+      spread: 360,
+      startVelocity: 40,
+      elementCount: "160",
+      dragFriction: 0.12,
+      duration: 3000,
+      stagger: 3,
+      width: "10px",
+      height: "10px",
+      perspective: "731px",
+      colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
+    };
+
 
     const navigate = useNavigate();
 
@@ -68,7 +89,12 @@ const UserCartDetailsPageComponent = ({cartItems, itemsCount, cartSubtotal, user
        createOrder(orderData)
        .then(data => {
            if (data) {
-               navigate("/user/order-details/" + data._id);
+               setConfetti(true)
+               setTimeout(() => {
+                // code to be executed after 5 seconds
+                navigate("/user/order-details/" + data._id);
+              }, 3000);
+               
            }
        })
        .catch((err) => console.log(err));
@@ -140,6 +166,7 @@ const UserCartDetailsPageComponent = ({cartItems, itemsCount, cartSubtotal, user
             </ListGroup.Item>
             <ListGroup.Item>
               <div className="d-grid gap-2">
+               <Confetti active={ confetti } config={ config }/>
                 <Button size="lg" onClick={orderHandler} variant="danger" type="button" disabled={buttonDisabled}>
                   Place order
                 </Button>
