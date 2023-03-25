@@ -33,7 +33,10 @@ const HeaderComponent = () => {
   const [searchCategoryToggle, setSearchCategoryToggle] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
+
   const { mode }  = useSelector((state) => state.DarkMode);
+  const [buttonPositionClass, setButtonPositionClass] = useState('position-absolute');
+
   // console.log(mode)
   // console.log(messageReceived)
 
@@ -96,17 +99,32 @@ const HeaderComponent = () => {
     }
 },[userInfo.isAdmin])
 
+
+//cheating with this to resize dark mode button as don't want to add media queries to CSS file
+useEffect(() => {
+  const handleResize = () => {
+    if (window.innerWidth < 1577) { // Change to your desired breakpoint
+      setButtonPositionClass('position-relative');
+    } else {
+      setButtonPositionClass('position-absolute');
+    }
+  };
+  handleResize(); // Set the initial class on mount
+  window.addEventListener('resize', handleResize); // Add the listener
+  return () => window.removeEventListener('resize', handleResize); // Remove the listener on unmount
+}, []);
+
+
+
+
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-      <Container>
-      
+      <Container>      
       {mode === 'light' ? (
-      <Button variant="danger" className="position-absolute top-10 start-0" style={{marginLeft:"1%"}} onClick={toggleTheme}>Dark Mode</Button>):
+      <Button variant="danger" className={`${buttonPositionClass} top-10 start-0`} style={{marginLeft:"1%"}} onClick={toggleTheme}>Dark Mode</Button>):
       (
-      <Button variant="danger" className="position-absolute top-10 start-0" style={{marginLeft:"1%"}} onClick={toggleTheme}>Light Mode</Button>
+      <Button variant="danger" className={`${buttonPositionClass} top-10 start-0`} style={{marginLeft:"1%"}} onClick={toggleTheme}>Light Mode</Button>
       )}
-
-
 
         <LinkContainer to="/">
           <Navbar.Brand href="/">Recreational Equipment Shop</Navbar.Brand>
