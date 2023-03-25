@@ -10,8 +10,9 @@
 - A full stack e-commerce web application using the MERN stack (MongoDB, Express.js, React.js, Node.js).  
 - Added the PayPal SDK and sandbox accounts to simulate live payment of an order and front/back end response of a submitted order.
 - Implemented Socket.IO to allow for bi-directional client and server communication, to enable real-time messaging an admin and users. 
-- Used the Cloudinary service to allow an Admin to upload and delete images of a product. 
-- Used Redux to manage global state as opposed to context in past projects.
+- Used the Cloudinary service to allow an Admin to upload and delete images of a product.  
+- Used Cloudinary AI Background Removal to dynamically remove background of images when redux dark mode state variable is set (limit 25K calls a month - free tier).
+- Used Redux store/actions/reducers to manage global state as opposed to context in past projects (job tracker).
 - Created various database relationships between collections in MongoDB using embedded documents (storing object IDs in other documents). 
 - Added Google OAuth2.0 Log In, decoding JWT credentials from Google, and locating the user by email in MongoDB to verify the user. 
 
@@ -100,7 +101,7 @@ UserChatComponent.js
 
 <br/>
 
-<h1> Cloudinary Image Upload </h1>
+<h1> Cloudinary Image Upload & Dynamic Background Removal</h1>
 
 - Used the Cloudinary service to allow an Admin to directly upload image files when creating a product to the Cloudinary REST API.
 - Referenced Cloudinary documentation for code:
@@ -139,6 +140,15 @@ const uploadImagesCloudinaryApiRequest = (images) => {
 ```
 
 ![image](https://user-images.githubusercontent.com/91037796/211130625-73228d61-b1ef-46a2-b017-237aa046221a.png)
+
+- Added dynamic background removal for dark mode based on redux state variable using Cloudinary's background removal API to be able to transform images with AI on the fly.
+
+```js
+src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/', '/upload/e_background_removal/')}` : item.images[0].path) : null} 
+```
+
+![image](https://user-images.githubusercontent.com/91037796/227737135-8e9279b5-d12b-48bf-8a97-12a7487732ce.png)
+![image](https://user-images.githubusercontent.com/91037796/227737146-18aa76e8-5393-4781-8c1a-894b4d46c27e.png)
 
 
 <br/>
