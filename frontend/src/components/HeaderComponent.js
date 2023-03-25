@@ -62,7 +62,7 @@ const HeaderComponent = () => {
 
   useEffect(() => {
     dispatch(getCategories());
-     dispatch(setDarkMode('light'))
+    //  dispatch(setDarkMode('dark'))  turning this off as initial state in reducer takes care of this
   }, [dispatch]);
 
   const submitHandler = (e) => {
