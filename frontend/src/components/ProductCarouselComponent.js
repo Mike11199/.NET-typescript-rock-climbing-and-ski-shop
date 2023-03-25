@@ -1,5 +1,6 @@
 import { Carousel } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProductCarouselComponent = ({ bestSellers }) => {
   const cursorP = {
@@ -7,6 +8,8 @@ const ProductCarouselComponent = ({ bestSellers }) => {
     color:'white',
     backgroundColor: 'rgba(52, 52, 52, 0.8)'
   };
+
+  const {mode}  = useSelector((state) => state.DarkMode)
 
   return bestSellers.length > 0 ? (
     <Carousel>
@@ -16,7 +19,9 @@ const ProductCarouselComponent = ({ bestSellers }) => {
             crossOrigin="anonymous"
             className="d-block w-100"
             style={{ height: "300px", objectFit: "contain" }}
-            src={item.images ? item.images[0].path : null}
+            // src={item.images ? item.images[0].path : null}
+            src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/', '/upload/e_background_removal/')}` : item.images[0].path) : null} 
+            
             alt="First slide"
           />
           <Carousel.Caption>

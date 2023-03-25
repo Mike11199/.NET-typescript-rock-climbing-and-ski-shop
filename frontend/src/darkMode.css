@@ -1,9 +1,49 @@
 .dark {
     background-color: #333;
     color: #fff;
+
 }
 
 .light {
     background-color: #fff;
     color: #333;
 }
+
+/* Light mode */
+.light .dropdown-menu {
+    background-color: #fff;
+    color: #333;
+  }
+  
+  /* Dark mode */
+  .dark .dropdown-menu {
+    background-color: #bdb9b9;
+    color: #fff;
+  }
+  
+  /* Light mode */
+.light select {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+  }
+  
+  /* Dark mode */
+  .dark select {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #777;
+  }
+
+  /* Light mode */
+  .list-group-item {
+    background-color: #fff;
+    color: #333;
+  }
+  
+  /* Dark mode */
+  .dark .list-group-item {
+    /* background-color: #333; */
+    background-color: #000000;
+    color: #ffffff;
+  }

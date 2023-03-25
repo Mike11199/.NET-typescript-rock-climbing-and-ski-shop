@@ -26,14 +26,24 @@ const ProductForListComponent = ({ productId, name, description, price, images, 
 
   const productCardStyle = mode === 'light' ? styles : darkStyles;
 
+
+
+  {console.log(images[0])}
+
   return (
     <Card style={productCardStyle}>
       <Row>
         <Col lg={5}>
           <Card.Img
             crossOrigin="anonymous"
-            variant="top"
-            src={images[0] ? images[0].path : ''}
+            variant="top"            
+            src={
+              images[0] ?
+              (mode === 'dark' ?
+                images[0].path.replace('/upload/', '/upload/e_background_removal/') :
+                images[0].path
+              ) : ''
+            }
           />
         </Col>
         <Col lg={7}>

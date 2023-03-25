@@ -10,11 +10,12 @@ import {
 } from "react-bootstrap";
 import { Rating } from "react-simple-star-rating";
 import AddedToCartMessageComponent from "../../components/AddedToCartMessageComponent";
-
+import { useDispatch, useSelector } from "react-redux";
 import ImageZoom from "js-image-zoom";
 import { useEffect, useState, useRef } from "react";
-
 import { useParams } from "react-router-dom";
+
+
 
 const ProductDetailsPageComponent = ({
   addToCartReduxAction,
@@ -30,6 +31,7 @@ const ProductDetailsPageComponent = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [productReviewed, setProductReviewed] = useState(false);
+  const {mode}  = useSelector((state) => state.DarkMode)
 
   const messagesEndRef = useRef(null);
 
@@ -113,11 +115,11 @@ const ProductDetailsPageComponent = ({
                 ? product.images.map((image, id) => (
                     <div key={id}>
                       <div key={id} id={`imageId${id + 1}`}>
-                        <Image
-                          crossOrigin="anonymous"
-                          fluid
-                          src={`${image.path ?? null}`}
-                        />
+                      <Image
+                        crossOrigin="anonymous"
+                        fluid
+                        src={mode === 'dark' ? `${image.path.replace("/upload/", "/upload/e_background_removal/")}` : image.path}
+                      />
                       </div>
                       <br />
                     </div>

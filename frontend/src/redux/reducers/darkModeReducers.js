@@ -1,7 +1,7 @@
 import { SET_DARK_MODE, SET_LIGHT_MODE } from "../constants/darkModeConstants";
 
 const MODE_INITIAL_STATE = {
-    mode: "light",
+    mode: "dark",
 }
 
 

@@ -115,8 +115,8 @@ const HeaderComponent = () => {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <InputGroup>
-              <DropdownButton id="dropdown-basic-button" title={searchCategoryToggle}>
-                  <Dropdown.Item onClick={() => setSearchCategoryToggle("All")}>All</Dropdown.Item>
+              <DropdownButton id="dropdown-basic-button" title={searchCategoryToggle}  >
+                  <Dropdown.Item onClick={() => setSearchCategoryToggle("All")} >All</Dropdown.Item >
                 {categories.map((category, id) => (
                   <Dropdown.Item key={id} onClick={() => setSearchCategoryToggle(category.name)}>{category.name}</Dropdown.Item>
                 ))}
