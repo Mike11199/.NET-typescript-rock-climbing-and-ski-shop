@@ -37,13 +37,14 @@ const ProductForListComponent = ({ productId, name, description, price, images, 
           <Card.Img
             crossOrigin="anonymous"
             variant="top"            
-            src={
-              images[0] ?
-              (mode === 'dark' ?
-                images[0].path.replace('/upload/', '/upload/e_background_removal/') :
-                images[0].path
-              ) : ''
-            }
+            // src={
+            //   images[0] ?
+            //   (mode === 'dark' ?
+            //     images[0].path.replace('/upload/', '/upload/e_background_removal/') :
+            //     images[0].path
+            //   ) : ''
+            // }
+            src={images[0] ? images[0].path : ''}
           />
         </Col>
         <Col lg={7}>

@@ -19,8 +19,8 @@ const ProductCarouselComponent = ({ bestSellers }) => {
             crossOrigin="anonymous"
             className="d-block w-100"
             style={{ height: "300px", objectFit: "contain" }}
-            // src={item.images ? item.images[0].path : null}
-            src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/', '/upload/e_background_removal/')}` : item.images[0].path) : null} 
+            src={item.images ? item.images[0].path : null}
+            // src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/', '/upload/e_background_removal/')}` : item.images[0].path) : null} 
             
             alt="First slide"
           />

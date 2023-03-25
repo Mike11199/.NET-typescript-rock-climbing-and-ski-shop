@@ -13,8 +13,8 @@ const CartItemComponent = ({ item, removeFromCartHandler = false, orderCreated =
           <Col md={2}>
             <Image
               crossOrigin="anonymous"
-              src={item.image && mode === 'dark' ? `${item.image.path.replace('/upload/', '/upload/e_background_removal/')}` : item.image ? item.image.path ?? null : null}
-
+              // src={item.image && mode === 'dark' ? `${item.image.path.replace('/upload/', '/upload/e_background_removal/')}` : item.image ? item.image.path ?? null : null}
+              src={item.image ? item.image.path ?? null : null}
               fluid
             />
           </Col>

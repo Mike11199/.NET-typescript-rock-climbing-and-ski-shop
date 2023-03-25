@@ -118,7 +118,8 @@ const ProductDetailsPageComponent = ({
                       <Image
                         crossOrigin="anonymous"
                         fluid
-                        src={mode === 'dark' ? `${image.path.replace("/upload/", "/upload/e_background_removal/")}` : image.path}
+                        // src={mode === 'dark' ? `${image.path.replace("/upload/", "/upload/e_background_removal/")}` : image.path}
+                        src={`${image.path ?? null}`}
                       />
                       </div>
                       <br />
