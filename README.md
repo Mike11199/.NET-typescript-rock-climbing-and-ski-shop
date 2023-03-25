@@ -28,12 +28,12 @@
 
 <br/>
 
-- User adding an item to the cart, placing an order, and paying for the order via PayPal.
+- GIF #1 - User placing an order from the cart:
 
 <br/>
 <br/>
 
-![storeGif2](https://user-images.githubusercontent.com/91037796/211180465-9dcf14d8-eb64-4af0-9e88-dd1145f0f5cc.gif)
+![placeOrder4K](https://user-images.githubusercontent.com/91037796/227747465-64e89dd1-d605-49dd-819e-fc0bdbe9971c.gif)
 
 
 <br/>
