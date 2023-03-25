@@ -20,9 +20,17 @@
 
 <h1> Screenshots & GIFs </h1>
 
+- Dark Mode (NEW)
+
+<br/>
+
+![image](https://user-images.githubusercontent.com/91037796/227739396-17ed80e0-afdc-49c7-85d0-fd963d604da8.png)
+
+<br/>
+
 - User adding an item to the cart, placing an order, and paying for the order via PayPal.
 
-
+<br/>
 <br/>
 
 ![storeGif2](https://user-images.githubusercontent.com/91037796/211180465-9dcf14d8-eb64-4af0-9e88-dd1145f0f5cc.gif)
@@ -101,7 +109,7 @@ UserChatComponent.js
 
 <br/>
 
-<h1> Cloudinary Image Upload & Dynamic Background Removal</h1>
+<h1> AI Dynamic Background Removal and Cloudinary Image Upload by Admin</h1>
 
 - Used the Cloudinary service to allow an Admin to directly upload image files when creating a product to the Cloudinary REST API.
 - Referenced Cloudinary documentation for code:
