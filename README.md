@@ -149,7 +149,8 @@ const uploadImagesCloudinaryApiRequest = (images) => {
 
 ![image](https://user-images.githubusercontent.com/91037796/211130625-73228d61-b1ef-46a2-b017-237aa046221a.png)
 
-- Added dynamic background removal for dark mode based on redux state variable using Cloudinary's background removal API to be able to transform images with AI on the fly.
+- Added dynamic background removal for dark mode based on redux state variable using Cloudinary's background removal API to be able to transform images with AI on the fly.  https://cloudinary.com/documentation/cloudinary_ai_background_removal_addon
+- Eventually reverted back to original method as hit API rate limit.  Manually removed backgrounds using https://www.photoroom.com/background-remover.  
 
 ```js
 src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/', '/upload/e_background_removal/')}` : item.images[0].path) : null} 
