@@ -13,7 +13,7 @@
 - Used the Cloudinary service to allow an Admin to upload and delete images of a product.  Links to Cloudinary are stored in MongoDB and fetched as needed.  
 - Used Cloudinary AI Background Removal to dynamically remove background of images when redux dark mode state variable is set (later removed due to rate limit).
 - Used Redux store/actions/reducers to manage global state as opposed to context in past projects (job tracker).
-- Created various database relationships between collections in MongoDB using embedded documents (storing object IDs in other documents). 
+- Created various database relationships between collections in MongoDB using embedded documents (storing object IDs in other documents). For example, a product has an array of reviews in MongoDB, each a foreign key pointing to a review document, allowing for a one-to-many relationship between products and reviews.
 - Added Google OAuth2.0 Log In, decoding JWT credentials from Google, and locating the user by email in MongoDB to verify the user. 
 
 <br/>
