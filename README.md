@@ -11,7 +11,7 @@
 - Added the PayPal SDK and sandbox accounts to simulate live payment of an order and front/back end response of a submitted order.
 - Implemented Socket.IO to allow for bi-directional client and server communication, to enable real-time messaging an admin and users. 
 - Used the Cloudinary service to allow an Admin to upload and delete images of a product.  
-- Used Cloudinary AI Background Removal to dynamically remove background of images when redux dark mode state variable is set (limit 25K calls a month - free tier).
+- Used Cloudinary AI Background Removal to dynamically remove background of images when redux dark mode state variable is set (later removed due to rate limit).
 - Used Redux store/actions/reducers to manage global state as opposed to context in past projects (job tracker).
 - Created various database relationships between collections in MongoDB using embedded documents (storing object IDs in other documents). 
 - Added Google OAuth2.0 Log In, decoding JWT credentials from Google, and locating the user by email in MongoDB to verify the user. 
