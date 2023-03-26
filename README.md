@@ -31,11 +31,20 @@
 - GIF #1 - User placing an order from the cart:
 
 <br/>
-<br/>
+
 
 
 ![placeOrder4K_4](https://user-images.githubusercontent.com/91037796/227748705-6cc4e68a-1dab-4904-bacb-753d67c9fcf3.gif)
 
+<br/>
+<br/>
+
+- GIF #2 - Sorting products (boots) by price and looking at the product details page component:
+
+<br/>
+
+
+![sortProducts_2](https://user-images.githubusercontent.com/91037796/227748961-8c466dbf-cac4-4780-97db-775ce5ae9fc9.gif)
 
 <br/>
 
