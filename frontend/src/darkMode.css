@@ -92,3 +92,41 @@
   color: white;
 }
 
+/* Light mode */
+.light select:disabled {
+  background-color: #ccc;
+  color: #000;
+  border: 1px solid #ccc;
+}
+
+/* Dark mode */
+.dark select:disabled {
+  background-color: #777474;
+  color: #fff;
+  border: 1px solid #777;
+}
+
+.light select:disabled:hover {
+  background-color: #ccc;
+  color: #000;
+  border: 1px solid #ccc;
+}
+
+/* Dark mode */
+.dark select:disabled:hover {
+  background-color: #777474;
+  color: #fff;
+  border: 1px solid #777;
+}
+
+/* Light mode */
+.light select:hover {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Dark mode */
+.dark select:hover {
+  background-color: #666;
+  color: #fff;
+}
