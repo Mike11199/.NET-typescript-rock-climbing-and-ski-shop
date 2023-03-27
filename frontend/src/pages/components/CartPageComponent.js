@@ -1,6 +1,7 @@
 import { Container, Row, Col, Alert, ListGroup, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import CartItemComponent from "../../components/CartItemComponent";
+import toast, { Toaster } from 'react-hot-toast';
 
 const CartPageComponent = ({
   addToCart,
@@ -16,10 +17,21 @@ const CartPageComponent = ({
   const removeFromCartHandler = (productID, quantity, price) => {
      if (window.confirm("Are you sure?")) {
          reduxDispatch(removeFromCart(productID, quantity, price));
+         toast.success('Removed item from cart!',
+         {
+           // icon: '👏',
+           style: {
+             borderRadius: '10px',
+             background: '#333',
+             color: '#fff',
+           },
+         });
      } 
   }
 
   return (
+    <>
+    <Toaster/>
     <Container fluid>
       <Row className="mt-4">
         <Col md={8}>
@@ -45,7 +57,7 @@ const CartPageComponent = ({
               <h3>Subtotal ({cartItems.length} {cartItems.length === 1 ? "Product" : "Products"})</h3>
             </ListGroup.Item>
             <ListGroup.Item>
-              Price: <span className="fw-bold">${cartSubtotal}</span>
+              Price: <span className="fw-bold">${cartSubtotal.toFixed(2)}</span>
             </ListGroup.Item>
             <ListGroup.Item>
               <LinkContainer to="/user/cart-details">
@@ -56,6 +68,7 @@ const CartPageComponent = ({
         </Col>
       </Row>
     </Container>
+    </>
   );
 };
 

@@ -36,9 +36,12 @@ const ProductDetailsPageComponent = ({
   const messagesEndRef = useRef(null);
 
   const addToCartHandler = () => {
+    console.log(id)
     reduxDispatch(addToCartReduxAction(id, quantity));
     setShowCartMessage(true);
+    
   };
+
 
   useEffect(() => {
     if (productReviewed) {

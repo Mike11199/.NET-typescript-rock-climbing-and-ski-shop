@@ -2,10 +2,35 @@ import { Card, Button, Row, Col } from "react-bootstrap";
 import { Rating } from "react-simple-star-rating";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../redux/actions/cartActions";  //redux action
+import toast, { Toaster } from 'react-hot-toast';
+
+
 
 const ProductForListComponent = ({ productId, name, description, price, images, rating, reviewsNumber }) => {
 
   const { mode }  = useSelector((state) => state.DarkMode)
+
+  const dispatch = useDispatch();
+
+  const addToCartHandler = () => {    
+      console.log(productId)
+      dispatch(addToCart(productId, 1));
+      // setShowCartMessage(true);
+
+      // https://react-hot-toast.com/https://react-hot-toast.com/
+      toast.success('Added item to cart!',
+      {
+        // icon: '👏',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      }
+    );
+    };
+
 
   // console.log('productforlistcomponent')
   // console.log({mode})
@@ -27,10 +52,11 @@ const ProductForListComponent = ({ productId, name, description, price, images, 
   const productCardStyle = mode === 'light' ? styles : darkStyles;
 
 
-
   {console.log(images[0])}
 
   return (
+    <>
+    <Toaster/>
     <Card style={productCardStyle}>
       <Row>
         <Col lg={5}>
@@ -61,11 +87,17 @@ const ProductForListComponent = ({ productId, name, description, price, images, 
               <LinkContainer to={`/product-details/${productId}`}>
                 <Button variant="danger">See product</Button>
               </LinkContainer>
+              
+              <Button onClick={() => addToCartHandler(productId)} variant="success" style={{ marginLeft: '10px' }}>
+                Add to cart
+              </Button>
+                    
             </Card.Text>
           </Card.Body>
         </Col>
       </Row>
     </Card>
+    </>
   );
 };
 
