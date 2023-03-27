@@ -35,13 +35,13 @@ io.on("connection", (socket) => {
 
 
 
-const apiLimiter = rateLimiter({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 1000,                // more than in authRoutes for fetch requests when filtering
-    message: 'Too many requests from this IP, please try again after 15 minutes',
-  })
+// const apiLimiter = rateLimiter({
+//     windowMs: 15 * 60 * 1000, // 15 minutes
+//     max: 1000,                // more than in authRoutes for fetch requests when filtering
+//     message: 'Too many requests from this IP, please try again after 15 minutes',
+//   })
 
-app.use(apiLimiter)
+// app.use(apiLimiter)
 
 
 
@@ -53,10 +53,10 @@ app.use(apiLimiter)
 })
 
 
-app.use(helmet({
-  contentSecurityPolicy: false,
-  crossOriginEmbedderPolicy: false,
-}))
+// app.use(helmet({
+//   contentSecurityPolicy: false,
+//   crossOriginEmbedderPolicy: false,
+// }))
 
 app.use(express.json());
 app.use(cookieParser());
