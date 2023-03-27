@@ -125,12 +125,12 @@
   color: #333;
 }
 
-/* Dark mode */
-.dark select:hover {
-  background-color: #666;
-  color: #fff;
+/* Light mode */
+.light .chat-msg {
+  color: black;
 }
 
-.chat-msg {
-  color: black;
+/* Dark mode */
+.dark .chat-msg {
+  color: white;
 }
