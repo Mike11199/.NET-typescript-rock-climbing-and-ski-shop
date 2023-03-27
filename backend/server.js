@@ -31,7 +31,7 @@ io.on("connection", (socket) => {
   })
     
   //attempt to fix google log Oauth2 in breaking in prod - heroku (works localhost)
-  app.use(cors())
+  // app.use(cors())
 
 
 
