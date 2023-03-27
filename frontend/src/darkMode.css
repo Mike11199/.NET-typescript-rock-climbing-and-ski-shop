@@ -126,11 +126,11 @@
 }
 
 /* Light mode */
-.light .chat-msg {
+.light .cht-msg {
   color: black;
 }
 
 /* Dark mode */
-.dark .chat-msg {
+.dark .cht-msg {
   color: black;
 }
