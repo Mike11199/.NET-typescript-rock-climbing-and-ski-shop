@@ -14,7 +14,7 @@ const ProductForListComponent = ({ productId, name, description, price, images, 
   const dispatch = useDispatch();
 
   const addToCartHandler = () => {    
-      console.log(productId)
+      // console.log(productId)
       dispatch(addToCart(productId, 1));
       // setShowCartMessage(true);
 

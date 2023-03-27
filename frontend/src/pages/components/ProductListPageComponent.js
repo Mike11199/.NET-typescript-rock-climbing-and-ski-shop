@@ -37,7 +37,7 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
 
 
   const {mode}  = useSelector((state) => state.DarkMode)
-  console.log('on product list page!')
+  // console.log('on product list page!')
 
   useEffect(() => {
     if (categoryName) {
