@@ -1,5 +1,7 @@
-import cors from 'cors'
-import rateLimiter from 'express-rate-limit'
+// import cors from 'cors'
+// import rateLimiter from 'express-rate-limit'
+const cors = require('cors');
+const rateLimit = require("express-rate-limit");
 
 require("dotenv").config();
 var helmet = require('helmet')
