@@ -9,11 +9,11 @@
 
 - A full stack e-commerce web application using the MERN stack (MongoDB, Express.js, React.js, Node.js).  
 - Added the PayPal SDK and sandbox accounts to simulate live payment of an order and front/back end response of a submitted order.
-- Implemented Socket.IO to allow for bi-directional client and server communication, to enable real-time messaging an admin and users. 
-- Used the Cloudinary service to allow an Admin to upload and delete images of a product.  
-- Used Cloudinary AI Background Removal to dynamically remove background of images when redux dark mode state variable is set (limit 25K calls a month - free tier).
+- Implemented Socket.IO to allow for bi-directional client and server communication, to enable real-time messaging between an admin and multiple users. 
+- Used the Cloudinary service to allow an Admin to upload and delete images of a product.  Links to Cloudinary are stored in MongoDB and fetched as needed.  
+- Used Cloudinary AI Background Removal to dynamically remove background of images when redux dark mode state variable is set (later removed due to rate limit).
 - Used Redux store/actions/reducers to manage global state as opposed to context in past projects (job tracker).
-- Created various database relationships between collections in MongoDB using embedded documents (storing object IDs in other documents). 
+- Created various database relationships between collections in MongoDB using embedded documents (storing object IDs in other documents). For example, a product has an array of reviews in MongoDB, each a foreign key pointing to a review document, allowing for a one-to-many relationship between products and reviews.
 - Added Google OAuth2.0 Log In, decoding JWT credentials from Google, and locating the user by email in MongoDB to verify the user. 
 
 <br/>
@@ -31,11 +31,20 @@
 - GIF #1 - User placing an order from the cart:
 
 <br/>
+
+
+
+![placeOrder4K_4](https://user-images.githubusercontent.com/91037796/227748705-6cc4e68a-1dab-4904-bacb-753d67c9fcf3.gif)
+
+<br/>
+<br/>
+
+- GIF #2 - Sorting products (boots) by price and looking at the product details page component:
+
 <br/>
 
 
-![placeOrder4K_3](https://user-images.githubusercontent.com/91037796/227748284-3b821ce9-55a7-4f6c-acdf-e2fc8bb6af0b.gif)
-
+![sortProducts_2](https://user-images.githubusercontent.com/91037796/227748961-8c466dbf-cac4-4780-97db-775ce5ae9fc9.gif)
 
 <br/>
 
