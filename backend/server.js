@@ -1,5 +1,9 @@
+import cors from 'cors'
+import rateLimiter from 'express-rate-limit'
+
 require("dotenv").config();
 var helmet = require('helmet')
+
 
 
 const express = require("express");
@@ -26,6 +30,19 @@ io.on("connection", (socket) => {
       })
   })
     
+  //attempt to fix google log Oauth2 in breaking in prod - heroku (works localhost)
+  app.use(cors())
+
+
+
+const apiLimiter = rateLimiter({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 1000,                // more than in authRoutes for fetch requests when filtering
+    message: 'Too many requests from this IP, please try again after 15 minutes',
+  })
+
+app.use(apiLimiter)
+
 
 
   //server listens for admin message
