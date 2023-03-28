@@ -10,7 +10,7 @@ const UserOrdersPageComponent = ({getOrders}) => {
     useEffect(() => {
         getOrders()
         .then(orders => setOrders(orders))
-        .catch((er) => console.log(er));
+        .catch((er) => console.log(er));        
     }, [])
 
     let USDollar = new Intl.NumberFormat('en-US', {
@@ -18,6 +18,9 @@ const UserOrdersPageComponent = ({getOrders}) => {
       currency: 'USD',
     });
     
+    useEffect(() => { 
+    {console.log(orders)}
+    },[orders])
 
   return (
     <Row className="m-5">
@@ -30,8 +33,11 @@ const UserOrdersPageComponent = ({getOrders}) => {
               <th>User</th>
               <th>Date</th>
               <th>Total</th>
+              <th>Item Count</th>
               <th>Delivered</th>
-              <th>Order Details</th>
+              <th>Paid?</th>
+              <th>Payment Method</th>
+              <th>Order Details</th>              
             </tr>
           </thead>
           <tbody>
@@ -42,11 +48,18 @@ const UserOrdersPageComponent = ({getOrders}) => {
                   <td>You</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
                   <td>{USDollar.format(order.orderTotal.cartSubtotal)}</td>
+                  <td>{order.cartItems.length}</td>
                   <td>
-                    {order.isDelivered ? <i className="bi bi-check-lg text-success"></i> : <i className="bi bi-x-lg text-danger"></i>}
+                    {order.isPaid ? <i className="bi bi-check-lg text-success"></i> : <i className="bi bi-x-lg text-danger"></i>}
                   </td>
                   <td>
-                    <Link to={`/user/order-details/${order._id}`}>view order</Link>
+                    {order.isPaid ? <i className="bi bi-check-lg text-success"></i> : <i className="bi bi-x-lg text-danger"></i>}
+                  </td>
+                  <td>
+                   {order.paymentMethod === 'pp' ? 'PayPal' : 'Cash'}
+                  </td>
+                  <td>
+                    <Link to={`/user/order-details/${order._id}`}>View Order Details</Link>
                   </td>
                 </tr>
               )
