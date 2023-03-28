@@ -111,7 +111,7 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
             {/* Link to Register Instead */}
             <Row className="pb-2">
               <Col>
-                Don't you have an account?
+                Don't have an account? &nbsp; 👉 &nbsp;
                 <Link to={"/register"}> Register </Link>
               </Col>
             </Row>

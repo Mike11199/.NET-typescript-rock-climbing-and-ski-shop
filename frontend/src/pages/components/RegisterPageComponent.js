@@ -163,7 +163,7 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
             {/* LINK TO LOGIN PAGE */}
             <Row className="pb-2">
               <Col>
-                Do you have an account already?
+                Have an account already?
                 <Link to={"/login"}> Login </Link>
               </Col>
             </Row>
