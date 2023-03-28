@@ -16,6 +16,7 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
       {success:"", error:"", loading: false}
   )
 
+
   const navigate = useNavigate()
     
   //event handler for form submission
@@ -66,6 +67,19 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
               background: '#333',
               color: '#fff',
             },
+          });
+
+
+          
+          // Get the form control element
+          const formControl = document.querySelector('#formBasicPassword');
+
+          // Add the 'shake' class to the form control
+          formControl.classList.add('shake');
+
+          // Remove the 'shake' class after the animation ends
+          formControl.addEventListener('animationend', () => {
+          formControl.classList.remove('shake');
           });
           
         }
@@ -118,7 +132,7 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
             </Form.Group>
 
             {/* Password */}
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Group className="mb-3" controlId="formBasicPassword" id="formBasicPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control
                 name="password"
@@ -129,7 +143,7 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
             </Form.Group>
 
             {/* Checkbox to extend JWT to 7 days */}
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+            <Form.Group className="mb-3" controlId="formBasicCheckbox" >
               <Form.Check
                 name="doNotLogout"
                 type="checkbox"
