@@ -30,6 +30,25 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
     const password = form.password.value;
     const doNotLogout = form.doNotLogout.checked;
 
+
+    if ( email === '' || password === ''){
+
+      toast.dismiss();  //https://react-hot-toast.com/docs/toast
+      toast.error('Please provide all form values.',
+      {
+        // icon: '👏',
+        
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
+
+      return
+
+    }
+
     //if form is valid, send request to back end to log in.  catch errors.
     if (event.currentTarget.checkValidity() === true && email && password) {
 
@@ -59,9 +78,11 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
         } catch (er) {
           // console.log(er)
           setLogInUserResponseState({error: er.response.data.message ? er.response.data.message : er.response.data})
+          
+          toast.dismiss();
           toast.error('Error logging in!  Wrong credentials.',
           {
-            // icon: '👏',
+            
             style: {
               borderRadius: '10px',
               background: '#333',
@@ -81,22 +102,36 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
           formControl.addEventListener('animationend', () => {
           formControl.classList.remove('shake');
           });
-          
+          return
         }
     }
-    toast.error('Please enter all values!',
+    toast.dismiss();
+    toast.error('Error logging in!  Wrong credentials.',
     {
-      // icon: '👏',
+      
       style: {
         borderRadius: '10px',
         background: '#333',
         color: '#fff',
       },
     });
-  
-  
-  
+
+      // Get the form control element
+      const formControl = document.querySelector('#formBasicPassword');
+
+      // Add the 'shake' class to the form control
+      formControl.classList.add('shake');
+
+      // Remove the 'shake' class after the animation ends
+      formControl.addEventListener('animationend', () => {
+      formControl.classList.remove('shake');
+      });
+      return
+
+
+
   }
+
 
 
   const displaySpinner = () =>{
