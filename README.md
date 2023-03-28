@@ -2,8 +2,13 @@
 
 - https://recreational-equipment-shop.herokuapp.com/
 
-- Use the following for both username and password at login for testing (or create a new account):     test@gmail.com
+- Use the following for both username and password at login for testing (or create a new account):    
+  - Username: test@gmail.com
+  - Password: test@gmail.com
 
+- Use the following user and password to test the fake PayPal sandbox account to pay for an order (fake account with bank/credit cards):
+  - Username: sb-yhuyo24828035@personal.example.com
+  - Password: testtest
 
 <h1>Summary</h1>
 
@@ -70,6 +75,10 @@
 
 <br/>
 <br/>
+
+![image](https://user-images.githubusercontent.com/91037796/228109773-3610a7cf-2db1-4221-8a29-f11c29f02e13.png)
+
+- GIF #3 - Paying for an order with PayPal and server/front end processing PayPal API response.
 
 ![storeGif1](https://user-images.githubusercontent.com/91037796/211115640-cd6b2af0-b670-45f9-a01b-c51b9888f107.gif)
 
