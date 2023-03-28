@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 import GoogleLoginButton from "../../components/GoogleLogIn";
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserState, googleLogin }) => {
@@ -51,11 +52,37 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
             navigate("/admin/orders", {replace: true})  //replace: true means react deletes history of web page switch
           }
 
+          // console.log(res)
+
           
         } catch (er) {
+          // console.log(er)
           setLogInUserResponseState({error: er.response.data.message ? er.response.data.message : er.response.data})
+          toast.error('Error logging in!  Wrong credentials.',
+          {
+            // icon: '👏',
+            style: {
+              borderRadius: '10px',
+              background: '#333',
+              color: '#fff',
+            },
+          });
+          
         }
-    }}
+    }
+    toast.error('Please enter all values!',
+    {
+      // icon: '👏',
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },
+    });
+  
+  
+  
+  }
 
 
   const displaySpinner = () =>{
@@ -69,6 +96,8 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
 
 
   return (
+    <>
+    <Toaster/>
     <Container>
       <Row className="mt-5 justify-content-md-center">
         <Col md={6}>
@@ -126,13 +155,14 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
             </div>
 
             {/* Alert to show if wrong credentials -- wrong credentials string is the API response from server - userController.js if error*/}
-            <Alert show={LogInUserResponseState && LogInUserResponseState.error ==="wrong credentials"} variant="danger">
+            {/* <Alert show={LogInUserResponseState && LogInUserResponseState.error ==="wrong credentials"} variant="danger">
               Wrong credentials
-            </Alert>
+            </Alert> */}
           </Form>
         </Col>
       </Row>
     </Container>
+    </>
   );
 };
 
