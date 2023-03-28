@@ -13,6 +13,12 @@ const UserOrdersPageComponent = ({getOrders}) => {
         .catch((er) => console.log(er));
     }, [])
 
+    let USDollar = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    });
+    
+
   return (
     <Row className="m-5">
       <Col md={12}>
@@ -35,7 +41,7 @@ const UserOrdersPageComponent = ({getOrders}) => {
                   <td>{idx +1}</td>
                   <td>You</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
-                  <td>{order.orderTotal.cartSubtotal}</td>
+                  <td>{USDollar.format(order.orderTotal.cartSubtotal)}</td>
                   <td>
                     {order.isDelivered ? <i className="bi bi-check-lg text-success"></i> : <i className="bi bi-x-lg text-danger"></i>}
                   </td>

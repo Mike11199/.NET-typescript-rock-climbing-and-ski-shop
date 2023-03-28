@@ -147,3 +147,29 @@
   box-shadow: 7px 8px 25px -2px rgba(0,0,0,0.75) !important;   
 } */
 
+
+.dark #adminLinksMenu .nav-link {
+  color:rgb(1, 1, 1);   
+}
+
+.dark #adminLinksMenu .nav-link:hover {
+  color:rgb(42, 27, 184);   
+}
+
+.dark .navbar#adminLinksMenu {
+  background-color: darkgray;
+  border-radius: 15px;
+}
+
+.light #adminLinksMenu .nav-link {
+  color:rgb(1, 1, 1);  
+}
+
+.light .navbar#adminLinksMenu {
+  background-color: rgb(228, 228, 228);
+  border-radius: 15px;
+}
+
+.light #adminLinksMenu .nav-link:hover {
+  color:rgb(42, 27, 184);   
+}

@@ -146,7 +146,7 @@ const ProductDetailsPageComponent = ({
                       ({product.reviewsNumber})
                     </ListGroup.Item>
                     <ListGroup.Item>
-                      Price <span className="fw-bold">${product.price}</span>
+                      Price <span className="fw-bold">${product.price.toFixed(2)}</span>
                     </ListGroup.Item>
                     <ListGroup.Item>{product.description}</ListGroup.Item>
                   </ListGroup>
@@ -157,7 +157,7 @@ const ProductDetailsPageComponent = ({
                       Status: {product.count > 0 ? "in stock" : "out of stock"}
                     </ListGroup.Item>
                     <ListGroup.Item>
-                      Price: <span className="fw-bold">${product.price}</span>
+                      Price: <span className="fw-bold">${product.price.toFixed(2)}</span>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       Quantity:

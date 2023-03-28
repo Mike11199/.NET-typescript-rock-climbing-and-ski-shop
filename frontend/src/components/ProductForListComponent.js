@@ -7,6 +7,8 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 
+
+
 const ProductForListComponent = ({ productId, name, description, price, images, rating, reviewsNumber }) => {
 
   const { mode }  = useSelector((state) => state.DarkMode)
@@ -52,7 +54,7 @@ const ProductForListComponent = ({ productId, name, description, price, images, 
   const productCardStyle = mode === 'light' ? styles : darkStyles;
 
 
-  {console.log(images[0])}
+  // {console.log(images[0])}
 
   return (
     <>
@@ -60,6 +62,7 @@ const ProductForListComponent = ({ productId, name, description, price, images, 
     <Card style={productCardStyle}>
       <Row>
         <Col lg={5}>
+       
           <Card.Img
             crossOrigin="anonymous"
             variant="top"            
@@ -71,7 +74,8 @@ const ProductForListComponent = ({ productId, name, description, price, images, 
             //   ) : ''
             // }
             src={images[0] ? images[0].path : ''}
-          />
+           
+          />          
         </Col>
         <Col lg={7}>
           <Card.Body>
@@ -83,7 +87,7 @@ const ProductForListComponent = ({ productId, name, description, price, images, 
               <Rating readonly size={20} initialValue={rating} /> ({reviewsNumber})
             </Card.Text>
             <Card.Text className="h4">
-              ${price}{" "}
+              ${price.toFixed(2)}{" "}
               <LinkContainer to={`/product-details/${productId}`}>
                 <Button variant="danger">See product</Button>
               </LinkContainer>

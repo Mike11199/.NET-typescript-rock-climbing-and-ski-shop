@@ -20,7 +20,7 @@ const CartItemComponent = ({ item, removeFromCartHandler = false, orderCreated =
           </Col>
           <Col md={2}>{item.name}</Col>
           <Col md={2}>
-            <b>${item.price}</b>
+            <b>${item.price.toFixed(2)}</b>
           </Col>
           <Col md={3}>
             <Form.Select onChange={changeCount ? (e) => changeCount(item.productID, e.target.value) : undefined } disabled={orderCreated} value={item.quantity}>

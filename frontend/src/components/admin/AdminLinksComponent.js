@@ -8,7 +8,7 @@ const AdminLinksComponent = () => {
   const dispatch = useDispatch()
 
   return (
-    <Navbar bg="light" variant="light">
+    <Navbar id="adminLinksMenu">
       <Nav className="flex-column">
         <LinkContainer to="/admin/orders">
           <Nav.Link>Orders</Nav.Link>
