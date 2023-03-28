@@ -67,12 +67,32 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
           }
 
           if (res.success === "user logged in" && !res.userLoggedIn.isAdmin){
-            navigate("/user", {replace: true})
+
+
+            toast.dismiss();
+            toast.success('Logging you in!',
+            {
+              
+              style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              },
+            });
+            setTimeout(function() {
+              navigate("/user", {replace: true})
+            }, 1000);
+
+            
+
+            
           }else{
             navigate("/admin/orders", {replace: true})  //replace: true means react deletes history of web page switch
           }
 
-          // console.log(res)
+          
+          
+          return
 
           
         } catch (er) {
