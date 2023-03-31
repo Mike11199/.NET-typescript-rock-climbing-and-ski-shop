@@ -6,25 +6,29 @@ const rateLimit = require("express-rate-limit");
 require("dotenv").config();
 var helmet = require('helmet')
 
-const admins = [];
-let activeChats = [];
-
-function get_random(array){
-  return array[Math.floor(Math.random() * array.length)];
-}
-
 
 const express = require("express");
 const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const app = express();
 
+
+
 //https://socket.io/get-started/chat
 //Block below is for socket.io
+
+//***********************SOCKET IO BLOCK ****************************************************
 const { createServer } = require("http")
 const { Server } = require("socket.io")
 const httpServer = createServer(app)
 global.io = new Server(httpServer)    //global variable
+
+function get_random(array){
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+const admins = [];
+let activeChats = [];
 
 //back end connects to front end with this code, listening for this message
 io.on("connection", (socket) => {
@@ -65,8 +69,6 @@ io.on("connection", (socket) => {
       })      
         
       }
-
-
   })
     
   //server listens for admin message
@@ -84,13 +86,12 @@ io.on("connection", (socket) => {
   
     if (removeIndex !== -1){
       admins.splice(removeIndex, 1)
-    }
-    
+    }   
     
    })
 
 })
-
+//***********************SOCKET IO BLOCK END****************************************************
 
 
 
@@ -98,7 +99,7 @@ io.on("connection", (socket) => {
   // app.use(cors())
 
 
-
+//TURN OFF FOR NOW - MIGHT BREAK SOCKET.IO
 // const apiLimiter = rateLimiter({
 //     windowMs: 15 * 60 * 1000, // 15 minutes
 //     max: 1000,                // more than in authRoutes for fetch requests when filtering
@@ -106,9 +107,6 @@ io.on("connection", (socket) => {
 //   })
 
 // app.use(apiLimiter)
-
-
-
 
 
 // app.use(helmet({
