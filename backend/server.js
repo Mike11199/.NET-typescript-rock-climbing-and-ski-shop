@@ -6,6 +6,7 @@ const rateLimit = require("express-rate-limit");
 require("dotenv").config();
 var helmet = require('helmet')
 
+const admins = [];
 
 
 const express = require("express");
@@ -23,15 +24,55 @@ global.io = new Server(httpServer)    //global variable
 //back end connects to front end with this code, listening for this message
 io.on("connection", (socket) => {
   
+  //server listens for message that admin is logged in
+  socket.on("admin connected with server", (adminName) => {  
+    admins.push({id: socket.id, admin: adminName});
+    console.log(admins);
+  })
+
   //server listens for a client message
   socket.on("client sends message", (msg) => {
       console.log(msg);
-      //server takes message received and emits to admin
-      socket.broadcast.emit("server sends message from client to admin",{
-        message: msg
+
+      if (admins.length ===0){
+        socket.emit("no admin","")
+      } else {
+
+        //server takes message received and emits to admin - all admins due to broadcast
+        socket.broadcast.emit("server sends message from client to admin",{
+          message: msg
       })
+        
+      }
+
+
   })
     
+  //server listens for admin message
+  socket.on('admin sends message', ({message}) => {
+    //server takes message from admin and emits back to clients
+    socket.broadcast.emit("server sends message from admin to client", message)
+   })
+
+   
+  //server listens for admin disconnect
+  socket.on("disconnect", (reason) => {
+    
+    //admin disconnected
+    const removeIndex = admins.findIndex((item) => item.id === socket.id);
+  
+    if (removeIndex !== -1){
+      admins.splice(removeIndex, 1)
+    }
+    
+    
+   })
+
+})
+
+
+
+
   //attempt to fix google log Oauth2 in breaking in prod - heroku (works localhost)
   // app.use(cors())
 
@@ -47,12 +88,6 @@ io.on("connection", (socket) => {
 
 
 
-  //server listens for admin message
-  socket.on('admin sends message', ({message}) => {
-    //server takes message from admin and emits back to clients
-    socket.broadcast.emit("server sends message from admin to client", message)
-   })
-})
 
 
 // app.use(helmet({

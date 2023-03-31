@@ -25,7 +25,15 @@ const UserChatComponent = () => {
 
 
       const socket = socketIOClient();
-      setSocket(socket);                  // save socket client to local react state
+
+      socket.on("no admin", (msg) => {
+        
+        setChat((chat)=> {
+          return [...chat, {admin: "no admin here now"}]
+        })
+     
+      })
+      
 
       //if not admin, client listens for message from server
       socket.on("server sends message from admin to client", (msg)=> {
@@ -39,10 +47,12 @@ const UserChatComponent = () => {
           chatMessages.scrollTop = chatMessages.scrollHeight
       })  
 
-      return () => socket.disconnect();   //return so socket will disconnect on page close
+      setSocket(socket);                  // save socket client to local react state
+      return () => socket.disconnect();   // return so socket will disconnect on page close
     }
   }, [userInfo.isAdmin]);
 
+  
   
   const clientSubmitChatMsg = (e) => {
     // handler for chat message submit

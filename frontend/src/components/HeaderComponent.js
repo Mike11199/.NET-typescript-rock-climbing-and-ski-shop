@@ -91,6 +91,9 @@ const HeaderComponent = () => {
       //   let chatRooms = {
       //     fddf54gfgfSocketID: [{ "client": "dsfdf" }, { "client": "dsfdf" }, { "admin": "dsfdf" }],
       //   };
+
+          socket.emit("admin connected with server", "Admin" + Math.floor(Math.random() * 1000000000000))
+
           dispatch(setChatRooms("exampleUser", message));       
           dispatch(setMessageReceived(true));    
           audio.play()
