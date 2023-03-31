@@ -14,11 +14,16 @@ const UserChatComponent = () => {
   const [chat, setChat] = useState([])
   const userInfo = useSelector((state) => state.userRegisterLogin.userInfo)
   const [messageReceived, setMessageReceived] = useState(false);
+  const [chatConnectionInfo, setChatConnectionInfo] = useState(false);
+  const [reconnect, setReconnect] = useState(false);
 
   const [socket, setSocket] = useState(false)
 
   useEffect(() => {
     if (!userInfo.isAdmin) {
+
+      setReconnect(false)
+
 
       //get audio for message
       let audio = new Audio("/audio/chat-msg.mp3")
@@ -48,9 +53,17 @@ const UserChatComponent = () => {
       })  
 
       setSocket(socket);                  // save socket client to local react state
+
+      socket.on("admin closed chat", () => {
+        setChat([])
+        setChatConnectionInfo("Admin closed chat.  Type something and submit to reconnect.")
+        setReconnect(true)
+      })
+
+
       return () => socket.disconnect();   // return so socket will disconnect on page close
     }
-  }, [userInfo.isAdmin]);
+  }, [userInfo.isAdmin, reconnect]);
 
   
   
@@ -60,6 +73,7 @@ const UserChatComponent = () => {
     if (e.keyCode && e.keyCode !== 13) {
         return
     }
+    setChatConnectionInfo("")
     setMessageReceived(false);
 
     const msg = document.getElementById("clientChatMsg")
@@ -106,6 +120,7 @@ const UserChatComponent = () => {
         </div>
         <div className="chat-form">
           <div className="cht-msg">
+          <p>{chatConnectionInfo}</p>
 
           {/* map array of chat values between admin/client to chat box */}
           {chat.map((item,id) => (

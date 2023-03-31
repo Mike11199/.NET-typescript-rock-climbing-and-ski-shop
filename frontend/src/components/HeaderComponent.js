@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getCategories } from "../redux/actions/categoryActions";
 import socketIOClient from 'socket.io-client'
-import { setChatRooms, setSocket, setMessageReceived } from "../redux/actions/chatActions";
+import { setChatRooms, setSocket, setMessageReceived, removeChatRoom } from "../redux/actions/chatActions";
 import { setDarkMode } from "../redux/actions/darkModeActions";
 import '../darkMode.css';  // reference https://www.makeuseof.com/how-to-add-dark-mode-to-a-react-application/
 
@@ -85,22 +85,31 @@ const HeaderComponent = () => {
   useEffect(() => {
     if (userInfo.isAdmin) {
        
-      let audio = new Audio("/audio/chat-msg.mp3")
-        const socket = socketIOClient();
+    let audio = new Audio("/audio/chat-msg.mp3")
+    const socket = socketIOClient();
 
-        // this emits something when the admin is logged in
-        socket.emit("admin connected with server", "Admin" + Math.floor(Math.random() * 1000000000000))
+    // this emits something when the admin is logged in
+    socket.emit("admin connected with server", "Admin" + Math.floor(Math.random() * 1000000000000))
+
+    // this is an example of a chatroom - array of conversation between client and admin.
+    // eg. - let chatRooms = {XDfXCdf54gfgSocketID: [{ "client" : "first msg" }, { "client" : "2nd message" }, { "admin" : "response" } ],}
 
 
-        // this allows server to listen for server receiving client message to admin - also set in redux
-        socket.on("server sends message from client to admin", ({user, message}) => {
-          dispatch(setSocket(socket))
-          dispatch(setChatRooms(user, message));       
-          dispatch(setMessageReceived(true));    
-          audio.play()
-        })
+    // this allows server to listen for server receiving client message to admin - also set in redux
+    socket.on("server sends message from client to admin", ({user, message}) => {
+      dispatch(setSocket(socket))
+      dispatch(setChatRooms(user, message));       
+      dispatch(setMessageReceived(true));    
+      audio.play()
+    })
 
-        return () => socket.disconnect()  //if we leave the page/website socket will disconnect ( as header s/b on every page )
+      socket.on("disconnected", ({reason, socketId}) => {
+        // console.log(socketId, reason)
+        dispatch(removeChatRoom(socketId))
+
+      })
+
+      return () => socket.disconnect()  //if we leave the page/website socket will disconnect ( as header s/b on every page )
     }
 },[userInfo.isAdmin])
 

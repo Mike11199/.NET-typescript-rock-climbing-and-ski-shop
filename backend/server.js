@@ -78,19 +78,38 @@ io.on("connection", (socket) => {
    })
 
    
+  //server listens for admin closes chat
+  socket.on('admin closes chat', (socketId) => {
+    //server takes message and broadcast to that socket
+    socket.broadcast.to(socketId).emit("admin closed chat", "")
+    let c = io.sockets.get(socketId)
+    c.disconnect();  // reason: server namespace disconnect
+   })
+
+
+   
   //server listens for admin disconnect
   socket.on("disconnect", (reason) => {
     
-    //admin disconnected
-    const removeIndex = admins.findIndex((item) => item.id === socket.id);
-  
+  //if admin disconnected remove admin from admin array
+  const removeIndex = admins.findIndex((item) => item.id === socket.id);  
+  if (removeIndex !== -1){
+    admins.splice(removeIndex, 1)
+  }   
+
+    activeChats = activeChats.filter((item) => item.adminId !== socket.id);
+    
+    //if client disconnected remove client from active chats 
+    const removeIndexClient = activeChats.findIndex((item) => item.clientId === socket.id);  
     if (removeIndex !== -1){
-      admins.splice(removeIndex, 1)
+      activeChats.splice(removeIndexClient, 1)
     }   
     
+    
+    socket.broadcast.emit("disconnected", {reason: reason, socketId: socket.id})  //emit to all 
    })
-
 })
+
 //***********************SOCKET IO BLOCK END****************************************************
 
 
