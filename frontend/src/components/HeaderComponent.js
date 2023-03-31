@@ -92,6 +92,7 @@ const HeaderComponent = () => {
       //     fddf54gfgfSocketID: [{ "client": "dsfdf" }, { "client": "dsfdf" }, { "admin": "dsfdf" }],
       //   };
 
+          // this emits something when the admin is logged in
           socket.emit("admin connected with server", "Admin" + Math.floor(Math.random() * 1000000000000))
 
           dispatch(setChatRooms("exampleUser", message));       
