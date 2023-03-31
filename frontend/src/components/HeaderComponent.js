@@ -23,6 +23,7 @@ import { setDarkMode } from "../redux/actions/darkModeActions";
 import '../darkMode.css';  // reference https://www.makeuseof.com/how-to-add-dark-mode-to-a-react-application/
 
 const HeaderComponent = () => {
+  
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userRegisterLogin);
   const itemsCount = useSelector((state) => state.cart.itemsCount);
@@ -38,15 +39,13 @@ const HeaderComponent = () => {
   const [buttonPositionClass, setButtonPositionClass] = useState('position-absolute');
 
   // console.log(mode)
-  // console.log(messageReceived)
+  // console.log(messageReceived)  
 
-  // const [theme, setTheme] = useState('light');
+  const navigate = useNavigate();
 
 
+  // dark mode change redux state of mode 
   const toggleTheme = () => {
-
-
-
     if (mode === 'light') {
       dispatch(setDarkMode('dark'))
     } else {
@@ -54,16 +53,21 @@ const HeaderComponent = () => {
     }
   }
 
-   useEffect(() => {
-        document.body.className = mode;       
-    }, [mode]);
+  // change document body class if mode changes
+  useEffect(() => {
+      document.body.className = mode;       
+  }, [mode]);
 
-  const navigate = useNavigate();
+  
 
+
+  // useEffect - Getting categories for the header menu drop down - search menu
   useEffect(() => {
     dispatch(getCategories());
     //  dispatch(setDarkMode('dark'))  turning this off as initial state in reducer takes care of this
   }, [dispatch]);
+
+
 
   const submitHandler = (e) => {
      if (e.keyCode && e.keyCode !== 13) return;
@@ -94,7 +98,6 @@ const HeaderComponent = () => {
     // this is an example of a chatroom - array of conversation between client and admin.
     // eg. - let chatRooms = {XDfXCdf54gfgSocketID: [{ "client" : "first msg" }, { "client" : "2nd message" }, { "admin" : "response" } ],}
 
-
     // this allows server to listen for server receiving client message to admin - also set in redux
     socket.on("server sends message from client to admin", ({user, message}) => {
       dispatch(setSocket(socket))
@@ -103,15 +106,14 @@ const HeaderComponent = () => {
       audio.play()
     })
 
-      socket.on("disconnected", ({reason, socketId}) => {
-        // console.log(socketId, reason)
-        dispatch(removeChatRoom(socketId))
+    socket.on("disconnected", ({reason, socketId}) => {
+      // console.log(socketId, reason)
+      dispatch(removeChatRoom(socketId))
+    })
 
-      })
-
-      return () => socket.disconnect()  //if we leave the page/website socket will disconnect ( as header s/b on every page )
-    }
-},[userInfo.isAdmin])
+    return () => socket.disconnect()  //if we leave the page/website socket will disconnect ( as header s/b on every page )
+  }
+  },[userInfo.isAdmin])
 
 
 //cheating with this to resize dark mode button as don't want to add media queries to CSS file
@@ -127,8 +129,6 @@ useEffect(() => {
   window.addEventListener('resize', handleResize); // Add the listener
   return () => window.removeEventListener('resize', handleResize); // Remove the listener on unmount
 }, []);
-
-
 
 
   return (
