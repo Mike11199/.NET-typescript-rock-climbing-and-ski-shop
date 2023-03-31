@@ -84,22 +84,23 @@ const HeaderComponent = () => {
 
   useEffect(() => {
     if (userInfo.isAdmin) {
-        let audio = new Audio("/audio/chat-msg.mp3")
+       
+      let audio = new Audio("/audio/chat-msg.mp3")
         const socket = socketIOClient();
-        socket.on("server sends message from client to admin", ({message}) => {
+
+        // this emits something when the admin is logged in
+        socket.emit("admin connected with server", "Admin" + Math.floor(Math.random() * 1000000000000))
+
+
+        // this allows server to listen for server receiving client message to admin - also set in redux
+        socket.on("server sends message from client to admin", ({user, message}) => {
           dispatch(setSocket(socket))
-      //   let chatRooms = {
-      //     fddf54gfgfSocketID: [{ "client": "dsfdf" }, { "client": "dsfdf" }, { "admin": "dsfdf" }],
-      //   };
-
-          // this emits something when the admin is logged in
-          socket.emit("admin connected with server", "Admin" + Math.floor(Math.random() * 1000000000000))
-
-          dispatch(setChatRooms("exampleUser", message));       
+          dispatch(setChatRooms(user, message));       
           dispatch(setMessageReceived(true));    
           audio.play()
         })
-        return () => socket.disconnect()  //if we leave the page socket will disconnect
+
+        return () => socket.disconnect()  //if we leave the page/website socket will disconnect ( as header s/b on every page )
     }
 },[userInfo.isAdmin])
 

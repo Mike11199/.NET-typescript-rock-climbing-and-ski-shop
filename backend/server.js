@@ -7,6 +7,11 @@ require("dotenv").config();
 var helmet = require('helmet')
 
 const admins = [];
+let activeChats = [];
+
+function get_random(array){
+  return array[Math.floor(Math.random() * array.length)];
+}
 
 
 const express = require("express");
@@ -27,21 +32,37 @@ io.on("connection", (socket) => {
   //server listens for message that admin is logged in
   socket.on("admin connected with server", (adminName) => {  
     admins.push({id: socket.id, admin: adminName});
-    console.log(admins);
+    // console.log(admins);
   })
 
   //server listens for a client message
   socket.on("client sends message", (msg) => {
       console.log(msg);
 
-      if (admins.length ===0){
-        socket.emit("no admin","")
+      if (admins.length === 0){
+        socket.emit("no admin", "")
       } else {
 
-        //server takes message received and emits to admin - all admins due to broadcast
-        socket.broadcast.emit("server sends message from client to admin",{
-          message: msg
-      })
+        //server takes message received and emits to admin - all admins due to broadcast -NOT GOOD
+      //   socket.broadcast.emit("server sends message from client to admin",{
+      //     message: msg         
+      // })
+      
+      let client = activeChats.find((client) => client.clientId === socket.id)
+      let targetAdminId;
+     
+      if (client){
+        targetAdminId = client.adminId
+      } else {
+        let admin = get_random(admins);   //so only 1-1 communication
+        activeChats.push({clientId: socket.id, adminId: admin.id})
+        targetAdminId = admin.id
+      }
+
+      socket.broadcast.to(targetAdminId).emit("server sends message from client to admin",{
+        user: socket.id,
+        message: msg         
+      })      
         
       }
 
@@ -49,9 +70,9 @@ io.on("connection", (socket) => {
   })
     
   //server listens for admin message
-  socket.on('admin sends message', ({message}) => {
+  socket.on('admin sends message', ({user, message}) => {
     //server takes message from admin and emits back to clients
-    socket.broadcast.emit("server sends message from admin to client", message)
+    socket.broadcast.to(user).emit("server sends message from admin to client", message)
    })
 
    
