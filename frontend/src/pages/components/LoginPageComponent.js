@@ -33,6 +33,7 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
 
     if ( email === '' || password === ''){
 
+      // if (process.env.NODE_ENV !== "test") {
       toast.dismiss();  //https://react-hot-toast.com/docs/toast
       toast.error('Please provide all form values.',
       {
@@ -44,6 +45,7 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
           color: '#fff',
         },
       });
+    // }
 
       return
 
@@ -57,6 +59,7 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
         try {
           const res = await loginUserApiRequest(email, password, doNotLogout)
           console.log(res)
+          
           setLogInUserResponseState({success: res.success, loading: false, error: ""})
           setValidated(true)
 
@@ -66,9 +69,35 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
             reduxDispatch(setReduxUserState(res.userLoggedIn))
           }
 
+          // console.log('reach here 1')
+
           if (res.success === "user logged in" && !res.userLoggedIn.isAdmin){
 
+            // if (process.env.NODE_ENV !== "test") {
+            toast.dismiss();
+            toast.success('Logging you in!',
+            {
+              
+              style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              },
+            });          
+          // }
 
+            setTimeout(function() {
+            //  navigate("/user", {replace: true})
+            window.location.assign('/user')  // this is better for testing
+            }, 1000);
+
+            
+            
+          }else{
+           // navigate("/admin/orders", {replace: true})  //replace: true means react deletes history of web page switch
+
+
+          //  if (process.env.NODE_ENV !== "test") {
             toast.dismiss();
             toast.success('Logging you in!',
             {
@@ -79,27 +108,43 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
                 color: '#fff',
               },
             });
-            setTimeout(function() {
-              navigate("/user", {replace: true})
+          // }
+          
+          // console.log('reach here 322')
+            
+          if (process.env.NODE_ENV !== "test") {
+          setTimeout(function() {
+              // navigate("/user", {replace: true})
+              console.log('help test')
+              window.location.assign('/admin/orders')  // this is better for testing              
             }, 1000);
+          }
+          if (process.env.NODE_ENV === "test") {
+                console.log('help test')
+                window.location.assign('/admin/orders')  // this is better for testing              
 
-            
+            }
 
-            
-          }else{
-            navigate("/admin/orders", {replace: true})  //replace: true means react deletes history of web page switch
+
+
+
+            // window.location.assign('/admin/orders')
+          
+
           }
 
           
-          
+          // console.log('reach here 3')
           return
 
           
         } catch (er) {
           // console.log(er)
-          setLogInUserResponseState({error: er.response.data.message ? er.response.data.message : er.response.data})
+          const errorMessage = er?.response?.data?.message ?? 'error';
+          setLogInUserResponseState({ error: errorMessage });
           
           toast.dismiss();
+          console.log('reach here error2')
           toast.error('Error logging in!  Wrong credentials.',
           {
             
@@ -112,19 +157,25 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
 
 
           
-          // Get the form control element
-          const formControl = document.querySelector('#formBasicPassword');
+          if (process.env.NODE_ENV !== "test") {
+            // Get the form control element
+              const formControl = document.querySelector('#formBasicPassword');
 
-          // Add the 'shake' class to the form control
-          formControl.classList.add('shake');
+              // Add the 'shake' class to the form control
+              formControl.classList.add('shake');
 
-          // Remove the 'shake' class after the animation ends
-          formControl.addEventListener('animationend', () => {
-          formControl.classList.remove('shake');
-          });
+              // Remove the 'shake' class after the animation ends
+              formControl.addEventListener('animationend', () => {
+              formControl.classList.remove('shake');
+            });
+          }
+
+
           return
         }
     }
+
+    // if (process.env.NODE_ENV !== "test") {
     toast.dismiss();
     toast.error('Error logging in!  Wrong credentials.',
     {
@@ -135,17 +186,23 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
         color: '#fff',
       },
     });
+  
+    // }
 
+    if (process.env.NODE_ENV !== "test") {
       // Get the form control element
       const formControl = document.querySelector('#formBasicPassword');
-
+    
       // Add the 'shake' class to the form control
       formControl.classList.add('shake');
-
+    
       // Remove the 'shake' class after the animation ends
-      formControl.addEventListener('animationend', () => {
-      formControl.classList.remove('shake');
+        formControl.addEventListener('animationend', () => {
+        formControl.classList.remove('shake');
       });
+    }
+
+
       return
 
 
@@ -220,12 +277,13 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
             {displaySpinner()}
               Login
             </Button>
-            <GoogleLoginButton googleLogin={googleLogin}/>
+            <GoogleLoginButton googleLogin={googleLogin} reduxDispatch={reduxDispatch}/>
             </div>
 
+            
             {/* Alert to show if wrong credentials -- wrong credentials string is the API response from server - userController.js if error*/}
             {/* <Alert show={LogInUserResponseState && LogInUserResponseState.error ==="wrong credentials"} variant="danger">
-              Wrong credentials
+              wrong credentials
             </Alert> */}
           </Form>
         </Col>

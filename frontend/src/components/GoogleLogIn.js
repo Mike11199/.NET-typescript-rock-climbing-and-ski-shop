@@ -1,14 +1,14 @@
 
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import { useDispatch } from "react-redux"
+// import { useDispatch } from "react-redux"
 import { setReduxUserState } from "../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
 
 
-const GoogleLoginButton = ({googleLogin}) => {
+const GoogleLoginButton = ({googleLogin, reduxDispatch}) => {
 
   const navigate = useNavigate()
-  const reduxDispatch = useDispatch()
+  // const reduxDispatch = useDispatch()
 
   const onSuccess = async (res) => {
     let token = res.credential
