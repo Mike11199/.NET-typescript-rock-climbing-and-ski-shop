@@ -1,4 +1,5 @@
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+// import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import LoginPageComponent from "./LoginPageComponent";
 // import { BrowserRouter as Router } from "react-router-dom";
@@ -10,7 +11,7 @@ let loginUserApiRequest = () => {
     resolve({
       success: "user logged in",
       userLoggedIn: {
-        _id: "hd73hdhsj",
+        _id: "hd73hDsSDj",
         name: "John",
         lastName: "Doe",
         email: "admin@admin.com",
@@ -35,15 +36,15 @@ let loginUserApiRequestError = () => {
 
 
   // Mock the document object
-  const mockDocument = {
-    querySelector: jest.fn().mockReturnValue({
-      classList: {
-        add: jest.fn(),
-        remove: jest.fn(),
-      },
-      addEventListener: jest.fn(),
-    }),
-  };
+  // const mockDocument = {
+  //   querySelector: jest.fn().mockReturnValue({
+  //     classList: {
+  //       add: jest.fn(),
+  //       remove: jest.fn(),
+  //     },
+  //     addEventListener: jest.fn(),
+  //   }),
+  // };
 
 
 const assign = window.location.assign;  //real assign function

@@ -1,6 +1,8 @@
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+// import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { Container, Row, Col, Form, Button} from "react-bootstrap";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 import GoogleLoginButton from "../../components/GoogleLogIn";
 import toast, { Toaster } from 'react-hot-toast';
@@ -17,7 +19,7 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
   )
 
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
     
   //event handler for form submission
   const handleSubmit = async (event) => {
