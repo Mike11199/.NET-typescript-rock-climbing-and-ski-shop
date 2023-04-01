@@ -8,15 +8,22 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
   
     const [mainCategories, setMainCategories] = useState([]);
     const [bestSellers, setBestsellers] = useState([]);
+    const [error, setError] = useState('');
 
     useEffect(() => {
-        getBestsellers()
+       
+      getBestsellers()
         .then((data) => {
             setBestsellers(data);
         })
-        .catch((er) => console.log(er.response.data.message ? er.response.data.message : er.response.data));
-        setMainCategories((cat) => categories.filter((item) => !item.name.includes("/")));
-    }, [categories])
+        .catch((er) => {
+          setError(er.response.data.message ? er.response.data.message : er.response.data)
+          console.log(er.response.data.message ? er.response.data.message : er.response.data)
+        });
+              
+        setMainCategories((cat) => categories.filter((item) => !item.name.includes("/")));  // will always run
+
+    }, [categories, getBestsellers])
 
   return (
     <>
@@ -33,7 +40,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
           </>
           ))}
         </Row>
-
+        {error}
       </Container>
     </>
   );

@@ -1,6 +1,6 @@
 import { Carousel } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 
 const ProductCarouselComponent = ({ bestSellers }) => {
   const cursorP = {
@@ -9,7 +9,7 @@ const ProductCarouselComponent = ({ bestSellers }) => {
     backgroundColor: 'rgba(52, 52, 52, 0.8)'
   };
 
-  const {mode}  = useSelector((state) => state.DarkMode)
+  // const {mode}  = useSelector((state) => state.DarkMode)
 
   return bestSellers.length > 0 ? (
     <Carousel>
