@@ -5,14 +5,15 @@ import { useDispatch } from "react-redux";
 
 const AdminChatRoomComponent = ({ chatRoom, roomIndex, socket, socketUser }) => {
 
-    const dispatch = useDispatch();
+  //to more easily use func - rename
+  const dispatch = useDispatch();
 
-  [window["toast" + roomIndex], window["closeToast" + roomIndex]] =
-    useState(true);
-    const [rerender, setRerender] = useState(false);
+  // initialize two state variables
+  [window["toast" + roomIndex], window["closeToast" + roomIndex]] = useState(true);  
+  const [rerender, setRerender] = useState(false);
 
   const close = (socketId) => {
-    window["closeToast" + roomIndex](false);
+    window["closeToast" + roomIndex](false);   //dynamic way of calling a function called closeToast
     socket.emit("admin closes chat", socketId)
   };
 
