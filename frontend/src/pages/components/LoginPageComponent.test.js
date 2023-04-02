@@ -4,7 +4,7 @@ import "@testing-library/jest-dom";
 import LoginPageComponent from "./LoginPageComponent";
 // import { BrowserRouter as Router } from "react-router-dom";
 import { MemoryRouter as Router } from "react-router-dom";
-// import renderer from "react-test-renderer";
+import renderer from "react-test-renderer";  //for snapshot test
 
 let loginUserApiRequest = () => {
   return new Promise((resolve, reject) => {
@@ -161,11 +161,19 @@ test("if wrong credentials toast notification modification", async () => {
   expect(screen.getByText(/Wrong credentials/i)).toBeInTheDocument();
 });
 
-// test("create login snapshot", () => {
-//     const tree = renderer.create(
-//         <Router>
-//             <LoginPageComponent loginUserApiRequest={loginUserApiRequest} reduxDispatch={() => {}} setReduxUserState={() => {}} />
-//         </Router>
-//     ).toJSON();
-//     expect(tree).toMatchSnapshot();
-// })
+
+// this test css and html
+// documentation - https://jestjs.io/docs/snapshot-testing
+test("create login snapshot", () => {
+    
+  // this creates a snapshot in the __snapshots__ folder with the html to test the look of the page
+  // this could detect changing a button for example
+  const tree = renderer.create(
+        <Router>
+            <LoginPageComponent loginUserApiRequest={loginUserApiRequest} reduxDispatch={() => {}} setReduxUserState={() => {}} />
+        </Router>
+    ).toJSON();
+   
+   
+    expect(tree).toMatchSnapshot();
+})
