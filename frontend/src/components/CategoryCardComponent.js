@@ -56,7 +56,7 @@ const CategoryCardComponent = ({ category, idx }) => {
           {/* <LinkContainer to={`/product-list/category/${category.name}`}>
           <Button type="button" variant="primary" style={{ touchAction: 'manipulation' }}>Go to the Category</Button>
         </LinkContainer> */}
-        <Link to={`/product-list/category/${category.name}`}>
+        <Link to={`/product-list/category/${category.name}`} style={{ touchAction: "manipulation"}}>
           <button
             type="button"
             class="btn btn-primary"
