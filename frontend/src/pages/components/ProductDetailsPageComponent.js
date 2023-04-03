@@ -175,7 +175,7 @@ const ProductDetailsPageComponent = ({
                       </Form.Select>
                     </ListGroup.Item>
                     <ListGroup.Item>
-                      <Button onClick={addToCartHandler} variant="danger">
+                      <Button type="button" onClick={addToCartHandler} variant="danger">
                         Add to cart
                       </Button>
                     </ListGroup.Item>

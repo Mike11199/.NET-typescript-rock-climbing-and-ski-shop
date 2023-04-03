@@ -86,17 +86,17 @@ const ProductForListComponent = ({ productId, name, description, price, images, 
             <Card.Text>
               <Rating readonly size={20} initialValue={rating} /> ({reviewsNumber})
             </Card.Text>
-            <Card.Text className="h4">
-              ${price.toFixed(2)}{" "}
-              <LinkContainer to={`/product-details/${productId}`}>
-                <Button variant="danger">See product</Button>
+            <Card.Text>
+          ${price.toFixed(2)} 
+            <div className="product_list_buttons">
+            <LinkContainer to={`/product-details/${productId}`}>
+                <Button type="button" variant="danger">See product</Button>
               </LinkContainer>
-              
-              <Button onClick={() => addToCartHandler(productId)} variant="success" style={{ marginLeft: '10px' }}>
-                Add to cart
-              </Button>
-                    
-            </Card.Text>
+                <Button type="button" variant="success" onClick={() => addToCartHandler(productId)}>
+                  Add to cart
+                </Button>
+            </div>
+        </Card.Text>
           </Card.Body>
         </Col>
       </Row>

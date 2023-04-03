@@ -20,3 +20,10 @@ footer {
   z-index: 9999;
   color: rgb(0, 0, 0) !important; 
 }
+
+.product_list_buttons {
+  display: flex;
+  margin-top: 15px;
+  align-items: center;
+  gap: 10px;
+}
