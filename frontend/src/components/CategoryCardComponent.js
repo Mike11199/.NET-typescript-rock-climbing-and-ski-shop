@@ -9,9 +9,11 @@ import { useNavigate } from "react-router-dom";
 const styles = {
   card: {
     boxShadow:"5px 0px 15px black",
-    border: "5px black"
+    border: "5px black",
     // borderRadius: 55,
     // padding: '3rem'
+    touchAction: "manipulation", 
+    userSelect: "none"
   },
   cardImage: {
     height: "10px",    
@@ -23,7 +25,9 @@ const stylesDark = {
     boxShadow:"5px 0px 15px black",
     border: "5px black",
     color: 'white',
-    backgroundColor:'black'
+    backgroundColor:'black',
+    touchAction: "manipulation", 
+    userSelect: "none"
     // borderRadius: 55,
     // padding: '3rem'
   },
@@ -49,7 +53,7 @@ const CategoryCardComponent = ({ category, idx }) => {
 
   return (
     <>
-      <Card style={cardStyle}>
+      <Card style={cardStyle} >
         <LinkContainer to={`/product-list/category/${category.name}`}>
           <img
             src={category.image ?? null}
@@ -58,9 +62,9 @@ const CategoryCardComponent = ({ category, idx }) => {
             alt="category"
           ></img>
         </LinkContainer>
-        <Card.Body >
-          <Card.Title>{category.name}</Card.Title>
-          <Card.Text>{category.description}</Card.Text>
+        <Card.Body style={{ touchAction: "manipulation", userSelect: "none", zIndex: 9999 }}>
+          <Card.Title style={{ userSelect: "text" }}>{category.name}</Card.Title>
+          <Card.Text style={{ userSelect: "text" }}>{category.description}</Card.Text>
           {/* <LinkContainer to={`/product-list/category/${category.name}`}>
           <Button type="button" variant="primary" style={{ touchAction: 'manipulation' }}>Go to the Category</Button>
         </LinkContainer> */}
