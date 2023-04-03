@@ -47,6 +47,7 @@ const CategoryCardComponent = ({ category, idx }) => {
             src={category.image ?? null}
             height="365px"
             style={styles.cardImage}
+            alt="category_image"
           ></img>
         </LinkContainer>
         <Card.Body>
@@ -63,6 +64,7 @@ const CategoryCardComponent = ({ category, idx }) => {
             onClick={() =>
               (window.location.href = `/product-list/category/${category.name}`)
             }
+            readOnly 
           >
             Go to the Category
           </button>
