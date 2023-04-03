@@ -41,10 +41,8 @@ const CategoryCardComponent = ({ category, idx }) => {
   return (
     <>
     <Card style={cardStyle}>
-      <LinkContainer to={`/product-list/category/${category.name}`}>   
-      
-      <img src={category.image ?? null}  height="365px" style={styles.cardImage}></img>
-             
+      <LinkContainer to={`/product-list/category/${category.name}`}>         
+        <img src={category.image ?? null}  height="365px" style={styles.cardImage}></img>             
       </LinkContainer>
       <Card.Body>
         <Card.Title>{category.name}</Card.Title>
@@ -52,7 +50,7 @@ const CategoryCardComponent = ({ category, idx }) => {
           {category.description}
         </Card.Text>
         <LinkContainer to={`/product-list/category/${category.name}`}>
-          <Button type="button" variant="primary">Go to the Category</Button>
+          <Button type="button" variant="primary" style={{ touchAction: 'manipulation' }}>Go to the Category</Button>
         </LinkContainer>
       </Card.Body>
     </Card>
