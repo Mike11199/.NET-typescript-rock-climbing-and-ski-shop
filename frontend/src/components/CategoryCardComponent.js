@@ -59,7 +59,7 @@ const CategoryCardComponent = ({ category, idx }) => {
           <button
             type="button"
             class="btn btn-primary"
-            style={{ touchAction: "manipulation", userSelect: "none" }}
+            style={{ touchAction: "manipulation", userSelect: "none", zIndex: 9999 }}
             onClick={() =>
               (window.location.href = `/product-list/category/${category.name}`)
             }
