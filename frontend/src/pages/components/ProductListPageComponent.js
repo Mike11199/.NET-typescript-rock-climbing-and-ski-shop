@@ -141,11 +141,11 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
               />
             </ListGroup.Item>
             <ListGroup.Item style={listItemStyle}>
-              <Button variant="primary" onClick={handleFilters}>
+              <Button type="button" variant="primary" onClick={handleFilters}>
                 Filter
               </Button>{" "}
               {showResetFiltersButton && (
-                <Button onClick={resetFilters} variant="danger">
+                <Button type="button" onClick={resetFilters} variant="danger">
                   Reset filters
                 </Button>
               )}

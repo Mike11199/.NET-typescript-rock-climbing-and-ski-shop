@@ -17,7 +17,7 @@ footer {
 
 
 .btn {
-  z-index: 9999;
+  z-index: 9999 !important; 
   color: rgb(0, 0, 0) !important; 
 }
 
