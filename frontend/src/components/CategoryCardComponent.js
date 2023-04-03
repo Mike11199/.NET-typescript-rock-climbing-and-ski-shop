@@ -2,6 +2,8 @@ import { Card, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
+import React, { useRef } from "react";
+
 
 const styles = {
   card: {
@@ -38,6 +40,11 @@ const CategoryCardComponent = ({ category, idx }) => {
   // console.log(mode.mode.mode)
   const cardStyle = mode === 'dark' ? stylesDark.card : styles.card;
   
+  const inputRef = useRef(null);
+
+  const handleClick = () => {
+    inputRef.current.blur();
+  };
 
   return (
     <>
@@ -64,6 +71,7 @@ const CategoryCardComponent = ({ category, idx }) => {
             // onClick={() =>
             //   (window.location.href = `/product-list/category/${category.name}`)
             // }
+            onClick={handleClick}
           >
             Go to the Category
           </button>
