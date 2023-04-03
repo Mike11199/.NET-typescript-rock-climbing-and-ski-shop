@@ -2,7 +2,6 @@ import { Card, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
 
 const styles = {
   card: {
@@ -32,19 +31,13 @@ const stylesDark = {
 
 
 
-
 const CategoryCardComponent = ({ category, idx }) => {
 
   const { mode }  = useSelector((state) => state.DarkMode)
   // console.log('card component')
   // console.log(mode.mode.mode)
   const cardStyle = mode === 'dark' ? stylesDark.card : styles.card;
-
-  const handleButtonClick = () => {
-    history.push(`/product-list/category/${category.name}`);
-  };
   
-  const history = useHistory();
 
   return (
     <>
@@ -54,7 +47,7 @@ const CategoryCardComponent = ({ category, idx }) => {
             src={category.image ?? null}
             height="365px"
             style={styles.cardImage}
-            alt="category_image"
+            alt="category"
           ></img>
         </LinkContainer>
         <Card.Body>
@@ -68,8 +61,9 @@ const CategoryCardComponent = ({ category, idx }) => {
             type="button"
             class="btn btn-primary"
             style={{ touchAction: "manipulation", userSelect: "none", zIndex: 9999 }}
-            onClick={handleButtonClick}
-            readOnly 
+            // onClick={() =>
+            //   (window.location.href = `/product-list/category/${category.name}`)
+            // }
           >
             Go to the Category
           </button>
@@ -81,4 +75,3 @@ const CategoryCardComponent = ({ category, idx }) => {
 };
 
 export default CategoryCardComponent;
-
