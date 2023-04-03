@@ -3,6 +3,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const styles = {
@@ -40,11 +41,11 @@ const CategoryCardComponent = ({ category, idx }) => {
   // console.log(mode.mode.mode)
   const cardStyle = mode === 'dark' ? stylesDark.card : styles.card;
   
-  const inputRef = useRef(null);
+  const navigate = useNavigate();
 
-  const handleClick = () => {
-    inputRef.current.blur();
-  };
+  const handleClick = (categoryName) => {
+    navigate(`/product-list/category/${categoryName}`);
+  }
 
   return (
     <>
@@ -57,13 +58,13 @@ const CategoryCardComponent = ({ category, idx }) => {
             alt="category"
           ></img>
         </LinkContainer>
-        <Card.Body>
+        <Card.Body >
           <Card.Title>{category.name}</Card.Title>
           <Card.Text>{category.description}</Card.Text>
           {/* <LinkContainer to={`/product-list/category/${category.name}`}>
           <Button type="button" variant="primary" style={{ touchAction: 'manipulation' }}>Go to the Category</Button>
         </LinkContainer> */}
-        <Link to={`/product-list/category/${category.name}`} style={{ touchAction: "manipulation"}}>
+        {/* <Link to={`/product-list/category/${category.name}`} style={{ touchAction: "manipulation"}}> */}
           <button
             type="button"
             class="btn btn-primary"
@@ -71,11 +72,11 @@ const CategoryCardComponent = ({ category, idx }) => {
             // onClick={() =>
             //   (window.location.href = `/product-list/category/${category.name}`)
             // }
-            onClick={handleClick}
+            onClick={() => handleClick(category.name)}
           >
             Go to the Category
           </button>
-        </Link>
+        {/* </Link> */}
         </Card.Body>
       </Card>
     </>
