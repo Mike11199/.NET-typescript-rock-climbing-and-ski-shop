@@ -62,8 +62,10 @@
 /* .dark table td */
 .dark table thead th {
   border-color: #010101;
-  background-color: #201182;
+  background-color: #170c58;
   color: white;
+  font-weight: 500;
+  font-size: 15px;
 }
 
 .light table  {
@@ -72,10 +74,11 @@
 }
 
 .light table thead th {
-  border-color: #000000;
-  border-width: 1px;
-  background-color: #2f287f;
+  border-color: #010101;
+  background-color: #170c58;
   color: white;
+  font-weight: 500;
+  font-size: 15px;
 }
 
 

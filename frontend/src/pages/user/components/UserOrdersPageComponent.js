@@ -5,10 +5,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CartItemComponent from "../../../components/CartItemComponentSimple";
 
+
 const UserOrdersPageComponent = ({getOrders}) => {
     const [orders, setOrders] = useState([]);
     const {mode}  = useSelector((state) => state.DarkMode)
     const [showDetails, setShowDetails] = useState({});
+
 
     const dropDownStyle = {
       slide: {
@@ -63,18 +65,18 @@ const UserOrdersPageComponent = ({getOrders}) => {
       <Col md={12}>
         <h1>My Orders</h1>
         <Table striped bordered hover >
-          <thead>
+          <thead style={{textAlign:'center'}}>
             <tr>
               <th>#</th>
               <th>User</th>
               <th>Date</th>
               <th>Total</th>
-              <th>Item Count</th>
+              <th>Count</th>
               <th>Delivered</th>
               <th>Paid?</th>
-              <th>Payment Method</th>              
+              <th>Payment</th>              
               <th style={{ textAlign: 'center' }}>Order Details</th>  
-              <th style={{ textAlign: 'center' }}>Toggle Details</th>            
+              <th style={{ textAlign: 'center', minWidth:'100px' }}>Toggle Details</th>            
               <th style={{width:'50%'}}>Order Items</th>              
             </tr>
           </thead>
