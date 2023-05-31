@@ -1,6 +1,6 @@
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import CliffFacePhoto from "../../../images/cliff_2.png"
+import CliffFacePhoto from "../../../images/cliff_3.png"
 
 
 const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFromRedux, setReduxUserState, reduxDispatch, localStorage, sessionStorage }) => {
