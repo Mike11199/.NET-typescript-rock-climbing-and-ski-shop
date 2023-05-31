@@ -30,8 +30,10 @@ footer {
 
 .ski_image {  
   position: absolute;
-  max-width: 70%;
+  max-width: 90%;
   margin-left: 0%;
   margin-bottom: 0% !important; /* Adding !important to ensure it takes precedence */
   bottom: 0;
+  z-index: -1;
+
 }
