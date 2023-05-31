@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 import GoogleLoginButton from "../../components/GoogleLogIn";
 import toast, { Toaster } from 'react-hot-toast';
-import IceClimbingPhoto from "../../images/ice_climbing.jpg"
+import IceClimbingPhoto from "../../images/ski_mountaineering_2.png"
 
 
 const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserState, googleLogin }) => {
@@ -227,14 +227,12 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
   return (
     <>
     <Toaster/>
-    <Container style={{maxWidth:"80%", marginTop:"5%" }}>
-    
-      <Row className="mt-5">
-        <Col md={6} className="gy-2" style={{marginRight:"60px"}}>
-        <img style={{borderRadius:"20px"}}alt="ice_climbing_photo" src={IceClimbingPhoto} width="100%"></img>
-        </Col>
-      
-        <Col md={5} className="pr-md-2">
+    <img className="ski_image" alt="ice_climbing_photo" src={IceClimbingPhoto} ></img>
+    <div style={{display:"flex", height:"100%"}}>    
+    <Container style={{maxWidth:"100%", marginTop:"5%" }}>   
+      <Row className="mt-5">  
+        <Col md={7}></Col>    
+        <Col md={3} className="pr-md-2" style={{maxWidth:"100%", marginRight:"2%" }}>
           <h1>Login</h1>          
           {/* Initial state of form validation is False */}
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -296,6 +294,7 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
         </Col>
       </Row>
     </Container>
+    </div>
     </>
   );
 };

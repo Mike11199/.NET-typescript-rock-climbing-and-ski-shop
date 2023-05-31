@@ -27,3 +27,11 @@ footer {
   align-items: center;
   gap: 10px;
 }
+
+.ski_image {  
+  position: absolute;
+  max-width: 70%;
+  margin-left: 0%;
+  margin-bottom: 0% !important; /* Adding !important to ensure it takes precedence */
+  bottom: 0;
+}
