@@ -2,6 +2,7 @@ import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
+import RockClimbingPhoto from "../../images/climbing_inverted.png"
 
 
 const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxUserState}) => {
@@ -69,14 +70,15 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
   };
 
   return (
-    <Container>
+    <>
+    <div style={{display:"flex"}}>
+    <img style={{borderRadius:"20px", display:"block"}}alt="rock_climbing_photo" src={RockClimbingPhoto} width="50%"></img>   
+    <Container style={{marginRight:"10%", padding:"0px", marginTop:"0%"}}>
       <Row className="mt-5 justify-content-md-center">
-        <Col md={6}>
-
+    
+        <Col md={8}>
           <h1>Register</h1>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            
-
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>            
             {/* NAME - FIRST NAME */}
             <Form.Group className="mb-3" controlId="validationCustom01">
               <Form.Label>First Name</Form.Label>
@@ -192,6 +194,8 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
         </Col>
       </Row>
     </Container>
+    </div>
+    </>
   )
 }
 
