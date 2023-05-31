@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 import GoogleLoginButton from "../../components/GoogleLogIn";
 import toast, { Toaster } from 'react-hot-toast';
-import IceClimbingPhoto from "../../images/ski_mountaineering_3.png"
+import IceClimbingPhoto from "../../images/ski_mountaineering_4.png"
 
 
 const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserState, googleLogin }) => {
