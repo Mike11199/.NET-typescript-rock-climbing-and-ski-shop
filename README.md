@@ -2,6 +2,9 @@
 
 - https://recreational-equipment-shop.herokuapp.com/
 
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/91132d1a-3d11-4b79-84d7-c0733659a880)
+
+
 - Use the following for both username and password at login for testing (or create a new account):    
   - Username: test@gmail.com
   - Password: test@gmail.com
