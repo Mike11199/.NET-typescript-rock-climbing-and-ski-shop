@@ -72,7 +72,9 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
   return (
     <>
     <div style={{display:"flex"}}>
-    <img style={{borderRadius:"20px", display:"block"}}alt="rock_climbing_photo" src={RockClimbingPhoto} width="50%"></img>   
+    <div>
+    <img style={{ flexShrink:"0"}}alt="rock_climbing_photo" src={RockClimbingPhoto} width="140%"></img>   
+    </div>
     <Container style={{marginRight:"10%", padding:"0px", marginTop:"0%"}}>
       <Row className="mt-5 justify-content-md-center">
     
