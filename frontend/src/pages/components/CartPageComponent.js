@@ -2,6 +2,7 @@ import { Container, Row, Col, Alert, ListGroup, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import CartItemComponent from "../../components/CartItemComponent";
 import toast, { Toaster } from 'react-hot-toast';
+import ShoppingCartImage from "../../images/shopping_cart.png"
 
 const CartPageComponent = ({
   addToCart,
@@ -35,7 +36,10 @@ const CartPageComponent = ({
     <Container fluid>
       <Row className="mt-4">
         <Col md={8}>
-          <h1>Shopping Cart</h1>
+          <div style={{display:"flex", flexDirection:"row", marginBottom:"20px"}}>
+            <h1 style={{marginRight:"20px", marginLeft:"10px"}}>Shopping Cart</h1>
+            <img style={{marginTop:"5px"}} height="40px" className="shopping_cart_image" alt="shopping_cart_image" src={ShoppingCartImage} ></img>
+          </div>
           {cartItems.length === 0 ? (
             <Alert variant="info">Your cart is empty</Alert>
           ) : (

@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Confetti from 'react-dom-confetti';
 import toast, { Toaster } from 'react-hot-toast';
+import ShoppingCartImage from "../../../images/shopping_cart.png"
 
 
 
@@ -123,7 +124,10 @@ const UserCartDetailsPageComponent = ({cartItems, itemsCount, cartSubtotal, user
     <Toaster/>
     <Container fluid>
       <Row className="mt-4">
-        <h1>Cart Details</h1>
+      <div style={{display:"flex", flexDirection:"row"}}>
+        <h1 style={{marginRight:"20px", marginLeft:"10px"}}>Cart Details</h1>
+        <img style={{marginTop:"5px"}} height="40px" className="shopping_cart_image" alt="shopping_cart_image" src={ShoppingCartImage} ></img>
+      </div>
         <Col md={8}>
           <br />
           <Row>
