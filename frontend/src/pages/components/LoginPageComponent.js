@@ -7,7 +7,7 @@ import Spinner from "react-bootstrap/Spinner";
 import GoogleLoginButton from "../../components/GoogleLogIn";
 import toast, { Toaster } from 'react-hot-toast';
 import IceClimbingPhoto from "../../images/ski_mountaineering_5.png"
-import IceCavePhoto from "../../images/ice_cave.png"
+import IceCavePhoto from "../../images/ice_cave_2.png"
 
 
 const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserState, googleLogin }) => {
