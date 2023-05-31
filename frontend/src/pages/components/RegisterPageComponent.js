@@ -75,10 +75,10 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
     <div>
     <img style={{ flexShrink:"0"}}alt="rock_climbing_photo" src={RockClimbingPhoto} width="140%"></img>   
     </div>
-    <Container style={{marginRight:"10%", padding:"0px", marginTop:"0%"}}>
+    <Container style={{marginRight:"4%", padding:"0px", marginTop:"1%"}}>
       <Row className="mt-5 justify-content-md-center">
     
-        <Col md={8}>
+        <Col md={5}>
           <h1>Register</h1>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>            
             {/* NAME - FIRST NAME */}
