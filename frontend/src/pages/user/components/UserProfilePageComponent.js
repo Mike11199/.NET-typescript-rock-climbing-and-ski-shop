@@ -1,5 +1,6 @@
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import CliffFacePhoto from "../../../images/cliff_2.png"
 
 
 const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFromRedux, setReduxUserState, reduxDispatch, localStorage, sessionStorage }) => {
@@ -53,8 +54,11 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
     setValidated(true);
   };
   return (
+    <>
+    <img className="cliff_image" alt="ice_climbing_photo" src={CliffFacePhoto} ></img>
     <Container>
       <Row className="mt-5 justify-content-md-center">
+      <Col md={6}></Col>
         <Col md={6}>
           <h1>Change your profile</h1>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -190,6 +194,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
         </Col>
       </Row>
     </Container>
+    </>
   );
 };
 

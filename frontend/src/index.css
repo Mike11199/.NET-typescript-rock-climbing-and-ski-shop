@@ -34,7 +34,7 @@ footer {
   margin-left: 0%;
   margin-bottom: 0% !important; /* Adding !important to ensure it takes precedence */
   bottom: 0;
-  z-index: -1;
+  z-index: -1;  
 }
 
 .ice_cave_image {  
@@ -46,4 +46,14 @@ footer {
   bottom: 0;
   right: 0;
   z-index: -1;
+}
+
+.cliff_image {  
+  position: absolute;
+  max-width: 90%;
+  height: 100%;
+  margin-left: 0%;  
+  margin-bottom: 0% !important; /* Adding !important to ensure it takes precedence */
+  bottom: 0;
+  z-index: -1;  
 }
