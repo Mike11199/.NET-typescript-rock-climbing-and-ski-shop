@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 import RockClimbingPhoto from "../../images/climbing_inverted_2.png"
-import RappelClimbingPhoto from "../../images/rappel_2.png"
+import RappelClimbingPhoto from "../../images/rappel_3.png"
 
 
 const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxUserState}) => {
