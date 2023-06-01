@@ -57,3 +57,19 @@ footer {
   bottom: 0;
   z-index: -1;  
 }
+
+.rappel_image {  
+  position: absolute;
+  height: 100%;
+  margin-right: 0%;  
+  margin-bottom: 0% !important; /* Adding !important to ensure it takes precedence */
+  bottom: 0;
+  right:0;
+  z-index: -1;  
+}
+
+.rock_inverted_photo {  
+  height: 45%;
+  position: absolute;
+  z-index: -1;  
+}

@@ -41,7 +41,9 @@ const CartPageComponent = ({
             <img style={{marginTop:"5px"}} height="40px" className="shopping_cart_image" alt="shopping_cart_image" src={ShoppingCartImage} ></img>
           </div>
           {cartItems.length === 0 ? (
+            <>
             <Alert variant="info">Your cart is empty</Alert>
+            </>
           ) : (
             <ListGroup variant="flush">
               {cartItems.map((item, idx) => (

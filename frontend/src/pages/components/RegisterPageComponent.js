@@ -2,7 +2,8 @@ import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
-import RockClimbingPhoto from "../../images/climbing_inverted.png"
+import RockClimbingPhoto from "../../images/climbing_inverted_2.png"
+import RappelClimbingPhoto from "../../images/rappel.png"
 
 
 const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxUserState}) => {
@@ -73,11 +74,10 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
     <>
     <div style={{display:"flex"}}>
     <div>
-    <img style={{ flexShrink:"0"}}alt="rock_climbing_photo" src={RockClimbingPhoto} width="140%"></img>   
+    <img className="rock_inverted_photo" style={{ flexShrink:"0"}}alt="rock_climbing_photo" src={RockClimbingPhoto} ></img>       
     </div>
-    <Container style={{marginRight:"4%", padding:"0px", marginTop:"1%"}}>
-      <Row className="mt-5 justify-content-md-center">
-    
+    <Container style={{ marginTop:"2%", marginLeft:"30%", marginRight:"20%"}}>
+      <Row className="mt-5 justify-content-md-center">    
         <Col md={5}>
           <h1>Register</h1>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>            
@@ -196,6 +196,7 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
         </Col>
       </Row>
     </Container>
+    <img className="rappel_image" alt="rappel_image" src={RappelClimbingPhoto} ></img>   
     </div>
     </>
   )
