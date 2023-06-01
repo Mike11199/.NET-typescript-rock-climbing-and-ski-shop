@@ -4,7 +4,8 @@
 
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/a43e3526-8814-4c67-ae01-f37700468012)
 
-![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/91132d1a-3d11-4b79-84d7-c0733659a880)
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/b4aa7932-40d3-4f79-bede-354a9da62cee)
+
 
 
 - Use the following for both username and password at login for testing (or create a new account):    
