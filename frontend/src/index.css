@@ -60,7 +60,7 @@ footer {
 
 .rappel_image {  
   position: absolute;
-  height: 100%;
+  height: 95%;
   margin-right: 0%;  
   margin-bottom: 0% !important; /* Adding !important to ensure it takes precedence */
   bottom: 0;
@@ -69,7 +69,7 @@ footer {
 }
 
 .rock_inverted_photo {  
-  height: 45%;
+  height: 40%;
   position: absolute;
   z-index: -1;  
 }
