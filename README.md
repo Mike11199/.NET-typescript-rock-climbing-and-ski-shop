@@ -4,7 +4,8 @@
 
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/a43e3526-8814-4c67-ae01-f37700468012)
 
-![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/e05484e7-80d7-417b-8474-8b325ac614fd)
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/6ea92f24-d4a7-43d8-a305-ff517d31dace)
+
 
 
 
