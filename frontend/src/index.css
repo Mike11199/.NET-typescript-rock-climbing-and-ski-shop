@@ -21,6 +21,11 @@ footer {
   color: rgb(0, 0, 0) !important; 
 }
 
+.btn:active {
+  transform: scale(0.9);
+}
+
+
 .product_list_buttons {
   display: flex;
   margin-top: 15px;
