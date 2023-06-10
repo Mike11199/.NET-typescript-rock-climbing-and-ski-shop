@@ -1,6 +1,7 @@
 import { Row, Col, Image, ListGroup, Form, Button } from "react-bootstrap";
 import RemoveFromCartComponent from "./RemoveFromCartComponent";
 import { useDispatch, useSelector } from "react-redux";
+import { LinkContainer } from "react-router-bootstrap";
 
 const CartItemComponent = ({ item, removeFromCartHandler = false, orderCreated = false, changeCount = false }) => {
 
@@ -18,7 +19,13 @@ const CartItemComponent = ({ item, removeFromCartHandler = false, orderCreated =
               fluid
             />
           </Col>
-          <Col md={2}>{item.name}</Col>
+          <Col md={2}>
+            {/* {item.name} */}
+            {/* <LinkContainer to={`/product-list/category/${item.name}`}>
+                  <p>{item.name}</p>
+            </LinkContainer> */}
+            <a href={`/product-details/${item.productID}`}>{item.name}</a>
+          </Col>
           <Col md={2}>
             <b>${item.price.toFixed(2)}</b>
           </Col>
