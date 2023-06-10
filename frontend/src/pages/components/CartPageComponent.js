@@ -33,7 +33,7 @@ const CartPageComponent = ({
   return (
     <>
     <Toaster/>
-    <Container fluid>
+    <Container fluid className="subtotal_and_checkout_div_in_cart">
       <Row className="mt-4">
         <Col md={8}>
           <div style={{display:"flex", flexDirection:"row", marginBottom:"20px"}}>
@@ -57,7 +57,7 @@ const CartPageComponent = ({
             </ListGroup>
           )}
         </Col>
-        <Col md={4}>
+        <Col md={4} >
           <ListGroup>
             <ListGroup.Item>
               <h3>Subtotal ({cartItems.length} {cartItems.length === 1 ? "Product" : "Products"})</h3>
