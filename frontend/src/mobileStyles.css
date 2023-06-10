@@ -63,12 +63,14 @@
 
   #log_in_page_form_1 {
     padding-bottom: 150px;
+    z-index: 9999;
   }
 
   #register_page_form {
     padding-right: 0px;
     padding-left: 0px;
     padding-bottom: 200px;
+    z-index: 9999;
   }
 
   }
