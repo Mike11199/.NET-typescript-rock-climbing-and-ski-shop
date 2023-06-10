@@ -154,7 +154,16 @@ const ProductDetailsPageComponent = ({
                 <Col md={4}>
                   <ListGroup>
                     <ListGroup.Item>
-                      Status: {product.count > 0 ? "in stock" : "out of stock"}
+                      {/* show product count remaining - or red text low stock if less than 10 */}
+                      <span>Status: &nbsp;</span>
+                        {
+                        product.count > 0
+                          ? (product.count < 10
+                            ? <span style={{ color: 'red', fontWeight:"500" }}>Low stock - {product.count} remaining</span>
+                            : <span style={{ color: 'green', fontWeight:"500" }}>Many available - {product.count} remaining</span>
+                            )
+                        : <span style={{ color: 'red' }}>Out of stock!</span>
+                        }
                     </ListGroup.Item>
                     <ListGroup.Item>
                       Price: <span className="fw-bold">${product.price.toFixed(2)}</span>
