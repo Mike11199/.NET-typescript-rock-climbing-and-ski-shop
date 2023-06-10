@@ -198,6 +198,12 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 
 ![image](https://user-images.githubusercontent.com/91037796/211220213-8bdba8eb-f3f1-4aee-8992-2ef58e2eaac6.png)
 
+- Orders state:
+
+<img src="https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/aed331d7-67c8-48a4-848b-f65786d46e79" alt="image" width="65%">
+
+
+
 <br/>
 
 <h1> Google OAuth2.0 Log In </h1>
