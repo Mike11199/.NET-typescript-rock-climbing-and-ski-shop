@@ -76,7 +76,7 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
     <div>
     <img className="rock_inverted_photo" style={{ flexShrink:"0"}}alt="rock_climbing_photo" src={RockClimbingPhoto} ></img>       
     </div>
-    <Container style={{ marginTop:"1%", marginLeft:"30%", marginRight:"20%", minHeight:"780px"}}>
+    <Container id="register_page_form" style={{ marginTop:"1%", marginLeft:"30%", marginRight:"20%", minHeight:"780px"}}>
       <Row className="mt-5 justify-content-md-center">
         <Col md={5}  className="register_form">
           <h1>Register</h1>

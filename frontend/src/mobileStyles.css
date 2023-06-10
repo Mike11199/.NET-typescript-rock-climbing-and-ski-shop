@@ -58,8 +58,20 @@
     bottom: 116px;        
     z-index: -13;  
     align-self: center;
+    
   }
-}
+
+  #log_in_page_form_1 {
+    padding-bottom: 150px;
+  }
+
+  #register_page_form {
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-bottom: 200px;
+  }
+
+  }
 
 
 
