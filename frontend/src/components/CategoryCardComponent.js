@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import '../../../frontend/src/mobileStyles.css'
 
 
 const styles = {
@@ -16,7 +17,7 @@ const styles = {
     userSelect: "none"
   },
   cardImage: {
-    height: "10px",    
+       
   }
 }
 
@@ -32,7 +33,7 @@ const stylesDark = {
     // padding: '3rem'
   },
   cardImage: {
-    height: "10px",    
+    
   }
 }
 
@@ -58,7 +59,8 @@ const CategoryCardComponent = ({ category, idx }) => {
           <img
             src={category.image ?? null}
             height="365px"
-            style={styles.cardImage}
+            key={category.name}
+            className={`category_card_image_front_page_${category.name.toLowerCase()}`}
             alt="category"
           ></img>
         </LinkContainer>

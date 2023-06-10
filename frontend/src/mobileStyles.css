@@ -1,0 +1,65 @@
+
+
+
+
+
+@media (max-width: 400px) {
+    .category_card_image_front_page_boots {
+        object-fit: cover;
+        object-position: 5% 50%;
+    }
+    
+    .category_card_image_front_page_ropes {
+        object-fit: cover;
+        object-position: 73% 50%;    
+    }
+    
+    .category_card_image_front_page_skis {
+        object-fit: cover;
+        object-position: 73% 50%;    
+    }
+    
+    .category_card_image_front_page_harnesses {
+        object-fit: cover;
+        object-position: 23% 50%;    
+    }
+
+    .rappel_image {  
+        display: none;
+      }
+      
+      .rock_inverted_photo {  
+        height: 200px;
+        position: absolute;
+        z-index: -1;  
+      }
+
+      .register_form{
+        /* display: none; */
+        padding-top: 150px;
+      }
+
+  }
+
+
+  @media (max-width: 1575px) {
+  .ice_cave_image {
+    display: none;
+    position: relative;   
+    bottom: -420px;
+    z-index: -13;
+}
+
+.ski_image {  
+    position: absolute;
+    max-width: 90%;
+    margin-left: 0%;
+    margin-bottom: 0% !important; /* Adding !important to ensure it takes precedence */
+    bottom: 116px;        
+    z-index: -13;  
+    align-self: center;
+  }
+}
+
+
+

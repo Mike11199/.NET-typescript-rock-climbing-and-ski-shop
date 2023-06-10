@@ -78,7 +78,7 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
     </div>
     <Container style={{ marginTop:"1%", marginLeft:"30%", marginRight:"20%", minHeight:"780px"}}>
       <Row className="mt-5 justify-content-md-center">
-        <Col md={5}>
+        <Col md={5}  className="register_form">
           <h1>Register</h1>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>            
             {/* NAME - FIRST NAME */}
