@@ -7,6 +7,11 @@ const CartItemComponent = ({ item, removeFromCartHandler = false, orderCreated =
 
   const {mode}  = useSelector((state) => state.DarkMode)
 
+  console.log(item)
+
+  const productId = item.productID 
+  const productUrl = `/product-details/${productId}`; 
+
   return (
     <>
       <ListGroup.Item>
@@ -24,7 +29,7 @@ const CartItemComponent = ({ item, removeFromCartHandler = false, orderCreated =
             {/* <LinkContainer to={`/product-list/category/${item.name}`}>
                   <p>{item.name}</p>
             </LinkContainer> */}
-            <a href={`/product-details/${item.productID}`}>{item.name}</a>
+            <a href={productUrl}>{item.name}</a>
           </Col>
           <Col md={2}>
             <b>${item.price.toFixed(2)}</b>

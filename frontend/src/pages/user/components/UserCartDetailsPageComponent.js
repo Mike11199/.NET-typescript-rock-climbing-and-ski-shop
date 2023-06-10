@@ -126,7 +126,7 @@ const UserCartDetailsPageComponent = ({cartItems, itemsCount, cartSubtotal, user
       <Row className="mt-4">
       <div style={{display:"flex", flexDirection:"row"}}>
         <h1 style={{marginRight:"20px", marginLeft:"10px"}}>Cart Details</h1>
-        <img style={{marginTop:"5px"}} height="40px" className="shopping_cart_image" alt="shopping_cart_image" src={ShoppingCartImage} ></img>
+        <img style={{marginTop:"0px"}} height="60px" className="shopping_cart_image" alt="shopping_cart_image" src={ShoppingCartImage} ></img>
       </div>
         <Col md={8}>
           <br />

@@ -17,7 +17,9 @@ const orderSchema = mongoose.Schema({
             price: {type: Number, required: true},
             image: {path: {type: String, required: true}},
             quantity: {type: Number, required: true},
-            count: {type: Number, required: true}
+            count: {type: Number, required: true},
+            productID: { type: String, default: '' }, // Add the new field with default value
+
         }
     ],
     paymentMethod: {

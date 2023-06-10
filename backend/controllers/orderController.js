@@ -30,6 +30,13 @@ const createOrder = async (req, res, next) => {
         let ids = cartItems.map((item) => {
             return item.productID;
         })
+
+        console.log("the ids are\n\n")
+        console.log(ids)
+
+        console.log("CART ITEMS ARE\n\n")
+        console.log(cartItems)
+
         let qty = cartItems.map((item) => {
             return Number(item.quantity);
         })
@@ -37,6 +44,7 @@ const createOrder = async (req, res, next) => {
         await Product.find({ _id: { $in: ids } }).then((products) => {
             products.forEach(function (product, idx) {
                 product.sales += qty[idx];
+                product.count -= qty[idx];  //edit so placing an order now decreases inventory
                 product.save();
             })
         })
