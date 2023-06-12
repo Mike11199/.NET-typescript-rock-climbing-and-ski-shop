@@ -6,6 +6,7 @@ import Slope_Background from "../../images/ski_slope_5.png"
 import Snowfall from 'react-snowfall'
 import CloudVector from "../../images/cloud_vector2.png"
 import Tree from "../../images/tree.png"
+import Ski_Chair from "../../images/ski_chair.png"
 
 import { useEffect, useState } from "react";
 
@@ -38,6 +39,11 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
           {/* <div className="ski_slope"></div> */}
           <img className="skier_banner_slope" alt="skier_slope" src={Slope_Background} />
           <img className="tree" alt="tree" src={Tree} />
+          <img className="ski_chair" alt="ski_chair" src={Ski_Chair} />
+          <img className="ski_chair2" alt="ski_chair2" src={Ski_Chair} />
+          <img className="ski_chair3" alt="ski_chair2" src={Ski_Chair} />
+          <img className="ski_chair4" alt="ski_chair2" src={Ski_Chair} />
+          <img className="ski_chair5" alt="ski_chair2" src={Ski_Chair} />
           <img className="cloud_banner_vector" alt="cloud_vector" src={CloudVector} />
           <img className="cloud_banner_vector2" alt="cloud_vector" src={CloudVector} />
           <img className="cloud_banner_vector3" alt="cloud_vector" src={CloudVector} />

@@ -351,5 +351,79 @@ footer {
   justify-content: center;
 }
 
+.ski_chair{
+  position: absolute;
+  height: 170px;
+  top: 230px;
+  left: 940px;
+  animation-name: chair_lift;
+  animation-duration: 10s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  z-index: -2;
+}
+
+.ski_chair2{
+  position: absolute;
+  height: 170px;
+  top: 230px;
+  left: 940px;
+  animation-name: chair_lift;
+  animation-duration: 10s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-delay: 2s;
+  z-index: -2;
+}
+
+.ski_chair3{
+  position: absolute;
+  height: 170px;
+  top: 230px;
+  left: 940px;
+  animation-name: chair_lift;
+  animation-duration: 10s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-delay: 4s;
+  z-index: -2;
+}
+
+.ski_chair4{
+  position: absolute;
+  height: 170px;
+  top: 230px;
+  left: 940px;
+  animation-name: chair_lift;
+  animation-duration: 10s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-delay: 6s;
+  z-index: -2;
+}
+
+.ski_chair5{
+  position: absolute;
+  height: 170px;
+  top: 230px;
+  left: 940px;
+  animation-name: chair_lift;
+  animation-duration: 10s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-delay: 8s;
+  z-index: -2;
+}
 
 
+
+
+@keyframes chair_lift{
+  from{transform: translateX(0px)}
+  to{transform: translateX(-1400px) translateY(-350px)}  
+}
