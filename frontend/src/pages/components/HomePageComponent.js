@@ -4,7 +4,7 @@ import { Row, Container, Col } from "react-bootstrap";
 import Skier_Vector from "../../images/skier_vector.png"
 import Slope_Background from "../../images/ski_slope_5.png"
 import Snowfall from 'react-snowfall'
-import CloudVector from "../../images/cloud_vector2.png"
+import CloudVector from "../../images/cloud_vector3.png"
 import Tree from "../../images/tree.png"
 import Ski_Chair from "../../images/ski_chair.png"
 
