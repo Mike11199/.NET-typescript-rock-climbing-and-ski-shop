@@ -21,13 +21,24 @@
 <h1>Summary</h1>
 
 - A full stack e-commerce web application using the MERN stack (MongoDB, Express.js, React.js, Node.js).  
+
 - Added the PayPal SDK and sandbox accounts to simulate live payment of an order and front/back end response of a submitted order.
+
+- Added an admin dashboard that only is displayed if a user is an admin, so that an entire new area of the site is rendered.  This Admin area includes components to add new products, edit products, mark orders as delivered, and other tasks (such as deleting products or responding to user chats), without having to directly access the MongoDB database.
+
 - Implemented Socket.IO to allow for bi-directional client and server communication, to enable real-time messaging between an admin and multiple users. 
+
 - Used the Cloudinary service to allow an Admin to upload and delete images of a product.  Links to Cloudinary are stored in MongoDB and fetched as needed.  
+
 - Used Cloudinary AI Background Removal to dynamically remove background of images when redux dark mode state variable is set (later removed due to rate limit).
+
 - Used Redux store/actions/reducers to manage global state as opposed to context in past projects (job tracker).
+
 - Created various database relationships between collections in MongoDB using embedded documents (storing object IDs in other documents). For example, a product has an array of reviews in MongoDB, each a foreign key pointing to a review document, allowing for a one-to-many relationship between products and reviews.
+
 - Added Google OAuth2.0 Log In, decoding JWT credentials from Google, and locating the user by email in MongoDB to verify the user. 
+
+- Modified order controller to update inventory counts upon placing an order in the MongoDB database.  Front end also now advises if a product is low in stock.
 
 <br/>
 
