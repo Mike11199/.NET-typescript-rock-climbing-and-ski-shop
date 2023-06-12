@@ -111,11 +111,11 @@ footer {
 .skier_banner_vector{
   position: relative;
   z-index: 223;
-  height: 150px;
-  top: -30px;
+  height: 60px;
+  top: 50px;
   animation-name: ski;
   z-index: -12;
-  animation-duration: 12s;
+  animation-duration: 6s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
   animation-timing-function: cubic-bezier(.5,.77,1,1);  
@@ -123,7 +123,7 @@ footer {
 
 @keyframes ski{
   from{transform: translateX(-350px)}
-  to{transform: translateX(1500px) translateY(450px) }  
+  to{transform: translateX(800px) translateY(250px) }  
 }
 
 
@@ -138,6 +138,7 @@ footer {
   object-fit:none;
   scale: 100%;
   z-index: -22;
+  object-position: bottom 153px right 0px;
 }
 
 .cloud_banner_vector {
@@ -335,7 +336,13 @@ footer {
   animation-direction: alternate;
 }
 
-
+.tree{
+  position: absolute;
+  height: 100px;
+  top: 160px;
+  right: 950px;
+  z-index: -1;
+}
 
 
 

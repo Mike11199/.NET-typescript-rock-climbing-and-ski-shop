@@ -2,9 +2,10 @@ import ProductCarouselComponent from "../../components/ProductCarouselComponent"
 import CategoryCardComponent from "../../components/CategoryCardComponent";
 import { Row, Container, Col } from "react-bootstrap";
 import Skier_Vector from "../../images/skier_vector.png"
-import Slope_Background from "../../images/slope_background2.png"
+import Slope_Background from "../../images/ski_slope_4.png"
 import Snowfall from 'react-snowfall'
 import CloudVector from "../../images/cloud_vector2.png"
+import Tree from "../../images/tree.png"
 
 import { useEffect, useState } from "react";
 
@@ -35,6 +36,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
       <Snowfall />
         {/* <div className="ski_slope"></div> */}
         <img className="skier_banner_slope" alt="skier_slope" src={Slope_Background} />
+        <img className="tree" alt="tree" src={Tree} />
         <img className="cloud_banner_vector" alt="cloud_vector" src={CloudVector} />
         <img className="cloud_banner_vector2" alt="cloud_vector" src={CloudVector} />
         <img className="cloud_banner_vector3" alt="cloud_vector" src={CloudVector} />
