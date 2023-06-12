@@ -1,6 +1,7 @@
 import ProductCarouselComponent from "../../components/ProductCarouselComponent";
 import CategoryCardComponent from "../../components/CategoryCardComponent";
 import { Row, Container, Col } from "react-bootstrap";
+import Skier_Vector from "../../images/skier_vector.png"
 
 import { useEffect, useState } from "react";
 
@@ -27,6 +28,13 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
 
   return (
     <>
+      <div className="ski_banner_box">
+        <div className="ski_slope"></div>
+        <img className="skier_banner_vector" alt="skier_vector" src={Skier_Vector} />
+
+      </div>
+
+
       <ProductCarouselComponent bestSellers={bestSellers} />
       <Container>
 
