@@ -1,14 +1,4 @@
-import {
-  Row,
-  Col,
-  Container,
-  Form,
-  Button,
-  CloseButton,
-  Table,
-  Alert,
-  Image,
-} from "react-bootstrap";
+import {Row,Col,Container,Form,Button,CloseButton,Table,Alert,Image} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useState, useEffect, Fragment, useRef } from "react";
 import { useParams } from "react-router-dom";

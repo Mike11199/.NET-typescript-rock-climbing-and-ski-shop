@@ -2,7 +2,7 @@ import ProductCarouselComponent from "../../components/ProductCarouselComponent"
 import CategoryCardComponent from "../../components/CategoryCardComponent";
 import { Row, Container, Col } from "react-bootstrap";
 import Skier_Vector from "../../images/skier_vector.png"
-import Slope_Background from "../../images/ski_slope_5.png"
+import Slope_Background from "../../images/ski_slope_6.png"
 import Snowfall from 'react-snowfall'
 import CloudVector from "../../images/cloud_vector3.png"
 import Tree from "../../images/tree.png"
