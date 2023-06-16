@@ -55,17 +55,20 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
     }, [startDate])
 
 
+  // https://nasa-gibs.github.io/gibs-api-docs/access-basics/#map-projections
+  // https://nasa-gibs.github.io/gibs-api-docs/access-basics/#service-endpoints
     const getSnowCoverData = async () => {
-      const url = 'https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/2022-02-24/250m/4/2/3.jpg';
+     
+      // const url = 'https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/2022-02-24/250m/4/2/3.jpg';
       const url2 = 'https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/';
       const format = '.jpg';
       const level = 4;
       const row = 2;
       const col = 3;
-      let currentDate = new Date();
-      currentDate.setDate(currentDate.getDate() - 7);
-      let lastWeekDate = currentDate.toISOString().split('T')[0];
-      console.log(currentDate)
+      // let currentDate = new Date();
+      // currentDate.setDate(currentDate.getDate() - 7);
+      // let lastWeekDate = currentDate.toISOString().split('T')[0];
+      // console.log(currentDate)
       
       console.log(startDate)
       const formattedSTARTDate = startDate.toISOString().split('T')[0];
@@ -164,6 +167,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
       </Container>
 
       <Container> 
+        {/* https://nasa-gibs.github.io/gibs-api-docs/access-basics/#map-projections */}
       <div className="nasa_snow_cover">
           <div className="sat_images">
             <img className="nasa_logo" alt="nasa_logo" src={NASA_Logo}></img>
