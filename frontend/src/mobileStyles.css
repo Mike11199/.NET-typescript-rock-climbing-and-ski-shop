@@ -77,3 +77,50 @@
 
 
 
+  @media (max-width: 600px) {
+
+    .climate_pledge_div{
+       margin-top: 30px;
+      /*display: flex;
+      justify-content: center; 
+      align-items: center; */
+      flex-direction: column;
+      margin-right: 40px;
+      margin-left: 40px;
+      margin-bottom: 30px;
+    }
+    
+    .plant_tree{
+      /* border-radius: 50px;*/
+      width: 300px; 
+      margin-top: 50px;
+      margin-right: 0px;
+      margin-left: 0px;
+      margin-bottom: 50px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, .7); 
+    }
+    
+    .climate_text_div{
+      /* display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; */
+    }
+    
+    .climate_text_paragraph{
+      /* width: 100%; */
+    }
+    
+    .counter{
+      align-self: center;
+      font-size: 20px;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+  
+    }
+  
+  
+
+
+

@@ -87,7 +87,10 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
         <div className="climate_pledge_div">
           <img className="plant_tree" alt="skier_vector" src={Plant_Tree} />    
           <div className="climate_text_div">
-            <p className="climate_text_paragraph"><span style={{fontWeight:"bold"}}>Giving Back: &nbsp;</span> We pledge to plant one tree for every dollar we sell.</p>     
+              <p className="climate_text_paragraph">
+                <span style={{fontWeight:"bold"}}>Giving Back: &nbsp;</span> 
+                 Actions speak louder than words.  To offset our carbon footprint and protect the environment, we pledge to plant one tree for every dollar our store sells.
+              </p>     
             <CountUpComponent />            
           </div>     
         </div>    
