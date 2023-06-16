@@ -187,7 +187,9 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
               <li>
               See latest image for snow cover from the MODIS (Moderate Resolution Imaging SpectroRadiometer) sensor on the NASA Terra (EOS AM-1) satellite.  
               <li style={{marginTop:"20px"}}>
-              This image has a 250m spatial resolution, meaning that one pixel represents an area of 250 x 250 meters on the ground. 
+              Terra was launched in 1999 and orbits in a sun-synchronous orbit, meaning it passes over any given point on the earth at the same local solar time.
+              This gives consistent lighting for land imagery.  The satellite also boasts a 250m spatial resolution, meaning that one pixel represents an area 
+              of 250 x 250 meters on the ground. This is about 14 suburban sized houses wide.
               </li>
               </li>
               </ul>

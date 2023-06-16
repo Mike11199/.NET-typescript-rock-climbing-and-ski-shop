@@ -465,6 +465,7 @@ footer {
   align-items: center;
   flex-direction: row;  
   margin-bottom: 150px;
+  gap: 100px;
 }
 
 .nasa_sat_image{
@@ -484,7 +485,7 @@ footer {
 }
 
 .sat_images{
-  margin-right: 100px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -492,16 +493,17 @@ footer {
 }
 
 .date_and_text_nasa{
+  width: 500px;
   align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-right: 150px;
-  margin-left: 150px;
+
 }
 
     
 .sat_text{
+  width: 500px;
   margin-top: 20px;
   align-self: center;
 }
