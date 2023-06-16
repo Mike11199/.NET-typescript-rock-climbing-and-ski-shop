@@ -169,7 +169,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
       <Container> 
         
         {/* https://nasa-gibs.github.io/gibs-api-docs/access-basics/#map-projections */}
-      <h3 className="snow_section_title">Snow Depth Satellite Image</h3>
+      <h3 className="snow_section_title">Snow Cover Satellite Image</h3>
       <div className="nasa_snow_cover">
           <div className="sat_images">
             <img className="nasa_logo" alt="nasa_logo" src={NASA_Logo}></img>
