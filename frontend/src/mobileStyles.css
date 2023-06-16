@@ -118,6 +118,43 @@
       margin-right: 0px;
     }
   
+    .nasa_snow_cover{
+      margin-top: 100px;
+      display: flex;
+      justify-content: center; 
+      align-items: center;
+      flex-direction: column;  
+    }
+    
+    .nasa_sat_image{
+      border-radius: 50px;
+      width: 250px;
+      margin-top: 0px;
+      margin-right: 0px;
+      margin-bottom: 40px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, .7);
+    }
+
+    .land_sat{
+      width: 250px;
+      margin-bottom: 40px;
+    }
+    
+    .nasa_logo{
+      width: 150px;
+      margin-bottom: 40px;
+    }
+
+    .sat_images{
+      margin-right: 0px;
+    }
+    
+    .sat_text{
+      margin-right: 50px;
+      margin-left: 50px;
+    }
+
+
     }
   
   
