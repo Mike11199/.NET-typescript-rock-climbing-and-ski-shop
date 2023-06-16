@@ -427,3 +427,33 @@ footer {
   from{transform: translateX(0px)}
   to{transform: translateX(-1400px) translateY(-350px)}  
 }
+
+.climate_pledge_div{
+  margin-top: 100px;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  flex-direction: row;
+  
+}
+
+.plant_tree{
+  border-radius: 50px;
+  width: 450px;
+  margin-top: 50px;
+  margin-right: 100px;
+  margin-bottom: 50px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, .7);
+}
+
+.climate_text_div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.climate_text_paragraph{
+  width: 100%;
+}
+

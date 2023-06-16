@@ -7,14 +7,20 @@ import Snowfall from 'react-snowfall'
 import CloudVector from "../../images/cloud_vector3.png"
 import Tree from "../../images/tree.png"
 import Ski_Chair from "../../images/ski_chair.png"
-
+import Plant_Tree from "../../images/plant_tree.jpg"
 import { useEffect, useState } from "react";
+import CountUpComponent from './CountUpComponent';
+
 
 const HomePageComponent = ({ categories, getBestsellers }) => {
   
     const [mainCategories, setMainCategories] = useState([]);
     const [bestSellers, setBestsellers] = useState([]);
     const [error, setError] = useState('');
+
+
+
+
 
     useEffect(() => {
        
@@ -30,6 +36,8 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
         setMainCategories((cat) => categories.filter((item) => !item.name.includes("/")));  // will always run
 
     }, [categories, getBestsellers])
+
+
 
   return (
     <>
@@ -63,19 +71,26 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
 
 
       <ProductCarouselComponent bestSellers={bestSellers} />
-      <Container>
-
-        
+      <Container>        
       <Row xs={1} md={2} className="g-4 mt-4">
           {mainCategories.map((category, idx) => (          
           <>            
           <div className="cardComponentGrid">
-          <CategoryCardComponent key={idx} category={category} idx={idx} className="test"/>   
+          <CategoryCardComponent key={idx} category={category} idx={idx} className="test"/>             
           </div>
           </>
           ))}
         </Row>
         {error}
+      </Container>
+      <Container>        
+        <div className="climate_pledge_div">
+          <img className="plant_tree" alt="skier_vector" src={Plant_Tree} />    
+          <div className="climate_text_div">
+            <p className="climate_text_paragraph"><span style={{fontWeight:"bold"}}>Giving Back: &nbsp;</span> We pledge to plant one tree for every dollar we sell.</p>     
+            <CountUpComponent />            
+          </div>     
+        </div>    
       </Container>
     </>
   );
