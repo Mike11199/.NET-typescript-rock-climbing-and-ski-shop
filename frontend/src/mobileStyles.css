@@ -124,6 +124,8 @@
       justify-content: center; 
       align-items: center;
       flex-direction: column;  
+      z-index: 9999;
+      margin-left: 0px;
     }
     
     .nasa_sat_image{
@@ -133,11 +135,13 @@
       margin-right: 0px;
       margin-bottom: 40px;
       box-shadow: 0 5px 20px rgba(0, 0, 0, .7);
+      z-index: 9999;
     }
 
     .land_sat{
       width: 250px;
       margin-bottom: 40px;
+      z-index: 9999;
     }
     
     .nasa_logo{
@@ -152,6 +156,10 @@
     .sat_text{
       margin-right: 50px;
       margin-left: 50px;
+    }
+
+    .rdp {
+      z-index: 9999;
     }
 
 

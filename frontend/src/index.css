@@ -429,6 +429,7 @@ footer {
 }
 
 .climate_pledge_div{
+  margin-left: 40px;
   margin-top: 100px;
   display: flex;
   justify-content: center; 
@@ -458,28 +459,28 @@ footer {
 
 
 .nasa_snow_cover{
-  margin-top: 100px;
+  margin-left: 150px;
   display: flex;
   justify-content: center; 
   align-items: center;
   flex-direction: row;  
+  margin-bottom: 150px;
 }
 
 .nasa_sat_image{
   border-radius: 50px;
-  width: 450px;
-  margin-top: 50px;
-  margin-right: 100px;
+  width: 500px;
+  margin-top: 50px;  
   margin-bottom: 50px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, .7);
 }
 
 .land_sat{
-  width: 300px;  
+  width: 150px;  
 }
 
 .nasa_logo{
-  width: 250px;
+  width: 150px;
 }
 
 .sat_images{
@@ -494,4 +495,17 @@ footer {
   align-items: center;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  margin-right: 150px;
+  margin-left: 150px;
+}
+
+    
+.sat_text{
+  margin-top: 20px;
+  align-self: center;
+}
+
+.snow_section_title{
+  margin-top: 50px;
 }

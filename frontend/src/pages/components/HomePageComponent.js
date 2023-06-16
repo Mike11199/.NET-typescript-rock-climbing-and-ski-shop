@@ -167,7 +167,9 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
       </Container>
 
       <Container> 
+        
         {/* https://nasa-gibs.github.io/gibs-api-docs/access-basics/#map-projections */}
+      <h3 className="snow_section_title">Snow Depth Satellite Image</h3>
       <div className="nasa_snow_cover">
           <div className="sat_images">
             <img className="nasa_logo" alt="nasa_logo" src={NASA_Logo}></img>
@@ -181,8 +183,14 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
           onSelect={setStartDate}
           />
             <p className="sat_text">
+              <ul>
+              <li>
               See latest image for snow cover from the MODIS (Moderate Resolution Imaging SpectroRadiometer) sensor on the NASA Terra (EOS AM-1) satellite.  
+              <li style={{marginTop:"20px"}}>
               This image has a 250m spatial resolution, meaning that one pixel represents an area of 250 x 250 meters on the ground. 
+              </li>
+              </li>
+              </ul>
             </p>          
           </div>
       </div>
