@@ -429,8 +429,10 @@ footer {
 }
 
 .climate_pledge_div{
-  margin-left: 40px;
+  margin-left: 50px;
+  margin-right: 50px;
   margin-top: 100px;
+  margin-bottom: 100px;
   display: flex;
   justify-content: center; 
   align-items: center;
@@ -440,9 +442,7 @@ footer {
 .plant_tree{
   border-radius: 50px;
   width: 450px;
-  margin-top: 50px;
-  margin-right: 100px;
-  margin-bottom: 50px;
+  margin-right: 100px;  
   box-shadow: 0 5px 20px rgba(0, 0, 0, .7);
 }
 
@@ -451,10 +451,14 @@ footer {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  
 }
 
 .climate_text_paragraph{
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 
@@ -476,9 +480,7 @@ footer {
   box-shadow: 0 5px 20px rgba(0, 0, 0, .7);
 }
 
-.land_sat{
-  width: 150px;  
-}
+
 
 .nasa_logo{
   width: 150px;
@@ -511,3 +513,44 @@ footer {
 .snow_section_title{
   margin-top: 50px;
 }
+
+
+h1.counter {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  font-size: 26px;
+  align-self: center;  
+  padding-right: 120px;
+}
+
+h1.counter > span {  
+  font-weight: bold;
+  font-size: 26px;
+  overflow: hidden;
+  display: inline-block;
+  align-self: center;
+  margin: 0px;
+  padding: 0px;  
+}
+
+/* .land_sat{
+  width: 150px;  
+} */
+
+.land_sat { 
+  width: 150px;  
+  animation-name: floating;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;  
+  margin-top: 50px;
+}
+
+@keyframes floating {
+  0% { transform: translate(0,  0px); }
+  50%  { transform: translate(0, 15px); }
+  100%   { transform: translate(0, -0px); }   
+}
+

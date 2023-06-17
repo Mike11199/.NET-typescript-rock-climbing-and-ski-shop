@@ -161,7 +161,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
                 <span style={{fontWeight:"bold"}}>Giving Back: &nbsp;</span> 
                  Actions speak louder than words.  To offset our carbon footprint and protect the environment, we pledge to plant one tree for every dollar our store sells.
               </p>     
-            <CountUpComponent />            
+           <div><CountUpComponent /></div>
           </div>     
         </div>    
       </Container>

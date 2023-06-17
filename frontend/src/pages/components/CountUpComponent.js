@@ -14,11 +14,12 @@ const CountUpComponent = () => {
         duration={10}
         decimals={0}
         decimal=","
-        // prefix="EUR "
-        suffix=" 🌲 Trees Planted"
+        // prefix="EUR "        
         // onEnd={() => console.log('Ended! 👏')}
         // onStart={() => console.log('Started! 💨')}
-  />}</h1>
+  />}
+  🌲 Trees Planted
+  </h1>
 
 }
 
