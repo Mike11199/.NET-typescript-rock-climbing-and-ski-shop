@@ -82,8 +82,8 @@ io.on("connection", (socket) => {
   socket.on('admin closes chat', (socketId) => {
     //server takes message and broadcast to that socket
     socket.broadcast.to(socketId).emit("admin closed chat", "")
-    let c = io.sockets.get(socketId)
-    c.disconnect();  // reason: server namespace disconnect
+    let c = io.sockets.sockets.get(socketId)  //fix crash here?
+    c.disconnect(); // reason:  server namespace disconnect
    })
 
 
