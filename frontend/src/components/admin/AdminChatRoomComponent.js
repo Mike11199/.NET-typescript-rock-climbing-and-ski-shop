@@ -50,7 +50,7 @@ const AdminChatRoomComponent = ({ chatRoom, roomIndex, socket, socketUser }) => 
   return (
     <>
       <Toast
-        show={"toast" + roomIndex}
+        show={window["toast" + roomIndex]}  //bug fix close window crashes app
         onClose={() => close(chatRoom[0])}  //chatRoom[0] is socketID
         className="ms-4 mb-5 chat-box-admin"
       >
