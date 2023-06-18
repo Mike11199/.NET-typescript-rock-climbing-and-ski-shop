@@ -113,6 +113,9 @@
 <br/>
 <br/>
 
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/51ceb43a-6153-4c6a-afc5-12b4002420aa)
+
+
 ![storeGif5](https://user-images.githubusercontent.com/91037796/211240679-522a0592-a543-4f43-a91c-940d2d28fd48.gif)
 
 <br/>
