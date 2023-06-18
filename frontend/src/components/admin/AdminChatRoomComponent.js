@@ -52,10 +52,10 @@ const AdminChatRoomComponent = ({ chatRoom, roomIndex, socket, socketUser }) => 
       <Toast
         show={"toast" + roomIndex}
         onClose={() => close(chatRoom[0])}  //chatRoom[0] is socketID
-        className="ms-4 mb-5"
+        className="ms-4 mb-5 chat-box-admin"
       >
         <Toast.Header>
-          <strong className="me-auto">Chat with User</strong>
+          <strong className="admin_chat_header">Chat with User</strong>
         </Toast.Header>
         <Toast.Body>
           <div className={`cht-msg${socketUser}`} style={{ maxHeight: "500px", overflow: "auto" }}>

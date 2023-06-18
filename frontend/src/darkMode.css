@@ -196,3 +196,71 @@
   }
 }
 
+
+.dark .toast-header {
+  color: rgb(255, 255, 255);
+  border-color: black;
+  background-color: black;
+  width: 100%;
+}
+
+.light .toast-header {
+  color: black;
+  width: 1200px;
+}
+
+.admin_chat_header{
+  width: 100%;
+}
+
+/* Dark mode */
+.dark .toast-body {
+  color: rgb(255, 255, 255);
+  background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+}
+
+
+/* Dark mode */
+.light .toast-body {
+  color: rgb(0, 0, 0);
+}
+
+.btn-close{
+  color: white;
+  background-color: rgb(179, 185, 245);
+}
+
+.btn-close:hover{
+  background-color: rgb(158, 161, 211);
+}
+
+.chat-box-admin {
+  background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+  border-color: rgb(87, 85, 85);
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.dark .chat-wrapper {
+  background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+  border-color: rgb(87, 85, 85);
+}
+
+.dark .chat-header {
+  background-image: linear-gradient(60deg, #092b52 0%, #233a53 100%);
+  border-color: rgb(87, 85, 85);
+}
+
+.dark #clientChatMsg {
+  background-image: linear-gradient(60deg, #092b52 0%, #233a53 100%);
+  border-color: rgb(87, 85, 85);
+  color: white;
+}
+
+.dark .cht-msg p {
+  color: white;
+}
+
+.dark .support_wrote_box {
+  background-color: rgb(88, 8, 88);
+}

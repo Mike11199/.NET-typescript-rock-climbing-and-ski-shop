@@ -139,7 +139,7 @@ const UserChatComponent = () => {
                </p>
              )}
              {item.admin && (
-               <p className="bg-primary p-3 ms-4 text-light rounded-pill">
+               <p className="p-3 ms-4 text-light rounded-pill support_wrote_box">
                  <b>Support wrote:</b> {item.admin}
                </p>
              )}
