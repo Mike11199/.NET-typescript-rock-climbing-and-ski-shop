@@ -19,10 +19,13 @@
   display: none;
 }
 
+/* ~ is the general sibling combinator */
+/*  if checked, display close icon which is sibling */
 #check:checked ~ .chat-btn i {
   display: block;
 }
 
+/* if checked - hide comment button so show x to close chat box */
 #check:checked ~ .chat-btn .comment {
   display: none;
 }
@@ -32,11 +35,13 @@
 }
 
 #check:checked ~ .chat-wrapper {
-  opacity: 1;
+  /* opacity: 1; */
+  display: block;
 }
 
 .chat-wrapper {
-  opacity: 0;
+  /* opacity: 0; */
+  display: none;
   position: fixed;
   right: 20px;
   bottom: 100px;
@@ -79,3 +84,4 @@
   max-height: 300px;
   overflow:auto;
 }
+

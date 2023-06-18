@@ -105,15 +105,23 @@ const UserChatComponent = () => {
   return !userInfo.isAdmin? (
     <>
       <input type="checkbox" id="check" />
-      <label className="chat-btn" htmlFor="check">
+      
+      
+      {/* - htmlFor for the label below associates an ID (for the input checkbox above) with the label below.
+          - This in effect allows the two <i> tags to also function as checkboxes.
+          - We also add 'comment' and 'close' as additional classes to <i> tags below for CSS purposes. 
+          - The logic for showing/displaying is handled in chats.css approximately lines 1-36
+      */}
+      <label className="chat-btn" htmlFor="check">  
         <i className="bi bi-chat-dots comment"></i>
 
         {/* alert for new chat message - https://getbootstrap.com/docs/5.1/utilities/position/#examples */}
         {messageReceived &&<span className="position-absolute top-0 start-10 translate-middle p-2 bg-danger border border-light rounded-circle"></span>}
         <i className="bi bi-x-circle close"></i>
-
-
       </label>
+
+
+      {/* opacity CSS chat-wrapper possible cause of constant issues of buttons not being able to be clicked on mobile */}
       <div className="chat-wrapper">
         <div className="chat-header">
           <h6>Let's Chat - Online</h6>
