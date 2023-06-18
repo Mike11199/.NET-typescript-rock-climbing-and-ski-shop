@@ -64,7 +64,7 @@ const CategoryCardComponent = ({ category, idx }) => {
             alt="category"
           ></img>
         </LinkContainer>
-        <Card.Body style={{ touchAction: "manipulation", userSelect: "none", zIndex: 9999 }}>
+        <Card.Body style={{ touchAction: "manipulation", userSelect: "none", }}>
           <Card.Title style={{ userSelect: "text" }}>{category.name}</Card.Title>
           <Card.Text style={{ userSelect: "text" }}>{category.description}</Card.Text>
           {/* <LinkContainer to={`/product-list/category/${category.name}`}>
@@ -74,7 +74,7 @@ const CategoryCardComponent = ({ category, idx }) => {
           <button
             type="button"
             class="btn btn-primary"
-            style={{ touchAction: "manipulation", userSelect: "none", zIndex: 9999}}
+            style={{ touchAction: "manipulation", userSelect: "none",}}
             // onClick={() =>
             //   (window.location.href = `/product-list/category/${category.name}`)
             // }
