@@ -80,7 +80,7 @@ const CategoryCardComponent = ({ category, idx }) => {
             // }
             onClick={() => handleClick(category.name)}
           >
-            Go to the Category
+            Shop Now
           </button>
         {/* </Link> */}
         </Card.Body>
