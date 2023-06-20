@@ -73,6 +73,8 @@
     z-index: 9999;
   }
 
+
+
   }
 
 
@@ -194,7 +196,19 @@
 
     }
   
-  
+  @media (min-width: 500px) {
+
+    .change_profile_container{
+      margin-left: 36%;
+      margin-top: 60px;
+    }
+
+    .change_profile_main_header{
+      margin-left: 30%;
+      margin-top: 2%;
+    }
+
+  }
 
 
 

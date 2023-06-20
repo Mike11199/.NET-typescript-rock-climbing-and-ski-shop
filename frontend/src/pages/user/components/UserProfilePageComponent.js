@@ -1,39 +1,43 @@
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import CliffFacePhoto from "../../../images/cliff_3.png"
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFromRedux, setReduxUserState, reduxDispatch, localStorage, sessionStorage }) => {
+  
   const [validated, setValidated] = useState(false);
   const [updateUserResponseState, setUpdateUserResponseState] = useState({ success: "", error: "" });
-  // const [passwordsMatchState, setPasswordsMatchState] = useState(true);
   const [user, setUser] = useState({})
   const userInfo = userInfoFromRedux;
+  // const [passwordsMatchState, setPasswordsMatchState] = useState(true);
 
-  const [showErrorAlert, setShowErrorAlert] = useState(false);
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
-  useEffect(() => {
-    if (updateUserResponseState && updateUserResponseState.error !== "") {
-      setShowErrorAlert(true);
-      // Hide the error alert after 3 seconds
-      setTimeout(() => {
-        setShowErrorAlert(false);
-      }, 2500);
-    } else {
-      setShowErrorAlert(false);
-    }
+  // const [showErrorAlert, setShowErrorAlert] = useState(false);
+  // const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
-    if (updateUserResponseState && updateUserResponseState.success === "user updated") {
-      setShowSuccessAlert(true);
-      // Hide the success alert after 3 seconds
-      setTimeout(() => {
-        setShowSuccessAlert(false);
-      }, 2500);
-    } else {
-      setShowSuccessAlert(false);
-    }
-  }, [updateUserResponseState]);
+  // useEffect(() => {
+
+  //   if (updateUserResponseState && updateUserResponseState.error !== "") {
+  //     setShowErrorAlert(true);
+  //     // Hide the error alert after 3 seconds
+  //     setTimeout(() => {
+  //       setShowErrorAlert(false);
+  //     }, 2500);
+  //   } else {
+  //     setShowErrorAlert(false);
+  //   }
+
+  //   if (updateUserResponseState && updateUserResponseState.success === "user updated") {
+  //     setShowSuccessAlert(true);
+  //     // Hide the success alert after 3 seconds
+  //     setTimeout(() => {
+  //       setShowSuccessAlert(false);
+  //     }, 2500);
+  //   } else {
+  //     setShowSuccessAlert(false);
+  //   }
+  // }, [updateUserResponseState]);
 
 
   useEffect(() => {
@@ -52,7 +56,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
   //   }
   // };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     
     event.preventDefault()
     event.stopPropagation()
@@ -69,8 +73,9 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
     const password = form.password.value;
 
 
-    if (password === '') {      
-      setUpdateUserResponseState({ error: 'Password is required.' });
+    if (password === '') {               
+      toast.dismiss()
+      toast.error('Please enter your current password to confirm changes to your profile.',{style: {borderRadius: '10px',background: '#333',color: '#fff'}})
       return
     }
 
@@ -78,23 +83,41 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
     if (!confirmed) {
       return
     }
-
     if (event.currentTarget.checkValidity() === true) {
-        updateUserApiRequest(name, lastName, phoneNumber, address, country, zipCode, city, state, password).then(data => {
-            setUpdateUserResponseState({ success: data.success, error: "" });
-            reduxDispatch(setReduxUserState({ doNotLogout: userInfo.doNotLogout, ...data.userUpdated }));
-            if (userInfo.doNotLogout) localStorage.setItem("userInfo", JSON.stringify({ doNotLogout: true, ...data.userUpdated }));
-            else sessionStorage.setItem("userInfo", JSON.stringify({ doNotLogout: false, ...data.userUpdated }));
-        })
-        .catch((er) => setUpdateUserResponseState({ error: er.response.data.message ? er.response.data.message : er.response.data }))
+      try {
+        const data = await updateUserApiRequest(name, lastName, phoneNumber, address, country, zipCode, city, state, password);
+        setUpdateUserResponseState({ success: data.success, error: "" });
+        reduxDispatch(setReduxUserState({ doNotLogout: userInfo.doNotLogout, ...data.userUpdated }));
+        toast.dismiss();
+        toast.success('Successfully updated your profile!', { style: { borderRadius: '10px', background: '#333', color: '#fff' } });
+    
+        if (userInfo.doNotLogout) {
+          localStorage.setItem("userInfo", JSON.stringify({ doNotLogout: true, ...data.userUpdated }));
+        } else {
+          sessionStorage.setItem("userInfo", JSON.stringify({ doNotLogout: false, ...data.userUpdated }));
+          setTimeout(function () { window.location.assign('/user') }, 1000);
+        }
         return
-    }
 
-    setValidated(true);
-    setTimeout(function() {window.location.assign('/user')}, 1000)     
-  };
+
+      } catch (er) {
+        console.log(er)
+        if (er.response && er.response.data && er.response.data.message) {
+          setUpdateUserResponseState({ error: er.response.data.message })
+        } 
+        else {
+          setUpdateUserResponseState({ error: er.toString() })          
+        }
+        toast.dismiss();
+        toast.error(`Failed to update user, invalid password!`, { style: { borderRadius: '10px', background: '#333', color: '#fff' } })
+    }
+  }
+}
+    
+
   return (
     <>
+    <Toaster/>
     <img className="cliff_image" alt="ice_climbing_photo" src={CliffFacePhoto} ></img>
     <Container>
       <Row className="mt-5 justify-content-md-center">
@@ -210,12 +233,12 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
             <Button variant="primary" type="submit">
               Update
             </Button>
-            <Alert show={showErrorAlert} variant="danger">
+            {/* <Alert show={showErrorAlert} variant="danger">
             Something went wrong! Did you enter the correct password?
             </Alert>
             <Alert show={showSuccessAlert} variant="info">
             User updated!
-            </Alert>
+            </Alert> */}
           </Form>
         </Col>
       </Row>
