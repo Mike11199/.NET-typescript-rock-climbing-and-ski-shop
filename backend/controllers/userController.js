@@ -181,6 +181,12 @@ const loginUser = async (req, res, next) => {
 const updateUserProfile = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id).orFail();
+
+    //only update if password matches
+    if (!comparePasswords(req.body.password, user.password)) {
+      return res.status(401).json({ error: "Invalid password" })
+    }
+
     user.name = req.body.name || user.name;
     user.lastName = req.body.lastName || user.lastName;
     user.phoneNumber = req.body.phoneNumber;
@@ -189,9 +195,7 @@ const updateUserProfile = async (req, res, next) => {
     user.zipCode = req.body.zipCode;
     user.city = req.body.city;
     user.state = req.body.state;
-    if (req.body.password !== user.password) {
-      user.password = hashPassword(req.body.password);
-    }
+
     await user.save();
 
     res.json({
@@ -207,7 +211,7 @@ const updateUserProfile = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-};
+}
 
 const getUserProfile = async (req, res, next) => {
     try {

@@ -28,7 +28,7 @@ const ProductCarouselComponent = ({ bestSellers }) => {
             <LinkContainer style={cursorP} to={`/product-details/${item._id}`}>
               <h3>Bestseller in {item.category} Category</h3>
             </LinkContainer>
-            <p style={{ color:'white', backgroundColor: 'rgba(52, 52, 52, 0.8)' }}>{item.description}</p>
+            <p className="carousel_caption_text">{item.description}</p>
           </Carousel.Caption>
         </Carousel.Item>
       ))}

@@ -73,7 +73,7 @@ const CategoryCardComponent = ({ category, idx }) => {
         {/* <Link to={`/product-list/category/${category.name}`} style={{ touchAction: "manipulation"}}> */}
           <button
             type="button"
-            class="btn btn-primary"
+            className="btn btn-primary"
             style={{ touchAction: "manipulation", userSelect: "none",}}
             // onClick={() =>
             //   (window.location.href = `/product-list/category/${category.name}`)
