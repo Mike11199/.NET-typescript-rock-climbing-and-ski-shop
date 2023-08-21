@@ -237,9 +237,3 @@ https://recreational-equipment-shop.herokuapp.com/api/products/?pageNum=null&pri
 - For example, a category string could be '&category=Boots/Climbing/Sportiva'.
 
 
-
-<h1> Docker  </h1>
-
-- docker build -t react-ski-shop .
-- docker run -dp 3000:3000 react-ski-shop 
-
