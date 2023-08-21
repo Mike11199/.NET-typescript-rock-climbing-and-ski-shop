@@ -235,3 +235,27 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 https://recreational-equipment-shop.herokuapp.com/api/products/?pageNum=null&price=500&rating=&category=Boots/Climbing/Sportiva,&attrs=color-yellow,&sort=price_1
 
 - For example, a category string could be '&category=Boots/Climbing/Sportiva'.
+
+
+<h1> Local Docker Test  </h1>
+
+- Run docker in the respective front end/ back end folder
+
+- docker build -t react-ski-shop .
+- docker run -dp 3000:3000 react-ski-shop
+
+- docker build -t backend-ski-shop .
+- docker run -dp 5000:5000 backend-ski-shop
+
+- Edit proxy to use host.docker.internal
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/a5b2adfb-f5ed-47ab-b604-331fb8de193c)
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/118cb8bd-e0bd-4b67-a319-db488606640b)
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/0e2c9adb-12ef-477e-8c1e-c0c2ba2f126f)
+
+
+
+- ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/1b7f1ade-afa0-4a49-9150-42c1cbc2301a)
+
