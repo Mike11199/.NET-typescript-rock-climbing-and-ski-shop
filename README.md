@@ -243,4 +243,7 @@ https://recreational-equipment-shop.herokuapp.com/api/products/?pageNum=null&pri
 - docker run -dp 3000:3000 react-ski-shop
 
 - docker build -t react-ski-shop .
-- docker run -dp 5000:5000 backend-ski-shop 
+- docker run -dp 5000:5000 backend-ski-shop
+
+- ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/1b7f1ade-afa0-4a49-9150-42c1cbc2301a)
+
