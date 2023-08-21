@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import '../../../frontend/src/mobileStyles.css'
+import 'mobileStyles.css'
 
 
 const styles = {
