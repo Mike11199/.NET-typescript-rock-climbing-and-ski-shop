@@ -8,5 +8,12 @@
         "fileupload",
         "mern",
         "uuidv"
-    ]
+    ],
+    "workbench.colorCustomizations": {
+        "terminal.foreground": "#00FD61",
+        "terminal.background": "#181717",
+        "activityBar.background": "#042772",
+        "titleBar.activeBackground": "#05379F",
+        "titleBar.activeForeground": "#FAFBFF"
+    }
 }

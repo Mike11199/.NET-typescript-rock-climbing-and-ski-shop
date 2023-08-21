@@ -1,10 +1,10 @@
 // import cors from 'cors'
 // import rateLimiter from 'express-rate-limit'
 const cors = require('cors');
-const rateLimit = require("express-rate-limit");
+// const rateLimit = require("express-rate-limit");
 
 require("dotenv").config();
-var helmet = require('helmet')
+// var helmet = require('helmet')
 
 
 const express = require("express");
@@ -115,7 +115,12 @@ io.on("connection", (socket) => {
 
 
   //attempt to fix google log Oauth2 in breaking in prod - heroku (works localhost)
-  //app.use(cors())
+// Allow requests from the Docker container on port 3000
+const corsOptions = {
+  origin: 'http://localhost:3000',  // Replace with your frontend's Docker container URL
+};
+
+app.use(cors(corsOptions));
 
 
 //TURN OFF FOR NOW - MIGHT BREAK SOCKET.IO
