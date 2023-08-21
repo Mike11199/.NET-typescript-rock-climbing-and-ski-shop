@@ -235,3 +235,11 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 https://recreational-equipment-shop.herokuapp.com/api/products/?pageNum=null&price=500&rating=&category=Boots/Climbing/Sportiva,&attrs=color-yellow,&sort=price_1
 
 - For example, a category string could be '&category=Boots/Climbing/Sportiva'.
+
+
+
+<h1> Docker  </h1>
+
+- docker build -t react-ski-shop .
+- docker run -dp 3000:3000 react-ski-shop 
+
