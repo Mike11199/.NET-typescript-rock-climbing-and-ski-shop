@@ -235,6 +235,8 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 
 <h1> AWS Deployment to Elastic Container Service </h1>
 
+- http://52.53.153.100/
+
 - Dockerized the front-end and back-end into separate containers using Dockerfiles and docker-compose.yml files.
 
 <br/>
@@ -256,8 +258,12 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 - Uploaded docker images to AWS ECR (Elastic Container Registry) using the AWS CLI
 
   <br/>
+
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/8c56c31a-c3b1-4e4a-863c-878f72839741)
+
+ ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/4cfcb852-c33b-4b89-a35f-66ff47603297)
   
-  ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/4cfcb852-c33b-4b89-a35f-66ff47603297)
 
   <br/>
 
