@@ -1,0 +1,13 @@
+# docker-compose up
+
+version: "3.7"
+services:
+  client:
+    container_name: react-ski-climbing-shop
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 80
+    ports:
+       - "80:80" # Expose port 80 for Nginx
