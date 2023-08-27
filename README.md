@@ -232,12 +232,54 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 ![storeGif3](https://user-images.githubusercontent.com/91037796/211220292-558792a6-c0be-4a58-8466-f657da3c699d.gif)
 
 
-<h1> Filtering and Sorting </h1>
 
-- Filtering and sorting abilities of the website are configured on both the back and front-end, and are implemented by use of a query string which the back end processses and sends to MongoDB.  This returns a JSON object of the products that match the criteria selected.
+<h1> AWS Deployment to Elastic Container Service </h1>
 
-https://recreational-equipment-shop.herokuapp.com/api/products/?pageNum=null&price=500&rating=&category=Boots/Climbing/Sportiva,&attrs=color-yellow,&sort=price_1
+- Dockerized the front-end and back-end into separate containers using Dockerfiles and docker-compose.yml files.
 
-- For example, a category string could be '&category=Boots/Climbing/Sportiva'.
+<br/>
+  
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/fc4256c1-e102-409e-843d-9bbb102d51e6)
+
+<br/>
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/0b5481cc-b042-478a-8c7d-8258093c6807)
+
+<br/>
+
+- Set up NGINX configuration file for a reverse proxy to serve front-end on AWS:
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/210f45fa-933a-4d25-99a6-c07b19a8bd28)
+
+<br/>
+
+- Uploaded docker images to AWS ECR (Elastic Container Registry) using the AWS CLI
+
+  <br/>
+  
+  ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/4cfcb852-c33b-4b89-a35f-66ff47603297)
+
+  <br/>
+
+- Set up task definition for both docker images to expose ports needed - so they can communicate within the same VPN:
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/27294433-8a25-493b-9e9e-6017af2e6a06)
+
+<br/>
+
+- Created a service within an Elastic Container Service (ECS) clust to run the above task, so that the front end and back end docker images are deployed to a public IP.
+
+<br/>
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/19e45ec4-9587-4e16-9ddd-5b2cfadcd05a)
+
+<br/>
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/060f2073-175e-4a4f-a960-74de029ffcd6)
+
+
+<br/>
+<br/>
+
 
 
