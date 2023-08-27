@@ -1,6 +1,10 @@
 <h1>Live Website</h1>
 
-- https://recreational-equipment-shop.herokuapp.com/
+- Heroku
+  - https://recreational-equipment-shop.herokuapp.com/
+
+- AWS ECS Docker Image Deployment (In Progress):
+  - http://54.193.133.8/    
 
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/a43e3526-8814-4c67-ae01-f37700468012)
 
