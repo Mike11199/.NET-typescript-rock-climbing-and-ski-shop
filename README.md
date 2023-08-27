@@ -259,3 +259,4 @@ https://recreational-equipment-shop.herokuapp.com/api/products/?pageNum=null&pri
 
 - ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/1b7f1ade-afa0-4a49-9150-42c1cbc2301a)
 
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/8c56c31a-c3b1-4e4a-863c-878f72839741)
