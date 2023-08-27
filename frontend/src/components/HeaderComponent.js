@@ -149,11 +149,10 @@ useEffect(() => {
             <InputGroup>
               <DropdownButton id="dropdown-basic-button" title={searchCategoryToggle}  >
                   <Dropdown.Item onClick={() => setSearchCategoryToggle("All")} >All</Dropdown.Item >
-                {categories.map((category, id) => (
+                {Array.isArray(categories) && categories?.map((category, id) => (
                   <Dropdown.Item key={id} onClick={() => setSearchCategoryToggle(category.name)}>{category.name}</Dropdown.Item>
                 ))}
               </DropdownButton>
-              
               <Form.Control onKeyUp={submitHandler} onChange={(e) => setSearchQuery(e.target.value)} type="text" placeholder="Search in shop ..." />
               <Button onClick={submitHandler} variant="warning">
                 <i className="bi bi-search text-dark"></i>

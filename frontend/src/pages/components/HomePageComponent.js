@@ -41,8 +41,10 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
           setError(er.response.data.message ? er.response.data.message : er.response.data)
           console.log(er.response.data.message ? er.response.data.message : er.response.data)
         });
-              
-        setMainCategories((cat) => categories.filter((item) => !item.name.includes("/")));  // will always run
+
+        if (Array.isArray(categories)){
+          setMainCategories((cat) => categories.filter((item) => !item.name.includes("/")));  // will always run
+        }
 
         getSnowCoverData();
 
@@ -91,14 +93,14 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
         const container = document.getElementById('nasa_image_container');
 
         // Check if the container already contains an image
-        const existingImage = container.querySelector('img');
+        const existingImage = container?.querySelector('img');
         if (existingImage) {
           // If an image element already exists in the container, remove it
           container.removeChild(existingImage);
         }
 
         // Append the image element to the container
-        container.appendChild(img);
+        container?.appendChild(img);
 
       } catch (error) {
         console.error('Error:', error);
