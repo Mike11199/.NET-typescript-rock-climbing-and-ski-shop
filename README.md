@@ -4,7 +4,7 @@
   - https://recreational-equipment-shop.herokuapp.com/
 
 - AWS ECS Docker Image Deployment (In Progress - docker-test branch):
-  - http://18.144.70.35/
+  - http://52.53.153.100/
 
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/a43e3526-8814-4c67-ae01-f37700468012)
 
