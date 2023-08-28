@@ -3,8 +3,14 @@
 - Heroku (CI/CD with Main Branch)
   - https://recreational-equipment-shop.herokuapp.com/
 
-- AWS ECS Docker Image Deployment (In Progress - docker-test branch):
+- AWS ECS Docker Image Deployment (CI/CD With GitHub Actions):
   - http://52.53.153.100/
+  - ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/52c227ce-67ce-4b68-854e-6aea99c03bd9)
+  - See branch "docker-test" for CI/CD deployment pipeline with GitHub actions and Dockerfiles.
+  - This is a CI/CD pipeline that rebuilds/deploys docker images to AWS ECS whenever a new commit is pushed to the "docker-test" branch.
+  
+
+<br/>
 
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/a43e3526-8814-4c67-ae01-f37700468012)
 
