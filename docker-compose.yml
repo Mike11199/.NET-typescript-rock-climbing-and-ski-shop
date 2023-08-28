@@ -1,0 +1,23 @@
+# docker-compose up -d --build
+# Above command should use the Dockerfiles in the front and back end folder to create both images for front/back end at once.
+# If running locally - need to uncomment out code section in Dockerfile for front end to not use nginx.
+
+version: "3.7"
+services:
+  front-end:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    container_name: react-ski-climbing-shop-front-end
+    expose:
+      - 80
+    ports:
+      - "80:80"
+  back-end:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: react-ski-climbing-shop-back-end
+    expose:
+      - 5000
