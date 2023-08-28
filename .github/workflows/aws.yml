@@ -23,11 +23,10 @@ env:
   ECS_CLUSTER: rock-climbing-ski-shop              # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: .aws/task-definition.json   # set this to the path to your Amazon ECS task definition
                                                        # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME_FRONT_END: front-end-GH           # set this to the name of the container in the
+  CONTAINER_NAME_FRONT_END: front-end-react-ski-shop-GH           # set this to the name of the container in the
                                                        # containerDefinitions section of your task definition
-  CONTAINER_NAME_BACK_END: back-end-GH             # set this to the name of the container in the
+  CONTAINER_NAME_BACK_END: back-end-react-ski-shop-GH             # set this to the name of the container in the
                                                        # containerDefinitions section of your task definition
-
 jobs:
   deploy:
     name: Deploy
