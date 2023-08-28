@@ -13,10 +13,6 @@
 
 
 
-
-
-
-
 # $ aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 456461478565.dkr.ecr.us-west-1.amazonaws.com
 # $ docker tag c245bc4cc4bd  456461478565.dkr.ecr.us-west-1.amazonaws.com/ski-rock-climbing-shop:react-ski-rock-climbing-shop
 # $ docker push 456461478565.dkr.ecr.us-west-1.amazonaws.com/ski-rock-climbing-shop:react-ski-rock-climbing-shop
