@@ -15,13 +15,15 @@ on:
       - docker-test
 
 env:
-  AWS_REGION: MY_AWS_REGION                   # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: MY_ECR_REPOSITORY           # set this to your Amazon ECR repository name
-  ECS_SERVICE: MY_ECS_SERVICE                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: MY_ECS_CLUSTER                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: MY_ECS_TASK_DEFINITION # set this to the path to your Amazon ECS task definition
+  AWS_REGION: us-west-1                   # set this to your preferred AWS region, e.g. us-west-1
+  ECR_REPOSITORY: ski-rock-climbing-shop           # set this to your Amazon ECR repository name
+  ECS_SERVICE: github-ski-rock-climbing-shop                 # set this to your Amazon ECS service name
+  ECS_CLUSTER: rock-climbing-ski-shop         # set this to your Amazon ECS cluster name
+  ECS_TASK_DEFINITION: .aws/task-definition.json # set this to the path to your Amazon ECS task definition
                                               # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: MY_CONTAINER_NAME           # set this to the name of the container in the
+  CONTAINER_NAME_FRONT_END: front-end-GH           # set this to the name of the container in the
+                                              # containerDefinitions section of your task definition
+  CONTAINER_NAME_BACK_END: back-end-GH           # set this to the name of the container in the
                                               # containerDefinitions section of your task definition
 
 jobs:
@@ -71,7 +73,7 @@ jobs:
           cd backend # Replace with the actual path to your frontend folder
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG2 .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG2
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG2" >> $GITHUB_OUTPUT          
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG2" >> $GITHUB_OUTPUT
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
