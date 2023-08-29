@@ -137,39 +137,40 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
           <img className="cloud_banner_vector11" alt="cloud_vector" src={CloudVector} />
           <img className="cloud_banner_vector12" alt="cloud_vector" src={CloudVector} />
           <img className="cloud_banner_vector13" alt="cloud_vector" src={CloudVector} />
-          <img className="skier_banner_vector" alt="skier_vector" src={Skier_Vector} />        
+          <img className="skier_banner_vector" alt="skier_vector" src={Skier_Vector} />
         </div>
       </div>
 
 
       <ProductCarouselComponent bestSellers={bestSellers} />
-      <Container>        
+      <Container>
       <Row xs={1} md={2} className="g-4 mt-4">
-          {mainCategories.map((category, idx) => (          
-          <>            
+          {mainCategories.map((category, idx) => (
+          <>
           <div className="cardComponentGrid">
-          <CategoryCardComponent key={idx} category={category} idx={idx} className="test"/>             
+          <CategoryCardComponent key={idx} category={category} idx={idx} className="test"/>
           </div>
           </>
           ))}
         </Row>
         {error}
       </Container>
-      <Container>        
+      <Container>
         <div className="climate_pledge_div">
-          <img className="plant_tree" alt="skier_vector" src={Plant_Tree} />    
+          <img className="plant_tree" alt="skier_vector" src={Plant_Tree} />
           <div className="climate_text_div">
               <p className="climate_text_paragraph">
-                <span style={{fontWeight:"bold"}}>Giving Back: &nbsp;</span> 
+                <span style={{fontWeight:"bold"}}>Giving Back: &nbsp;</span>
                  Actions speak louder than words.  To offset our carbon footprint and protect the environment, we pledge to plant one tree for every dollar our store sells.
-              </p>     
+                 Fun fact - the average tree offsets 48 pounds of CO2 a year.
+              </p>
            <div><CountUpComponent /></div>
-          </div>     
-        </div>    
+          </div>
+        </div>
       </Container>
 
-      <Container> 
-        
+      <Container>
+
         {/* https://nasa-gibs.github.io/gibs-api-docs/access-basics/#map-projections */}
       <h3 className="snow_section_title">Snow Cover Satellite Image</h3>
       <div className="nasa_snow_cover">
