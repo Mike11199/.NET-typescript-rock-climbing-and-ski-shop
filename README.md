@@ -2,10 +2,12 @@
 
 - Heroku (CI/CD with Main Branch)
   - https://recreational-equipment-shop.herokuapp.com/
+ 
+- AWC ECS - Static IP and Docker Images
+  - - http://52.53.153.100/
 
-- AWS ECS Docker Image Deployment (CI/CD With GitHub Actions):
-  - http://52.53.153.100/
-  - http://react-ski-shop-1109515336.us-west-1.elb.amazonaws.com/
+- AWS ECS Docker Image Deployment (CI/CD With GitHub Actions) and AWS EC2 Load Balancer:
+    - http://react-ski-shop-1109515336.us-west-1.elb.amazonaws.com/
   - ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/52c227ce-67ce-4b68-854e-6aea99c03bd9)
   - See branch "docker-test" for CI/CD deployment pipeline with GitHub actions and Dockerfiles.
   - This is a CI/CD pipeline that rebuilds/deploys docker images to AWS ECS whenever a new commit is pushed to the "docker-test" branch.
@@ -290,6 +292,11 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/060f2073-175e-4a4f-a960-74de029ffcd6)
 
+
+<br/>
+<br/>
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/1748e943-8dfc-43a9-a0f1-05fff7bb2e29)
 
 <br/>
 <br/>
