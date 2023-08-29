@@ -141,7 +141,7 @@ useEffect(() => {
       )}
 
         <LinkContainer to="/">
-          <Navbar.Brand href="/">Recreational Equipment Shop</Navbar.Brand>
+          <Navbar.Brand href="/">🏔 Recreational Equipment Shop</Navbar.Brand>
         </LinkContainer>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
