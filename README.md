@@ -297,6 +297,12 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 <br/>
 <br/>
 
+<br/>
+
+- EC2 Application Load Balancer to reroute traffic even when the ECS IP Address changes.
+
+<br/>
+
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/1748e943-8dfc-43a9-a0f1-05fff7bb2e29)
 
 <br/>
