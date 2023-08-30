@@ -248,6 +248,9 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 
 <h1> AWS Deployment to Elastic Container Service </h1>
 
+
+- http://alpine-peak-climbing-ski-gear.com/
+- http://react-ski-shop-1109515336.us-west-1.elb.amazonaws.com/
 - http://52.53.153.100/
 
 - Dockerized the front-end and back-end into separate containers using Dockerfiles and docker-compose.yml files.
