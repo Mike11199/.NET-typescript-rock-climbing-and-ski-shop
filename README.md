@@ -311,5 +311,9 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 <br/>
 <br/>
 
+- Added a custom domain name to the Load Balancer with AWS Route 53 and a SSL Certificate with AWS Certificate Manager backed by RSA 2048 bit encryption.
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/d00f71f5-9e54-42ba-8bd6-a893d6099234)
+
 
 
