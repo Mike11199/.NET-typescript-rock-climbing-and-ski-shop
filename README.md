@@ -309,12 +309,13 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 
 <br/>
 
-![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/1748e943-8dfc-43a9-a0f1-05fff7bb2e29)
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/c06b8234-1d9d-458e-a5b2-68802a1e6fde)
+
 
 <br/>
 <br/>
 
-- Added a custom domain name to the Load Balancer with AWS Route 53 and a SSL Certificate with AWS Certificate Manager backed by RSA 2048 bit encryption.
+- Added a custom domain name to the Load Balancer with AWS Route 53 and an SSL Certificate with AWS Certificate Manager backed by RSA 2048 bit encryption.  Edited the load balancer to automatically redirect HTTP requests on port 80 to port 443 for HTTPS for the domain name https://alpine-peak-climbing-ski-gear.com/.
 
 <br/>
 
@@ -322,7 +323,10 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 
 <br/>
 
-![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/d00f71f5-9e54-42ba-8bd6-a893d6099234)
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/059acd02-d144-4c83-99f2-cb128bd29220)
 
+<br/>
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/e595d3dd-8abd-4533-ab08-3db7460eb799)
 
 
