@@ -1,4 +1,4 @@
-** Note - Main branch is inactive apart from commits to the README - all new updates are made on the "docker-test" branch.
+** `Main` branch is inactive apart from commits to the README - all new updates are made on the `docker-test` branch.
 
 <h1>Live Website</h1>
 
