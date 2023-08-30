@@ -1,7 +1,7 @@
 <h1>Live Website</h1>
 
 - Domain Name - AWS CI/CD Pipeline and EC2 Load Balancer
-  - http://alpine-peak-climbing-ski-gear.com/
+  - https://alpine-peak-climbing-ski-gear.com/
   - EC2 Load balancer automatically redirects HTTP port 80 to HTTPS port 443 which has an AWS SSL Certificate.
 
 - Heroku (CI/CD with Main Branch)
