@@ -45,6 +45,7 @@ footer {
 .ice_cave_image {  
   position: absolute;
   max-width: 90%;
+  height: 100%;
   margin-left: 0%;
   margin-right: 0%;
   margin-bottom: 0% !important; /* Adding !important to ensure it takes precedence */
@@ -63,10 +64,10 @@ footer {
   z-index: -1;  
 }
 
-.rappel_image {  
+.rappel_image {
   position: absolute;
-  height: 95%;
-  margin-right: 0%;  
+  height: 100%;
+  margin-right: 0%;
   margin-bottom: 0% !important; /* Adding !important to ensure it takes precedence */
   bottom: 0;
   right:0;

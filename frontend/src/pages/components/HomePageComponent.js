@@ -162,7 +162,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
               <p className="climate_text_paragraph">
                 <span style={{fontWeight:"bold"}}>Giving Back: &nbsp;</span>
                  Actions speak louder than words.  To offset our carbon footprint and protect the environment, we pledge to plant one tree for every dollar our store sells.
-                 Fun fact - the average tree offsets 48 pounds of CO2 a year.
+                 The average tree offsets 48 pounds of CO2 a year.
               </p>
            <div><CountUpComponent /></div>
           </div>

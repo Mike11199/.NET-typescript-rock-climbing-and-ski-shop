@@ -103,24 +103,25 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
     }
     else{
       return ""
-    }    
+    }
   }
-
 
   return (
     <>
     <Toaster/>
     <img className="ski_image" alt="ice_climbing_photo" src={IceClimbingPhoto} ></img>
+    <div style={{display:"flex", height:"100%"}}>
     <img className="ice_cave_image" alt="ice_climbing_photo" src={IceCavePhoto} ></img>
-    <div style={{display:"flex", height:"100%"}}>    
-    <Container style={{maxWidth:"100%", marginTop:"5%" }} >   
-      <Row className="mt-5">  
-        <Col md={5} ></Col>    
+    </div>
+    <div style={{display:"flex", height:"100%"}}>
+    <Container style={{maxWidth:"100%", marginTop:"5%" }} >
+      <Row className="mt-5">
+        <Col md={5} ></Col>
         <Col md={3} id="log_in_page_form_1" className="pr-md-2" style={{maxWidth:"100%", marginRight:"2%" }} >
-          <h1>Login</h1>          
+          <h1>Login</h1>
           {/* Initial state of form validation is False */}
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            
+
             {/* Email */}
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>

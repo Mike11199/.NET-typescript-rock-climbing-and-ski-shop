@@ -17,7 +17,7 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
 
   //onChange handler to ensure that passwords match
   const onChange = () => {
-    
+
     //grab values from form
     const password = document.querySelector("input[name=password]")
     const confirmPassword = document.querySelector("input[name=confirmPassword]")
@@ -31,7 +31,7 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
   }
 
 
-  // form submission to submit registration request to API and error handling 
+  // form submission to submit registration request to API and error handling
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -56,7 +56,7 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
             loading: false,
           });
           reduxDispatch(setReduxUserState(data.userCreated));
-          
+
         })
         .catch((er) =>
           setRegisterUserResponseState({
@@ -196,7 +196,9 @@ const RegisterPageComponent = ({registerUserApiRequest, reduxDispatch, setReduxU
         </Col>
       </Row>
     </Container>
-    <img className="rappel_image" alt="rappel_image" src={RappelClimbingPhoto} ></img>   
+    <div style={{display:"flex", height:"100%"}}>
+    <img className="rappel_image" alt="rappel_image" src={RappelClimbingPhoto} ></img>
+    </div>
     </div>
     </>
   )
