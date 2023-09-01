@@ -1,18 +1,16 @@
 // import cors from 'cors'
 // import rateLimiter from 'express-rate-limit'
-const cors = require('cors');
-const rateLimit = require("express-rate-limit");
+// const cors = require('cors');
+// const rateLimit = require("express-rate-limit");
 
 require("dotenv").config();
-var helmet = require('helmet')
+// var helmet = require('helmet')
 
 
 const express = require("express");
 const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const app = express();
-
-
 
 //https://socket.io/get-started/chat
 //Block below is for socket.io
@@ -152,7 +150,7 @@ if (process.env.NODE_ENV === "production") {
 } else {
    app.get("/", (req,res) => {
       res.json({ message: "API running..." });
-   }) 
+   })
 }
 
 app.use((error, req, res, next) => {

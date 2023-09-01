@@ -11,12 +11,10 @@
     "client": "cd frontend && npm start",
     "seed:data": "node seeder/seeder",
     "seed:data-d": "node seeder/seeder -d",
-    "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend"
+    "heroku-postbuild": "npm install --prefix frontend && npm install --prefix backend && npm run build --prefix frontend"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-  },
   "devDependencies": {
     "concurrently": "^7.1.0",
     "nodemon": "^2.0.15"
