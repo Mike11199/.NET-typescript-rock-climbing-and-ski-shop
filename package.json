@@ -10,8 +10,7 @@
     "server-dev": "cd backend && npx nodemon server.js --ignore ../frontend",
     "client": "cd frontend && npm start",
     "seed:data": "node seeder/seeder",
-    "seed:data-d": "node seeder/seeder -d",
-    "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend"
+    "seed:data-d": "node seeder/seeder -d"
   },
   "author": "",
   "license": "ISC",
