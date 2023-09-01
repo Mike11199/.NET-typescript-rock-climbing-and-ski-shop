@@ -32,9 +32,9 @@ let activeChats = [];
 
 //back end connects to front end with this code, listening for this message
 io.on("connection", (socket) => {
-  
+
   //server listens for message that admin is logged in
-  socket.on("admin connected with server", (adminName) => {  
+  socket.on("admin connected with server", (adminName) => {
     admins.push({id: socket.id, admin: adminName});
     // console.log(admins);
   })
@@ -49,12 +49,12 @@ io.on("connection", (socket) => {
 
         //server takes message received and emits to admin - all admins due to broadcast -NOT GOOD
       //   socket.broadcast.emit("server sends message from client to admin",{
-      //     message: msg         
+      //     message: msg
       // })
-      
+
       let client = activeChats.find((client) => client.clientId === socket.id)
       let targetAdminId;
-     
+
       if (client){
         targetAdminId = client.adminId
       } else {
@@ -65,19 +65,19 @@ io.on("connection", (socket) => {
 
       socket.broadcast.to(targetAdminId).emit("server sends message from client to admin",{
         user: socket.id,
-        message: msg         
-      })      
-        
+        message: msg
+      })
+
       }
   })
-    
+
   //server listens for admin message
   socket.on('admin sends message', ({user, message}) => {
     //server takes message from admin and emits back to clients
     socket.broadcast.to(user).emit("server sends message from admin to client", message)
    })
 
-   
+
   //server listens for admin closes chat
   socket.on('admin closes chat', (socketId) => {
     //server takes message and broadcast to that socket
@@ -87,26 +87,25 @@ io.on("connection", (socket) => {
    })
 
 
-   
+
   //server listens for admin disconnect
   socket.on("disconnect", (reason) => {
-    
+
   //if admin disconnected remove admin from admin array
-  const removeIndex = admins.findIndex((item) => item.id === socket.id);  
+  const removeIndex = admins.findIndex((item) => item.id === socket.id);
   if (removeIndex !== -1){
     admins.splice(removeIndex, 1)
-  }   
+  }
 
     activeChats = activeChats.filter((item) => item.adminId !== socket.id);
-    
-    //if client disconnected remove client from active chats 
-    const removeIndexClient = activeChats.findIndex((item) => item.clientId === socket.id);  
+
+    //if client disconnected remove client from active chats
+    const removeIndexClient = activeChats.findIndex((item) => item.clientId === socket.id);
     if (removeIndex !== -1){
       activeChats.splice(removeIndexClient, 1)
-    }   
-    
-    
-    socket.broadcast.emit("disconnected", {reason: reason, socketId: socket.id})  //emit to all 
+    }
+
+    socket.broadcast.emit("disconnected", {reason: reason, socketId: socket.id})  //emit to all
    })
 })
 
@@ -152,7 +151,7 @@ if (process.env.NODE_ENV === "production") {
     app.get("*", (req, res) => res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html")));
 } else {
    app.get("/", (req,res) => {
-      res.json({ message: "API running..." }); 
+      res.json({ message: "API running..." });
    }) 
 }
 
