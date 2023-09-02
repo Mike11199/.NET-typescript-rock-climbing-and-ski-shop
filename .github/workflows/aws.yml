@@ -38,18 +38,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials from GitHub secret variables.
         uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login to Amazon ECR
+      - name: Login to Amazon ECR with secret variables.
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@62f4f872db3836360b72999f4b87f1ff13310f3a
 
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Build, tag, and push the front end image to Amazon ECR.
         id: build-image-front-end
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -63,7 +63,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_FRONT_END
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_FRONT_END" >> $GITHUB_OUTPUT
 
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Build, tag, and push the back end image to Amazon ECR.
         id: build-image-back-end
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -76,6 +76,8 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END" >> $GITHUB_OUTPUT
+
+      # comment below out as I think the task definition just uses the tags, not image IDs and tags never change.
 
       # - name: Fill in the new image ID in the Amazon ECS task definition
       #   id: task-def
@@ -93,10 +95,11 @@ jobs:
       #     container-name: ${{ env.CONTAINER_NAME_BACK_END }}
       #     image: ${{ steps.build-image-back-end.outputs.image }}
 
-      - name: Deploy Amazon ECS task definition
+      - name: Deploy Amazon ECS task definition.
         uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
         with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          # task-definition: ${{ steps.task-def.outputs.task-definition }}
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
