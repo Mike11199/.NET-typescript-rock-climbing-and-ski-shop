@@ -20,7 +20,7 @@ import 'react-day-picker/dist/style.css';
 
 
 const HomePageComponent = ({ categories, getBestsellers }) => {
-  
+
     const [mainCategories, setMainCategories] = useState([]);
     const [bestSellers, setBestsellers] = useState([]);
     const [error, setError] = useState('');
@@ -32,7 +32,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
 
 
     useEffect(() => {
-       
+
       getBestsellers()
         .then((data) => {
             setBestsellers(data);
@@ -60,7 +60,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
   // https://nasa-gibs.github.io/gibs-api-docs/access-basics/#map-projections
   // https://nasa-gibs.github.io/gibs-api-docs/access-basics/#service-endpoints
     const getSnowCoverData = async () => {
-     
+
       // const url = 'https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/2022-02-24/250m/4/2/3.jpg';
       const url2 = 'https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/';
       const format = '.jpg';
@@ -71,7 +71,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
       // currentDate.setDate(currentDate.getDate() - 7);
       // let lastWeekDate = currentDate.toISOString().split('T')[0];
       // console.log(currentDate)
-      
+
       console.log(startDate)
       const formattedSTARTDate = startDate.toISOString().split('T')[0];
       console.log(formattedSTARTDate)
@@ -82,13 +82,13 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
         const response = await axios.get(requestUrl, { responseType: 'arraybuffer' });
         const imageBlob = new Blob([response.data], { type: format });
         const imageUrl = URL.createObjectURL(imageBlob);
-    
+
         // Create an image element and set its source to the generated URL
         const img = document.createElement('img');
         img.src = imageUrl;
         img.classList.add('nasa_sat_image'); // Replace 'your-class-name' with your desired class name
 
-    
+
         // Append the image element to a container on your website
         const container = document.getElementById('nasa_image_container');
 
@@ -106,13 +106,10 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
         console.error('Error:', error);
       }
     };
-    
-
-    
 
 
   return (
-    <>      
+    <>
       <div className="banner_box_container">
         <div className="ski_banner_box">
           <Snowfall />
@@ -188,7 +185,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
             <p className="sat_text">
               <ul>
               <li>
-              See latest image for snow cover from the MODIS (Moderate Resolution Imaging SpectroRadiometer) sensor on the NASA Terra (EOS AM-1) satellite.  
+              See latest image for snow cover from the MODIS (Moderate Resolution Imaging SpectroRadiometer) sensor - on the NASA Terra (EOS AM-1) satellite.  
               <li style={{marginTop:"20px"}}>
               Terra was launched in 1999 and orbits in a sun-synchronous orbit, meaning it passes over any given point on the earth at the same local solar time.
               This gives consistent lighting for land imagery.  The satellite also boasts a 250m spatial resolution, meaning that one pixel represents an area 
@@ -196,7 +193,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
               </li>
               </li>
               </ul>
-            </p>          
+            </p>
           </div>
       </div>
       </Container>

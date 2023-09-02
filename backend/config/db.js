@@ -6,8 +6,8 @@ mongoose.set("strictQuery", false);
 
 const connectDB = async () => {
 
-    console.log("PRINT MONGO URL??")
-    console.log(process.env.MONGO_URL)
+    console.log("Test docker change image update.")
+
 
     try {
         await mongoose.connect(process.env.MONGO_URL, {
