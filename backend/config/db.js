@@ -6,6 +6,9 @@ mongoose.set("strictQuery", false);
 
 const connectDB = async () => {
 
+    console.log("PRINT MONGO URL??")
+    console.log(process.env.MONGO_URL)
+
     try {
         await mongoose.connect(process.env.MONGO_URL, {
             useNewUrlParser: true,
