@@ -90,7 +90,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
         reduxDispatch(setReduxUserState({ doNotLogout: userInfo.doNotLogout, ...data.userUpdated }));
         toast.dismiss();
         toast.success('Successfully updated your profile!', { style: { borderRadius: '10px', background: '#333', color: '#fff' } });
-    
+
         if (userInfo.doNotLogout) {
           localStorage.setItem("userInfo", JSON.stringify({ doNotLogout: true, ...data.userUpdated }));
         } else {

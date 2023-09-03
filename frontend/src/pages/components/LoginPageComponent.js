@@ -149,7 +149,8 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
               <Form.Check
                 name="doNotLogout"
                 type="checkbox"
-                label="Do not logout"
+                label="Keep me logged in"
+                defaultChecked
               />
             </Form.Group>
 
@@ -163,7 +164,7 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
 
             {/* Submit Button */}
             <div width="300px">
-            <Button variant="primary" type="submit"  style={{width:'230px'}}>             
+            <Button variant="primary" type="submit"  style={{width:'230px'}}>
             {displaySpinner()}
               Login
             </Button>
