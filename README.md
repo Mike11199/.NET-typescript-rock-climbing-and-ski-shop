@@ -8,7 +8,7 @@
 
 - Heroku (CI/CD with Main Branch)
   - https://recreational-equipment-shop.herokuapp.com/
- 
+
 - AWC ECS - Static IP and Docker Images
   - http://54.219.142.98/
 
@@ -18,7 +18,7 @@
   - See branch "docker-test" for CI/CD deployment pipeline with GitHub actions and Dockerfiles.  This is always the most up to date branch.
   - This is a CI/CD pipeline that rebuilds/deploys docker images to AWS ECS whenever a new commit is pushed to the "docker-test" branch.
   - An EC2 Application Load Balancer reroutes traffic to the ECS cluster even when the IP address of it changes due to the CI/CD pipeline.
-  
+
 
 <br/>
 
@@ -30,7 +30,7 @@
 
 
 
-- Use the following for both username and password at login for testing (or create a new account):    
+- Use the following for both username and password at login for testing (or create a new account):
   - Username: test@gmail.com
   - Password: test@gmail.com
 
@@ -40,15 +40,15 @@
 
 <h1>Summary</h1>
 
-- A full stack e-commerce web application using the MERN stack (MongoDB, Express.js, React.js, Node.js).  
+- A full stack e-commerce web application using the MERN stack (MongoDB, Express.js, React.js, Node.js).
 
 - Added the PayPal SDK and sandbox accounts to simulate live payment of an order and front/back end response of a submitted order.
 
 - Added an admin dashboard that only is displayed if a user is an admin, so that an entire new area of the site is rendered.  This Admin area includes components to add new products, edit products, mark orders as delivered, and other tasks (such as deleting products or responding to user chats), without having to directly access the MongoDB database.
 
-- Implemented Socket.IO to allow for bi-directional client and server communication, to enable real-time messaging between an admin and multiple users. 
+- Implemented Socket.IO to allow for bi-directional client and server communication, to enable real-time messaging between an admin and multiple users.
 
-- Used the Cloudinary service to allow an Admin to upload and delete images of a product.  Links to Cloudinary are stored in MongoDB and fetched as needed.  
+- Used the Cloudinary service to allow an Admin to upload and delete images of a product.  Links to Cloudinary are stored in MongoDB and fetched as needed.
 
 - Used Cloudinary AI Background Removal to dynamically remove background of images when redux dark mode state variable is set (later removed due to rate limit).
 
@@ -105,10 +105,10 @@
 
 <h1> PayPal Payment Integration </h1>
 
-- Used the Paypal SDK to simulate live payment of an order from the store. 
+- Used the Paypal SDK to simulate live payment of an order from the store.
 - Referenced PayPal documentation to pass order details such as the order total and products to PayPal.
   - https://developer.paypal.com/sdk/js/reference/#createorder
-  
+
 - Created business/personal PayPal sandbox accounts with fake credit/debit cards, and account balances to simulate a real order.
 - On a successful response from the PayPal API, the order is marked as paid in the MongoDB database.  An admin must later mark the product as delivered manually.
 
