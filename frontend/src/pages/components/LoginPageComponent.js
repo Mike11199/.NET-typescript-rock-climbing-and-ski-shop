@@ -149,7 +149,7 @@ const LoginPageComponent = ({ loginUserApiRequest, reduxDispatch, setReduxUserSt
               <Form.Check
                 name="doNotLogout"
                 type="checkbox"
-                label="Keep me logged in"
+                label="Keep me logged in."
                 defaultChecked
               />
             </Form.Group>
