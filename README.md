@@ -1,6 +1,26 @@
+** `Main` branch is inactive apart from commits to the README - all new updates are made on the `docker-test` branch.
+
 <h1>Live Website</h1>
 
-- https://recreational-equipment-shop.herokuapp.com/
+- Domain Name - AWS CI/CD Pipeline and EC2 Load Balancer
+  - https://alpine-peak-climbing-ski-gear.com/
+  - EC2 Load balancer automatically redirects HTTP port 80 to HTTPS port 443 which has an AWS SSL Certificate.
+
+- Heroku (CI/CD with Main Branch)
+  - https://recreational-equipment-shop.herokuapp.com/
+ 
+- AWC ECS - Static IP and Docker Images
+  - http://54.219.142.98/
+
+- AWS ECS Docker Image Deployment (CI/CD With GitHub Actions) and EC2 Load Balancer
+  - http://react-ski-shop-1109515336.us-west-1.elb.amazonaws.com/
+  - ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/52c227ce-67ce-4b68-854e-6aea99c03bd9)
+  - See branch "docker-test" for CI/CD deployment pipeline with GitHub actions and Dockerfiles.  This is always the most up to date branch.
+  - This is a CI/CD pipeline that rebuilds/deploys docker images to AWS ECS whenever a new commit is pushed to the "docker-test" branch.
+  - An EC2 Application Load Balancer reroutes traffic to the ECS cluster even when the IP address of it changes due to the CI/CD pipeline.
+  
+
+<br/>
 
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/a43e3526-8814-4c67-ae01-f37700468012)
 
@@ -228,35 +248,88 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 ![storeGif3](https://user-images.githubusercontent.com/91037796/211220292-558792a6-c0be-4a58-8466-f657da3c699d.gif)
 
 
-<h1> Filtering and Sorting </h1>
 
-- Filtering and sorting abilities of the website are configured on both the back and front-end, and are implemented by use of a query string which the back end processses and sends to MongoDB.  This returns a JSON object of the products that match the criteria selected.
-
-https://recreational-equipment-shop.herokuapp.com/api/products/?pageNum=null&price=500&rating=&category=Boots/Climbing/Sportiva,&attrs=color-yellow,&sort=price_1
-
-- For example, a category string could be '&category=Boots/Climbing/Sportiva'.
+<h1> AWS Deployment to Elastic Container Service </h1>
 
 
-<h1> Local Docker Test  </h1>
+- http://alpine-peak-climbing-ski-gear.com/
+- http://react-ski-shop-1109515336.us-west-1.elb.amazonaws.com/
+- http://52.53.153.100/
 
-- Run docker in the respective front end/ back end folder
+- Dockerized the front-end and back-end into separate containers using Dockerfiles and docker-compose.yml files.
 
-- docker build -t react-ski-shop .
-- docker run -dp 3000:3000 react-ski-shop
+<br/>
+  
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/fc4256c1-e102-409e-843d-9bbb102d51e6)
 
-- docker build -t backend-ski-shop .
-- docker run -dp 5000:5000 backend-ski-shop
+<br/>
 
-- Edit proxy to use host.docker.internal
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/0b5481cc-b042-478a-8c7d-8258093c6807)
 
-![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/a5b2adfb-f5ed-47ab-b604-331fb8de193c)
+<br/>
 
-![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/118cb8bd-e0bd-4b67-a319-db488606640b)
+- Set up NGINX configuration file for a reverse proxy to serve front-end on AWS:
 
-![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/0e2c9adb-12ef-477e-8c1e-c0c2ba2f126f)
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/210f45fa-933a-4d25-99a6-c07b19a8bd28)
 
+<br/>
 
+- Uploaded docker images to AWS ECR (Elastic Container Registry) using the AWS CLI
 
-- ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/1b7f1ade-afa0-4a49-9150-42c1cbc2301a)
+  <br/>
+
 
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/8c56c31a-c3b1-4e4a-863c-878f72839741)
+
+ ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/4cfcb852-c33b-4b89-a35f-66ff47603297)
+  
+
+  <br/>
+
+- Set up task definition for both docker images to expose ports needed - so they can communicate within the same VPN:
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/27294433-8a25-493b-9e9e-6017af2e6a06)
+
+<br/>
+
+- Created a service within an Elastic Container Service (ECS) cluster to run the above task, so that the front end and back end docker images are deployed to a public IP.
+
+<br/>
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/19e45ec4-9587-4e16-9ddd-5b2cfadcd05a)
+
+<br/>
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/060f2073-175e-4a4f-a960-74de029ffcd6)
+
+
+<br/>
+<br/>
+
+<br/>
+
+- EC2 Application Load Balancer to reroute traffic even when the ECS IP Address changes.
+
+<br/>
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/c06b8234-1d9d-458e-a5b2-68802a1e6fde)
+
+
+<br/>
+<br/>
+
+- Added a custom domain name to the Load Balancer with AWS Route 53 and an SSL Certificate with AWS Certificate Manager backed by RSA 2048 bit encryption.  Edited the load balancer to automatically redirect HTTP requests on port 80 to port 443 for HTTPS for the domain name https://alpine-peak-climbing-ski-gear.com/.
+
+<br/>
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/9fa0514f-bf16-4c40-86c3-79e38ef7668f)
+
+<br/>
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/059acd02-d144-4c83-99f2-cb128bd29220)
+
+<br/>
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/e595d3dd-8abd-4533-ab08-3db7460eb799)
+
+
