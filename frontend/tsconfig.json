@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
       "baseUrl": "./src",
+      "outdir": "./build",
       "target": "es2022",
       "noImplicitAny": false,
       "jsx": "react",
