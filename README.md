@@ -10,7 +10,7 @@
   - https://recreational-equipment-shop.herokuapp.com/
 
 - AWC ECS - Static IP and Docker Images
-  - http://54.219.142.98/
+  - http://13.52.252.9/
 
 - AWS ECS Docker Image Deployment (CI/CD With GitHub Actions) and EC2 Load Balancer
   - http://react-ski-shop-1109515336.us-west-1.elb.amazonaws.com/
