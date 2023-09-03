@@ -24,9 +24,6 @@ import { setChatRooms, setSocket, setMessageReceived, removeChatRoom } from "../
 import { setDarkMode } from "../redux/actions/darkModeActions";
 import '../darkMode.css';  // reference https://www.makeuseof.com/how-to-add-dark-mode-to-a-react-application/
 
-
-
-
 const HeaderComponent = () => {
 
   const dispatch = useDispatch();
