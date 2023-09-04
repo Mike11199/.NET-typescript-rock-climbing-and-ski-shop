@@ -140,9 +140,8 @@ const ProductDetailsPageComponent = ({
                         readonly
                         size={20}
                         initialValue={product.rating}
-                        ratingValue={product.rating}
                       />{" "}
-                      ({product.reviewsNumber})
+                      ({product.reviewsNumber} reviews)
                     </ListGroup.Item>
                     <ListGroup.Item>
                       Price <span className="fw-bold">${product.price.toFixed(2)}</span>
@@ -198,7 +197,7 @@ const ProductDetailsPageComponent = ({
                       product.reviews.map((review, idx) => (
                         <ListGroup.Item key={idx}>
                           {review.user.name} <br />
-                          <Rating readonly size={20} initialValue={review.rating} ratingValue={review.rating}/>
+                          <Rating readonly size={20} initialValue={review.rating}/>
                           <br />
                           {review.createdAt.substring(0, 10)} <br />
                           {review.comment}

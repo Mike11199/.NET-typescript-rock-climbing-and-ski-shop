@@ -34,6 +34,7 @@ const ProductForListComponent = ({ productId, name, description, price, images, 
     };
 
 
+    console.log(rating)
   // console.log('productforlistcomponent')
   // console.log({mode})
 
@@ -83,7 +84,7 @@ const ProductForListComponent = ({ productId, name, description, price, images, 
               {description}
             </Card.Text>
             <Card.Text>
-              <Rating readonly size={20} initialValue={rating} ratingValue={rating}/> ({reviewsNumber})
+              <Rating readonly initialValue={rating} size={20}/> ({reviewsNumber})
             </Card.Text>
             <Card.Text>
           ${price.toFixed(2)}
