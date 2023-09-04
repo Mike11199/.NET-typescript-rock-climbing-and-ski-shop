@@ -11,7 +11,7 @@ const RatingFilterComponent = ({setRatingsFromFilter}) => {
           <Form.Check type="checkbox" id={`check-api-${idx}`}>
             <Form.Check.Input type="checkbox" isValid onChange={e => setRatingsFromFilter((items) => {return {...items,[5-idx]:e.target.checked}}) } />
             <Form.Check.Label style={{ cursor: "pointer" }}>
-              <Rating readonly size={20} initialValue={5 - idx} />
+              <Rating readonly onClick={()=> null} size={20} ratingValue={5 - idx} />
             </Form.Check.Label>
           </Form.Check>
         </Fragment>

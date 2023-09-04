@@ -137,9 +137,10 @@ const ProductDetailsPageComponent = ({
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <Rating
+                      onClick={()=> null}
                         readonly
                         size={20}
-                        initialValue={product.rating}
+                        ratingValue={product.rating}
                       />{" "}
                       ({product.reviewsNumber} reviews)
                     </ListGroup.Item>
@@ -197,7 +198,7 @@ const ProductDetailsPageComponent = ({
                       product.reviews.map((review, idx) => (
                         <ListGroup.Item key={idx}>
                           {review.user.name} <br />
-                          <Rating readonly size={20} initialValue={review.rating}/>
+                          <Rating readonly size={20} ratingValue={review.rating} onClick={()=> null}/>
                           <br />
                           {review.createdAt.substring(0, 10)} <br />
                           {review.comment}

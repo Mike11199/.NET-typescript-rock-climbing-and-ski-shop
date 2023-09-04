@@ -84,7 +84,7 @@ const ProductForListComponent = ({ productId, name, description, price, images, 
               {description}
             </Card.Text>
             <Card.Text>
-              <Rating readonly initialValue={rating} size={20}/> ({reviewsNumber})
+              <Rating readonly onClick={()=> null} ratingValue={rating} size={20}/> ({reviewsNumber})
             </Card.Text>
             <Card.Text>
           ${price.toFixed(2)}
