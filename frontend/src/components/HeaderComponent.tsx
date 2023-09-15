@@ -60,7 +60,6 @@ const HeaderComponent = () => {
       document.body.className = mode;
   }, [mode]);
 
-
   // useEffect - Getting categories for the header menu drop down - search menu
   useEffect(() => {
     dispatch(getCategories());
