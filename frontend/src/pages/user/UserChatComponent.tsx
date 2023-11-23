@@ -137,7 +137,7 @@ const UserChatComponent = () => {
 
           {/* map array of chat values between admin/client to chat box */}
           {chat.map((item,id) => (
-             <div key={id}>
+             <div key={`chat_component_${id}`}>
              {item.client && (
                <p>
                  <b>You wrote:</b> {item.client}

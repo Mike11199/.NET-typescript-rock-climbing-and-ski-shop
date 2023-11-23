@@ -71,7 +71,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
     console.log(startDate);
     const formattedSTARTDate = startDate.toISOString().split("T")[0];
     console.log(formattedSTARTDate);
-    const requestUrl = `${url2}${formattedSTARTDate}/250m/${level}/${row}/${col}.${format}`;
+    const requestUrl = `${url2}${formattedSTARTDate}/250m/${level}/${row}/${col}.jpg`;
     console.log(requestUrl);
 
     try {
@@ -199,7 +199,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
             <>
               <div className="cardComponentGrid">
                 <CategoryCardComponent
-                  key={idx}
+                  key={`cardComponentGrid_${idx}`}
                   category={category}
                   idx={idx}
                 />
