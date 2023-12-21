@@ -337,3 +337,12 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/e595d3dd-8abd-4533-ab08-3db7460eb799)
 
 
+
+- Added lambda to send an email to an SNS topic if any of the site containers crash.  This is done with an EventBridge rule that detects container state changes.
+
+ ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/5755d3ac-c20d-48a2-9f33-778fc6a50c3b)
+
+ ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/765ca48d-fd5c-48ef-88b9-5b44d4c4aefd)
+
+ ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/aace5763-c553-4b7e-9be6-d73bd2e33b33)
+
