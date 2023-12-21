@@ -339,6 +339,8 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 <br/>
 
 
+<h1> Lambda via EventBridge and SNS to Detect Outages </h1>
+
 - Added lambda to send an email to an SNS topic if any of the site containers crash.  This is done with an EventBridge rule that detects container state changes.
 
  ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/5755d3ac-c20d-48a2-9f33-778fc6a50c3b)
@@ -349,11 +351,15 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 
 <br/>
 
+<h1> CI/CD Deployment via GitHub Actions </h1>
+
 - Added a Github workflow that on repo push redeploys the docker containers.  This required setting up various secrets and task definitions to run correctly.
 
  ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/908a5ba2-3745-4977-9fd3-4f9d06c6e14b)
 
  <br/>
+
+ <h1> Lambda Cron to Periodically Shut Down Site at Night </h1>
 
 - Added a lambda to shut down the site between 1am and 6am to save money.
 
