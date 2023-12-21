@@ -336,6 +336,7 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/e595d3dd-8abd-4533-ab08-3db7460eb799)
 
+<br/>
 
 
 - Added lambda to send an email to an SNS topic if any of the site containers crash.  This is done with an EventBridge rule that detects container state changes.
@@ -346,3 +347,20 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 
  ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/aace5763-c553-4b7e-9be6-d73bd2e33b33)
 
+<br/>
+
+- Added a Github workflow that on repo push redeploys the docker containers.  This required setting up various secrets and task definitions to run correctly.
+
+ ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/908a5ba2-3745-4977-9fd3-4f9d06c6e14b)
+
+ <br/>
+
+- Added a lambda to shut down the site between 1am and 6am to save money.
+
+ ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/752f752e-070f-4085-b174-f1a3f849f0e7)
+
+ ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/c318c4fd-4f65-4562-9546-d9cbc6c169a0)
+
+
+
+ 
