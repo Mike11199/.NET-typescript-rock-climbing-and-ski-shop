@@ -39,6 +39,10 @@
 <h1>Summary</h1>
 
 - A full stack e-commerce web application using the MERN stack (MongoDB, Express.js, React.js, Node.js).
+  
+- Hosted on Amazon Elastic Container Service (ECS) in two docker containers.  Added a custom domain name and load balancer for HTTPS.
+  
+- Added a GitHub actions pipeline that automaticlly redeploys containers on push.  Added Lambdas to detect when containers crash - emailing me via an SNS topic - and to shut the site down at night to save money.
 
 - Added the PayPal SDK and sandbox accounts to simulate live payment of an order and front/back end response of a submitted order.
 
@@ -57,6 +61,8 @@
 - Added Google OAuth2.0 Log In, decoding JWT credentials from Google, and locating the user by email in MongoDB to verify the user. 
 
 - Modified order controller to update inventory counts upon placing an order in the MongoDB database.  Front end also now advises if a product is low in stock.
+
+
 
 <br/>
 
