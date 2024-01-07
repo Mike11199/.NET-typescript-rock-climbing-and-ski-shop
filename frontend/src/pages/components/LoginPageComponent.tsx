@@ -7,22 +7,23 @@ import toast, { Toaster } from "react-hot-toast";
 import IceClimbingPhoto from "images/ski_mountaineering_5.png";
 import IceCavePhoto from "images/ice_cave_2.png";
 import "mobileStyles.css";
+import { AxiosResponse } from "axios";
 
 interface LoginPageComponentProps {
-  loginUserApiRequest?: any;
-  reduxDispatch?: any;
-  setReduxUserState?: any;
-  googleLogin?: any;
+  loginUserApiRequest: (
+    email: string,
+    password: string,
+    doNotLogout: boolean
+  ) => Promise<any>;
+  reduxDispatch?: Function;
+  setReduxUserState: Function;
+  googleLogin?: (googleToken: string) => Promise<AxiosResponse<any>>;
 }
 
-function shakeDivById(id: string): void {
-  const formControl = document.querySelector(`#${id}`);
-  if (formControl) {
-    formControl.classList.add("shake");
-    formControl.addEventListener("animationend", () => {
-      formControl.classList.remove("shake");
-    });
-  }
+interface LoginUserResponse {
+  success: string;
+  error: string;
+  loading: boolean;
 }
 
 const LoginPageComponent = ({
@@ -31,90 +32,64 @@ const LoginPageComponent = ({
   setReduxUserState,
   googleLogin,
 }: LoginPageComponentProps) => {
-  //react state for form - if validated or not
-  const [validated, setValidated] = useState(false);
-  const [LogInUserResponseState, setLogInUserResponseState] = useState<any>({
-    success: "",
-    error: "",
-    loading: false,
-  });
+  const [LogInUserResponseState, setLogInUserResponseState] =
+    useState<LoginUserResponse>({
+      success: "",
+      error: "",
+      loading: false,
+    });
+  const [loginWithDefaultUser, setLoginWithDefaultUser] = useState(false);
 
   //event handler for form submission
   const handleSubmit = async (event) => {
+    console.log("submitting");
     event.preventDefault();
     event.stopPropagation();
 
-    const form = event.currentTarget.elements;
-    const email = form.email.value;
-    const password = form.password.value;
-    const doNotLogout = form.doNotLogout.checked;
+    let form = event.currentTarget.elements;
+    let email = form.email.value;
+    let password = form.password.value;
+    let doNotLogout = form.doNotLogout.checked;
+
+    if (loginWithDefaultUser) {
+      email = "test@test.com";
+      password = "easy_to_guess_password";
+    }
 
     if (email === "" || password === "") {
-      toast.dismiss(); //https://react-hot-toast.com/docs/toast
-      toast.error("Please provide all form values.", {
-        style: { borderRadius: "10px", background: "#333", color: "#fff" },
-      });
+      toastError("Please provide all form values!");
       return;
     }
 
-    // If form is valid, send request to back end
-    if (event.currentTarget.checkValidity() === true && email && password) {
-      setLogInUserResponseState({ loading: true });
+    setLogInUserResponseState((prevState) => ({
+      ...prevState,
+      loading: true,
+    }));
 
-      try {
-        const res = await loginUserApiRequest(email, password, doNotLogout);
-        console.log(res);
+    try {
+      const res = await loginUserApiRequest(email, password, doNotLogout);
+      if (!res?.userLoggedIn) throw Error;
 
-        setLogInUserResponseState({
-          success: res.success,
-          loading: false,
-          error: "",
-        });
-        setValidated(true);
-
-        // Dispatch the setReduxUserState action that is passed from the LoginPage.js component
-        // The action is passed to the userReducer to update global state with the the user data
-        if (res.userLoggedIn) {
-          reduxDispatch(setReduxUserState(res.userLoggedIn));
-        }
-
-        toast.dismiss();
-        toast.success("Logging you in!", {
-          style: { borderRadius: "10px", background: "#333", color: "#fff" },
-        });
-
-        // redirect to user or admin page depending on if user has admin privileges
-        if (res.success === "user logged in" && !res.userLoggedIn.isAdmin) {
-          setTimeout(function () {
-            window.location.assign("/user");
-          }, 1000);
-        } else {
-          setTimeout(function () {
-            window.location.assign("/admin/orders");
-          }, 1000);
-        }
-        return;
-      } catch (er: any) {
-        const errorMessage = er?.response?.data?.message ?? "error";
-        setLogInUserResponseState({ error: errorMessage });
-        toast.dismiss();
-        toast.error("Error logging in!  Wrong credentials.", {
-          style: { borderRadius: "10px", background: "#333", color: "#fff" },
-        });
-
-        shakeDivById("formBasicPassword");
-        return;
-      }
+      setLogInUserResponseState({
+        success: res?.success,
+        loading: false,
+        error: "",
+      });
+      reduxDispatch!(setReduxUserState(res?.userLoggedIn));
+      toastSuccess("Logging you in!");
+      return redirectUserOrAdminAfterLogin(res);
+    } catch (er: any) {
+      setLogInUserResponseState((prevState) => ({
+        ...prevState,
+        error: er?.response?.data?.message ?? "error",
+      }));
+      setLogInUserResponseState((prevState) => ({
+        ...prevState,
+        loading: false,
+      }));
+      toastError("Error logging in!  Wrong credentials.");
+      return shakeDivById("formBasicPassword");
     }
-
-    // If form is not valid, run shake animation and exit
-    toast.dismiss();
-    toast.error("Error logging in!  Wrong credentials.", {
-      style: { borderRadius: "10px", background: "#333", color: "#fff" },
-    });
-    shakeDivById("formBasicPassword");
-
-    return;
   };
 
   const displaySpinner = () => {
@@ -160,7 +135,7 @@ const LoginPageComponent = ({
             >
               <h1>Login</h1>
               {/* Initial state of form validation is False */}
-              <Form noValidate validated={validated} onSubmit={handleSubmit}>
+              <Form noValidate onSubmit={handleSubmit} id="loginInForm">
                 {/* Email */}
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
@@ -217,6 +192,16 @@ const LoginPageComponent = ({
                     {displaySpinner()}
                     Login
                   </Button>
+                  <Button
+                    variant="danger"
+                    type="submit"
+                    style={{ width: "230px", marginTop: "20px" }}
+                    onClick={(e) => {
+                      setLoginWithDefaultUser(true);
+                    }}
+                  >
+                    Demo Login
+                  </Button>
                   <GoogleLoginButton
                     googleLogin={googleLogin}
                     reduxDispatch={reduxDispatch}
@@ -232,3 +217,45 @@ const LoginPageComponent = ({
 };
 
 export default LoginPageComponent;
+
+function toastError(text: string) {
+  toast.dismiss();
+  toast.error(text, {
+    style: { borderRadius: "10px", background: "#333", color: "#fff" },
+  });
+}
+
+function toastSuccess(text: string) {
+  toast.dismiss();
+  toast.success(text, {
+    style: { borderRadius: "10px", background: "#333", color: "#fff" },
+  });
+}
+
+/**
+ * Redirects the user or admin to the appropriate page after a successful login.
+ *
+ * @param {any} res - The response object from the login API request.
+ * @returns {void}
+ */
+function redirectUserOrAdminAfterLogin(res: any) {
+  if (res?.success === "user logged in" && !res?.userLoggedIn?.isAdmin) {
+    setTimeout(function () {
+      window?.location?.assign("/user");
+    }, 1000);
+  } else {
+    setTimeout(function () {
+      window?.location?.assign("/admin/orders");
+    }, 1000);
+  }
+}
+
+function shakeDivById(id: string): void {
+  const formControl = document?.querySelector(`#${id}`);
+  if (formControl) {
+    formControl?.classList.add("shake");
+    formControl?.addEventListener("animationend", () => {
+      formControl?.classList.remove("shake");
+    });
+  }
+}

@@ -1,8 +1,9 @@
 import { LOGIN_USER, LOGOUT_USER } from "../constants/userConstants";
 import axios from "axios";
+import { Dispatch } from "redux";
 
 
-export const setReduxUserState = (userCreated) => (dispatch) => {
+export const setReduxUserState = (userCreated: boolean) => (dispatch: Dispatch) => {
 
     dispatch({
         type: LOGIN_USER,
@@ -13,7 +14,7 @@ export const setReduxUserState = (userCreated) => (dispatch) => {
 export const logout = () => (dispatch) => {
 
      //move to logout page
-    document.location.href = "/login" 
+    document.location.href = "/login"
 
     // call server to remove JWT token from cookies using API
     axios.get('/api/logout')
