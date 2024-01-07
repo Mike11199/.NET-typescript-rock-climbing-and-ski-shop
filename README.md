@@ -39,6 +39,10 @@
 <h1>Summary</h1>
 
 - A full stack e-commerce web application using the MERN stack (MongoDB, Express.js, React.js, Node.js).
+  
+- Hosted on Amazon Elastic Container Service (ECS) in two docker containers.  Added a custom domain name and load balancer for HTTPS.
+  
+- Added a GitHub actions pipeline that automaticlly redeploys containers on push.  Added Lambdas to detect when containers crash - emailing me via an SNS topic - and to shut the site down at night to save money.
 
 - Added the PayPal SDK and sandbox accounts to simulate live payment of an order and front/back end response of a submitted order.
 
@@ -57,6 +61,8 @@
 - Added Google OAuth2.0 Log In, decoding JWT credentials from Google, and locating the user by email in MongoDB to verify the user. 
 
 - Modified order controller to update inventory counts upon placing an order in the MongoDB database.  Front end also now advises if a product is low in stock.
+
+
 
 <br/>
 
@@ -330,4 +336,50 @@ src={item.images ? (mode === 'dark' ? `${item.images[0].path.replace('/upload/',
 
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/e595d3dd-8abd-4533-ab08-3db7460eb799)
 
+<br/>
 
+
+<h1> Lambda via EventBridge and SNS to Detect Outages </h1>
+
+- Added lambda to send an email to an SNS topic if any of the site containers crash.  This is done with an EventBridge rule that detects container state changes.
+
+ <br/>
+
+ ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/5755d3ac-c20d-48a2-9f33-778fc6a50c3b)
+
+ <br/>
+
+ ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/765ca48d-fd5c-48ef-88b9-5b44d4c4aefd)
+
+  <br/>
+
+ ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/aace5763-c553-4b7e-9be6-d73bd2e33b33)
+
+  <br/>
+
+ ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/f6a044de-47c5-4a73-8aa9-e5fe58d28524)
+
+<br/>
+
+<h1> CI/CD Deployment via GitHub Actions </h1>
+
+- Added a Github workflow that on repo push redeploys the docker containers.  This required setting up various secrets and task definitions to run correctly.
+
+ ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/908a5ba2-3745-4977-9fd3-4f9d06c6e14b)
+
+
+ <br/>
+
+ <h1> Lambda Cron to Periodically Shut Down Site at Night </h1>
+
+- Added a lambda to shut down the site between 1am and 6am to save money.
+
+ ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/752f752e-070f-4085-b174-f1a3f849f0e7)
+
+  <br/>
+
+ ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/c318c4fd-4f65-4562-9546-d9cbc6c169a0)
+
+
+
+ 
