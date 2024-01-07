@@ -183,7 +183,7 @@ const LoginPageComponent = ({
                 </Row>
 
                 {/* Submit Button */}
-                <div>
+                <Row className="pb-4">
                   <Button
                     variant="primary"
                     type="submit"
@@ -192,21 +192,25 @@ const LoginPageComponent = ({
                     {displaySpinner()}
                     Login
                   </Button>
+                  </Row>
+                  <Row className="pb-2">
                   <Button
                     variant="danger"
                     type="submit"
-                    style={{ width: "230px", marginTop: "20px" }}
+                    style={{ width: "230px"}}
                     onClick={(e) => {
                       setLoginWithDefaultUser(true);
                     }}
                   >
                     Demo Login
                   </Button>
+                  </Row>
+                  <Row className="pb-2">
                   <GoogleLoginButton
                     googleLogin={googleLogin}
                     reduxDispatch={reduxDispatch}
                   />
-                </div>
+                  </Row>
               </Form>
             </Col>
           </Row>

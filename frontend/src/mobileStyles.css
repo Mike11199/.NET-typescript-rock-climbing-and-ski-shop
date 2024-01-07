@@ -58,19 +58,17 @@
     bottom: 116px;        
     z-index: -13;  
     align-self: center;
-    
+
   }
 
   #log_in_page_form_1 {
     padding-bottom: 150px;
-    z-index: 9999;
   }
 
   #register_page_form {
     padding-right: 0px;
     padding-left: 0px;
     padding-bottom: 200px;
-    z-index: 9999;
   }
 
 
@@ -80,6 +78,11 @@
 
 
   @media (max-width: 600px) {
+
+    
+  #log_in_page_form_1 {
+    padding-bottom: 0px;
+  }
 
     .climate_pledge_div{
        margin-top: 30px;
