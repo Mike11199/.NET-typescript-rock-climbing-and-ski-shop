@@ -89,7 +89,7 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-          cd backend # Replace with the actual path to your frontend folder
+          cd backend_v2_dotnet # Replace with the actual path to your frontend folder
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END_v2 .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END_v2
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END_v2" >> $GITHUB_OUTPUT
