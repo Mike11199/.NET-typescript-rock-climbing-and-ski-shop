@@ -21,3 +21,11 @@ services:
     container_name: react-ski-climbing-shop-back-end
     expose:
       - 5000
+
+  back-end-v2:
+    build:
+      context: ./backend_v2_dotnet
+      dockerfile: Dockerfile
+    container_name: react-ski-climbing-shop-back-end-v2
+    expose:
+      - 5001

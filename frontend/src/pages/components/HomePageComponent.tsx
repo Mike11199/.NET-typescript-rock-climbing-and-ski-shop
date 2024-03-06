@@ -31,6 +31,17 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
 
   console.log(bestSellers);
 
+  // api v2 test
+  const testNewAPI = async () => {
+    try {
+      const { data } = await axios.get("/apiv2/WeatherForecast");
+      console.log(data)
+    } catch (error) {
+    console.log(error)
+    }
+  }
+  testNewAPI()
+
   useEffect(() => {
     getBestsellers()
       .then((data) => {

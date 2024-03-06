@@ -1,6 +1,15 @@
 {
   "name": "frontend",
-  "proxy": "http://host.docker.internal:5000",
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:5000/",
+      "pathRewrite": { "^/api": "" }
+    },
+    "/apiv2": {
+      "target": "http://localhost:5001/",
+      "pathRewrite": { "^/apiv2": "" }
+    }
+  },
   "version": "0.1.0",
   "private": true,
   "dependencies": {

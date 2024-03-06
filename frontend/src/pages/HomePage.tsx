@@ -7,8 +7,12 @@ import axios from "axios";
 // error handling such as try/catch or promises (then/catch) are in the HomePageComponent not API functions here.
 
 const getBestsellers = async () => {
-  const { data } = await axios.get("/api/products/bestsellers");
-  return data;
+  try {
+    const { data } = await axios.get("/api/products/bestsellers");
+    return data;
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 const HomePage = () => {

@@ -27,6 +27,8 @@ env:
                                                        # containerDefinitions section of your task definition
   CONTAINER_NAME_BACK_END: back-end-react-ski-shop-GH             # set this to the name of the container in the
                                                        # containerDefinitions section of your task definition
+  CONTAINER_NAME_BACK_END_v2: back-end-v2-react-ski-shop-GH-dotnet             # set this to the name of the container in the
+  # containerDefinitions section of your task definition
 jobs:
   deploy:
     name: Deploy
@@ -77,6 +79,20 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END" >> $GITHUB_OUTPUT
+
+      - name: Build, tag, and push the back end image v2 dotnet image to Amazon ECR.
+        id: build-image-back-end-v2
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG_BACK_END_v2: back-github-actions-v2
+        run: |
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          cd backend # Replace with the actual path to your frontend folder
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END_v2 .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END_v2
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END_v2" >> $GITHUB_OUTPUT
 
       # comment below out as I think the task definition just uses the tags, not image IDs and tags never change.
 
