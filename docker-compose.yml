@@ -4,6 +4,7 @@
 
 version: "3.7"
 services:
+
   front-end:
     build:
       context: ./frontend
@@ -14,6 +15,7 @@ services:
       - 80
     ports:
       - "80:80"
+
   back-end:
     build:
       context: ./backend
