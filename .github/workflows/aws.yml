@@ -19,16 +19,10 @@ env:
   ECR_REPOSITORY: ski-rock-climbing-shop           # set this to your Amazon ECR repository name
 
   # NOTES - you need to create the service first for this to work - this yml doesn't create if it doesn't exist.
-  ECS_SERVICE: rock-ski-shop-github-actions-v16        # set this to your Amazon ECS service name
-  ECS_CLUSTER: rock-climbing-ski-shop              # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: .aws/task-definition.json   # set this to the path to your Amazon ECS task definition
-                                                       # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME_FRONT_END: front-end-react-ski-shop-GH           # set this to the name of the container in the
-                                                       # containerDefinitions section of your task definition
-  CONTAINER_NAME_BACK_END: back-end-react-ski-shop-GH             # set this to the name of the container in the
-                                                       # containerDefinitions section of your task definition
-  CONTAINER_NAME_BACK_END_v2: back-end-v2-react-ski-shop-GH-dotnet             # set this to the name of the container in the
-  # containerDefinitions section of your task definition
+  ECS_SERVICE: rock-ski-shop-github-actions-v16
+  ECS_CLUSTER: rock-climbing-ski-shop
+  ECS_TASK_DEFINITION: .aws/task-definition.json
+
 jobs:
   deploy:
     name: Deploy
@@ -57,11 +51,8 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG_FRONT_END: front-github-actions
-        run: |
-          # Build a docker container and
-          # push it to ECR so that it can
-          # be deployed to ECS.
-          cd frontend # Replace with the actual path to your frontend folder
+        run:
+          cd frontend
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_FRONT_END .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_FRONT_END
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_FRONT_END" >> $GITHUB_OUTPUT
@@ -72,10 +63,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG_BACK_END: back-github-actions
         run: |
-          # Build a docker container and
-          # push it to ECR so that it can
-          # be deployed to ECS.
-          cd backend # Replace with the actual path to your frontend folder
+          cd backend
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END" >> $GITHUB_OUTPUT
@@ -86,31 +74,10 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG_BACK_END_v2: back-github-actions-v2
         run: |
-          # Build a docker container and
-          # push it to ECR so that it can
-          # be deployed to ECS.
-          cd backend_v2_dotnet # Replace with the actual path to your frontend folder
+          cd backend_v2_dotnet
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END_v2 .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END_v2
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END_v2" >> $GITHUB_OUTPUT
-
-      # comment below out as I think the task definition just uses the tags, not image IDs and tags never change.
-
-      # - name: Fill in the new image ID in the Amazon ECS task definition
-      #   id: task-def
-      #   uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
-      #   with:
-      #     task-definition: ${{ env.ECS_TASK_DEFINITION }}
-      #     container-name: ${{ env.CONTAINER_NAME_FRONT_END }}
-      #     image: ${{ steps.build-image-front-end.outputs.image }}
-
-      # - name: Fill in the new image ID in the Amazon ECS task definition
-      #   id: task-def2
-      #   uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
-      #   with:
-      #     task-definition: ${{ env.ECS_TASK_DEFINITION }}
-      #     container-name: ${{ env.CONTAINER_NAME_BACK_END }}
-      #     image: ${{ steps.build-image-back-end.outputs.image }}
 
       - name: Deploy Amazon ECS task definition.
         uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
