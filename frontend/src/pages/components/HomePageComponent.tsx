@@ -34,7 +34,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
   // api v2 test
   const testNewAPI = async () => {
     try {
-      const { data } = await axios.get("/apiv2/WeatherForecast");
+      const { data } = await axios.get("/apiv2/APIStatus");
       console.log(data)
     } catch (error) {
     console.log(error)
