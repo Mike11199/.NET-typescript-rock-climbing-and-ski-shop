@@ -1,11 +1,10 @@
 html {
-    position: relative;
-    min-height: 100%;
+  position: relative;
+  min-height: 100%;
 }
 
 body {
-    margin-bottom: 170px;
-    
+  margin-bottom: 170px;
 }
 
 footer {
@@ -15,16 +14,14 @@ footer {
   height: 165px;
 }
 
-
 .btn {
-  z-index: 9999 !important; 
-  color: rgb(0, 0, 0) !important; 
+  z-index: 9999 !important;
+  color: rgb(0, 0, 0) !important;
 }
 
 .btn:active {
   transform: scale(0.9);
 }
-
 
 .product_list_buttons {
   display: flex;
@@ -33,16 +30,16 @@ footer {
   gap: 10px;
 }
 
-.ski_image {  
+.ski_image {
   position: absolute;
   max-width: 90%;
   margin-left: 0%;
   margin-bottom: 0% !important; /* Adding !important to ensure it takes precedence */
   bottom: 0;
-  z-index: -1;  
+  z-index: -1;
 }
 
-.ice_cave_image {  
+.ice_cave_image {
   position: absolute;
   max-width: 90%;
   height: 100%;
@@ -54,14 +51,14 @@ footer {
   z-index: -1;
 }
 
-.cliff_image {  
+.cliff_image {
   position: fixed;
   max-width: 90%;
   height: 100%;
-  margin-left: 0%;  
+  margin-left: 0%;
   margin-bottom: 0% !important; /* Adding !important to ensure it takes precedence */
   bottom: 0;
-  z-index: -1;  
+  z-index: -1;
 }
 
 .rappel_image {
@@ -70,17 +67,17 @@ footer {
   margin-right: 0%;
   margin-bottom: 0% !important; /* Adding !important to ensure it takes precedence */
   bottom: 0;
-  right:0;
-  z-index: -1;  
+  right: 0;
+  z-index: -1;
 }
 
-.rock_inverted_photo {  
+.rock_inverted_photo {
   height: 40%;
   position: absolute;
-  z-index: -1;  
+  z-index: -1;
 }
 
-.subtotal_and_checkout_div_in_cart{
+.subtotal_and_checkout_div_in_cart {
   z-index: 9999;
   padding-bottom: 300px;
 }
@@ -110,7 +107,7 @@ footer {
   z-index: 2;
 }
 
-.skier_banner_vector{
+.skier_banner_vector {
   position: relative;
   z-index: 223;
   height: 60px;
@@ -120,24 +117,30 @@ footer {
   animation-duration: 6s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
 }
 
-@keyframes ski{
-  from{transform: translateX(-350px)}
-  to{transform: translateX(800px) translateY(250px) }  
+@keyframes ski {
+  from {
+    transform: translateX(-350px);
+  }
+  to {
+    transform: translateX(800px) translateY(250px);
+  }
 }
 
-
-
-@keyframes cloud{
-  from{transform: translateX(0px)}
-  to{transform: translateX(600px)}  
+@keyframes cloud {
+  from {
+    transform: translateX(0px);
+  }
+  to {
+    transform: translateX(600px);
+  }
 }
 
-.skier_banner_slope{
+.skier_banner_slope {
   position: absolute;
-  object-fit:none;
+  object-fit: none;
   scale: 100%;
   z-index: -22;
   object-position: bottom 180px right 0px;
@@ -145,7 +148,7 @@ footer {
 
 .cloud_banner_vector {
   position: absolute;
-  object-fit:none;
+  object-fit: none;
   scale: 20%;
   z-index: 1334;
   top: -250px;
@@ -154,13 +157,13 @@ footer {
   animation-duration: 7s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-direction: alternate;
 }
 
 .cloud_banner_vector2 {
   position: absolute;
-  object-fit:none;
+  object-fit: none;
   scale: 20%;
   z-index: 1334;
   top: -250px;
@@ -169,13 +172,13 @@ footer {
   animation-duration: 4s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-direction: alternate;
 }
 
 .cloud_banner_vector3 {
   position: absolute;
-  object-fit:none;
+  object-fit: none;
   scale: 20%;
   z-index: 1334;
   top: -250px;
@@ -184,13 +187,13 @@ footer {
   animation-duration: 8s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);   
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-direction: alternate;
 }
 
 .cloud_banner_vector4 {
   position: absolute;
-  object-fit:none;
+  object-fit: none;
   scale: 20%;
   z-index: 1334;
   top: -250px;
@@ -199,13 +202,13 @@ footer {
   animation-duration: 5s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-direction: alternate;
 }
 
 .cloud_banner_vector5 {
   position: absolute;
-  object-fit:none;
+  object-fit: none;
   scale: 20%;
   z-index: 1334;
   top: -250px;
@@ -214,13 +217,13 @@ footer {
   animation-duration: 5s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-direction: alternate;
 }
 
 .cloud_banner_vector6 {
   position: absolute;
-  object-fit:none;
+  object-fit: none;
   scale: 20%;
   z-index: 1334;
   top: -250px;
@@ -229,13 +232,13 @@ footer {
   animation-duration: 13s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-direction: alternate;
 }
 
 .cloud_banner_vector7 {
   position: absolute;
-  object-fit:none;
+  object-fit: none;
   scale: 20%;
   z-index: 1334;
   top: -250px;
@@ -244,13 +247,13 @@ footer {
   animation-duration: 6s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-direction: alternate;
 }
 
 .cloud_banner_vector8 {
   position: absolute;
-  object-fit:none;
+  object-fit: none;
   scale: 20%;
   z-index: 1334;
   top: -250px;
@@ -259,13 +262,13 @@ footer {
   animation-duration: 8s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-direction: alternate;
 }
 
 .cloud_banner_vector9 {
   position: absolute;
-  object-fit:none;
+  object-fit: none;
   scale: 20%;
   z-index: 1334;
   top: -250px;
@@ -274,13 +277,13 @@ footer {
   animation-duration: 3s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-direction: alternate;
 }
 
 .cloud_banner_vector10 {
   position: absolute;
-  object-fit:none;
+  object-fit: none;
   scale: 20%;
   z-index: 1334;
   top: -250px;
@@ -289,13 +292,13 @@ footer {
   animation-duration: 5s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-direction: alternate;
 }
 
 .cloud_banner_vector11 {
   position: absolute;
-  object-fit:none;
+  object-fit: none;
   scale: 20%;
   z-index: 1334;
   top: -250px;
@@ -304,13 +307,13 @@ footer {
   animation-duration: 3s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-direction: alternate;
 }
 
 .cloud_banner_vector12 {
   position: absolute;
-  object-fit:none;
+  object-fit: none;
   scale: 20%;
   z-index: 1334;
   top: -250px;
@@ -319,13 +322,13 @@ footer {
   animation-duration: 2s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-direction: alternate;
 }
 
 .cloud_banner_vector13 {
   position: absolute;
-  object-fit:none;
+  object-fit: none;
   scale: 20%;
   z-index: 1334;
   top: -250px;
@@ -334,11 +337,11 @@ footer {
   animation-duration: 2s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-direction: alternate;
 }
 
-.tree{
+.tree {
   position: absolute;
   height: 100px;
   top: 160px;
@@ -346,13 +349,13 @@ footer {
   z-index: -1;
 }
 
-.banner_box_container{
+.banner_box_container {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-.ski_chair{
+.ski_chair {
   position: absolute;
   height: 170px;
   top: 230px;
@@ -361,11 +364,11 @@ footer {
   animation-duration: 10s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   z-index: -2;
 }
 
-.ski_chair2{
+.ski_chair2 {
   position: absolute;
   height: 170px;
   top: 230px;
@@ -374,12 +377,12 @@ footer {
   animation-duration: 10s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-delay: 2s;
   z-index: -2;
 }
 
-.ski_chair3{
+.ski_chair3 {
   position: absolute;
   height: 170px;
   top: 230px;
@@ -388,12 +391,12 @@ footer {
   animation-duration: 10s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-delay: 4s;
   z-index: -2;
 }
 
-.ski_chair4{
+.ski_chair4 {
   position: absolute;
   height: 170px;
   top: 230px;
@@ -402,12 +405,12 @@ footer {
   animation-duration: 10s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-delay: 6s;
   z-index: -2;
 }
 
-.ski_chair5{
+.ski_chair5 {
   position: absolute;
   height: 170px;
   top: 230px;
@@ -416,105 +419,98 @@ footer {
   animation-duration: 10s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.5,.77,1,1);  
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-delay: 8s;
   z-index: -2;
 }
 
-
-
-
-@keyframes chair_lift{
-  from{transform: translateX(0px)}
-  to{transform: translateX(-1400px) translateY(-350px)}  
+@keyframes chair_lift {
+  from {
+    transform: translateX(0px);
+  }
+  to {
+    transform: translateX(-1400px) translateY(-350px);
+  }
 }
 
-.climate_pledge_div{
+.climate_pledge_div {
   margin-left: 50px;
   margin-right: 50px;
   margin-top: 100px;
   margin-bottom: 100px;
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   align-items: center;
-  flex-direction: row;  
+  flex-direction: row;
 }
 
-.plant_tree{
+.plant_tree {
   border-radius: 50px;
   width: 450px;
-  margin-right: 100px;  
-  box-shadow: 0 5px 20px rgba(0, 0, 0, .7);
+  margin-right: 100px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
 }
 
-.climate_text_div{
+.climate_text_div {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  
 }
 
-.climate_text_paragraph{
+.climate_text_paragraph {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-
-.nasa_snow_cover{
+.nasa_snow_cover {
   margin-left: 150px;
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   align-items: center;
-  flex-direction: row;  
+  flex-direction: row;
   margin-bottom: 150px;
   gap: 100px;
 }
 
-.nasa_sat_image{
+.nasa_sat_image {
   border-radius: 50px;
   width: 500px;
-  margin-top: 50px;  
+  margin-top: 50px;
   margin-bottom: 50px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, .7);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
 }
 
-
-
-.nasa_logo{
+.nasa_logo {
   width: 150px;
 }
 
-.sat_images{
-
+.sat_images {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.date_and_text_nasa{
+.date_and_text_nasa {
   width: 500px;
   align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-
 }
 
-    
-.sat_text{
+.sat_text {
   width: 500px;
   margin-top: 20px;
   align-self: center;
 }
 
-.snow_section_title{
+.snow_section_title {
   margin-top: 50px;
 }
-
 
 h1.counter {
   align-self: center;
@@ -522,37 +518,43 @@ h1.counter {
   flex-direction: column;
   font-weight: bold;
   font-size: 26px;
-  align-self: center;  
+  align-self: center;
   padding-right: 120px;
 }
 
-h1.counter > span {  
+h1.counter > span {
   font-weight: bold;
   font-size: 26px;
   overflow: hidden;
   display: inline-block;
   align-self: center;
   margin: 0px;
-  padding: 0px;  
+  padding: 0px;
 }
 
 /* .land_sat{
-  width: 150px;  
+  width: 150px;
 } */
 
-.land_sat { 
-  width: 150px;  
+.land_sat {
+  width: 150px;
   animation-name: floating;
   animation-duration: 5s;
   animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;  
+  animation-timing-function: ease-in-out;
   margin-top: 50px;
 }
 
 @keyframes floating {
-  0% { transform: translate(0,  0px); }
-  50%  { transform: translate(0, 15px); }
-  100%   { transform: translate(0, -0px); }   
+  0% {
+    transform: translate(0, 0px);
+  }
+  50% {
+    transform: translate(0, 15px);
+  }
+  100% {
+    transform: translate(0, -0px);
+  }
 }
 
 .carousel_caption_text {
@@ -564,5 +566,26 @@ h1.counter > span {
   -webkit-line-clamp: 5; /* Maximum number of lines to display */
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #5c0c0c;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #6d0303;
 }
 
