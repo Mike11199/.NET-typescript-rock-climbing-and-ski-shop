@@ -29,7 +29,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
 
   const [startDate, setStartDate] = useState(currentDate);
 
-  console.log("Test Bestsellers from apiv1 express.js app");
+  console.log("Test retrieving Bestsellers from api v1 - express.js docker container - MongoDB database.");
   console.log(bestSellers);
 
   // api v2 test
@@ -47,7 +47,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
   const testNewAPI2 = async () => {
     try {
       const { data } = await axios.get("/apiv2/products");
-      console.log("Testing product from api v2 .NET app");
+      console.log("Test retrieving a product from api v2 .NET app docker container - RDS PostgreSQL database. ");
       console.log(data);
     } catch (error) {
       console.log(error);
