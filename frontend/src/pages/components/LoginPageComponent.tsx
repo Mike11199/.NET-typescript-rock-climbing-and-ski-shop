@@ -2,12 +2,12 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
-import GoogleLoginButton from "components/GoogleLogIn";
 import toast, { Toaster } from "react-hot-toast";
-import IceClimbingPhoto from "images/ski_mountaineering_5.png";
-import IceCavePhoto from "images/ice_cave_2.png";
-import "mobileStyles.css";
+import IceClimbingPhoto from "../../images/ski_mountaineering_5.png";
+import IceCavePhoto from "../../images/ice_cave_2.png";
+import '../../../src/mobileStyles.css'
 import { AxiosResponse } from "axios";
+import GoogleLoginButton from "../../../src/components/GoogleLogIn";
 
 interface LoginPageComponentProps {
   loginUserApiRequest: (
