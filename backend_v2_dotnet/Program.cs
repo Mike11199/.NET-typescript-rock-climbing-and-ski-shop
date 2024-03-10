@@ -7,13 +7,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-
     // Add Entity Framework Core and Npgsql package from secrets.json if running locally
     builder.Services.AddDbContext<AlpinePeakDbContext>((serviceProvider, options) =>
     {
@@ -23,8 +19,21 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    // Add Entity Framework Core and Npgsql package AWS secrets store
+    // Add Entity Framework Core and Npgsql package AWS secrets store    
+    builder.Services.AddDbContext<AlpinePeakDbContext>((serviceProvider, options) =>
+    {
+        options.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRES_URL_SKI_ROCK_SHOP"));
+    });
 }
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 
 app.UseAuthorization();
 
