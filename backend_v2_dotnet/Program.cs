@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using backend_v2.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -10,7 +13,19 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    // Add Entity Framework Core and Npgsql package from secrets.json if running locally
+    builder.Services.AddDbContext<AlpinePeakDbContext>((serviceProvider, options) =>
+    {
+        IConfiguration configuration = serviceProvider.GetRequiredService<IConfiguration>();
+        options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+    });
 }
+else
+{
+    // Add Entity Framework Core and Npgsql package AWS secrets store
+}
+
 app.UseAuthorization();
 
 app.MapControllers();

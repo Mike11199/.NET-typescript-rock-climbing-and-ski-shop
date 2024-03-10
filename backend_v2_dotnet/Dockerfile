@@ -20,4 +20,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENV ASPNETCORE_URLS=http://+:5001
+ENV ASPNETCORE_ENVIRONMENT Production
 ENTRYPOINT ["dotnet", "backend_v2.dll"]
