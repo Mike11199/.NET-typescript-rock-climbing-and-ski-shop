@@ -29,18 +29,31 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
 
   const [startDate, setStartDate] = useState(currentDate);
 
+  console.log("Test Bestsellers from apiv1 express.js app");
   console.log(bestSellers);
 
   // api v2 test
   const testNewAPI = async () => {
     try {
       const { data } = await axios.get("/apiv2/APIStatus");
-      console.log(data)
+      console.log(data);
     } catch (error) {
-    console.log(error)
+      console.log(error);
     }
-  }
-  testNewAPI()
+  };
+  testNewAPI();
+
+  // api v2 test - 2
+  const testNewAPI2 = async () => {
+    try {
+      const { data } = await axios.get("/apiv2/products");
+      console.log("Testing product from api v2 .NET app");
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  testNewAPI2();
 
   useEffect(() => {
     getBestsellers()
@@ -79,11 +92,11 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
     const row = 2;
     const col = 3;
 
-    console.log(startDate);
+    //console.log(startDate);
     const formattedSTARTDate = startDate.toISOString().split("T")[0];
-    console.log(formattedSTARTDate);
+    //console.log(formattedSTARTDate);
     const requestUrl = `${url2}${formattedSTARTDate}/250m/${level}/${row}/${col}.jpg`;
-    console.log(requestUrl);
+    //console.log(requestUrl);
 
     try {
       const response = await axios.get(requestUrl, {
