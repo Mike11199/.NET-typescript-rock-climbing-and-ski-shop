@@ -3,8 +3,24 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setReduxUserState } from "../redux/actions/userActions";
 
+//express.js
 const loginUserApiRequest = async (email, password, doNotLogout) => {
   const { data } = await axios.post("/api/users/login", {
+    email,
+    password,
+    doNotLogout,
+  });
+  if (data.userLoggedIn.doNotLogout) {
+    localStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn));
+  } else {
+    sessionStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn));
+  }
+  return data;
+};
+
+//dotnet
+const loginUserApiRequestDotNet = async (email, password, doNotLogout) => {
+  const { data } = await axios.post("/apiv2/users/login", {
     email,
     password,
     doNotLogout,
@@ -30,7 +46,7 @@ const LoginPage = () => {
   const reduxDispatch = useDispatch();
   return (
     <LoginPageComponent
-      loginUserApiRequest={loginUserApiRequest}
+      loginUserApiRequest={loginUserApiRequestDotNet}
       reduxDispatch={reduxDispatch}
       setReduxUserState={setReduxUserState}
       googleLogin={googleLogin}
