@@ -46,7 +46,7 @@ const LoginPage = () => {
   const reduxDispatch = useDispatch();
   return (
     <LoginPageComponent
-      loginUserApiRequest={loginUserApiRequestDotNet}
+      loginUserApiRequest={loginUserApiRequest}
       reduxDispatch={reduxDispatch}
       setReduxUserState={setReduxUserState}
       googleLogin={googleLogin}
