@@ -2,7 +2,7 @@
 
 namespace backend_v2.Utilities
 {
-    public static class PasswordUtility
+    public static class BCryptUtils
     {
         private static readonly string _salt = BCrypt.Net.BCrypt.GenerateSalt(10);
 
