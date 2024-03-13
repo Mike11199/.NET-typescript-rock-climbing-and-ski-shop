@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using backend_v2.Models;
 using backend_v2.DTOs;
 using backend_v2.Utilities;
+using System.Text;
 
 namespace backend_v2.Controllers
 {
@@ -51,7 +52,14 @@ namespace backend_v2.Controllers
                 _logger.LogWarning($"Login failed: Incorrect password for user with email '{loginRequest?.Email}'.");
                 return Unauthorized("Wrong credentials");
             }
-            string token = JWTUtilities.GenerateToken(user!, _configuration);
+            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"] ?? "");
+
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+            {
+                key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_STRING_SKI_SHOP") ?? "");
+            }
+
+            string token = JWTUtilities.GenerateToken(user!, key);
 
             CookieOptions cookieOptions = new CookieOptions
             {
@@ -74,7 +82,7 @@ namespace backend_v2.Controllers
                     lastName = user.LastName,
                     email = user.Email,
                     isAdmin = user.IsAdmin,
-                    doNotLogout = true
+                    doNotLogout = loginRequest?.DoNotLogout ?? false
                 }
             });
         }

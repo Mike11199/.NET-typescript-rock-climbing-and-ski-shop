@@ -8,14 +8,28 @@ import LoginPage from "../pages/LoginPage";
 const ProtectedRoutesComponent = ({ admin }) => {
   const [isAuth, setIsAuth] = useState();
 
+  // express
   useEffect(() => {
      axios.get("/api/get-token").then(function (data) {
          if (data.data.token) {
              setIsAuth(data.data.token);
          }
          return isAuth;
-     }) 
+     })
   }, [isAuth])
+
+  //dotnet
+//   useEffect(() => {
+//     axios.get("/apiv2/get-token").then(function (response) {
+//         const data = response.data;
+//         if (data.token) {
+//             setIsAuth(data.token);
+//         }
+//     }).catch(function (error) {
+//         console.error('Error fetching token:', error);
+//     }); 
+// }, [isAuth]);
+
 
   if (isAuth === undefined) return <LoginPage />;
 
@@ -28,7 +42,7 @@ const ProtectedRoutesComponent = ({ admin }) => {
   ) : isAuth && admin ? (
       <Outlet />
 
-  // else if not admin and authorized return admin routes      
+  // else if not admin and authorized return user routes
   ) : isAuth && !admin ? (
       <>
       <UserChatComponent />

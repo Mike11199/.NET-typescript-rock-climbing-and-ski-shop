@@ -3,30 +3,23 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using backend_v2.DTOs;
 
 namespace backend_v2.Utilities
 {
     public static class JWTUtilities
     {
-        public static string GenerateToken(User user, IConfiguration configuration)
+        public static string GenerateToken(User user, byte[] key)
         {
-
-            var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"] ?? "");
-
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
-            {
-                key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_STRING_SKI_SHOP") ?? "");
-            }
-
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim("Id", user.UserId.ToString() ?? ""),
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Name ?? ""),
-                    new Claim(JwtRegisteredClaimNames.Sub, user.LastName ?? ""),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email ?? ""),
+                    new Claim("Name", user.Name ?? ""),
+                    new Claim("Last Name", user.LastName ?? ""),
+                    new Claim("Email", user.Email ?? ""),
                     new Claim("isAdmin", user.IsAdmin.ToString() ?? ""),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 }),
@@ -41,6 +34,29 @@ namespace backend_v2.Utilities
             var jwtToken = tokenHandler.WriteToken(token);            
 
             return jwtToken;
+        }
+
+        public static UserTokenDto DecodeUserTokenInfo(string accessToken, byte[] key)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();            
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+
+            // Validate the token and extract claims
+            var claimsPrincipal = tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out SecurityToken validatedToken);
+            var jwtToken = (JwtSecurityToken)validatedToken;
+
+            // Extract the necessary claims
+            var name = jwtToken.Claims.First(x => x.Type == "Name").Value;
+            var isAdminClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "isAdmin")?.Value;
+            bool isAdmin = isAdminClaim != null && (isAdminClaim.Equals("True", StringComparison.OrdinalIgnoreCase) || isAdminClaim == "1");
+
+            return new UserTokenDto { Name = name, IsAdmin = isAdmin };
         }
     }
 }
