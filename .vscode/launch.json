@@ -8,9 +8,9 @@
             "type": "pwa-chrome",
             "request": "launch",
             "name": "attach to chrome",
-            "url": "http://localhost:3000/",
-            "webRoot": "${workspaceFolder}",
-            "justMyCode": true,
+            "url": "http://localhost:5173/",
+            "webRoot": "${workspaceFolder}/frontend",
+            "skipFiles": ["<node_internals>/**", "${workspaceFolder}/frontend/node_modules/**/*.js", "**accounts.google**", "**@vite**"]
         }
     ]
 }

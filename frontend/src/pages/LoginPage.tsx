@@ -3,9 +3,21 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setReduxUserState } from "../redux/actions/userActions";
 
+interface LoggedInUserResponse {
+  success: string;
+  userLoggedIn: {
+      _id: string;
+      name: string;
+      lastName: string;
+      email: string;
+      isAdmin: boolean;
+      doNotLogout: boolean;
+  };
+}
+
 //express.js
 const loginUserApiRequest = async (email, password, doNotLogout) => {
-  const { data } = await axios.post("/api/users/login", {
+  const { data } = await axios.post<LoggedInUserResponse>("/api/users/login", {
     email,
     password,
     doNotLogout,
@@ -20,15 +32,16 @@ const loginUserApiRequest = async (email, password, doNotLogout) => {
 
 //dotnet
 // const loginUserApiRequestDotNet = async (email, password, doNotLogout) => {
-//   const { data } = await axios.post("/apiv2/users/login", {
+//   const { data } = await axios.post<LoggedInUserResponse>("/apiv2/users/login", {
 //     email,
 //     password,
 //     doNotLogout,
 //   });
-//   if (data.userLoggedIn.doNotLogout) {
-//     localStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn));
+
+//   if (data?.userLoggedIn?.doNotLogout) {
+//     localStorage.setItem("userInfo", JSON.stringify(data?.userLoggedIn));
 //   } else {
-//     sessionStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn));
+//     sessionStorage.setItem("userInfo", JSON.stringify(data?.userLoggedIn));
 //   }
 //   return data;
 // };

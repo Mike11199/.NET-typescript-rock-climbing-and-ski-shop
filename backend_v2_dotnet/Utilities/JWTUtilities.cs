@@ -52,11 +52,10 @@ namespace backend_v2.Utilities
             var jwtToken = (JwtSecurityToken)validatedToken;
 
             // Extract the necessary claims
-            var name = jwtToken.Claims.First(x => x.Type == "Name").Value;
             var isAdminClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "isAdmin")?.Value;
             bool isAdmin = isAdminClaim != null && (isAdminClaim.Equals("True", StringComparison.OrdinalIgnoreCase) || isAdminClaim == "1");
 
-            return new UserTokenDto { Name = name, IsAdmin = isAdmin };
+            return new UserTokenDto { Token = jwtToken, IsAdmin = isAdmin };
         }
     }
 }
