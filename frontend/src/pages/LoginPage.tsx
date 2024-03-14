@@ -2,6 +2,7 @@ import LoginPageComponent from "./components/LoginPageComponent";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setReduxUserState } from "../redux/actions/userActions";
+import apiURL from "../utils/ToggleAPI"
 
 interface LoggedInUserResponse {
   success: string;
@@ -17,7 +18,7 @@ interface LoggedInUserResponse {
 
 //express.js
 const loginUserApiRequest = async (email, password, doNotLogout) => {
-  const { data } = await axios.post<LoggedInUserResponse>("/api/users/login", {
+  const { data } = await axios.post<LoggedInUserResponse>(`${apiURL}/users/login`, {
     email,
     password,
     doNotLogout,
@@ -29,22 +30,6 @@ const loginUserApiRequest = async (email, password, doNotLogout) => {
   }
   return data;
 };
-
-//dotnet
-// const loginUserApiRequestDotNet = async (email, password, doNotLogout) => {
-//   const { data } = await axios.post<LoggedInUserResponse>("/apiv2/users/login", {
-//     email,
-//     password,
-//     doNotLogout,
-//   });
-
-//   if (data?.userLoggedIn?.doNotLogout) {
-//     localStorage.setItem("userInfo", JSON.stringify(data?.userLoggedIn));
-//   } else {
-//     sessionStorage.setItem("userInfo", JSON.stringify(data?.userLoggedIn));
-//   }
-//   return data;
-// };
 
 const googleLogin = async (google_token) => {
   const token_request = { token: google_token };
