@@ -182,6 +182,14 @@ const updateUserProfile = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id).orFail();
 
+    if (user.name === "Tester"){
+    return res.status(401).json({ error: "Tester profile cannot be edited." })
+    }
+
+    if (!comparePasswords(req.body.password, user.password)) {
+      return res.status(401).json({ error: "Invalid password" })
+    }
+
     //only update if password matches
     if (!comparePasswords(req.body.password, user.password)) {
       return res.status(401).json({ error: "Invalid password" })
