@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using backend_v2.Models;
 using System.Text;
 using backend_v2.Utilities;
 
@@ -25,7 +24,7 @@ namespace backend_v2.Controllers
             try
             {
                 var accessToken = Request.Cookies["access_token"];                
-                var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"] ?? "");
+                var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"] ?? Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? "");
                 var UserTokenInfo = JWTUtilities.DecodeUserTokenInfo(accessToken ?? "", key);
                 return Ok(UserTokenInfo);
             }

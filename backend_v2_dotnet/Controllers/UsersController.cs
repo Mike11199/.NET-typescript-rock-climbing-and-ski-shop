@@ -58,7 +58,7 @@ namespace backend_v2.Controllers
 
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
             {
-                key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_STRING_SKI_SHOP") ?? "");
+                key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? "");
             }
 
             string token = JWTUtilities.GenerateToken(user!, key);
