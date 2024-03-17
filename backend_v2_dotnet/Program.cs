@@ -1,10 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using backend_v2.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Serilog;
-using Serilog.Events;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,33 +34,6 @@ else
         options.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRES_URL_SKI_ROCK_SHOP"));
     });
 }
-
-// get JWT symmetric key from secrets.json (not committed to git) if local or from docker env if in prod (aws task definition - AWS SSM)
-var jwtKey = builder.Configuration["Jwt:Key"];
-if (string.IsNullOrEmpty(jwtKey))
-{
-    jwtKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? "";
-}
-
-// add JWT
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(o =>
-{
-    o.TokenValidationParameters = new TokenValidationParameters
-    {
-        IssuerSigningKey = new SymmetricSecurityKey
-        (Encoding.UTF8.GetBytes(jwtKey)),
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true
-    };
-});
-
 
 var app = builder.Build();
 

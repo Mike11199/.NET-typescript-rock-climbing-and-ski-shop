@@ -1,5 +1,6 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+
 namespace backend_v2.Controllers
 {
     [ApiController]
@@ -8,11 +9,13 @@ namespace backend_v2.Controllers
      {
 
         private readonly ILogger<APIStatusController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public APIStatusController(ILogger<APIStatusController> logger)
+        public APIStatusController(ILogger<APIStatusController> logger, IConfiguration configuration)
         {
             _logger = logger;
-        }
+            _configuration = configuration;
+    }
 
         // *****/apiv2/apistatus/*****
         [HttpGet(Name = "GetAPIStatus")]
@@ -23,8 +26,9 @@ namespace backend_v2.Controllers
         }
 
         // *****/apiv2/apistatus/protected*****
+        [JwtCookieAuthentication] // Apply the middleware
         [HttpGet("protected")]
-        [Authorize] // Require authorization with JWT token
+        
         public string Protected()
         {
             _logger.LogInformation("Received Health Check Request with a verified JWT!");
