@@ -26,7 +26,7 @@ namespace backend_v2.Utilities
                 Expires = DateTime.UtcNow.AddHours(7),
                 SigningCredentials = new SigningCredentials
                 (new SymmetricSecurityKey(key),
-                SecurityAlgorithms.HmacSha512Signature)
+                SecurityAlgorithms.HmacSha256Signature)
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
