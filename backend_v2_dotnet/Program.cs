@@ -39,6 +39,13 @@ else
     });
 }
 
+// get JWT symmetric key from secrets.json (not committed to git) if local or from docker env if in prod (aws task definition - AWS SSM)
+var jwtKey = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrEmpty(jwtKey))
+{
+    jwtKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? "";
+}
+
 // add JWT
 builder.Services.AddAuthentication(options =>
 {
@@ -50,7 +57,7 @@ builder.Services.AddAuthentication(options =>
     o.TokenValidationParameters = new TokenValidationParameters
     {
         IssuerSigningKey = new SymmetricSecurityKey
-        (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? "")),
+        (Encoding.UTF8.GetBytes(jwtKey)),
         ValidateIssuer = false,
         ValidateAudience = false,
         ValidateLifetime = true,
