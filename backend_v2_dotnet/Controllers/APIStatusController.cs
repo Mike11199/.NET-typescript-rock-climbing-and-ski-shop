@@ -14,7 +14,7 @@ namespace backend_v2.Controllers
             _logger = logger;
         }
 
-        // *****/apiv2/apistatus/health*****
+        // *****/apiv2/apistatus/*****
         [HttpGet(Name = "GetAPIStatus")]
         public string Get()
         {
@@ -26,14 +26,6 @@ namespace backend_v2.Controllers
         [HttpGet("protected")]
         [Authorize] // Require authorization with JWT token
         public string Protected()
-        {
-            _logger.LogInformation("Received Health Check Request with a verified JWT!");
-            return "OK";
-        }
-
-        [HttpGet("protected2")]
-        [Authorize] // Require authorization with JWT token
-        public string Protected3()
         {
             _logger.LogInformation("Received Health Check Request with a verified JWT!");
             return "OK";
