@@ -8,7 +8,8 @@ const verifyIsLoggedIn = (req, res, next) => {
         }
 
         try {
-           const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
+           const secretKeyBuffer = Buffer.from(process.env.JWT_SECRET_KEY, 'utf8');
+           const decoded = jwt.verify(token, secretKeyBuffer)
             req.user = decoded
             next()
         } catch (err) {
