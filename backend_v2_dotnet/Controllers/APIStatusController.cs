@@ -30,5 +30,13 @@ namespace backend_v2.Controllers
             _logger.LogInformation("Received Health Check Request with a verified JWT!");
             return "OK";
         }
-     }
+
+        [HttpGet("protected2")]
+        [Authorize] // Require authorization with JWT token
+        public string Protected3()
+        {
+            _logger.LogInformation("Received Health Check Request with a verified JWT!");
+            return "OK";
+        }
+    }
 }

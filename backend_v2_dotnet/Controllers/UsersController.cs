@@ -3,6 +3,7 @@ using backend_v2.Models;
 using backend_v2.DTOs;
 using backend_v2.Utilities;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend_v2.Controllers
 {
@@ -12,18 +13,19 @@ namespace backend_v2.Controllers
     public class UsersController : ControllerBase
     {
         private readonly ILogger<APIStatusController> _logger;
-        private readonly AlpinePeakDbContext _dbContext;
+        private readonly AlpinePeakDbContext _context;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UsersController(ILogger<APIStatusController> logger, AlpinePeakDbContext dbContext, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
-            _dbContext = dbContext;
+            _context = dbContext;
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
         }
 
+        // POST: apiv2/users/login
         [HttpPost("login", Name = "LoginRoute")]        
         public ActionResult LoginUser(LoginRequestDto loginRequest)
         {            
@@ -37,7 +39,7 @@ namespace backend_v2.Controllers
             _logger.LogInformation($"Received login request for email: {loginRequest.Email}");
 
 
-            var user = _dbContext.Users.FirstOrDefault(u => u.Email == loginRequest.Email.ToLower());
+            var user = _context.Users.FirstOrDefault(u => u.Email == loginRequest.Email.ToLower());
 
             if (user == null)
             {
@@ -86,5 +88,29 @@ namespace backend_v2.Controllers
                 }
             });
         }
+
+
+        // GET: apiv2/users/{id}
+        [HttpGet("profile/{id}")]
+        public async Task<IActionResult> GetUserProfile(string id)
+        {
+            try
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId.ToString() == id);
+
+                if (user == null)
+                {
+                    return NotFound(); 
+                }
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error in user details: ", ex);
+                return StatusCode(500, "Internal server error retrieving user details.");
+            }
+        }
     }
+
 }

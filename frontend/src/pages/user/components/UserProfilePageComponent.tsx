@@ -130,7 +130,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
               <Form.Control
                 required
                 type="text"
-                defaultValue={user.name}
+                defaultValue={user?.name}
                 name="name"
               />
               <Form.Control.Feedback type="invalid">
@@ -142,7 +142,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
               <Form.Control
                 required
                 type="text"
-                defaultValue={user.lastName}
+                defaultValue={user?.lastName}
                 name="lastName"
               />
               <Form.Control.Feedback type="invalid">
@@ -154,7 +154,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
               <Form.Control  
                 style={{backgroundColor:"darkgray",borderColor:"darkgray"}}
                 disabled
-                value={user.email}
+                value={user?.email}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPhone">
@@ -162,7 +162,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
               <Form.Control
                 type="text"
                 placeholder="Enter your phone number"
-                defaultValue={user.phoneNumber}
+                defaultValue={user?.phoneNumber}
                 name="phoneNumber"
               />
             </Form.Group>
@@ -171,7 +171,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
               <Form.Control
                 type="text"
                 placeholder="Enter your street name and house number"
-                defaultValue={user.address}
+                defaultValue={user?.address}
                 name="address"
               />
             </Form.Group>
@@ -180,7 +180,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
               <Form.Control
                 type="text"
                 placeholder="Enter your country"
-                defaultValue={user.country}
+                defaultValue={user?.country}
                 name="country"
               />
             </Form.Group>
@@ -189,7 +189,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
               <Form.Control
                 type="text"
                 placeholder="Enter your Zip code"
-                defaultValue={user.zipCode}
+                defaultValue={user?.zipCode}
                 name="zipCode"
               />
             </Form.Group>
@@ -198,7 +198,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
               <Form.Control
                 type="text"
                 placeholder="Enter your city"
-                defaultValue={user.city}
+                defaultValue={user?.city}
                 name="city"
               />
             </Form.Group>
@@ -207,7 +207,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
               <Form.Control
                 type="text"
                 placeholder="Enter your state"
-                defaultValue={user.state} 
+                defaultValue={user?.state}
                 name="state"
               />
             </Form.Group>
@@ -223,7 +223,6 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
                 // isInvalid={!passwordsMatchState}
               />
               <Form.Control.Feedback type="invalid">
-                
               </Form.Control.Feedback>
               <Form.Text className="text-muted">
                 Enter your password to confirm any changes above.

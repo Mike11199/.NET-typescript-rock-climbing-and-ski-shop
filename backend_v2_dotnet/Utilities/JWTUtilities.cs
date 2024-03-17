@@ -55,7 +55,20 @@ namespace backend_v2.Utilities
             var isAdminClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "isAdmin")?.Value;
             bool isAdmin = isAdminClaim != null && (isAdminClaim.Equals("True", StringComparison.OrdinalIgnoreCase) || isAdminClaim == "1");
 
-            return new UserTokenDto { Token = jwtToken, IsAdmin = isAdmin };
+            var customPayload = new Dictionary<string, string>();
+            // List the types of claims you want to exclude
+            var excludeClaims = new HashSet<string> { "nbf", "exp", "iat", "jti" };
+
+            foreach (var claim in jwtToken.Payload)
+            {
+                // Exclude the claims based on their type
+                if (!excludeClaims.Contains(claim.Key))
+                {
+                    customPayload.Add(claim.Key, claim.Value.ToString() ?? "" );
+                }
+            }
+
+            return new UserTokenDto { Token = customPayload, IsAdmin = isAdmin };
         }
     }
 }
