@@ -53,5 +53,43 @@ namespace backend_v2.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
+        
+        [HttpGet("bestsellers")]
+        public async Task<ActionResult> GetBestSellers()
+
+        {
+            try
+            {
+                var topCategories = await _dbContext.Categories
+                 .OrderBy(c => c.CategoryId) // Assuming you have some criteria to determine top categories
+                 .Take(4)
+                 .ToListAsync();
+
+                var bestSellers = new List<Product>();
+
+
+                foreach (var category in topCategories)
+                {
+                    var bestSellerInCategory = await _dbContext.Products
+                        .Where(p => p.CategoryId == category.CategoryId && p.Sales > 0)
+                        .OrderByDescending(p => p.Sales)
+                        .Include(p => p.Category)
+                        .FirstOrDefaultAsync();
+
+                    if (bestSellerInCategory != null)
+                    {
+                        bestSellers.Add(bestSellerInCategory);
+                    }
+                }
+
+                return Ok(bestSellers);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching bestsellers.");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
     }
 }

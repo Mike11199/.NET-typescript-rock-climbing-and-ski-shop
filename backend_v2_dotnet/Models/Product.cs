@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend_v2.Models;
 
@@ -16,6 +17,9 @@ public partial class Product
     public int? Count { get; set; }
 
     public decimal? Price { get; set; }
+
+    [Column("sales")]
+    public int? Sales { get; set; }
 
     public virtual Category? Category { get; set; }
 

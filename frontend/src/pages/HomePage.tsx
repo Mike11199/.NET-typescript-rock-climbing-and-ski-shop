@@ -1,6 +1,7 @@
 import HomePageComponent from "./components/HomePageComponent";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import apiURL from "../utils/ToggleAPI";
 
 // API call functions (e.g- getBestselllers) are kept outside of components to make components testable.
 // for example, we can easily replace getBestsellers API with test data instead of live data.
@@ -8,7 +9,7 @@ import axios from "axios";
 
 const getBestsellers = async () => {
   try {
-    const { data } = await axios.get("/api/products/bestsellers");
+    const { data } = await axios.get(`${apiURL}/products/bestsellers`);
     return data;
   } catch (error) {
     console.log(error)
