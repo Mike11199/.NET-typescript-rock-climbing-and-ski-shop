@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using backend_v2.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend_v2.Controllers
 {
@@ -18,11 +19,39 @@ namespace backend_v2.Controllers
         }
 
         [HttpGet(Name = "ProductsRoute")]
-        public ActionResult<IEnumerable<Product>> GetProducts()
+        public async Task<ActionResult> GetProducts()
+
         {
-            _logger.LogInformation("Received API Request!");
-            var products = _dbContext.Products.ToList();
-            return Ok(products);
+            try
+            {
+                var recordsPerPage = 3;
+
+                int pageNum;
+                if (!int.TryParse(HttpContext.Request.Query["pageNum"].FirstOrDefault(), out pageNum))
+                {
+                    pageNum = 1;
+                }
+
+                var totalProducts = await _dbContext.Products.CountAsync();
+
+                var products = await _dbContext.Products
+                    .Include(p => p.Images)
+                    .Skip((pageNum - 1) * recordsPerPage)
+                    .Take(recordsPerPage)
+                    .ToListAsync();
+
+                return Ok(new
+                {
+                    products,
+                    pageNum,
+                    paginationLinksNumber = Math.Ceiling((double)totalProducts / recordsPerPage)
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching products.");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
     }
 }

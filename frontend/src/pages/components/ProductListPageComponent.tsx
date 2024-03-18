@@ -33,6 +33,11 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  
+
+  useEffect(() => {
+    console.log(products)
+  }, [products]);
 
 
 

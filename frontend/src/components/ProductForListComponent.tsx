@@ -73,7 +73,7 @@ const ProductForListComponent = ({ productId, name, description, price, images, 
             //     images[0].path
             //   ) : ''
             // }
-            src={images[0] ? images[0].path : ''}
+            src={images[0] ? (images[0]?.path ?? images[0]?.imageUrl) : ''}
 
           />
         </Col>

@@ -23,6 +23,19 @@ public partial class User
     public DateTime? UpdatedAt { get; set; }
 
     [Column("address")]
-
     public string? Address { get; set; }
+
+    [Column("city")]
+    public string? City { get; set; }
+    [Column("country")]
+    public string? Country { get; set; }
+
+    [Column("phone_number")]
+    public string? PhoneNumber { get; set; }
+
+    [Column("state")]
+    public string? State{ get; set; }
+
+    [Column("zip_code")]
+    public string? ZipCode { get; set; }
 }
