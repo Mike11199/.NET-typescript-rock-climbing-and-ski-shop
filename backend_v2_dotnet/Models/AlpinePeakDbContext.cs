@@ -1,4 +1,19 @@
-﻿using System;
+﻿// Start DB Migration (code first) - VISUAL STUDIO PACKAGE MANAGER CONSOLE:
+//*****************************************
+//  dotnet tool install --global dotnet-ef --version 7.*
+//  dotnet-ef migrations add MigrationName
+//  dotnet-ef database update
+
+// List Past DB Migration or Revert to One (code first):
+//*****************************************
+//  dotnet-ef migrations list
+//  revert: dotnet ef database update PreviousMigrationName
+
+// Database First - Scaffold
+// ******************************************
+// dotnet-ef dbcontext scaffold "YourConnectionStringHere" Microsoft.EntityFrameworkCore.SqlServer -o Models
+
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
