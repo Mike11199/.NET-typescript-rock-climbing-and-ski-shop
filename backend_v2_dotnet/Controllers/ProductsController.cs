@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using backend_v2.Models;
-using Microsoft.EntityFrameworkCore;
 using backend_v2.Repositories;
 
 namespace backend_v2.Controllers
@@ -10,14 +9,12 @@ namespace backend_v2.Controllers
 
     public class ProductsController : ControllerBase
     {
-        private readonly ILogger<APIStatusController> _logger;
-        private readonly AlpinePeakDbContext _dbContext;
+        private readonly ILogger<APIStatusController> _logger;        
         private readonly IProductRepository _productRepository;
 
-        public ProductsController(ILogger<APIStatusController> logger, AlpinePeakDbContext dbContext, IProductRepository productRepository)
+        public ProductsController(ILogger<APIStatusController> logger, IProductRepository productRepository)
         {
-            _logger = logger;
-            _dbContext = dbContext;
+            _logger = logger;            
             _productRepository = productRepository;
         }
 
