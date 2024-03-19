@@ -4,17 +4,17 @@ using backend_v2.Repositories;
 
 namespace backend_v2.Controllers
 {
-        [ApiController]
-        [Route("apiv2/[controller]")]
+    [ApiController]
+    [Route("apiv2/[controller]")]
 
     public class ProductsController : ControllerBase
     {
-        private readonly ILogger<APIStatusController> _logger;        
+        private readonly ILogger<APIStatusController> _logger;
         private readonly IProductRepository _productRepository;
 
         public ProductsController(ILogger<APIStatusController> logger, IProductRepository productRepository)
         {
-            _logger = logger;            
+            _logger = logger;
             _productRepository = productRepository;
         }
 
@@ -105,6 +105,24 @@ namespace backend_v2.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"An error occurred while fetching products for category {categoryName}.");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
+
+        // GET api/products/get-one/id
+        [HttpGet("get-one/{id}")]
+        public async Task<ActionResult> GetProductsById(string id)
+        {
+            try
+            {
+                var product = await _productRepository.GetProductById(id);
+
+                return Ok(product);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while fetching product {id}.");
                 return StatusCode(500, "Internal Server Error");
             }
         }

@@ -74,4 +74,16 @@ public class ProductRepository : IProductRepository
 
         return bestSellers;
     }
+
+    public async Task<Product> GetProductById(string productId)
+    {
+        var productGuid = Guid.Parse(productId);
+
+        var product = await _dbContext.Products
+            .Where(p => p.ProductId == productGuid)
+            .Include(p => p.Images)
+            .FirstOrDefaultAsync();
+
+        return product;
+    }
 }

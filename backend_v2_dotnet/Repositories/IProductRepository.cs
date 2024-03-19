@@ -9,5 +9,7 @@ namespace backend_v2.Repositories
         Task<int> GetAllProductsCount();
         Task<int> GetProductsCountByCategory(string categoryName);
         Task<IEnumerable<Product>> GetProductsByCategoryPaginated(string categoryName, int pageNum, int recordsPerPage);
+
+        Task<Product> GetProductById(string productId);
     }
 }
