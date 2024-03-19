@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using backend_v2.Models;
 using Serilog;
-
+using backend_v2.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +9,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 
 // Configure Serilog
 builder.Host.UseSerilog((context, services, configuration) => configuration

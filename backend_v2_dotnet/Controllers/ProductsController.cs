@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using backend_v2.Models;
 using Microsoft.EntityFrameworkCore;
+using backend_v2.Repositories;
 
 namespace backend_v2.Controllers
 {
@@ -11,13 +12,16 @@ namespace backend_v2.Controllers
     {
         private readonly ILogger<APIStatusController> _logger;
         private readonly AlpinePeakDbContext _dbContext;
-        
-        public ProductsController(ILogger<APIStatusController> logger, AlpinePeakDbContext dbContext)
+        private readonly IProductRepository _productRepository;
+
+        public ProductsController(ILogger<APIStatusController> logger, AlpinePeakDbContext dbContext, IProductRepository productRepository)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _productRepository = productRepository;
         }
 
+        // GET api/products/
         [HttpGet(Name = "ProductsRoute")]
         public async Task<ActionResult> GetProducts()
 
@@ -32,13 +36,8 @@ namespace backend_v2.Controllers
                     pageNum = 1;
                 }
 
-                var totalProducts = await _dbContext.Products.CountAsync();
-
-                var products = await _dbContext.Products
-                    .Include(p => p.Images)
-                    .Skip((pageNum - 1) * recordsPerPage)
-                    .Take(recordsPerPage)
-                    .ToListAsync();
+                var totalProducts = await _productRepository.GetAllProductsCount();
+                var products = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage);
 
                 return Ok(new
                 {
@@ -53,41 +52,62 @@ namespace backend_v2.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
-        
+
+        // GET api/products/bestsellers/
         [HttpGet("bestsellers")]
         public async Task<ActionResult> GetBestSellers()
 
         {
             try
             {
-                var topCategories = await _dbContext.Categories
-                 .OrderBy(c => c.CategoryId) // Assuming you have some criteria to determine top categories
-                 .Take(4)
-                 .ToListAsync();
-
-                var bestSellers = new List<Product>();
-
-
-                foreach (var category in topCategories)
-                {
-                    var bestSellerInCategory = await _dbContext.Products
-                        .Where(p => p.CategoryId == category.CategoryId && p.Sales > 0)
-                        .OrderByDescending(p => p.Sales)
-                        .Include(p => p.Category)
-                        .FirstOrDefaultAsync();
-
-                    if (bestSellerInCategory != null)
-                    {
-                        bestSellers.Add(bestSellerInCategory);
-                    }
-                }
-
+                var bestSellers = await _productRepository.GetBestSellers();
                 return Ok(bestSellers);
-
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while fetching bestsellers.");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
+
+        // GET api/products/category/electronics?pageNum=1
+        [HttpGet("category/{categoryName}")]
+        public async Task<ActionResult> GetProductsByCategory(string categoryName)
+
+        {
+            try
+            {
+                int recordsPerPage = 3;
+                int totalProductsInCategory = 0;
+                IEnumerable<Product> productsInCategory;
+                int pageNum = int.TryParse(HttpContext.Request.Query["pageNum"].FirstOrDefault(), out var tempPageNum) ? tempPageNum : 1;
+
+                if (!string.IsNullOrEmpty(categoryName))
+                {
+                    totalProductsInCategory = await _productRepository.GetProductsCountByCategory(categoryName);
+                }
+
+                if (string.IsNullOrEmpty(categoryName) || totalProductsInCategory == 0)
+                {
+                    totalProductsInCategory = await _productRepository.GetAllProductsCount();
+                    productsInCategory = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage);
+                }
+                else
+                {
+                    productsInCategory = await _productRepository.GetProductsByCategoryPaginated(categoryName, pageNum, recordsPerPage);
+                }
+
+                return Ok(new
+                {
+                    products = productsInCategory,
+                    pageNum,
+                    paginationLinksNumber = Math.Ceiling((double)totalProductsInCategory / recordsPerPage)
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while fetching products for category {categoryName}.");
                 return StatusCode(500, "Internal Server Error");
             }
         }
