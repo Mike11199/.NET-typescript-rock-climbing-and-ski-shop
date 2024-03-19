@@ -8,7 +8,7 @@ import { addToCart } from "../redux/actions/cartActions";
 import axios from 'axios'
 
 const getProductDetails = async(id) => {
-    const { data } = await axios.get(`/api/products/get-one/${id}`);
+    const { data } = await axios.get(`/apiv2/products/get-one/${id}`);
     return data
 }
 

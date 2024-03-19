@@ -92,6 +92,13 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
       });
   }, [categoryName, pageNumParam, searchQuery, filters, sortOption]);
 
+
+  useEffect(() => {
+    console.log(products)
+  }, [products])
+  
+  
+
   const handleFilters = () => {
      navigate(location.pathname.replace(/\/[0-9]+$/, ""));
     setShowResetFiltersButton(true);
@@ -172,7 +179,7 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
                 price={product.price}
                 rating={product.rating}
                 reviewsNumber={product.reviewsNumber}
-                productId={product._id}
+                productId={product.productId}
               />
             ))
           )}

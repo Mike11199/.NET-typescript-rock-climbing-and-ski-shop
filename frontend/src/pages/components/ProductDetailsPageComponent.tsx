@@ -75,7 +75,7 @@ const ProductDetailsPageComponent = ({
       })
       .catch((er) =>
         setError(
-          er.response.data.message ? er.response.data.message : er.response.data
+          (er?.response?.data?.message ? er?.response?.data?.message : er?.response?.data) ?? "Error"
         )
       );
   }, [id, productReviewed]);
@@ -97,6 +97,9 @@ const ProductDetailsPageComponent = ({
          .catch((er) => setProductReviewed(er.response.data.message ? er.response.data.message : er.response.data));
      }
   }
+
+  console.log(product)
+  console.log(product.images)
 
   return (
     <Container>
@@ -120,7 +123,7 @@ const ProductDetailsPageComponent = ({
                         crossOrigin="anonymous"
                         fluid
                         // src={mode === 'dark' ? `${image.path.replace("/upload/", "/upload/e_background_removal/")}` : image.path}
-                        src={`${image.path ?? null}`}
+                        src={`${image?.path ?? image.imageUrl ?? null}`}
                       />
                       </div>
                       <br />
@@ -145,7 +148,7 @@ const ProductDetailsPageComponent = ({
                       ({product.reviewsNumber} reviews)
                     </ListGroup.Item>
                     <ListGroup.Item>
-                      Price <span className="fw-bold">${product.price.toFixed(2)}</span>
+                      Price <span className="fw-bold">${(product?.price ?? 0).toFixed(2)}</span>
                     </ListGroup.Item>
                     <ListGroup.Item>{product.description}</ListGroup.Item>
                   </ListGroup>
@@ -165,7 +168,7 @@ const ProductDetailsPageComponent = ({
                         }
                     </ListGroup.Item>
                     <ListGroup.Item>
-                      Price: <span className="fw-bold">${product.price.toFixed(2)}</span>
+                      Price: <span className="fw-bold">${(product?.price ?? 0).toFixed(2)}</span>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       Quantity:
