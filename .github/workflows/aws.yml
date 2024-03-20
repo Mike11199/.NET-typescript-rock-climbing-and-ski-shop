@@ -1,3 +1,4 @@
+# Deploy to Amazon ECS - this is the GitHub actions workflow name and "aws.yml" is the file that defines it.
 name: Deploy to Amazon ECS
 
 on:
@@ -9,10 +10,10 @@ env:
   AWS_REGION: us-west-1
   ECR_REPOSITORY: ski-rock-climbing-shop
 
-  # NOTES - you need to create the service first for this to work - this yml doesn't create if it doesn't exist.
+  # NOTE - you need to create the service, task definition, containers first for this to work - the yml doesn't create these if they don't exist.
   ECS_SERVICE: rock-ski-shop-github-actions-v16
   ECS_CLUSTER: rock-climbing-ski-shop
-  ECS_TASK_DEFINITION: .aws/task-definition.json
+  ECS_TASK_DEFINITION: .aws/task-definition.json   # in .aws folder - task definition for ecs service
 
 jobs:
   deploy:
