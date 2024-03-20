@@ -19,5 +19,18 @@ export default defineConfig({
         changeOrigin: true,
         secure: false
     },
+    // Proxy WebSocket connections for socket.io
+    '/socket.io': {
+      target: 'http://127.0.0.1:5000/',
+      ws: true,
+      changeOrigin: true,
+      secure: false
+    },
+    '/socket.io/**': {
+      target: 'http://127.0.0.1:5000/',
+      ws: true,
+      changeOrigin: true,
+      secure: false
+    }
   }
 }});
