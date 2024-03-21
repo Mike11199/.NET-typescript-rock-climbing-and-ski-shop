@@ -16,7 +16,7 @@ public partial class User
 
     public string? Password { get; set; }
 
-    public int? IsAdmin { get; set; }
+    public int? IsAdmin { get; set; } = 0;
 
     public DateTime? CreatedAt { get; set; }
 

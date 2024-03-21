@@ -40,9 +40,8 @@ const LoginPageComponent = ({
     });
   const [loginWithDefaultUser, setLoginWithDefaultUser] = useState(false);
 
-  //event handler for form submission
+  //event handler for login form submission
   const handleSubmit = async (event) => {
-    console.log("submitting");
     event.preventDefault();
     event.stopPropagation();
 
@@ -53,7 +52,7 @@ const LoginPageComponent = ({
 
     if (loginWithDefaultUser) {
       email = "test@test.com";
-      password = "easy_to_guess_password";
+      password = "easy_to_guess_password";  // this doesn't matter - API won't allow test user edits
     }
 
     if (email === "" || password === "") {
