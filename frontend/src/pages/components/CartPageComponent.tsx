@@ -11,8 +11,10 @@ const CartPageComponent = ({
   cartSubtotal,
   reduxDispatch,
 }) => {
-  const changeCount = (productID, count) => {
-    reduxDispatch(addToCart(productID, count));
+
+  const changeCount = (productId, count) => {
+    console.log(productId)
+    reduxDispatch(addToCart(productId, count));
   };
 
   const removeFromCartHandler = (productID, quantity, price) => {
@@ -20,14 +22,13 @@ const CartPageComponent = ({
          reduxDispatch(removeFromCart(productID, quantity, price));
          toast.success('Removed item from cart!',
          {
-           // icon: '👏',
            style: {
              borderRadius: '10px',
              background: '#333',
              color: '#fff',
            },
          });
-     } 
+     }
   }
 
   return (
@@ -40,15 +41,15 @@ const CartPageComponent = ({
             <h1 style={{marginRight:"20px", marginLeft:"10px"}}>Shopping Cart</h1>
             <img style={{marginTop:"0px"}} height="60px" className="shopping_cart_image" alt="shopping_cart_image" src={ShoppingCartImage} ></img>
           </div>
-          {cartItems.length === 0 ? (
+          {cartItems?.length === 0 ? (
             <>
             <Alert variant="info">Your cart is empty</Alert>
             </>
           ) : (
             <ListGroup variant="flush">
-              {cartItems.map((item, idx) => (
+              {cartItems?.map((item, idx) => (
                 <CartItemComponent
-                  item={item}
+                  product={item}
                   key={idx}
                   changeCount={changeCount}
                   removeFromCartHandler={removeFromCartHandler}
@@ -60,7 +61,7 @@ const CartPageComponent = ({
         <Col md={4} >
           <ListGroup>
             <ListGroup.Item>
-              <h3>Subtotal ({cartItems.length} {cartItems.length === 1 ? "Product" : "Products"})</h3>
+              <h3>Subtotal ({cartItems?.length} {cartItems?.length === 1 ? "Product" : "Products"})</h3>
             </ListGroup.Item>
             <ListGroup.Item>
               Price: <span className="fw-bold">${cartSubtotal.toFixed(2)}</span>

@@ -2,19 +2,19 @@ import { Button } from "react-bootstrap";
 
 interface RemoveFromCartComponentProps {
   orderCreated: boolean;
-  productID: any;
+  productId: any;
   quantity: any;
   price: any;
   removeFromCartHandler: any;
 }
 
-const RemoveFromCartComponent = ({ productID, orderCreated, quantity, price, removeFromCartHandler = false }: RemoveFromCartComponentProps) => {
+const RemoveFromCartComponent = ({ productId, orderCreated, quantity, price, removeFromCartHandler = false }: RemoveFromCartComponentProps) => {
     return (
        <Button
        disabled={orderCreated}
        type="button"
        variant="secondary"
-       onClick={removeFromCartHandler ? () => removeFromCartHandler(productID, quantity, price) : undefined}
+       onClick={removeFromCartHandler ? () => removeFromCartHandler(productId, quantity, price) : undefined}
        >
          <i className="bi bi-trash"></i>
        </Button>

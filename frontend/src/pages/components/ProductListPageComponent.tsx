@@ -1,12 +1,13 @@
 import { Row, Col, Container, ListGroup, Button } from "react-bootstrap";
 import PaginationComponent from "../../components/PaginationComponent";
-import ProductForListComponent from "../../components/ProductForListComponent";
 import SortOptionsComponent from "../../components/SortOptionsComponent";
 import PriceFilterComponent from "../../components/filterQueryResultOptions/PriceFilterComponent";
 import RatingFilterComponent from "../../components/filterQueryResultOptions/RatingFilterComponent";
 import CategoryFilterComponent from "../../components/filterQueryResultOptions/CategoryFilterComponent";
 import AttributesFilterComponent from "../../components/filterQueryResultOptions/AttributesFilterComponent";
 import { useDispatch, useSelector } from "react-redux";
+
+import ProductForListComponent from "../../components/ProductForListComponent";
 
 import { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
@@ -33,7 +34,7 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  
+
 
   useEffect(() => {
     console.log(products)

@@ -199,7 +199,7 @@ const UserOrderDetailsPageComponent = ({ userInfo, getUser, getOrder, loadPayPal
           <h2>Order items</h2>
           <ListGroup variant="flush">
             {cartItems.map((item, idx) => (
-              <CartItemComponent item={item} key={idx} orderCreated={true} />
+              <CartItemComponent product={item} key={idx} orderCreated={true} />
             ))}
           </ListGroup>
         </Col>
