@@ -16,6 +16,20 @@ import Confetti from "react-dom-confetti";
 import toast, { Toaster } from "react-hot-toast";
 import ShoppingCartImage from "../../../images/shopping_cart.png";
 import { ConfettiConfig } from "react-dom-confetti";
+import { CartProduct, StoredUserInfo } from "types";
+
+
+interface UserCartDetailsPageComponentProps {
+  cartItems: CartProduct[];
+  itemsCount: number;
+  cartSubtotal: number;
+  userInfo: StoredUserInfo;
+  addToCart: any;
+  removeFromCart: any;
+  reduxDispatch: any;
+  getUser: any;
+  createOrder: any;
+}
 
 const UserCartDetailsPageComponent = ({
   cartItems,
@@ -27,12 +41,13 @@ const UserCartDetailsPageComponent = ({
   reduxDispatch,
   getUser,
   createOrder,
-}) => {
+}: UserCartDetailsPageComponentProps) => {
+
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [userAddress, setUserAddress] = useState<any>(false);
-  const [missingAddress, setMissingAddress] = useState<any>("");
+  const [missingAddress, setMissingAddress] = useState<string | boolean>("");
   const [paymentMethod, setPaymentMethod] = useState("pp");
-  const [confetti, setConfetti] = useState(false);
+  const [confetti, setConfetti] = useState<boolean>(false);
 
   const config: ConfettiConfig = {
     angle: 90,
@@ -49,9 +64,9 @@ const UserCartDetailsPageComponent = ({
 
   const navigate = useNavigate();
 
-  const changeCount = (productID, count) => {
+  const changeCount = (productId: string, count: number) => {
     try {
-      reduxDispatch(addToCart(productID, count));
+      reduxDispatch(addToCart(productId, count));
     } catch (error) {
       console.error(error);
       toast.error("Error changing cart quantity", {
@@ -102,7 +117,7 @@ const UserCartDetailsPageComponent = ({
         ) {
           setButtonDisabled(true);
           setMissingAddress(
-            "In order to make order, fill out your profile with correct address, city etc."
+            "In order to make an order, fill out your profile with correct address, city etc."
           );
         } else {
           setUserAddress({
@@ -121,7 +136,7 @@ const UserCartDetailsPageComponent = ({
           er.response.data.message ? er.response.data.message : er.response.data
         )
       );
-  }, [userInfo._id]);
+  }, [userInfo?._id]);
 
   const orderHandler = () => {
     const orderData = {
@@ -129,14 +144,14 @@ const UserCartDetailsPageComponent = ({
         itemsCount: itemsCount,
         cartSubtotal: cartSubtotal,
       },
-      cartItems: cartItems.map((item) => {
+      cartItems: cartItems.map((item: CartProduct) => {
         return {
-          productID: item.productID,
-          name: item.name,
-          price: item.price,
-          image: { path: item.image ? item.image.path ?? null : null },
-          quantity: item.quantity,
-          count: item.count,
+          productID: item?.productId,
+          name: item?.name,
+          price: item?.price,
+          image: { path: item?.image?.imageUrl },
+          quantity: item?.quantity,
+          count: item?.count,
         };
       }),
       paymentMethod: paymentMethod,
@@ -146,7 +161,6 @@ const UserCartDetailsPageComponent = ({
         if (data) {
           setConfetti(true);
           setTimeout(() => {
-            // code to be executed after 5 seconds
             navigate("/user/order-details/" + data._id);
           }, 3000);
         }
@@ -180,10 +194,10 @@ const UserCartDetailsPageComponent = ({
             <Row>
               <Col md={6}>
                 <h2>Shipping</h2>
-                <b>Name</b>: {userInfo.name} {userInfo.lastName} <br />
-                <b>Address</b>: {userAddress.address} {userAddress.city}{" "}
-                {userAddress.state} {userAddress.zipCode} <br />
-                <b>Phone</b>: {userAddress.phoneNumber}
+                <b>Name</b>: {userInfo?.name} {userInfo?.lastName} <br />
+                <b>Address</b>: {userAddress?.address} {userAddress?.city}{" "}
+                {userAddress?.state} {userAddress?.zipCode} <br />
+                <b>Phone</b>: {userAddress?.phoneNumber}
               </Col>
               <Col md={6}>
                 <h2>Payment method</h2>
@@ -227,7 +241,7 @@ const UserCartDetailsPageComponent = ({
               </ListGroup.Item>
               <ListGroup.Item>
                 Items price (after tax):{" "}
-                <span className="fw-bold">${cartSubtotal.toFixed(2)}</span>
+                <span className="fw-bold">${(cartSubtotal ?? 0).toFixed(2)}</span>
               </ListGroup.Item>
               <ListGroup.Item>
                 Shipping: <span className="fw-bold">included</span>
@@ -237,7 +251,7 @@ const UserCartDetailsPageComponent = ({
               </ListGroup.Item>
               <ListGroup.Item className="text-danger">
                 Total price:{" "}
-                <span className="fw-bold">${cartSubtotal.toFixed(2)}</span>
+                <span className="fw-bold">${(cartSubtotal ?? 0).toFixed(2)}</span>
               </ListGroup.Item>
               <ListGroup.Item>
                 <div className="d-grid gap-2">

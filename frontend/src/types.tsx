@@ -54,10 +54,44 @@ export interface Order {
   updatedAt?: Date | string | null;
 }
 
+export interface OrderItem {
+  orderItemId: string;
+  orderId: string;
+  productId: string;
+  quantity: number;
+  priceAtTimeOfOrder: number;
+}
+
 export interface Review {
   reviewId: string;
   comment?: string | null;
   rating?: number | null;
   createdAt?: Date | string | null;
   updatedAt?: Date | string | null;
+}
+
+export interface User {
+  userId: string;
+  name: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  isAdmin?: number;
+  createdAt?: Date | null;
+  updatedAt?: Date | null;
+  address?: string;
+  city?: string;
+  country?: string;
+  phoneNumber?: string;
+  state?: string;
+  zipCode?: string;
+}
+
+export interface StoredUserInfo {
+    _id: string;
+    name: string;
+    lastName: string;
+    email: string;
+    isAdmin: boolean;
+    doNotLogout: boolean;
 }

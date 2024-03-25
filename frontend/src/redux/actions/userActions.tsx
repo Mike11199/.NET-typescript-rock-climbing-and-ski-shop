@@ -1,9 +1,10 @@
 import { LOGIN_USER, LOGOUT_USER } from "../constants/userConstants";
 import axios from "axios";
 import { Dispatch } from "redux";
+import { StoredUserInfo } from "types";
 
 
-export const setReduxUserState = (userCreated: boolean) => (dispatch: Dispatch) => {
+export const setReduxUserState = (userCreated: boolean | StoredUserInfo) => (dispatch: Dispatch) => {
 
     dispatch({
         type: LOGIN_USER,

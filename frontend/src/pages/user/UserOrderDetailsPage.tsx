@@ -5,9 +5,11 @@ import { loadScript } from "@paypal/paypal-js"
 
 
 // GET Request to retrieve order based on id in URL - error-handling in page component itself
-// this function is passed and called from within the page component 
+// this function is passed and called from within the page component
 const getOrder = async (orderId) => {
     const { data } = await axios.get("/api/orders/user/" + orderId);
+    console.log('order items or cart data log')
+    console.log(data)
     return data;
 }
 
@@ -89,7 +91,6 @@ const onCancelHandler = () => {
     console.log('onCancelHandler')
 }
 
-//this update the order in the mongodb database
 const updateOrder = async(orderId) => {
     console.log('order id is ' + orderId)
     const { data } = await axios.put("/api/orders/paid/" + orderId)

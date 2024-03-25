@@ -1,6 +1,5 @@
 
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-// import { useDispatch } from "react-redux"
 import { setReduxUserState } from "../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
 
@@ -8,15 +7,11 @@ import { useNavigate } from "react-router-dom";
 const GoogleLoginButton = ({googleLogin, reduxDispatch}) => {
 
   const navigate = useNavigate()
-  // const reduxDispatch = useDispatch()
-
   const onSuccess = async (res) => {
     let token = res.credential
     console.log(res.credential)
     const data = await googleLogin(token)
-    // console.log("Login Success from the Google Side! Current user: ", res)
-    // console.log('api response is')
-    // console.log(data)
+
     if (data.userLoggedIn) {
       reduxDispatch(setReduxUserState(data.userLoggedIn))
     }
