@@ -2,7 +2,7 @@ import UserCartDetailsPageComponent from "./components/UserCartDetailsPageCompon
 
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart, removeFromCart } from "../../redux/actions/cartActions";
-import { User, StoredUserInfo } from "../../types"
+import { User, StoredUserInfo, orderDataDTO, Order} from "../../types"
 
 
 import axios from "axios";
@@ -20,8 +20,8 @@ const UserCartDetailsPage = () => {
     return data;
   };
 
-  const createOrder = async (orderData) => {
-      const { data } = await axios.post("/apiv2/orders", { ...orderData });
+  const createOrder = async (orderData: orderDataDTO) => {
+      const { data } = await axios.post<Order>("/apiv2/orders", { ...orderData });
       return data;
   }
 

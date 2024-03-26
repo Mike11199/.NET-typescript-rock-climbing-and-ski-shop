@@ -87,6 +87,8 @@ export interface User {
   zipCode?: string;
 }
 
+export type UserAddress = Pick<User, 'address' | 'city' | 'country' | 'zipCode' | 'state' | 'phoneNumber'>;
+
 export interface StoredUserInfo {
     _id: string;
     name: string;
@@ -94,4 +96,13 @@ export interface StoredUserInfo {
     email: string;
     isAdmin: boolean;
     doNotLogout: boolean;
+}
+
+export interface orderDataDTO {
+    orderTotal: {
+      itemsCount: number;
+      cartSubtotal: number;
+    },
+    cartItems: CartProduct[];
+    paymentMethod: string;
 }

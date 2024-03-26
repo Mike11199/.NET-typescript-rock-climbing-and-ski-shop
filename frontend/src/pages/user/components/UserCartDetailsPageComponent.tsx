@@ -16,7 +16,7 @@ import Confetti from "react-dom-confetti";
 import toast, { Toaster } from "react-hot-toast";
 import ShoppingCartImage from "../../../images/shopping_cart.png";
 import { ConfettiConfig } from "react-dom-confetti";
-import { CartProduct, StoredUserInfo } from "types";
+import { CartProduct, StoredUserInfo, User, orderDataDTO, Order, UserAddress} from "types";
 
 
 interface UserCartDetailsPageComponentProps {
@@ -27,8 +27,8 @@ interface UserCartDetailsPageComponentProps {
   addToCart: any;
   removeFromCart: any;
   reduxDispatch: any;
-  getUser: any;
-  createOrder: any;
+  getUser: () => Promise<User>;
+  createOrder: (orderData: orderDataDTO) => Promise<Order>;
 }
 
 const UserCartDetailsPageComponent = ({
@@ -43,10 +43,10 @@ const UserCartDetailsPageComponent = ({
   createOrder,
 }: UserCartDetailsPageComponentProps) => {
 
-  const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [userAddress, setUserAddress] = useState<any>(false);
-  const [missingAddress, setMissingAddress] = useState<string | boolean>("");
-  const [paymentMethod, setPaymentMethod] = useState("pp");
+  const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
+  const [userAddress, setUserAddress] = useState<UserAddress | undefined>(undefined);
+  const [missingAddress, setMissingAddress] = useState<boolean>(false);
+  const [paymentMethod, setPaymentMethod] = useState<string>("");
   const [confetti, setConfetti] = useState<boolean>(false);
 
   const config: ConfettiConfig = {
@@ -107,53 +107,44 @@ const UserCartDetailsPageComponent = ({
   useEffect(() => {
     getUser()
       .then((data) => {
-        if (
-          !data.address ||
-          !data.city ||
-          !data.country ||
-          !data.zipCode ||
-          !data.state ||
-          !data.phoneNumber
-        ) {
+        const addressInfoIsMissing = (
+          !data?.address ||
+          !data?.city ||
+          !data?.country ||
+          !data?.zipCode ||
+          !data?.state ||
+          !data?.phoneNumber
+        )
+
+        if (addressInfoIsMissing) {
           setButtonDisabled(true);
-          setMissingAddress(
-            "In order to make an order, fill out your profile with correct address, city etc."
-          );
+          setMissingAddress(true);
         } else {
           setUserAddress({
-            address: data.address,
-            city: data.city,
-            country: data.country,
-            zipCode: data.zipCode,
-            state: data.state,
-            phoneNumber: data.phoneNumber,
-          });
+            address: data?.address,
+            city: data?.city,
+            country: data?.country,
+            zipCode: data?.zipCode,
+            state: data?.state,
+            phoneNumber: data?.phoneNumber,
+          } as UserAddress);
           setMissingAddress(false);
         }
       })
       .catch((er) =>
         console.log(
-          er.response.data.message ? er.response.data.message : er.response.data
+          er?.response?.data?.message ? er?.response?.data?.message : er?.response?.data
         )
       );
   }, [userInfo?._id]);
 
   const orderHandler = () => {
-    const orderData = {
+    const orderData: orderDataDTO = {
       orderTotal: {
         itemsCount: itemsCount,
         cartSubtotal: cartSubtotal,
       },
-      cartItems: cartItems.map((item: CartProduct) => {
-        return {
-          productID: item?.productId,
-          name: item?.name,
-          price: item?.price,
-          image: { path: item?.image?.imageUrl },
-          quantity: item?.quantity,
-          count: item?.count,
-        };
-      }),
+      cartItems: cartItems,
       paymentMethod: paymentMethod,
     };
     createOrder(orderData)
@@ -161,7 +152,7 @@ const UserCartDetailsPageComponent = ({
         if (data) {
           setConfetti(true);
           setTimeout(() => {
-            navigate("/user/order-details/" + data._id);
+            navigate("/user/order-details/" + data?.orderId);
           }, 3000);
         }
       })
@@ -266,7 +257,7 @@ const UserCartDetailsPageComponent = ({
                     Place order
                   </Button>
                   <p style={{ color: "red", fontWeight: "500" }}>
-                    {missingAddress}
+                    {missingAddress && "In order to make an order, fill out your profile with correct address, city etc."}
                   </p>
                 </div>
               </ListGroup.Item>
