@@ -140,11 +140,10 @@ const UserCartDetailsPageComponent = ({
 
   const orderHandler = () => {
     const orderData: orderDataDTO = {
-      orderTotal: {
-        itemsCount: itemsCount,
-        cartSubtotal: cartSubtotal,
-      },
-      cartItems: cartItems,
+      orderItems: cartItems?.map( p => ({
+        productId: p?.productId,
+        quantity: p?.quantity
+      })),
       paymentMethod: paymentMethod,
     };
     createOrder(orderData)

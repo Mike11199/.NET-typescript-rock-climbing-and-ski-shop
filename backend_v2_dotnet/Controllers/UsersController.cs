@@ -167,7 +167,7 @@ namespace backend_v2.Controllers
             return StatusCode(201, new
             {
                 success = "New user registered!",
-                userLoggedIn = new
+                userCreated = new
                 {
                     _id = newUser?.UserId!,
                     name = newUser?.Name ?? "",

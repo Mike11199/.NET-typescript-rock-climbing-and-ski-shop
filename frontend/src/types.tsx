@@ -55,11 +55,8 @@ export interface Order {
 }
 
 export interface OrderItem {
-  orderItemId: string;
-  orderId: string;
   productId: string;
   quantity: number;
-  priceAtTimeOfOrder: number;
 }
 
 export interface Review {
@@ -98,11 +95,12 @@ export interface StoredUserInfo {
     doNotLogout: boolean;
 }
 
+export interface OrderProduct {
+  productId: string;
+  quantity: number;
+}
+
 export interface orderDataDTO {
-    orderTotal: {
-      itemsCount: number;
-      cartSubtotal: number;
-    },
-    cartItems: CartProduct[];
+    orderItems: OrderProduct[];
     paymentMethod: string;
 }
