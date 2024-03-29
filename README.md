@@ -69,6 +69,7 @@
 
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop/assets/91037796/b498233f-a5d0-4429-aef1-3d5ec33814a0)
 
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop/assets/91037796/29ba5c51-4a79-469d-ac7c-ed4edeb6d203)
 
 <br/>
 
