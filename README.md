@@ -1,5 +1,5 @@
-- ** `Main` branch is inactive apart from commits to the README - all new updates are made on the `docker-aws-ecs` branch.
-- ** `api-v2-dotnet-conversion` branch is where a total rewrite is being done of the API from express.js to .NET/ C# with a PostgreSQL database.
+- `Main` branch is inactive apart from commits to the README - all new updates are made on the `docker-aws-ecs` branch.
+- `api-v2-dotnet-conversion` branch is where a total rewrite is being done of the API from express.js to .NET/ C# with a PostgreSQL database.
 
 <h1>Live Website</h1>
 
