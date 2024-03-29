@@ -13,8 +13,6 @@
 // ******************************************
 // dotnet-ef dbcontext scaffold "YourConnectionStringHere" Microsoft.EntityFrameworkCore.SqlServer -o Models
 
-using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend_v2.Models;
@@ -99,9 +97,8 @@ public partial class AlpinePeakDbContext : DbContext
 
         modelBuilder.Entity<OrderProductItem>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("order_product_items", "store", tb => tb.HasComment("Intersection table between orders and products."));
+            entity.HasKey(e => e.OrderProductItemId).HasName("order_product_item_id");
+            entity.ToTable("order_product_items", "store", tb => tb.HasComment("Intersection table between orders and products."));
 
             entity.Property(e => e.OrderId).HasColumnName("order_id");
             entity.Property(e => e.Price)

@@ -1,6 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-
-namespace backend_v2.DTOs
+﻿namespace backend_v2.DTOs
 {
     public class UserTokenDto
     {

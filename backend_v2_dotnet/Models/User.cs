@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend_v2.Models;
 
@@ -34,7 +32,7 @@ public partial class User
     public string? PhoneNumber { get; set; }
 
     [Column("state")]
-    public string? State{ get; set; }
+    public string? State { get; set; }
 
     [Column("zip_code")]
     public string? ZipCode { get; set; }

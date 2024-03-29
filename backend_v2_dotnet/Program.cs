@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using backend_v2.Models;
-using Serilog;
 using backend_v2.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 

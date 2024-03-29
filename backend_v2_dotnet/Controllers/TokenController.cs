@@ -1,6 +1,6 @@
+using backend_v2.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
-using backend_v2.Utilities;
 
 namespace backend_v2.Controllers
 {
@@ -9,13 +9,13 @@ namespace backend_v2.Controllers
 
     public class TokenController : ControllerBase
     {
-        private readonly ILogger<TokenController> _logger;        
-        private readonly IConfiguration _configuration;        
+        private readonly ILogger<TokenController> _logger;
+        private readonly IConfiguration _configuration;
 
         public TokenController(ILogger<TokenController> logger, IConfiguration configuration)
         {
-            _logger = logger;            
-            _configuration = configuration;            
+            _logger = logger;
+            _configuration = configuration;
         }
 
         [HttpGet("get-token", Name = "GetDecodedTokenRoute")]
@@ -23,7 +23,7 @@ namespace backend_v2.Controllers
         {
             try
             {
-                var accessToken = Request.Cookies["access_token"];                
+                var accessToken = Request.Cookies["access_token"];
                 var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"] ?? Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? "");
                 var UserTokenInfo = JWTUtilities.DecodeUserTokenInfo(accessToken ?? "", key);
                 return Ok(UserTokenInfo);

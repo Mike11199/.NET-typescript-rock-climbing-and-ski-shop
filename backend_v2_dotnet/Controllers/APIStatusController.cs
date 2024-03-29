@@ -6,7 +6,7 @@ namespace backend_v2.Controllers
     [ApiController]
     [Route("apiv2/[controller]")]
     public class APIStatusController : ControllerBase
-     {
+    {
 
         private readonly ILogger<APIStatusController> _logger;
         private readonly IConfiguration _configuration;
@@ -15,7 +15,7 @@ namespace backend_v2.Controllers
         {
             _logger = logger;
             _configuration = configuration;
-    }
+        }
 
         // *****/apiv2/apistatus/*****
         [HttpGet(Name = "GetAPIStatus")]
@@ -28,7 +28,7 @@ namespace backend_v2.Controllers
         // *****/apiv2/apistatus/protected*****
         [JwtCookieAuthentication] // Apply the middleware
         [HttpGet("protected")]
-        
+
         public string Protected()
         {
             _logger.LogInformation("Received Health Check Request with a verified JWT!");

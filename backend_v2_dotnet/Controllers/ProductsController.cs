@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
 using backend_v2.Models;
 using backend_v2.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace backend_v2.Controllers
 {
@@ -112,7 +112,7 @@ namespace backend_v2.Controllers
 
         // GET api/products/get-one/id
         [HttpGet("get-one/{id}")]
-        public async Task<ActionResult> GetProductsById(string id)
+        public async Task<ActionResult> GetProductById(string id)
         {
             try
             {

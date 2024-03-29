@@ -1,15 +1,15 @@
-using Microsoft.AspNetCore.Mvc;
-using backend_v2.Models;
 using backend_v2.DTOs;
-using backend_v2.Utilities;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+using backend_v2.Models;
 using backend_v2.Repositories;
+using backend_v2.Utilities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace backend_v2.Controllers
 {
     [ApiController]
-    [Route("apiv2/[controller]")]    
+    [Route("apiv2/[controller]")]
 
     public class UsersController : ControllerBase
     {
@@ -29,9 +29,9 @@ namespace backend_v2.Controllers
         }
 
         // POST: apiv2/users/login
-        [HttpPost("login", Name = "LoginRoute")]        
+        [HttpPost("login", Name = "LoginRoute")]
         public async Task<ActionResult> LoginUser(LoginRequestDto loginRequest)
-        {            
+        {
 
             if (loginRequest == null || loginRequest?.Email == null || loginRequest?.Password == null)
             {
@@ -102,7 +102,7 @@ namespace backend_v2.Controllers
 
                 if (user == null)
                 {
-                    return NotFound(); 
+                    return NotFound();
                 }
 
                 return Ok(user);
@@ -136,7 +136,7 @@ namespace backend_v2.Controllers
                 _logger.LogWarning($"Login failed: User with email '{registerRequest.Email}'. User already exists.");
                 return BadRequest("User already exists!");
             }
-          
+
             var newUser = await _userRepository.RegisterNewUser(registerRequest);
 
             if (newUser == null)

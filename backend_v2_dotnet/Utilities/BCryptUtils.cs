@@ -1,6 +1,4 @@
-﻿using BCrypt.Net;
-
-namespace backend_v2.Utilities
+﻿namespace backend_v2.Utilities
 {
     public static class BCryptUtils
     {

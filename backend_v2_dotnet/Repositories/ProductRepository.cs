@@ -46,7 +46,7 @@ public class ProductRepository : IProductRepository
             .Take(recordsPerPage)
             .ToListAsync();
 
-        return productsInCategory; 
+        return productsInCategory;
     }
 
     public async Task<IEnumerable<Product>> GetBestSellers()

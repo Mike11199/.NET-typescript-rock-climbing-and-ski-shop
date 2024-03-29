@@ -1,17 +1,17 @@
-using Microsoft.AspNetCore.Mvc;
 using backend_v2.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend_v2.Controllers
 {
-        [ApiController]
-        [Route("apiv2/[controller]")]
+    [ApiController]
+    [Route("apiv2/[controller]")]
 
     public class CategoriesController : ControllerBase
     {
         private readonly ILogger<APIStatusController> _logger;
         private readonly AlpinePeakDbContext _dbContext;
-        
+
         public CategoriesController(ILogger<APIStatusController> logger, AlpinePeakDbContext dbContext)
         {
             _logger = logger;

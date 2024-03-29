@@ -1,23 +1,31 @@
-﻿
-using backend_v2.Models;
+﻿using backend_v2.Models;
 using backend_v2.Repositories;
-
-using Microsoft.EntityFrameworkCore;
 
 public class OrderRepository : IOrderRepository
 {
-    private readonly AlpinePeakDbContext _dbContext;
- 
+    private readonly AlpinePeakDbContext _context;
 
     public OrderRepository(AlpinePeakDbContext dbContext)
     {
-        _dbContext = dbContext;
+        _context = dbContext;
     }
 
-    public async Task<Order?> CreateNewOrder()
+    public async Task<Order?> CreateNewOrder(Guid newOrderUserId)
     {
-        var newOrder = await _dbContext.Orders.FirstOrDefaultAsync();
-        return newOrder ?? null;
-    }
+        var newOrderId = Guid.NewGuid();
 
+        // create new order
+        var newOrder = new Order
+        {
+            CreatedAt = DateTime.UtcNow,
+            IsDelivered = 0,
+            IsPaid = 0,
+            OrderId = newOrderId,
+            UserId = newOrderUserId
+        };
+
+        await _context.Orders.AddAsync(newOrder);
+
+        return newOrder;
+    }
 }

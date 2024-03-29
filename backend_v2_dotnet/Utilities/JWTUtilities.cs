@@ -1,9 +1,8 @@
-﻿using backend_v2.Models;
+﻿using backend_v2.DTOs;
+using backend_v2.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
-using backend_v2.DTOs;
 
 namespace backend_v2.Utilities
 {
@@ -31,14 +30,14 @@ namespace backend_v2.Utilities
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            var jwtToken = tokenHandler.WriteToken(token);            
+            var jwtToken = tokenHandler.WriteToken(token);
 
             return jwtToken;
         }
 
         public static UserTokenDto DecodeUserTokenInfo(string accessToken, byte[] key)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();            
+            var tokenHandler = new JwtSecurityTokenHandler();
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
@@ -64,7 +63,7 @@ namespace backend_v2.Utilities
                 // Exclude the claims based on their type
                 if (!excludeClaims.Contains(claim.Key))
                 {
-                    customPayload.Add(claim.Key, claim.Value.ToString() ?? "" );
+                    customPayload.Add(claim.Key, claim.Value.ToString() ?? "");
                 }
             }
 

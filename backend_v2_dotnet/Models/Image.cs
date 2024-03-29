@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace backend_v2.Models;
+﻿namespace backend_v2.Models;
 
 public partial class Image
 {
