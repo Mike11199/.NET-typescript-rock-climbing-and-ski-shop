@@ -2,7 +2,7 @@ import UserOrdersPageComponent from "./components/UserOrdersPageComponent";
 import axios from "axios";
 
 const getOrders = async () => {
-    const { data } = await axios.get("/api/orders");
+    const { data } = await axios.get("/apiv2/orders");
     return data;
 }
 

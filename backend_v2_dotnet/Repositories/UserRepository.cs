@@ -20,6 +20,12 @@ public class UserRepository : IUserRepository
         return existingUser ?? null;
     }
 
+    public async Task<User?> GetUserById(Guid id)
+    {
+        var existingUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserId == id);
+        return existingUser ?? null;
+    }
+
     public async Task<User> RegisterNewUser(RegisterUserDto registerRequest)
     {
         var hashedPassword = BCryptUtils.HashPassword(registerRequest?.Password!);

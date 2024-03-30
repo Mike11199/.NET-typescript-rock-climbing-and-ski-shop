@@ -1,5 +1,6 @@
 ﻿using backend_v2.Models;
 using backend_v2.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 public class OrderRepository : IOrderRepository
 {
@@ -27,5 +28,16 @@ public class OrderRepository : IOrderRepository
         await _context.Orders.AddAsync(newOrder);
 
         return newOrder;
+    }
+
+    public async Task<IEnumerable<Order>> GetAllOrdersbyUserId(Guid userId)
+    {
+        var userOrders =  await _context.Orders
+            .Where(o => o.UserId == userId)
+            .Include(o => o.OrderProductItems)
+            .ThenInclude(p => p.Product)
+            .ToListAsync();
+            
+        return userOrders;
     }
 }

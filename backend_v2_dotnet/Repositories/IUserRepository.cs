@@ -7,5 +7,6 @@ namespace backend_v2.Repositories
     {
         Task<User> RegisterNewUser(RegisterUserDto registerRequest);
         Task<User?> GetUserByEmail(string email);
+        Task<User?> GetUserById(Guid id);
     }
 }

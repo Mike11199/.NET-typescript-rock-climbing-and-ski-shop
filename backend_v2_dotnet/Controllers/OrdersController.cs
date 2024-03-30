@@ -43,6 +43,39 @@ namespace backend_v2.Controllers
         }
 
         // POST: apiv2/orders/
+        [HttpGet(Name = "getUserOrder")]
+        [Authorize]
+        public async Task<ActionResult> GetUserOrder()
+        {
+            try
+            {
+                var userId = User?.FindFirst("Id")?.Value;
+
+                if (userId == null)
+                {
+                    return BadRequest("User not found, please log in.");
+                }
+
+                var userFromDb = await _userRepository.GetUserById(Guid.Parse(userId));
+
+                if (userFromDb == null)
+                {
+                    return BadRequest("User not found, please log in.");
+                }
+
+                var userOrders = await _orderRepository.GetAllOrdersbyUserId(userFromDb.UserId);
+
+                return StatusCode(200, userOrders);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error creating order!.", ex);
+                return BadRequest("User not found, please log in to create an order.");
+            }
+        }
+    
+
+        // POST: apiv2/orders/
         [HttpPost(Name = "createOrder")]
         [Authorize]
         public async Task<ActionResult> CreateOrder(CreateOrderDto createOrderRequest)
@@ -51,10 +84,9 @@ namespace backend_v2.Controllers
             {
                 // this gets the user from the JWT security claim https://learn.microsoft.com/en-us/dotnet/api/system.security.claims.claimsprincipal?view=net-8.0
                 // since we called [Authorize] this can't be spoofed somehow to create an order for another user.
-                var userId = User?.FindFirst("Id")?.Value;
-                var userEmail = User?.FindFirst("Email")?.Value;
+                var userId = User?.FindFirst("Id")?.Value;                
 
-                if (userId == null || userEmail == null)
+                if (userId == null)
                 {
                     return BadRequest("User not found, please log in to create an order.");
                 }
@@ -69,7 +101,7 @@ namespace backend_v2.Controllers
                     return BadRequest("Error - payment method missing.");
                 }
 
-                var userFromDb = await _userRepository.GetUserByEmail(userEmail ?? "");
+                var userFromDb = await _userRepository.GetUserById(Guid.Parse(userId));
 
                 if (userFromDb == null)
                 {

@@ -34,6 +34,10 @@ const UserOrdersPageComponent = ({getOrders}) => {
     }, [])
 
     useEffect(() => {
+      console.log(orders)
+  }, [orders])
+
+    useEffect(() => {
       let defaultShowDetails = {};
       for (let i = 0; i < orders.length; i++) {
         defaultShowDetails[orders[i]._id] = true;
