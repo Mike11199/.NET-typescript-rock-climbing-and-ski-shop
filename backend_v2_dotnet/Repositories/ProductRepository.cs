@@ -64,6 +64,7 @@ public class ProductRepository : IProductRepository
                 .Where(p => p.CategoryId == category.CategoryId && p.Sales > 0)
                 .OrderByDescending(p => p.Sales)
                 .Include(p => p.Category)
+                .Include(p => p.Images)
                 .FirstOrDefaultAsync();
 
             if (bestSellerInCategory != null)

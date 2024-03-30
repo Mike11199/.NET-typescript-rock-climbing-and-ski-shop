@@ -24,15 +24,15 @@ const ProductCarouselComponent = ({
               crossOrigin="anonymous"
               className="d-block w-100"
               style={{ height: "300px", objectFit: "contain" }}
-              src={item?.images ? item?.images[0].path : undefined}
-              alt="First slide"
+              src={item?.images?.length != 0 ? (item?.images?.at(0)?.imageUrl ?? "") : ""}
+              alt={item?.name ?? ""}
             />
             <Carousel.Caption>
               <LinkContainer
                 style={cursorPointerStyle}
-                to={`/product-details/${item?._id}`}
+                to={`/product-details/${item?.productId}`}
               >
-                <h3>Bestseller in {item?.category} Category</h3>
+                <h3>Bestseller in {item?.category?.name} Category</h3>
               </LinkContainer>
               <p className="carousel_caption_text">{item?.description}</p>
             </Carousel.Caption>

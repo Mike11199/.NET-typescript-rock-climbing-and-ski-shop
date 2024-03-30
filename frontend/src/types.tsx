@@ -1,15 +1,21 @@
 export interface BestsellerItem {
-  category: string;
-  description: string;
-  images: BestsellerImage[];
+  productId: string;
   name: string;
-  _id: string;
+  description: string;
+  categoryId: string;
+  count: number;
+  price: number;
+  sales: number;
+  category?: Category
+  images?: Image[],
+  orderProductItems?: OrderProductItem[]
 }
 
 export interface BestsellerImage {
   path: string;
   _id: string;
 }
+
 export interface Product {
   productId: string;
   name?: string | null;

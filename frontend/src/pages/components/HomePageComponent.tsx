@@ -20,6 +20,8 @@ import "react-day-picker/dist/style.css";
 import { BestsellerItem } from "types";
 
 const HomePageComponent = ({ categories, getBestsellers }) => {
+
+  const externalRequestAxios = axios.create();
   const [mainCategories, setMainCategories] = useState<any>([]);
   const [bestSellers, setBestsellers] = useState<BestsellerItem[]>([]); // Use [] to initialize an empty array
   const [error, setError] = useState<any>("");
@@ -71,14 +73,16 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
   useEffect(() => {
     getBestsellers()
       .then((data) => {
+        if (data){
         setBestsellers(data);
+        }
       })
       .catch((er) => {
         setError(
-          er.response.data.message ? er.response.data.message : er.response.data
+          er?.response?.data?.message ?? er?.response?.data ?? ""
         );
         console.log(
-          er.response.data.message ? er.response.data.message : er.response.data
+          er?.response?.data?.message ?? er?.response?.data ?? ""
         );
       });
 
@@ -98,6 +102,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
   // https://nasa-gibs.github.io/gibs-api-docs/access-basics/#map-projections
   // https://nasa-gibs.github.io/gibs-api-docs/access-basics/#service-endpoints
   const getSnowCoverData = async () => {
+
     const url2 =
       "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/";
     const format = ".jpg";
@@ -112,7 +117,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
     //console.log(requestUrl);
 
     try {
-      const response = await axios.get(requestUrl, {
+      const response = await externalRequestAxios.get(requestUrl, {
         responseType: "arraybuffer",
       });
       const imageBlob = new Blob([response.data], { type: format });

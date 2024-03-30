@@ -89,7 +89,7 @@ const UserOrdersPageComponent = ({getOrders}) => {
                 <tr key={idx}>
                   <td>{idx +1}</td>
                   <td>You</td>
-                  <td>{order?.createdAt?.toDateString ?? ""}</td>
+                  <td>{order?.createdAt ? new Date(order.createdAt).toDateString() : ""}</td>
                   <td>{USDollar.format(5)}</td>
                   <td>{order?.orderProductItems.length}</td>
                   <td>
