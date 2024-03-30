@@ -1,4 +1,7 @@
-﻿namespace backend_v2.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace backend_v2.Models;
 
 public partial class Review
 {

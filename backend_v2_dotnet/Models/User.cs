@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
 namespace backend_v2.Models;
 
@@ -14,26 +15,21 @@ public partial class User
 
     public string? Password { get; set; }
 
-    public int? IsAdmin { get; set; } = 0;
+    public int? IsAdmin { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
 
-    [Column("address")]
     public string? Address { get; set; }
 
-    [Column("city")]
     public string? City { get; set; }
-    [Column("country")]
+
     public string? Country { get; set; }
 
-    [Column("phone_number")]
     public string? PhoneNumber { get; set; }
 
-    [Column("state")]
     public string? State { get; set; }
 
-    [Column("zip_code")]
     public string? ZipCode { get; set; }
 }

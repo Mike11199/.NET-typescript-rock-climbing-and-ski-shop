@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
 namespace backend_v2.Models;
 
@@ -16,10 +17,11 @@ public partial class Product
 
     public decimal? Price { get; set; }
 
-    [Column("sales")]
     public int? Sales { get; set; }
 
     public virtual Category? Category { get; set; }
 
     public virtual ICollection<Image> Images { get; set; } = new List<Image>();
+
+    public virtual ICollection<OrderProductItem> OrderProductItems { get; set; } = new List<OrderProductItem>();
 }

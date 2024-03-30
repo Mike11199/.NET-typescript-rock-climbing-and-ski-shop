@@ -1,18 +1,5 @@
-﻿// Start DB Migration (code first) - VISUAL STUDIO PACKAGE MANAGER CONSOLE:
-//*****************************************
-//  dotnet tool install --global dotnet-ef --version 7.*
-//  dotnet-ef migrations add MigrationName
-//  dotnet-ef database update
-
-// List Past DB Migration or Revert to One (code first):
-//*****************************************
-//  dotnet-ef migrations list
-//  revert: dotnet ef database update PreviousMigrationName
-
-// Database First - Scaffold
-// ******************************************
-// dotnet-ef dbcontext scaffold "YourConnectionStringHere" Microsoft.EntityFrameworkCore.SqlServer -o Models
-
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend_v2.Models;
@@ -42,6 +29,10 @@ public partial class AlpinePeakDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseNpgsql("Host=alpine-peak-db-rds.c1iyyqqmkyd8.us-west-1.rds.amazonaws.com;Port=5432;Database=alpine-peak-db;Username=postgres;Password=S4prrVAvlGtjr4drJRwG");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Category>(entity =>
@@ -70,6 +61,8 @@ public partial class AlpinePeakDbContext : DbContext
 
             entity.ToTable("images", "store");
 
+            entity.HasIndex(e => e.ProductId, "IX_images_product_id");
+
             entity.Property(e => e.ImageId)
                 .ValueGeneratedNever()
                 .HasColumnName("image_id");
@@ -77,6 +70,8 @@ public partial class AlpinePeakDbContext : DbContext
                 .HasColumnType("character varying")
                 .HasColumnName("image_url");
             entity.Property(e => e.ProductId).HasColumnName("product_id");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.Images).HasForeignKey(d => d.ProductId);
         });
 
         modelBuilder.Entity<Order>(entity =>
@@ -97,15 +92,27 @@ public partial class AlpinePeakDbContext : DbContext
 
         modelBuilder.Entity<OrderProductItem>(entity =>
         {
-            entity.HasKey(e => e.OrderProductItemId).HasName("order_product_item_id");
+            entity.HasKey(e => e.OrderProductItemId).HasName("order_product_items_pkey");
+
             entity.ToTable("order_product_items", "store", tb => tb.HasComment("Intersection table between orders and products."));
 
+            entity.Property(e => e.OrderProductItemId)
+                .ValueGeneratedNever()
+                .HasColumnName("order_product_item_id");
             entity.Property(e => e.OrderId).HasColumnName("order_id");
             entity.Property(e => e.Price)
                 .HasPrecision(10, 5)
                 .HasColumnName("price");
             entity.Property(e => e.ProductId).HasColumnName("product_id");
             entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderProductItems)
+                .HasForeignKey(d => d.OrderId)
+                .HasConstraintName("fk_order_products_orders_order_id");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.OrderProductItems)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("fk_order_products_products_product_id");
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -128,6 +135,7 @@ public partial class AlpinePeakDbContext : DbContext
             entity.Property(e => e.Price)
                 .HasPrecision(10, 5)
                 .HasColumnName("price");
+            entity.Property(e => e.Sales).HasColumnName("sales");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
@@ -161,6 +169,9 @@ public partial class AlpinePeakDbContext : DbContext
             entity.Property(e => e.UserId)
                 .ValueGeneratedNever()
                 .HasColumnName("user_id");
+            entity.Property(e => e.Address).HasColumnName("address");
+            entity.Property(e => e.City).HasColumnName("city");
+            entity.Property(e => e.Country).HasColumnName("country");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.Email)
                 .HasColumnType("character varying")
@@ -175,7 +186,10 @@ public partial class AlpinePeakDbContext : DbContext
             entity.Property(e => e.Password)
                 .HasColumnType("character varying")
                 .HasColumnName("password");
+            entity.Property(e => e.PhoneNumber).HasColumnName("phone_number");
+            entity.Property(e => e.State).HasColumnName("state");
             entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            entity.Property(e => e.ZipCode).HasColumnName("zip_code");
         });
 
         OnModelCreatingPartial(modelBuilder);

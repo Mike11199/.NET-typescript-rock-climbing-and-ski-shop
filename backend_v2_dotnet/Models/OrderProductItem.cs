@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
 namespace backend_v2.Models;
 
@@ -8,10 +8,6 @@ namespace backend_v2.Models;
 /// </summary>
 public partial class OrderProductItem
 {
-    [Key]
-    [Column("order_product_item_id")]
-    public Guid OrderProductItemId { get; set; }
-
     public Guid? OrderId { get; set; }
 
     public Guid? ProductId { get; set; }
@@ -19,4 +15,10 @@ public partial class OrderProductItem
     public int? Quantity { get; set; }
 
     public decimal? Price { get; set; }
+
+    public Guid OrderProductItemId { get; set; }
+
+    public virtual Order? Order { get; set; }
+
+    public virtual Product? Product { get; set; }
 }

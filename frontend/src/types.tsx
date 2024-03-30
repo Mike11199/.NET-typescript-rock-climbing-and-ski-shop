@@ -111,4 +111,21 @@ export interface LoggedInOrRegisteredUserResponse {
   token: string;
 }
 
+export interface OrderProductItem {
+  orderId?: string;
+  productId?: string;
+  quantity?: number;
+  price?: number;
+  orderProductItemId: string;
+  product?: Product;
+}
 
+export interface OrderWithProductItems {
+  orderId: string;
+  userId?: string;
+  isPaid?: number;
+  isDelivered?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  orderProductItems: OrderProductItem[];
+}

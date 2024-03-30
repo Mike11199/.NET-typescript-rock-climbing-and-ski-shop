@@ -1,4 +1,7 @@
-﻿namespace backend_v2.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace backend_v2.Models;
 
 public partial class Image
 {
@@ -7,4 +10,6 @@ public partial class Image
     public Guid? ProductId { get; set; }
 
     public string? ImageUrl { get; set; }
+
+    public virtual Product? Product { get; set; }
 }

@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CartItemComponent from "../../../components/CartItemComponentSimple";
-
+import { OrderWithProductItems } from "types";
 
 const UserOrdersPageComponent = ({getOrders}) => {
-    const [orders, setOrders] = useState<any>([]);
+    const [orders, setOrders] = useState<OrderWithProductItems[]>([]);
 
     const [showDetails, setShowDetails] = useState<any>({});
 
@@ -39,8 +39,8 @@ const UserOrdersPageComponent = ({getOrders}) => {
 
     useEffect(() => {
       let defaultShowDetails = {};
-      for (let i = 0; i < orders.length; i++) {
-        defaultShowDetails[orders[i]._id] = true;
+      for (let i = 0; i < orders?.length; i++) {
+        defaultShowDetails[orders[i].orderId] = true;
       }
       setShowDetails(defaultShowDetails);
     }, [orders]);
@@ -89,33 +89,33 @@ const UserOrdersPageComponent = ({getOrders}) => {
                 <tr key={idx}>
                   <td>{idx +1}</td>
                   <td>You</td>
-                  <td>{order.createdAt.substring(0, 10)}</td>
-                  <td>{USDollar.format(order.orderTotal.cartSubtotal)}</td>
-                  <td>{order.cartItems.length}</td>
+                  <td>{order?.createdAt?.toDateString ?? ""}</td>
+                  <td>{USDollar.format(5)}</td>
+                  <td>{order?.orderProductItems.length}</td>
                   <td>
-                    {order.isPaid ? <i className="bi bi-check-lg text-success"></i> : <i className="bi bi-x-lg text-danger"></i>}
+                    {order?.isPaid ? <i className="bi bi-check-lg text-success"></i> : <i className="bi bi-x-lg text-danger"></i>}
                   </td>
                   <td>
-                    {order.isPaid ? <i className="bi bi-check-lg text-success"></i> : <i className="bi bi-x-lg text-danger"></i>}
+                    {order?.isPaid ? <i className="bi bi-check-lg text-success"></i> : <i className="bi bi-x-lg text-danger"></i>}
                   </td>
                   <td>
-                   {order.paymentMethod === 'pp' ? 'PayPal' : 'Cash'}
+                   {/* {order?.paymentMethod === 'pp' ? 'PayPal' : 'Cash'} */}
                   </td>
                   <td style={{ textAlign: 'center' }}>
-                    <Link to={`/user/order-details/${order._id}`}>View Order Details</Link>
+                    <Link to={`/user/order-details/${order?.orderId}`}>View Order Details</Link>
                   </td>
                   <td style={{ textAlign: 'center' }}>
-                    <Button variant="danger" onClick={() => toggleDetails(order._id)}>
-                      {showDetails[order._id] ? 'Hide Details' : 'Show Details'}
+                    <Button variant="danger" onClick={() => toggleDetails(order?.orderId)}>
+                      {showDetails[order?.orderId] ? 'Hide Details' : 'Show Details'}
                     </Button>
                   </td>
                   <>
-                  {showDetails.hasOwnProperty(order._id) && showDetails[order._id]  && (
+                  {showDetails.hasOwnProperty(order?.orderId) && showDetails[order?.orderId]  && (
                     <td>
                     <ListGroup variant="flush" >
-                      {order.cartItems.map((item, idx) => (
+                      {order?.orderProductItems.map((item, idx) => (
                         <div>
-                        <CartItemComponent item={item} key={idx} orderCreated={true}/>
+                        <CartItemComponent item={item?.product} key={idx} orderCreated={true}/>
                         </div>
                       ))}
                     </ListGroup>

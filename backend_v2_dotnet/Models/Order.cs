@@ -1,4 +1,7 @@
-﻿namespace backend_v2.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace backend_v2.Models;
 
 public partial class Order
 {
@@ -13,4 +16,6 @@ public partial class Order
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
+
+    public virtual ICollection<OrderProductItem> OrderProductItems { get; set; } = new List<OrderProductItem>();
 }
