@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -26,13 +27,13 @@ namespace backend_v2.Controllers
         }
 
         // *****/apiv2/apistatus/protected*****
-        [JwtCookieAuthentication] // Apply the middleware
+        [Authorize] // Apply the middleware
         [HttpGet("protected")]
 
         public string Protected()
         {
             _logger.LogInformation("Received Health Check Request with a verified JWT!");
-            return "OK";
+            return "User is logged in - accessed a protected route with a token!";
         }
     }
 }

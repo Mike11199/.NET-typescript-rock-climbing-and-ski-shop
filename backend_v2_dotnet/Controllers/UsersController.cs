@@ -65,20 +65,11 @@ namespace backend_v2.Controllers
 
             string token = JWTUtilities.GenerateToken(user!, key);
 
-            CookieOptions cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = Request.IsHttps,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddDays(7)
-            };
-
-            _httpContextAccessor!.HttpContext!.Response.Cookies.Append("access_token", token, cookieOptions);
-
             // Return success response
             return StatusCode(200, new
             {
                 success = "user logged in",
+                token,
                 userLoggedIn = new
                 {
                     _id = user.UserId,
@@ -153,21 +144,13 @@ namespace backend_v2.Controllers
 
             string token = JWTUtilities.GenerateToken(newUser!, key);
 
-            CookieOptions cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = Request.IsHttps,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddDays(7)
-            };
-
-            _httpContextAccessor!.HttpContext!.Response.Cookies.Append("access_token", token, cookieOptions);
 
             // Return created response
             return StatusCode(201, new
             {
                 success = "New user registered!",
-                userCreated = new
+                token,
+                userLoggedIn = new
                 {
                     _id = newUser?.UserId!,
                     name = newUser?.Name ?? "",
