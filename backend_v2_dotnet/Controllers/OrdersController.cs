@@ -2,8 +2,10 @@ using backend_v2.DTOs;
 using backend_v2.Models;
 using backend_v2.Repositories;
 using backend_v2.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using System.Text;
 
 namespace backend_v2.Controllers
@@ -42,29 +44,17 @@ namespace backend_v2.Controllers
 
         // POST: apiv2/orders/
         [HttpPost(Name = "createOrder")]
+        [Authorize]
         public async Task<ActionResult> CreateOrder(CreateOrderDto createOrderRequest)
         {
             try
             {
-                string userEmailFromToken;
+                // this gets the user from the JWT security claim https://learn.microsoft.com/en-us/dotnet/api/system.security.claims.claimsprincipal?view=net-8.0
+                // since we called [Authorize] this can't be spoofed somehow to create an order for another user.
+                var userId = User?.FindFirst("Id")?.Value;
+                var userEmail = User?.FindFirst("Email")?.Value;
 
-                // ensure user token is valid so user can be associated with order
-                try
-                {
-                    var accessToken = Request.Cookies["access_token"];
-                    var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"] ?? Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? "");
-                    var UserTokenInfo = JWTUtilities.DecodeUserTokenInfo(accessToken ?? "", key);
-                    userEmailFromToken = UserTokenInfo.Token.GetValueOrDefault("Email") ?? "";
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError("Error finding user associated with new order.", ex);
-                    return BadRequest("User not found, please log in to create an order.");
-                }
-
-                var userLookedUp = await _userRepository.GetUserByEmail(userEmailFromToken);
-
-                if (userLookedUp == null)
+                if (userId == null || userEmail == null)
                 {
                     return BadRequest("User not found, please log in to create an order.");
                 }
@@ -79,7 +69,9 @@ namespace backend_v2.Controllers
                     return BadRequest("Error - payment method missing.");
                 }
 
-                var newOrderId = await _orderRepository.CreateNewOrder(userLookedUp.UserId);
+                var userFromDb = await _userRepository.GetUserByEmail(userEmail ?? "");
+
+                var newOrderId = await _orderRepository.CreateNewOrder(userFromDb.UserId);
 
                 if (newOrderId == null)
                 {
