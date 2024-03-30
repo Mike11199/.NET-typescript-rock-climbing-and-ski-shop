@@ -71,6 +71,11 @@ namespace backend_v2.Controllers
 
                 var userFromDb = await _userRepository.GetUserByEmail(userEmail ?? "");
 
+                if (userFromDb == null)
+                {
+                    return BadRequest("User not found, please log in to create an order.");
+                }
+
                 var newOrderId = await _orderRepository.CreateNewOrder(userFromDb.UserId);
 
                 if (newOrderId == null)
