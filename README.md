@@ -71,6 +71,11 @@
 
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop/assets/91037796/29ba5c51-4a79-469d-ac7c-ed4edeb6d203)
 
+- Added authorization.  .AddJwtBearer() is called in program.cs, then I leverage the built in [Authorize] and User object to implement resource based access control so that users can only create orders for themselves - aka not spoof their user id somehow.
+
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop/assets/91037796/6862129f-8fd6-4f4a-9fa4-87e1bb933390)
+
+
 <br/>
 
 <h1> Screenshots & GIFs </h1>
