@@ -67,9 +67,9 @@
 
 <h1> .NET C# - API Version 2 Conversion </h1>
 
-![image](https://github.com/Mike11199/rock-climbing-and-ski-shop/assets/91037796/b498233f-a5d0-4429-aef1-3d5ec33814a0)
+- Added order/product M:N intersection table and a create order controller.
 
-![image](https://github.com/Mike11199/rock-climbing-and-ski-shop/assets/91037796/29ba5c51-4a79-469d-ac7c-ed4edeb6d203)
+![image](https://github.com/Mike11199/rock-climbing-and-ski-shop/assets/91037796/b498233f-a5d0-4429-aef1-3d5ec33814a0)
 
 - Added authorization.  .AddJwtBearer() is called in program.cs, then I leverage the built in [Authorize] and User object to implement resource based access control so that users can only create orders for themselves - aka not spoof their user id somehow.
 
