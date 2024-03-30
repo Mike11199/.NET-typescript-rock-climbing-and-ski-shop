@@ -3,30 +3,21 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setReduxUserState } from "../redux/actions/userActions";
 import apiURL from "../utils/ToggleAPI"
+import { LoggedInOrRegisteredUserResponse } from "types";
 
-interface LoggedInUserResponse {
-  success: string;
-  userLoggedIn: {
-      _id: string;
-      name: string;
-      lastName: string;
-      email: string;
-      isAdmin: boolean;
-      doNotLogout: boolean;
-  };
-}
-
-//express.js
 const loginUserApiRequest = async (email, password, doNotLogout) => {
-  const { data } = await axios.post<LoggedInUserResponse>(`${apiURL}/users/login`, {
+  const { data } = await axios.post<LoggedInOrRegisteredUserResponse>(`${apiURL}/users/login`, {
     email,
     password,
     doNotLogout,
   });
   if (data.userLoggedIn.doNotLogout) {
     localStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn));
+    localStorage.setItem("token", data.token);
+
   } else {
     sessionStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn));
+    sessionStorage.setItem("token", data.token);
   }
   return data;
 };

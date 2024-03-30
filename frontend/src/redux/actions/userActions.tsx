@@ -23,6 +23,8 @@ export const logout = () => (dispatch) => {
     // clear local storage of user info and cart items on logout
     localStorage.removeItem('userInfo')
     sessionStorage.removeItem('userInfo')
+    localStorage.removeItem('token')
+    sessionStorage.removeItem('token')
     localStorage.removeItem('cart')
 
     // clear user info from redux state on logout

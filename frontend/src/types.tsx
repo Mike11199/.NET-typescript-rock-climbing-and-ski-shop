@@ -104,3 +104,11 @@ export interface orderDataDTO {
     orderItems: OrderProduct[];
     paymentMethod: string;
 }
+
+export interface LoggedInOrRegisteredUserResponse {
+  success: string;
+  userLoggedIn: StoredUserInfo;
+  token: string;
+}
+
+

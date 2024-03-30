@@ -34,8 +34,12 @@ import AdminOrderDetailsPage from "./pages/admin/AdminOrderDetailsPage";
 import AdminChatsPage from "./pages/admin/AdminChatsPage";
 import AdminAnalyticsPage from "./pages/admin/AdminAnalyticsPage";
 import ScrollToTop from "./utils/ScrollToTop";
+import setupAxiosInterceptor from "./utils/AxiosSetup";
 
 function App() {
+
+  setupAxiosInterceptor();
+
   return (
     <BrowserRouter>
     <ScrollToTop />

@@ -43,6 +43,19 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
   };
   testNewAPI();
 
+  // api v2 protected
+  const testNewAPIProtected = async () => {
+    try {
+      const { data } = await axios.get("/apiv2/APIStatus/protected");
+      console.log("testing the protected route!!")
+      console.log(data);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  testNewAPIProtected();
+
   // api v2 test - 2
   const testNewAPI2 = async () => {
     try {
