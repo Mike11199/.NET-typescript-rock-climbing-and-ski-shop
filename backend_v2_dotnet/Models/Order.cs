@@ -17,5 +17,11 @@ public partial class Order
 
     public DateTime? UpdatedAt { get; set; }
 
+    public string? OrderMethod { get; set; }
+
+    public decimal? OrderTotal { get; set; }
+
+    public decimal? ItemCount { get; set; }
+
     public virtual ICollection<OrderProductItem> OrderProductItems { get; set; } = new List<OrderProductItem>();
 }

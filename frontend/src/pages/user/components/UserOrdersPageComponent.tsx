@@ -77,7 +77,7 @@ const UserOrdersPageComponent = ({getOrders}) => {
               <th>Count</th>
               <th>Delivered</th>
               <th>Paid?</th>
-              <th>Payment</th>
+              <th>Payment Type</th>
               <th style={{ textAlign: 'center' }}>Order Details</th>
               <th style={{ textAlign: 'center', minWidth:'100px' }}>Toggle Details</th>
               <th style={{width:'50%'}}>Order Items</th>
@@ -90,8 +90,8 @@ const UserOrdersPageComponent = ({getOrders}) => {
                   <td>{idx +1}</td>
                   <td>You</td>
                   <td>{order?.createdAt ? new Date(order.createdAt).toDateString() : ""}</td>
-                  <td>{USDollar.format(5)}</td>
-                  <td>{order?.orderProductItems.length}</td>
+                  <td>{USDollar.format(order?.orderTotal ?? 999999)}</td>
+                  <td>{order?.itemCount}</td>
                   <td>
                     {order?.isPaid ? <i className="bi bi-check-lg text-success"></i> : <i className="bi bi-x-lg text-danger"></i>}
                   </td>
@@ -99,7 +99,7 @@ const UserOrdersPageComponent = ({getOrders}) => {
                     {order?.isPaid ? <i className="bi bi-check-lg text-success"></i> : <i className="bi bi-x-lg text-danger"></i>}
                   </td>
                   <td>
-                   {/* {order?.paymentMethod === 'pp' ? 'PayPal' : 'Cash'} */}
+                   {order?.orderMethod}
                   </td>
                   <td style={{ textAlign: 'center' }}>
                     <Link to={`/user/order-details/${order?.orderId}`}>View Order Details</Link>

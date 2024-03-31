@@ -82,6 +82,11 @@ public partial class AlpinePeakDbContext : DbContext
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.IsDelivered).HasColumnName("is_delivered");
             entity.Property(e => e.IsPaid).HasColumnName("is_paid");
+            entity.Property(e => e.ItemCount).HasColumnName("item_count");
+            entity.Property(e => e.OrderMethod)
+                .HasColumnType("character varying")
+                .HasColumnName("order_method");
+            entity.Property(e => e.OrderTotal).HasColumnName("order_total");
             entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
             entity.Property(e => e.UserId).HasColumnName("user_id");
         });
