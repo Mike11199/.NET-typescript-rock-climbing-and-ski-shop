@@ -50,8 +50,9 @@ app.use(cookieParser());
 app.use(fileUpload());
 
 // Mongodb connection setup.
-const connectDB = require("./config/db");
-connectDB();
+// *********DISABLED MONGODB CONNECTION FOR API V2 - DATABASE NOW IS POSTGRESQL HANDLED BY .NET API*******
+// const connectDB = require("./config/db");
+// connectDB();
 
 // Route setup.
 const apiRoutes = require("./routes/apiRoutes");
