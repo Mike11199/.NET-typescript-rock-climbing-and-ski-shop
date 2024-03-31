@@ -92,13 +92,13 @@ namespace backend_v2.Controllers
                 }
 
                 // verify that the request has all items
-                if (createOrderRequest.PaymentMethod == null || createOrderRequest.OrderItems.Count == 0)
+                if (string.IsNullOrEmpty(createOrderRequest.PaymentMethod))
                 {
                     return BadRequest("Error - payment method missing.");
                 }
                 if (createOrderRequest.OrderItems.Count == 0)
                 {
-                    return BadRequest("Error - payment method missing.");
+                    return BadRequest("Error - please add items to your order.");
                 }
 
                 var userFromDb = await _userRepository.GetUserById(Guid.Parse(userId));
@@ -108,12 +108,15 @@ namespace backend_v2.Controllers
                     return BadRequest("User not found, please log in to create an order.");
                 }
 
-                var newOrderId = await _orderRepository.CreateNewOrder(userFromDb.UserId);
+                var newOrder = await _orderRepository.CreateNewOrder(userFromDb.UserId);
 
-                if (newOrderId == null)
+                if (newOrder == null)
                 {
                     return BadRequest("Error creating order.");
                 }
+
+                decimal orderTotal = 0.00M;
+                int orderCount = 0;
 
                 // loop and decrease quantity of each product, only save changes if all succeed
                 foreach (var orderItem in createOrderRequest.OrderItems)
@@ -133,12 +136,14 @@ namespace backend_v2.Controllers
                     }
 
                     product.Count -= orderItem.Quantity;
+                    orderTotal += product.Price * orderItem.Quantity ?? 0;
+                    orderCount += orderItem.Quantity;
 
                     // add order products to M:N table
                     var newOrderProductRecord = new OrderProductItem
                     {
                         OrderProductItemId = Guid.NewGuid(),
-                        OrderId = newOrderId.OrderId,
+                        OrderId = newOrder.OrderId,
                         ProductId = product.ProductId,
                         Quantity = orderItem.Quantity,
                         Price = product.Price
@@ -146,8 +151,11 @@ namespace backend_v2.Controllers
                     await _context.OrderProductItems.AddAsync(newOrderProductRecord);
                 }
 
+                newOrder.OrderTotal = orderTotal;
+                newOrder.PaymentMethod = createOrderRequest.PaymentMethod;
+                newOrder.ItemCount = orderCount;
                 await _context.SaveChangesAsync();
-                return StatusCode(200, new { success = "Order created.", orderId = newOrderId });
+                return StatusCode(200, new { success = "Order created.", orderId = newOrder?.OrderId });
             }
             catch (Exception ex)
             {

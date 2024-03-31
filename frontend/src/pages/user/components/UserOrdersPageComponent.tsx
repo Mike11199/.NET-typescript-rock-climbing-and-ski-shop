@@ -84,7 +84,7 @@ const UserOrdersPageComponent = ({getOrders}) => {
             </tr>
           </thead>
           <tbody>
-            {orders.map(
+            {orders?.map(
               (order, idx) => (
                 <tr key={idx}>
                   <td>{idx +1}</td>
@@ -99,7 +99,7 @@ const UserOrdersPageComponent = ({getOrders}) => {
                     {order?.isPaid ? <i className="bi bi-check-lg text-success"></i> : <i className="bi bi-x-lg text-danger"></i>}
                   </td>
                   <td>
-                   {order?.orderMethod}
+                   {order?.paymentMethod}
                   </td>
                   <td style={{ textAlign: 'center' }}>
                     <Link to={`/user/order-details/${order?.orderId}`}>View Order Details</Link>
@@ -113,7 +113,7 @@ const UserOrdersPageComponent = ({getOrders}) => {
                   {showDetails.hasOwnProperty(order?.orderId) && showDetails[order?.orderId]  && (
                     <td>
                     <ListGroup variant="flush" >
-                      {order?.orderProductItems.map((item, idx) => (
+                      {order?.orderProductItems?.map((item, idx) => (
                         <div>
                         {item?.product && <CartItemComponent item={item?.product} key={idx} />}
                         </div>

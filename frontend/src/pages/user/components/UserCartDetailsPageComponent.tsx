@@ -46,7 +46,7 @@ const UserCartDetailsPageComponent = ({
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [userAddress, setUserAddress] = useState<UserAddress | undefined>(undefined);
   const [missingAddress, setMissingAddress] = useState<boolean>(false);
-  const [paymentMethod, setPaymentMethod] = useState<string>("");
+  const [paymentMethod, setPaymentMethod] = useState<string>("PayPal");
   const [confetti, setConfetti] = useState<boolean>(false);
 
   const config: ConfettiConfig = {
@@ -140,11 +140,11 @@ const UserCartDetailsPageComponent = ({
 
   const orderHandler = () => {
     const orderData: orderDataDTO = {
+      paymentMethod: paymentMethod,
       orderItems: cartItems?.map( p => ({
         productId: p?.productId,
         quantity: p?.quantity
       })),
-      paymentMethod: paymentMethod,
     };
     createOrder(orderData)
       .then((data) => {
@@ -192,8 +192,8 @@ const UserCartDetailsPageComponent = ({
               <Col md={6}>
                 <h2>Payment method</h2>
                 <Form.Select onChange={choosePayment}>
-                  <option value="pp">PayPal</option>
-                  <option value="cod">
+                  <option value="PayPal">PayPal</option>
+                  <option value="Cash">
                     Cash On Delivery (delivery may be delayed)
                   </option>
                 </Form.Select>

@@ -124,7 +124,7 @@ export interface OrderProductItem {
   price?: number;
   orderProductItemId: string;
   product?: Product;
-  orderMethod?: string;
+  paymentMethod?: string;
   orderTotal?: number;
   itemCount?: number;
 }
@@ -136,7 +136,7 @@ export interface OrderWithProductItems {
   isDelivered?: number;
   createdAt?: Date;
   updatedAt?: Date;
-  orderMethod?: string;
+  paymentMethod?: string;
   orderTotal?: number;
   itemCount?: number;
   orderProductItems: OrderProductItem[];
