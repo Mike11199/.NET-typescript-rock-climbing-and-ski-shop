@@ -31,9 +31,8 @@ export interface Product {
 export interface CartProduct
   extends Omit<
     Product,
-    "description" | "categoryId" | "sales" | "category" | "images"
+    "description" | "categoryId" | "sales" | "category"
   > {
-  image: Image;
   quantity: number;
 }
 
@@ -58,6 +57,11 @@ export interface Order {
   isDelivered?: number | null;
   createdAt?: Date | string | null;
   updatedAt?: Date | string | null;
+  paidAt?: Date;
+  deliveredAt?: Date;
+  orderTotal?: number;
+  itemCount?: number;
+  paymentMethod?: string;
 }
 
 export interface OrderItem {
@@ -119,29 +123,13 @@ export interface LoggedInOrRegisteredUserResponse {
 
 export interface OrderProductItem {
   orderId?: string;
+  orderProductItemId: string;
+  price?: number;
+  product?: Product;
   productId?: string;
   quantity?: number;
-  price?: number;
-  name?: string;
-  images?: Image[];
-  orderProductItemId: string;
-  product?: Product;
-  paymentMethod?: string;
-  orderTotal?: number;
-  itemCount?: number;
 }
 
-export interface OrderWithProductItems {
-  orderId: string;
-  userId?: string;
-  isPaid?: number;
-  isDelivered?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
-  paymentMethod?: string;
-  orderTotal?: number;
-  itemCount?: number;
-  paidAt?: Date;
-  deliveredAt?: Date;
+export interface OrderWithProductItems extends Order {
   orderProductItems: OrderProductItem[];
 }

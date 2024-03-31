@@ -10,7 +10,7 @@ import {
 import CartItemComponent from "../../../components/CartItemComponent";
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { OrderProductItem, OrderWithProductItems, User} from "types";
+import { CartProduct, OrderProductItem, OrderWithProductItems, User, Product} from "types";
 
 const UserOrderDetailsPageComponent = ({
   userInfo,
@@ -27,7 +27,7 @@ const UserOrderDetailsPageComponent = ({
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [orderButtonMessage, setOrderButtonMessage] =
     useState("Mark as delivered");
-  const [cartItems, setCartItems] = useState<OrderProductItem[]>([]);
+  const [orderProductItems, setOrderProductItems] = useState<OrderProductItem[]>([]);
 
   const paypalContainer = useRef<any>();
 
@@ -45,16 +45,18 @@ const UserOrderDetailsPageComponent = ({
     updateStateWithUserData();
   }, []);
 
-  // this useEffect to get order data from the database by order ID and update state to display on page
+
   useEffect(() => {
     const updateStateWithOrderData = async () => {
       try {
-        // func passed from page into this component
+
         const data: OrderWithProductItems = await getOrder(id);
 
-        // update state based on order values - here we update the cart state with data from order request - from MongoDB
+        console.log("DATA FROM GET ORDER BY ID ")
+        console.log(data)
+
         setPaymentMethod(data?.paymentMethod ?? "");
-        setCartItems(data?.orderProductItems);
+        setOrderProductItems(data?.orderProductItems);
         setCartSubtotal(data?.orderTotal ?? 0);
 
         data.isDelivered
@@ -96,7 +98,7 @@ const UserOrderDetailsPageComponent = ({
       // if the order is not already paid, send external request to the paypal API
       // https://github.com/paypal/paypal-js#usage
       if (!isPaid) {
-        loadPayPalScript(cartSubtotal, cartItems, id, updateStateAfterOrder);
+        loadPayPalScript(cartSubtotal, orderProductItems, id, updateStateAfterOrder);
       }
     } else {
       setOrderButtonMessage("Your order was placed. Thank you");
@@ -156,9 +158,16 @@ const UserOrderDetailsPageComponent = ({
           <br />
           <h2>Order items</h2>
           <ListGroup variant="flush">
-            {cartItems?.map((item, idx) => (
-              item?.product && <CartItemComponent product={item?.product} key={idx} orderCreated={true} />
-            ))}
+
+            {orderProductItems?.map((item, idx) => {
+              const productWithQuantity = {
+                ...item?.product,
+                quantity: item?.quantity
+              } as CartProduct
+            return (
+              productWithQuantity && <CartItemComponent product={productWithQuantity} key={idx} orderCreated={true} />
+            )
+            })}
           </ListGroup>
         </Col>
         <Col md={4}>

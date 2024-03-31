@@ -16,7 +16,7 @@ import Confetti from "react-dom-confetti";
 import toast, { Toaster } from "react-hot-toast";
 import ShoppingCartImage from "../../../images/shopping_cart.png";
 import { ConfettiConfig } from "react-dom-confetti";
-import { CartProduct, StoredUserInfo, User, orderDataDTO, Order, UserAddress} from "types";
+import { CartProduct, StoredUserInfo, User, orderDataDTO, Order, UserAddress, Product} from "types";
 
 
 interface UserCartDetailsPageComponentProps {

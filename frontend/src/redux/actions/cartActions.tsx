@@ -14,7 +14,7 @@ export const addToCart =
         productId: data?.productId,
         name: data?.name,
         price: data?.price,
-        image: data?.images[0] ?? null,
+        images: data?.images ?? null,
         count: data?.count,
         quantity,
       },

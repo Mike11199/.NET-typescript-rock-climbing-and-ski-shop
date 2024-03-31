@@ -1,9 +1,9 @@
 import { Row, Col, Image, ListGroup, Form, Button } from "react-bootstrap";
 import RemoveFromCartComponent from "./RemoveFromCartComponent";
-import { Product } from "types";
+import { CartProduct, Product } from "types";
 
 interface CartItemProps {
-  product:  Product;
+  product:  CartProduct;
   removeFromCartHandler?: any;
   orderCreated?: boolean | undefined;
   changeCount?: any;
@@ -36,7 +36,7 @@ const CartItemComponent = ({ product, removeFromCartHandler = false, orderCreate
             <b>${(product?.price ?? 0).toFixed(2)}</b>
           </Col>
           <Col md={3}>
-            <Form.Select onChange={changeCount ? (e) => changeCount(product?.productId, e.target.value) : undefined } disabled={orderCreated} value={1}>
+            <Form.Select onChange={changeCount ? (e) => changeCount(product?.productId, e.target.value) : undefined } disabled={orderCreated} value={product?.quantity}>
               {[...Array(product?.count).keys()].map((x) => (
                 <option key={x + 1} value={x + 1}>
                   {x + 1}
@@ -48,7 +48,7 @@ const CartItemComponent = ({ product, removeFromCartHandler = false, orderCreate
             <RemoveFromCartComponent
             orderCreated={orderCreated}
             productId={product?.productId}
-            quantity={1}
+            quantity={product?.quantity}
             price={product?.price}
             removeFromCartHandler={removeFromCartHandler ? removeFromCartHandler : undefined}
              />
