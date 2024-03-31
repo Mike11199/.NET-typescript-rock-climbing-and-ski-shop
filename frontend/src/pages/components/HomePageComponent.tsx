@@ -31,9 +31,6 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
 
   const [startDate, setStartDate] = useState(currentDate);
 
-  console.log("Test retrieving Bestsellers from api v1 - express.js docker container - MongoDB database.");
-  console.log(bestSellers);
-
   // api v2 test
   const testNewAPI = async () => {
     try {
@@ -72,7 +69,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
 
   useEffect(() => {
     getBestsellers()
-      .then((data) => {
+      .then((data: BestsellerItem[]) => {
         if (data){
         setBestsellers(data);
         }

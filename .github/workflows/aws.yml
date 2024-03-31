@@ -3,7 +3,7 @@ name: Deploy to Amazon ECS
 on:
   push:
     branches:
-      - docker-aws-ecs
+      - api-v2-dotnet-conversion
 
 env:
   AWS_REGION: us-west-1
