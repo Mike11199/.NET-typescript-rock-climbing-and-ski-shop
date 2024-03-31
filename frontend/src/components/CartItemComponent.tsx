@@ -12,9 +12,6 @@ interface CartItemProps {
 
 const CartItemComponent = ({ product, removeFromCartHandler = false, orderCreated = false, changeCount = false }: CartItemProps) => {
 
-  console.log("item in cartitem component")
-  console.log(product)
-
   const productId = product?.productId
   const productUrl = `/product-details/${productId}`;
 

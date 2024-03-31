@@ -20,13 +20,12 @@ const UserOrderDetailsPageComponent = ({
 }) => {
 
   const [user, setUser] = useState<User>();
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState<string>("");
   const [isPaid, setIsPaid] = useState<Date | boolean | undefined>(false);
   const [isDelivered, setIsDelivered] = useState<Date | boolean | undefined>(false);
   const [cartSubtotal, setCartSubtotal] = useState<number>(0);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
-  const [orderButtonMessage, setOrderButtonMessage] =
-    useState("Mark as delivered");
+  const [orderButtonMessage, setOrderButtonMessage] = useState<string>("Mark as delivered");
   const [orderProductItems, setOrderProductItems] = useState<OrderProductItem[]>([]);
 
   const paypalContainer = useRef<any>();
@@ -52,28 +51,25 @@ const UserOrderDetailsPageComponent = ({
 
         const data: OrderWithProductItems = await getOrder(id);
 
-        console.log("DATA FROM GET ORDER BY ID ")
-        console.log(data)
-
         setPaymentMethod(data?.paymentMethod ?? "");
         setOrderProductItems(data?.orderProductItems);
         setCartSubtotal(data?.orderTotal ?? 0);
 
-        data.isDelivered
+        data?.isDelivered
           ? setIsDelivered(data.deliveredAt)
           : setIsDelivered(false);
-        data.isPaid ? setIsPaid(data.paidAt) : setIsPaid(false);
+        data?.isPaid ? setIsPaid(data.paidAt) : setIsPaid(false);
 
         //  if it's paid update the button saying it's paid and disable the button
-        if (data.isPaid) {
+        if (data?.isPaid) {
           setOrderButtonMessage("Your order is finished");
           setButtonDisabled(true);
         }
         //  if not paid, show different button based on if paypal or cash on delivery (disable option to pay if cash)
         else {
-          if (data.paymentMethod === "PayPal") {
+          if (data?.paymentMethod === "PayPal") {
             setOrderButtonMessage("Pay for your order");
-          } else if (data.paymentMethod === "Cash") {
+          } else if (data?.paymentMethod === "Cash") {
             setButtonDisabled(true);
             setOrderButtonMessage("Wait for your order. You pay on delivery");
           }
@@ -90,7 +86,7 @@ const UserOrderDetailsPageComponent = ({
     setButtonDisabled(true);
 
     //if payment method is PayPal
-    if (paymentMethod === "pp") {
+    if (paymentMethod === "PayPal") {
       setOrderButtonMessage(
         "To pay for your order click one of the buttons below"
       );
