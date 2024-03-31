@@ -7,7 +7,7 @@ import { loadScript } from "@paypal/paypal-js"
 // GET Request to retrieve order based on id in URL - error-handling in page component itself
 // this function is passed and called from within the page component
 const getOrder = async (orderId) => {
-    const { data } = await axios.get("/api/orders/user/" + orderId);
+    const { data } = await axios.get("/apiv2/orders/user/" + orderId);
     console.log('order items or cart data log')
     console.log(data)
     return data;
@@ -22,7 +22,7 @@ const getOrder = async (orderId) => {
 const loadPayPalScript = async (cartSubtotal, cartItems, orderId, updateStateAfterOrder) => {
     try {
         const paypal = await loadScript(
-          {"client-id": "AXBC2IGDVF_ZQyQYrhAVa8UIs_OIvV8d2Q8LI6gsG7fCqQt4OjgOy4ijgibC5KGVXq0oeG39s6qt2aca"})
+          {"client-id": "AXBC2IGDVF_ZQyQYrhAVa8UIs_OIvV8d2Q8LI6gsG7fCqQt4OjgOy4ijgibC5KGVXq0oeG39s6qt2aca"})  // this is ok to expose
 
           if (paypal?.Buttons !== undefined){
             paypal?.Buttons(buttons(cartSubtotal, cartItems, orderId, updateStateAfterOrder)).render("#paypal-container-element")
@@ -53,7 +53,7 @@ const buttons = (cartSubtotal, cartItems, orderId, updateStateAfterOrder) => {
                             return {
                                name: product.name,
                                 unit_amount: {
-                                   currency_code: "USD", 
+                                   currency_code: "USD",
                                    value: product.price,
                                 },
                                 quantity: product.quantity,
@@ -110,7 +110,7 @@ const UserOrderDetailsPage = () => {
 
     //error-handling in page component itself
     const getUser = async () => {
-        const { data } = await axios.get("/api/users/profile/" + userInfo._id);
+        const { data } = await axios.get("/apiv2/users/profile/" + userInfo._id);
         return data;
     }
           //pass functions for API requests to component and state

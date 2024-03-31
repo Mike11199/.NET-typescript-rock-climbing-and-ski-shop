@@ -1,11 +1,9 @@
 import { Row, Col, Image, ListGroup, Form, Button } from "react-bootstrap";
 import RemoveFromCartComponent from "./RemoveFromCartComponent";
-import { useDispatch, useSelector } from "react-redux";
-import { LinkContainer } from "react-router-bootstrap";
-import { Product, CartProduct } from "types";
+import { Product } from "types";
 
 interface CartItemProps {
-  product: CartProduct;
+  product:  Product;
   removeFromCartHandler?: any;
   orderCreated?: boolean | undefined;
   changeCount?: any;
@@ -27,7 +25,7 @@ const CartItemComponent = ({ product, removeFromCartHandler = false, orderCreate
           <Col md={2}>
             <Image
               crossOrigin="anonymous"
-              src={product?.image?.imageUrl ?? "" }
+              src={product?.images?.at(0)?.imageUrl ?? "" }
               fluid
             />
           </Col>
@@ -38,7 +36,7 @@ const CartItemComponent = ({ product, removeFromCartHandler = false, orderCreate
             <b>${(product?.price ?? 0).toFixed(2)}</b>
           </Col>
           <Col md={3}>
-            <Form.Select onChange={changeCount ? (e) => changeCount(product?.productId, e.target.value) : undefined } disabled={orderCreated} value={product?.quantity}>
+            <Form.Select onChange={changeCount ? (e) => changeCount(product?.productId, e.target.value) : undefined } disabled={orderCreated} value={1}>
               {[...Array(product?.count).keys()].map((x) => (
                 <option key={x + 1} value={x + 1}>
                   {x + 1}
@@ -50,7 +48,7 @@ const CartItemComponent = ({ product, removeFromCartHandler = false, orderCreate
             <RemoveFromCartComponent
             orderCreated={orderCreated}
             productId={product?.productId}
-            quantity={product?.quantity}
+            quantity={1}
             price={product?.price}
             removeFromCartHandler={removeFromCartHandler ? removeFromCartHandler : undefined}
              />

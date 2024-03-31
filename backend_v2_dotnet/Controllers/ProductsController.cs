@@ -67,8 +67,7 @@ namespace backend_v2.Controllers
             }
         }
 
-
-        // GET api/products/category/electronics?pageNum=1
+        // GET api/products/category/boots?pageNum=1
         [HttpGet("category/{categoryName}")]
         public async Task<ActionResult> GetProductsByCategory(string categoryName)
 

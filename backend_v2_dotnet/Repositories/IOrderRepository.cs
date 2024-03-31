@@ -6,5 +6,6 @@ namespace backend_v2.Repositories
     {
         Task<Order?> CreateNewOrder(Guid newOrderUserId);
         Task<IEnumerable<Order>> GetAllOrdersbyUserId(Guid userId);
+        Task<Order?> GetOrderById(Guid orderId);
     }
 }

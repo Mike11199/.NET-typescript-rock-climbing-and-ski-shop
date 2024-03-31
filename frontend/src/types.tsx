@@ -122,6 +122,8 @@ export interface OrderProductItem {
   productId?: string;
   quantity?: number;
   price?: number;
+  name?: string;
+  images?: Image[];
   orderProductItemId: string;
   product?: Product;
   paymentMethod?: string;
@@ -139,5 +141,7 @@ export interface OrderWithProductItems {
   paymentMethod?: string;
   orderTotal?: number;
   itemCount?: number;
+  paidAt?: Date;
+  deliveredAt?: Date;
   orderProductItems: OrderProductItem[];
 }

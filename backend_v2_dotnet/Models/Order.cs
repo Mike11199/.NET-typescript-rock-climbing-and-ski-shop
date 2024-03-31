@@ -23,5 +23,9 @@ public partial class Order
 
     public int? ItemCount { get; set; }
 
+    public DateTime? PaidAt { get; set; }
+
+    public DateTime? DeliveredAt { get; set; }
+
     public virtual ICollection<OrderProductItem> OrderProductItems { get; set; } = new List<OrderProductItem>();
 }

@@ -1,5 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Start DB Migration (code first) - VISUAL STUDIO PACKAGE MANAGER CONSOLE:
+//*****************************************
+//  dotnet tool install --global dotnet-ef --version 7.*
+//  dotnet-ef migrations add MigrationName
+//  dotnet-ef database update
+
+// List Past DB Migration or Revert to One (code first):
+//*****************************************
+//  dotnet-ef migrations list
+//  revert: dotnet ef database update PreviousMigrationName
+
+// Database First - Scaffold
+// ******************************************
+// dotnet-ef dbcontext scaffold "YourConnectionStringHere" Npgsql.EntityFrameworkCore.PostgreSQL -o Models --force
+
 using Microsoft.EntityFrameworkCore;
 
 namespace backend_v2.Models;
@@ -80,10 +93,12 @@ public partial class AlpinePeakDbContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("order_id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+            entity.Property(e => e.DeliveredAt).HasColumnName("delivered_at");
             entity.Property(e => e.IsDelivered).HasColumnName("is_delivered");
             entity.Property(e => e.IsPaid).HasColumnName("is_paid");
             entity.Property(e => e.ItemCount).HasColumnName("item_count");
             entity.Property(e => e.OrderTotal).HasColumnName("order_total");
+            entity.Property(e => e.PaidAt).HasColumnName("paid_at");
             entity.Property(e => e.PaymentMethod)
                 .HasColumnType("character varying")
                 .HasColumnName("payment_method");
