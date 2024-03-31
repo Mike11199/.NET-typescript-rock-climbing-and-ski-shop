@@ -115,7 +115,7 @@ const UserOrdersPageComponent = ({getOrders}) => {
                     <ListGroup variant="flush" >
                       {order?.orderProductItems.map((item, idx) => (
                         <div>
-                        <CartItemComponent item={item?.product} key={idx} orderCreated={true}/>
+                        {item?.product && <CartItemComponent item={item?.product} key={idx} />}
                         </div>
                       ))}
                     </ListGroup>
