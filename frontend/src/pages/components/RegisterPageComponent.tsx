@@ -5,6 +5,7 @@ import Spinner from "react-bootstrap/Spinner";
 import RockClimbingPhoto from "../../images/climbing_inverted_2.png";
 import RappelClimbingPhoto from "../../images/rappel_5.png";
 import { registerUserRequest } from "pages/RegisterPage";
+import { LoggedInOrRegisteredUserResponse } from "types";
 
 const RegisterPageComponent = ({
   registerUserApiRequest,
@@ -58,12 +59,12 @@ const RegisterPageComponent = ({
       setRegisterUserResponseState({ loading: true });
       const registerRequest = {name, lastName, email, password} as registerUserRequest
       registerUserApiRequest(registerRequest)
-        .then((data) => {
+        .then((data: LoggedInOrRegisteredUserResponse) => {
           setRegisterUserResponseState({
             success: data?.success,
             loading: false,
           });
-          reduxDispatch(setReduxUserState(data?.userCreated));
+          reduxDispatch(setReduxUserState(data?.userLoggedIn));
         })
         .catch((er) =>
           setRegisterUserResponseState({

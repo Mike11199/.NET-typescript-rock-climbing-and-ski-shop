@@ -1,4 +1,4 @@
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import CliffFacePhoto from "../../../images/cliff_3.png"
 import toast, { Toaster } from 'react-hot-toast';
@@ -10,35 +10,6 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
   const [updateUserResponseState, setUpdateUserResponseState] = useState<any>({ success: "", error: "" });
   const [user, setUser] = useState<any>({})
   const userInfo = userInfoFromRedux;
-  // const [passwordsMatchState, setPasswordsMatchState] = useState(true);
-
-
-  // const [showErrorAlert, setShowErrorAlert] = useState(false);
-  // const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-
-  // useEffect(() => {
-
-  //   if (updateUserResponseState && updateUserResponseState.error !== "") {
-  //     setShowErrorAlert(true);
-  //     // Hide the error alert after 3 seconds
-  //     setTimeout(() => {
-  //       setShowErrorAlert(false);
-  //     }, 2500);
-  //   } else {
-  //     setShowErrorAlert(false);
-  //   }
-
-  //   if (updateUserResponseState && updateUserResponseState.success === "user updated") {
-  //     setShowSuccessAlert(true);
-  //     // Hide the success alert after 3 seconds
-  //     setTimeout(() => {
-  //       setShowSuccessAlert(false);
-  //     }, 2500);
-  //   } else {
-  //     setShowSuccessAlert(false);
-  //   }
-  // }, [updateUserResponseState]);
-
 
   useEffect(() => {
       fetchUser(userInfo._id)
@@ -46,22 +17,12 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
       .catch((er) => console.log(er));
   }, [userInfo._id])
 
-  // const onChange = () => {
-  //   const password = document.querySelector("input[name=password]");
-  //   const confirmPassword = document.querySelector("input[name=confirmPassword]");
-  //   if (confirmPassword.value === password.value) {
-  //     setPasswordsMatchState(true);
-  //   } else {
-  //     setPasswordsMatchState(false);
-  //   }
-  // };
-
   const handleSubmit = async (event) => {
-    
+
     event.preventDefault()
     event.stopPropagation()
 
-    const form = event.currentTarget.elements;    
+    const form = event.currentTarget.elements;
     const name = form.name.value;
     const lastName = form.lastName.value;
     const phoneNumber = form.phoneNumber.value;
@@ -73,7 +34,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
     const password = form.password.value;
 
 
-    if (password === '') {               
+    if (password === '') {
       toast.dismiss()
       toast.error('Please enter your current password to confirm changes to your profile.',{style: {borderRadius: '10px',background: '#333',color: '#fff'}})
       return
@@ -113,7 +74,6 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
     }
   }
 }
-    
 
   return (
     <>
@@ -151,7 +111,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label >Email address</Form.Label>
-              <Form.Control  
+              <Form.Control
                 style={{backgroundColor:"darkgray",borderColor:"darkgray"}}
                 disabled
                 value={user?.email}
@@ -218,9 +178,6 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
                 required
                 type="password"
                 placeholder="Password"
-                // minLength={6}
-                // onChange={onChange}
-                // isInvalid={!passwordsMatchState}
               />
               <Form.Control.Feedback type="invalid">
               </Form.Control.Feedback>
@@ -232,12 +189,6 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
             <Button variant="primary" type="submit">
               Update
             </Button>
-            {/* <Alert show={showErrorAlert} variant="danger">
-            Something went wrong! Did you enter the correct password?
-            </Alert>
-            <Alert show={showSuccessAlert} variant="info">
-            User updated!
-            </Alert> */}
           </Form>
         </Col>
       </Row>

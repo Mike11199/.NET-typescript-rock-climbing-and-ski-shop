@@ -86,7 +86,7 @@ const HeaderComponent = () => {
 
 
   useEffect(():any => {
-    if (userInfo.isAdmin) {
+    if (userInfo?.isAdmin) {
 
     let audio = new Audio("/audio/chat-msg.mp3")
     const socket = socketIOClient();
@@ -112,7 +112,7 @@ const HeaderComponent = () => {
 
     return () => socket.disconnect()  //if we leave the page/website socket will disconnect ( as header s/b on every page )
   }
-  },[userInfo.isAdmin])
+  },[userInfo?.isAdmin])
 
 
 //cheating with this to resize dark mode button as don't want to add media queries to CSS file
@@ -159,14 +159,14 @@ return (
           </InputGroup>
         </Nav>
         <Nav>
-          {userInfo.isAdmin ? (
+          {userInfo?.isAdmin ? (
             <LinkContainer to="/admin/orders">
               <Nav.Link>
                 Admin
                 {messageReceived &&<span className="position-absolute top-1 start-10 translate-middle p-2 bg-danger border border-light rounded-circle"></span>}
               </Nav.Link>
             </LinkContainer>
-          ) : userInfo.name && !userInfo.isAdmin ? (
+          ) : userInfo?.name && !userInfo?.isAdmin ? (
             <NavDropdown
               title={`${userInfo.name} ${userInfo.lastName}`}
               id="collasible-nav-dropdown"
