@@ -10,7 +10,7 @@ import {
 import CartItemComponent from "../../../components/CartItemComponent";
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { CartProduct, OrderProductItem, OrderWithProductItems, User, Product} from "types";
+import { CartProduct, OrderProductItem, OrderWithProductItems, User } from "types";
 
 const UserOrderDetailsPageComponent = ({
   userInfo,
@@ -27,11 +27,13 @@ const UserOrderDetailsPageComponent = ({
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [orderButtonMessage, setOrderButtonMessage] = useState<string>("Mark as delivered");
   const [orderProductItems, setOrderProductItems] = useState<OrderProductItem[]>([]);
+  const [cartProductItems, setCartProductItems] = useState<CartProduct[]>([]);
 
   const paypalContainer = useRef<any>();
 
   const { id } = useParams();
 
+  // grab user info on page load
   useEffect(() => {
     const updateStateWithUserData = async () => {
       try {
@@ -44,7 +46,22 @@ const UserOrderDetailsPageComponent = ({
     updateStateWithUserData();
   }, []);
 
+  // transform orderProductItems from API (large object from orders table -> joined to order-product --> joined to products) into cartProductItems objects whenever orderProductItems changes
+  useEffect(() => {
+  const cartProducts: CartProduct[] = orderProductItems?.filter(item =>
+    item?.quantity !== undefined && item?.product?.productId !== undefined
+  ).map(item => {
+    const { product, quantity } = item;
+    return {
+      ...product,
+      quantity: quantity as number,
+      productId: product!.productId,
+    }
+  }) || [];
+  setCartProductItems(cartProducts)
+  }, [orderProductItems]);
 
+  // on page load set order details to toggle buttons/payment method/ whether order is paid/delivered
   useEffect(() => {
     const updateStateWithOrderData = async () => {
       try {
@@ -82,6 +99,7 @@ const UserOrderDetailsPageComponent = ({
     updateStateWithOrderData();
   }, []);
 
+  // handler for the pay for order button
   const orderHandler = async () => {
     setButtonDisabled(true);
 
@@ -94,7 +112,7 @@ const UserOrderDetailsPageComponent = ({
       // if the order is not already paid, send external request to the paypal API
       // https://github.com/paypal/paypal-js#usage
       if (!isPaid) {
-        loadPayPalScript(cartSubtotal, orderProductItems, id, updateStateAfterOrder);
+        loadPayPalScript(cartSubtotal, cartProductItems, id, updateStateAfterOrder);
       }
     } else {
       setOrderButtonMessage("Your order was placed. Thank you");
@@ -154,14 +172,9 @@ const UserOrderDetailsPageComponent = ({
           <br />
           <h2>Order items</h2>
           <ListGroup variant="flush">
-
-            {orderProductItems?.map((item, idx) => {
-              const productWithQuantity = {
-                ...item?.product,
-                quantity: item?.quantity
-              } as CartProduct
+            {cartProductItems?.map((item, idx) => {
             return (
-              productWithQuantity && <CartItemComponent product={productWithQuantity} key={idx} orderCreated={true} />
+              item && <CartItemComponent product={item} key={idx} orderCreated={true} />
             )
             })}
           </ListGroup>

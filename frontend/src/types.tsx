@@ -25,7 +25,7 @@ export interface Product {
   price?: number | null;
   sales?: number | null;
   category?: Category | null;
-  images: Image[];
+  images?: Image[];
 }
 
 export interface CartProduct
