@@ -1,24 +1,25 @@
-import { Row, Col, Image, ListGroup, Form, Button } from "react-bootstrap";
-import RemoveFromCartComponent from "./RemoveFromCartComponent";
-import { useDispatch, useSelector } from "react-redux";
+import { Row, Col, Image, ListGroup } from "react-bootstrap";
+import { Product } from "../types";
 
-const CartItemComponent = ({ item, removeFromCartHandler = false, orderCreated = false, changeCount = false }) => {
+interface CartItemProps {
+  item: Product;
+}
 
-
+const CartItemComponent = ({ item }: CartItemProps) => {
   return (
     <>
       <ListGroup.Item>
         <Row>
-          <Col >
+          <Col>
             <Image
               crossOrigin="anonymous"
-              src={item.image ? item.image.path ?? null : null}
+              src={item?.images?.at(0)?.imageUrl ?? ""}
               fluid
             />
           </Col>
-          <Col >{item.name}</Col>
-          <Col >
-            <b>${item.price.toFixed(2)}</b>
+          <Col>{item?.name}</Col>
+          <Col>
+            <b>${item?.price?.toFixed(2)}</b>
           </Col>
         </Row>
       </ListGroup.Item>
@@ -28,4 +29,3 @@ const CartItemComponent = ({ item, removeFromCartHandler = false, orderCreated =
 };
 
 export default CartItemComponent;
-
