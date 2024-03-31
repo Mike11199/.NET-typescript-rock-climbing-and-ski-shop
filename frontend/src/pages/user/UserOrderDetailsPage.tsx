@@ -73,8 +73,9 @@ const buttons = (cartSubtotal, cartItems, orderId, updateStateAfterOrder) => {
                 // this is the paypal response obj - look at it to see if order is APPROVED and amount matches cart
                 let transaction = orderData.purchase_units[0].payments.captures[0]
 
+
                 if (transaction.status === "COMPLETED" && Number(transaction.amount.value) === Number(cartSubtotal)) {
-                    updateOrder(orderId)  //update mongodb using put request
+                    updateOrder(orderId)  //API should also do verification
                     .then(data =>{
                         if(data.isPaid) {
                             updateStateAfterOrder(data.paidAt)
@@ -91,6 +92,7 @@ const onCancelHandler = () => {
     console.log('onCancelHandler')
 }
 
+// marks the order as paid
 const updateOrder = async(orderId) => {
     console.log('order id is ' + orderId)
     const { data } = await axios.put("/api/orders/paid/" + orderId)

@@ -127,6 +127,9 @@ const UserOrdersPageComponent = ({getOrders}) => {
             )}
           </tbody>
         </Table>
+        <div style={{width:"100%", justifyContent: "center", display: "flex"}}>
+        {orders.length == 0 && "No orders yet..."}
+        </div>
       </Col>
     </Row>
     </>

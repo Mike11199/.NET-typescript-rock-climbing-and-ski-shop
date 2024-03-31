@@ -67,6 +67,7 @@ const UserOrderDetailsPageComponent = ({
       try {
 
         const data: OrderWithProductItems = await getOrder(id);
+        console.log(data)
 
         setPaymentMethod(data?.paymentMethod ?? "");
         setOrderProductItems(data?.orderProductItems);
