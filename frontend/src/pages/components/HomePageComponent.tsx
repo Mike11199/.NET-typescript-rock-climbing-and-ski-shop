@@ -17,12 +17,12 @@ import axios from "axios";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
-import { BestsellerItem } from "types";
+import { BestsellerItem, Category } from "types";
 
 const HomePageComponent = ({ categories, getBestsellers }) => {
 
   const externalRequestAxios = axios.create();
-  const [mainCategories, setMainCategories] = useState<any>([]);
+  const [mainCategories, setMainCategories] = useState<Category[]>([]);
   const [bestSellers, setBestsellers] = useState<BestsellerItem[]>([]); // Use [] to initialize an empty array
   const [error, setError] = useState<any>("");
 
@@ -239,9 +239,9 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
         <Row xs={1} md={2} className="g-4 mt-4">
           {mainCategories.map((category, idx) => (
             <>
-              <div className="cardComponentGrid">
+              <div key={`category_div_container_${category?.categoryId}`} className="cardComponentGrid">
                 <CategoryCardComponent
-                  key={`cardComponentGrid_${idx}`}
+                  key={`cardComponentGrid_${category?.categoryId}`}
                   category={category}
                   idx={idx}
                 />
