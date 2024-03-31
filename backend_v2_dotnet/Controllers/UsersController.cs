@@ -32,54 +32,61 @@ namespace backend_v2.Controllers
         [HttpPost("login", Name = "LoginRoute")]
         public async Task<ActionResult> LoginUser(LoginRequestDto loginRequest)
         {
-
-            if (loginRequest == null || loginRequest?.Email == null || loginRequest?.Password == null)
+            try
             {
-                _logger.LogWarning("Received invalid login request: Null or missing email/password.");
-                return BadRequest("Login request is null");
-            }
-
-            _logger.LogInformation($"Received login request for email: {loginRequest.Email}");
-
-            var user = await _userRepository.GetUserByEmail(loginRequest.Email);
-
-            if (user == null)
-            {
-                _logger.LogWarning($"Login failed: User with email '{loginRequest.Email}' not found.");
-                return Unauthorized("Wrong credentials");
-            }
-
-            var passwordMatches = BCryptUtils.ComparePasswords(loginRequest?.Password!, user?.Password!);
-
-            if (!passwordMatches)
-            {
-                _logger.LogWarning($"Login failed: Incorrect password for user with email '{loginRequest?.Email}'.");
-                return Unauthorized("Wrong credentials");
-            }
-            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"] ?? "");
-
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
-            {
-                key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? "");
-            }
-
-            string token = JWTUtilities.GenerateToken(user!, key);
-
-            // Return success response
-            return StatusCode(200, new
-            {
-                success = "user logged in",
-                token,
-                userLoggedIn = new
+                if (loginRequest == null || loginRequest?.Email == null || loginRequest?.Password == null)
                 {
-                    _id = user.UserId,
-                    name = user.Name,
-                    lastName = user.LastName,
-                    email = user.Email,
-                    isAdmin = user.IsAdmin,
-                    doNotLogout = loginRequest?.DoNotLogout ?? false
+                    _logger.LogWarning("Received invalid login request: Null or missing email/password.");
+                    return BadRequest("Login request is null");
                 }
-            });
+
+                _logger.LogInformation($"Received login request for email: {loginRequest.Email}");
+
+                var user = await _userRepository.GetUserByEmail(loginRequest.Email);
+
+                if (user == null)
+                {
+                    _logger.LogWarning($"Login failed: User with email '{loginRequest.Email}' not found.");
+                    return Unauthorized("Wrong credentials");
+                }
+
+                var passwordMatches = BCryptUtils.ComparePasswords(loginRequest?.Password!, user?.Password!);
+
+                if (!passwordMatches)
+                {
+                    _logger.LogWarning($"Login failed: Incorrect password for user with email '{loginRequest?.Email}'.");
+                    return Unauthorized("Wrong credentials");
+                }
+                var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"] ?? "");
+
+                if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+                {
+                    key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? "");
+                }
+
+                string token = JWTUtilities.GenerateToken(user!, key);
+
+                // Return success response
+                return StatusCode(200, new
+                {
+                    success = "user logged in",
+                    token,
+                    userLoggedIn = new
+                    {
+                        _id = user.UserId,
+                        name = user.Name,
+                        lastName = user.LastName,
+                        email = user.Email,
+                        isAdmin = user.IsAdmin,
+                        doNotLogout = loginRequest?.DoNotLogout ?? false
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error in user login: ", ex);
+                return StatusCode(500, "Internal server error while logging in user- please try logging in again.");
+            }
         }
 
 
