@@ -42,6 +42,37 @@ namespace backend_v2.Controllers
             _userRepository = userRepository;
         }
 
+        // PUT: apiv2/orders/user/pay-order/{orderId}
+        [HttpPut("user/pay-order/{orderId}")]
+        [Authorize]
+        public async Task<ActionResult> VerifyAndMarkOrderPaid(string orderId)
+        {
+            try
+            {
+                if (orderId == null)
+                {
+                    return BadRequest("Bad request - please provide a valid order id.");
+                }
+
+                var order = await _orderRepository.GetOrderById(Guid.Parse(orderId));
+
+                if (order == null)
+                {
+                    return BadRequest("Bad request - order not found. Please provide a valid order id.");
+                }
+                order.IsPaid = 1;
+                order.PaidAt = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
+
+                return StatusCode(200, order);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error creating order!.", ex);
+                return BadRequest("User not found, please log in to create an order.");
+            }
+        }
+
         // POST: apiv2/orders/
         [HttpGet(Name = "getUserOrder")]
         [Authorize]

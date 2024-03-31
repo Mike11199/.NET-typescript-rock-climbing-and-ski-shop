@@ -80,7 +80,7 @@ const UserOrderDetailsPageComponent = ({
 
         //  if it's paid update the button saying it's paid and disable the button
         if (data?.isPaid) {
-          setOrderButtonMessage("Your order is finished");
+          setOrderButtonMessage("Order complete.");
           setButtonDisabled(true);
         }
         //  if not paid, show different button based on if paypal or cash on delivery (disable option to pay if cash)
@@ -89,7 +89,7 @@ const UserOrderDetailsPageComponent = ({
             setOrderButtonMessage("Pay for your order");
           } else if (data?.paymentMethod === "Cash") {
             setButtonDisabled(true);
-            setOrderButtonMessage("Wait for your order. You pay on delivery");
+            setOrderButtonMessage("Please pay for your order on the day of delivery.");
           }
         }
       } catch (error) {
@@ -107,7 +107,7 @@ const UserOrderDetailsPageComponent = ({
     //if payment method is PayPal
     if (paymentMethod === "PayPal") {
       setOrderButtonMessage(
-        "To pay for your order click one of the buttons below"
+        "hidden"
       );
 
       // if the order is not already paid, send external request to the paypal API
@@ -144,9 +144,9 @@ const UserOrderDetailsPageComponent = ({
             <Col md={6}>
               <h2>Payment method</h2>
               <Form.Select value={paymentMethod} disabled={true}>
-                <option value="pp">PayPal</option>
-                <option value="cod">
-                  Cash On Delivery (delivery may be delayed)
+                <option value="PayPal">PayPal</option>
+                <option value="Cash">
+                  Cash On Delivery
                 </option>
               </Form.Select>
             </Col>
@@ -207,6 +207,7 @@ const UserOrderDetailsPageComponent = ({
                   variant="danger"
                   type="button"
                   disabled={buttonDisabled}
+                  hidden={orderButtonMessage === "hidden"}
                 >
                   {orderButtonMessage}
                 </Button>

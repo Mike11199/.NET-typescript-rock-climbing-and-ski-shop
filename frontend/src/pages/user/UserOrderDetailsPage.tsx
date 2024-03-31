@@ -77,8 +77,8 @@ const buttons = (cartSubtotal, cartItems, orderId, updateStateAfterOrder) => {
                 if (transaction.status === "COMPLETED" && Number(transaction.amount.value) === Number(cartSubtotal)) {
                     updateOrder(orderId)  //API should also do verification
                     .then(data =>{
-                        if(data.isPaid) {
-                            updateStateAfterOrder(data.paidAt)
+                        if(data?.isPaid) {
+                            updateStateAfterOrder(data?.paidAt)
                         }
                     })
                 }
@@ -94,8 +94,7 @@ const onCancelHandler = () => {
 
 // marks the order as paid
 const updateOrder = async(orderId) => {
-    console.log('order id is ' + orderId)
-    const { data } = await axios.put("/api/orders/paid/" + orderId)
+    const { data } = await axios.put("/apiv2/orders/user/pay-order/" + orderId)
     return data
 }
 

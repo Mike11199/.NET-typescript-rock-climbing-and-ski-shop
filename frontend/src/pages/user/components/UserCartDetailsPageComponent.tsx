@@ -194,7 +194,7 @@ const UserCartDetailsPageComponent = ({
                 <Form.Select onChange={choosePayment}>
                   <option value="PayPal">PayPal</option>
                   <option value="Cash">
-                    Cash On Delivery (delivery may be delayed)
+                    Cash On Delivery
                   </option>
                 </Form.Select>
               </Col>
