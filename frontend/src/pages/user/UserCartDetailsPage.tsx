@@ -3,15 +3,15 @@ import UserCartDetailsPageComponent from "./components/UserCartDetailsPageCompon
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart, removeFromCart } from "../../redux/actions/cartActions";
 import { User, StoredUserInfo, orderDataDTO, Order} from "../../types"
-
+import { ReduxAppState } from "../../types";
 
 import axios from "axios";
 
 const UserCartDetailsPage = () => {
-  const cartItems = useSelector((state: any) => state.cart.cartItems);
-  const itemsCount = useSelector((state: any) => state.cart.itemsCount);
-  const cartSubtotal = useSelector((state: any) => state.cart.cartSubtotal);
-  const userInfo: StoredUserInfo = useSelector((state: any) => state.userRegisterLogin.userInfo);
+  const cartItems = useSelector((state: ReduxAppState) => state.cart.cartItems);
+  const itemsCount = useSelector((state: ReduxAppState) => state.cart.itemsCount);
+  const cartSubtotal = useSelector((state: ReduxAppState) => state.cart.cartSubtotal);
+  const userInfo: StoredUserInfo = useSelector((state: ReduxAppState) => state.userRegisterLogin.userInfo);
 
   const reduxDispatch = useDispatch();
 

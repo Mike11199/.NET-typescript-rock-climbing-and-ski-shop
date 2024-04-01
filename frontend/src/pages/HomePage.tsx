@@ -2,6 +2,7 @@ import HomePageComponent from "./components/HomePageComponent";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import apiURL from "../utils/ToggleAPI";
+import { ReduxAppState } from "types";
 
 // API call functions (e.g- getBestselllers) are kept outside of components to make components testable.
 // for example, we can easily replace getBestsellers API with test data instead of live data.
@@ -17,7 +18,7 @@ const getBestsellers = async () => {
 };
 
 const HomePage = () => {
-  const { categories } = useSelector((state: any) => state.getCategories);
+  const { categories } = useSelector((state: ReduxAppState) => state.getCategories);
 
   return (
     <HomePageComponent

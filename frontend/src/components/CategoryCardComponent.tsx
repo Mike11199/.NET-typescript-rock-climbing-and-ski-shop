@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import '../../src/mobileStyles.css'
+import { ReduxAppState } from "types";
 
 const styles = {
   card: {
@@ -39,7 +40,7 @@ const stylesDark = {
 
 const CategoryCardComponent = ({ category, idx }) => {
 
-  const { mode }  = useSelector((state: any) => state.DarkMode)
+  const { mode }  = useSelector((state: ReduxAppState) => state.DarkMode)
   // console.log('card component')
   // console.log(mode.mode.mode)
   const cardStyle = mode === 'dark' ? stylesDark.card : styles.card;

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { setReduxUserState } from "../../redux/actions/userActions";
 import apiURL from "../../utils/ToggleAPI";
+import { ReduxAppState } from "types";
 
 const updateUserApiRequest = async (
   name,
@@ -43,7 +44,7 @@ const fetchUser = async (id) => {
 
 const UserProfilePage = () => {
   const reduxDispatch = useDispatch();
-  const { userInfo } = useSelector((state: any) => state.userRegisterLogin);
+  const { userInfo } = useSelector((state: ReduxAppState) => state.userRegisterLogin);
 
   return (
     <UserProfilePageComponent

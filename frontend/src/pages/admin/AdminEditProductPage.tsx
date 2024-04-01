@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useDispatch } from "react-redux";
 import { saveAttributeToCatDoc } from "../../redux/actions/categoryActions";
 import { uploadImagesApiRequest, uploadImagesCloudinaryApiRequest } from "./utils/utils";
+import { ReduxAppState } from "types";
 
 const fetchProduct = async (productId) => {
     const { data } = await axios.get(`/api/products/get-one/${productId}`);
@@ -20,7 +21,7 @@ const updateProductApiRequest = async (productId, formInputs) => {
 
 const AdminEditProductPage = () => {
 
-  const { categories } = useSelector((state: any) => state.getCategories);
+  const { categories } = useSelector((state: ReduxAppState) => state.getCategories);
 
   const reduxDispatch = useDispatch();
 

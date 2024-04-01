@@ -2,6 +2,7 @@ import "../../chats.css";
 import { useEffect, useState } from "react"
 import socketIOClient from "socket.io-client"
 import { useSelector } from "react-redux"
+import { ReduxAppState } from "types";
 
 const UserChatComponent = () => {
 
@@ -12,7 +13,7 @@ const UserChatComponent = () => {
   //   ]
 
   const [chat, setChat] = useState<any>([])
-  const userInfo = useSelector((state: any) => state.userRegisterLogin.userInfo)
+  const userInfo = useSelector((state: ReduxAppState) => state.userRegisterLogin.userInfo)
   const [messageReceived, setMessageReceived] = useState(false);
   const [chatConnectionInfo, setChatConnectionInfo] = useState<any>(false);
   const [reconnect, setReconnect] = useState(false);

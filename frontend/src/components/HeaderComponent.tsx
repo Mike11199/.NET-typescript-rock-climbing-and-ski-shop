@@ -23,21 +23,22 @@ import socketIOClient from 'socket.io-client'
 import { setChatRooms, setSocket, setMessageReceived, removeChatRoom } from "../redux/actions/chatActions";
 import { setDarkMode } from "../redux/actions/darkModeActions";
 import '../darkMode.css';  // reference https://www.makeuseof.com/how-to-add-dark-mode-to-a-react-application/
+import { ReduxAppState } from "types";
 
 const HeaderComponent = () => {
 
   const dispatch = useDispatch();
-  const { userInfo } = useSelector((state: any) => state.userRegisterLogin);
-  const itemsCount = useSelector((state: any) => state.cart.itemsCount);
-  const { categories } = useSelector((state: any) => state.getCategories);
+  const { userInfo } = useSelector((state: ReduxAppState) => state.userRegisterLogin);
+  const itemsCount = useSelector((state: ReduxAppState) => state.cart.itemsCount);
+  const { categories } = useSelector((state: ReduxAppState) => state.getCategories);
 
-  const { messageReceived } = useSelector((state: any) => state.adminChat);
+  const { messageReceived } = useSelector((state: ReduxAppState) => state.adminChat);
 
   const [searchCategoryToggle, setSearchCategoryToggle] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
 
-  const { mode }  = useSelector((state: any) => state.DarkMode);
+  const { mode }  = useSelector((state: ReduxAppState) => state.DarkMode);
   const [buttonPositionClass, setButtonPositionClass] = useState('position-absolute');
 
   // console.log(mode)

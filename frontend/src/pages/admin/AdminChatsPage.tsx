@@ -3,9 +3,10 @@ import AdminChatRoomComponent from "../../components/admin/AdminChatRoomComponen
 import { Row, Col } from "react-bootstrap";
 
 import { useSelector } from "react-redux";
+import { ReduxAppState } from "types";
 
 const AdminChatsPage = () => {
-  const { chatRooms, socket } = useSelector((state: any) => state.adminChat);
+  const { chatRooms, socket } = useSelector((state: ReduxAppState) => state.adminChat);
 
   return (
     <Row className="m-5">

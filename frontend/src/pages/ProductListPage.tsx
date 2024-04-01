@@ -3,6 +3,7 @@ import axios from "axios";
 
 import { useSelector } from "react-redux";
 import apiURL from "../utils/ToggleAPI";
+import { ReduxAppState } from "types";
 
 let filtersUrl = "";
 
@@ -51,7 +52,7 @@ const getProducts = async (categoryName = "", pageNumParam = null, searchQuery =
 
 const ProductListPage = () => {
 
-    const { categories } = useSelector((state: any) => state.getCategories);
+    const { categories } = useSelector((state: ReduxAppState) => state.getCategories);
 
   return <ProductListPageComponent getProducts={getProducts} categories={categories} />;
 };

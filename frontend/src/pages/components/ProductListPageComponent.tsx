@@ -5,7 +5,8 @@ import PriceFilterComponent from "../../components/filterQueryResultOptions/Pric
 import RatingFilterComponent from "../../components/filterQueryResultOptions/RatingFilterComponent";
 import CategoryFilterComponent from "../../components/filterQueryResultOptions/CategoryFilterComponent";
 import AttributesFilterComponent from "../../components/filterQueryResultOptions/AttributesFilterComponent";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { ReduxAppState } from "types";
 
 import ProductForListComponent from "../../components/ProductForListComponent";
 
@@ -42,7 +43,7 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
 
 
 
-  const {mode}  = useSelector((state: any) => state.DarkMode)
+  const {mode}  = useSelector((state: ReduxAppState) => state.DarkMode)
   // console.log('on product list page!')
 
   useEffect(() => {

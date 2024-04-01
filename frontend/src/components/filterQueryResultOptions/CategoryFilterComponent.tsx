@@ -1,9 +1,10 @@
 import { Form } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useRef, useState } from "react";
+import { ReduxAppState } from "types";
 
 const CategoryFilterComponent = ({ setCategoriesFromFilter }) => {
-  const { categories } = useSelector((state: any) => state.getCategories);
+  const { categories } = useSelector((state: ReduxAppState) => state.getCategories);
   const [selectedCategories, setSelectedCategories] = useState<any>([]);
   const myRefs = useRef<any>([]);
 

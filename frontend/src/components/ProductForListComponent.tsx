@@ -4,6 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/actions/cartActions"; //redux action
 import toast, { Toaster } from "react-hot-toast";
+import { ReduxAppState } from "types";
 
 const ProductForListComponent = ({
   productId,
@@ -14,7 +15,7 @@ const ProductForListComponent = ({
   rating,
   reviewsNumber,
 }) => {
-  const { mode } = useSelector((state: any) => state.DarkMode);
+  const { mode } = useSelector((state: ReduxAppState) => state.DarkMode);
 
   const dispatch = useDispatch();
 

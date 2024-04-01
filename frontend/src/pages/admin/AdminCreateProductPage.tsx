@@ -7,6 +7,7 @@ import {
 import { useSelector } from "react-redux";
 import { newCategory,deleteCategory, saveAttributeToCatDoc } from "../../redux/actions/categoryActions";
 import { useDispatch } from "react-redux";
+import { ReduxAppState } from "types";
 
 const createProductApiRequest = async (formInputs) => {
   const { data } = await axios.post(`/api/products/admin`, { ...formInputs });
@@ -14,7 +15,7 @@ const createProductApiRequest = async (formInputs) => {
 };
 
 const AdminCreateProductPage = () => {
-  const { categories } = useSelector((state: any) => state.getCategories);
+  const { categories } = useSelector((state: ReduxAppState) => state.getCategories);
   const dispatch = useDispatch();
 
   return (

@@ -2,7 +2,7 @@ import UserOrderDetailsPageComponent from "./components/UserOrderDetailsPageComp
 import { useSelector } from "react-redux";
 import axios from 'axios'
 import { loadScript } from "@paypal/paypal-js"
-import { StoredUserInfo } from "types";
+import { StoredUserInfo, ReduxAppState } from "types";
 
 
 // GET Request to retrieve order based on id in URL - error-handling in page component itself
@@ -108,7 +108,7 @@ const onErrorHandler = () => {
 const UserOrderDetailsPage = () => {
 
     //get user info from redux global state
-    const userInfo = useSelector((state: any) => state.userRegisterLogin.userInfo as StoredUserInfo);
+    const userInfo = useSelector((state: ReduxAppState) => state.userRegisterLogin.userInfo as StoredUserInfo);
 
     //error-handling in page component itself
     const getUser = async () => {

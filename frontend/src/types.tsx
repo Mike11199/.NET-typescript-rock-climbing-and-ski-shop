@@ -6,9 +6,9 @@ export interface BestsellerItem {
   count: number;
   price: number;
   sales: number;
-  category?: Category
-  images?: Image[],
-  orderProductItems?: OrderProductItem[]
+  category?: Category;
+  images?: Image[];
+  orderProductItems?: OrderProductItem[];
 }
 
 export interface Product {
@@ -24,10 +24,7 @@ export interface Product {
 }
 
 export interface CartProduct
-  extends Omit<
-    Product,
-    "description" | "categoryId" | "sales" | "category"
-  > {
+  extends Omit<Product, "description" | "categoryId" | "sales" | "category"> {
   quantity: number;
 }
 
@@ -89,15 +86,18 @@ export interface User {
   zipCode?: string;
 }
 
-export type UserAddress = Pick<User, 'address' | 'city' | 'country' | 'zipCode' | 'state' | 'phoneNumber'>;
+export type UserAddress = Pick<
+  User,
+  "address" | "city" | "country" | "zipCode" | "state" | "phoneNumber"
+>;
 
 export interface StoredUserInfo {
-    userId: string;
-    name: string;
-    lastName: string;
-    email: string;
-    isAdmin: boolean;
-    doNotLogout: boolean;
+  userId: string;
+  name: string;
+  lastName: string;
+  email: string;
+  isAdmin: boolean;
+  doNotLogout: boolean;
 }
 
 export interface OrderProduct {
@@ -106,8 +106,8 @@ export interface OrderProduct {
 }
 
 export interface orderDataDTO {
-    orderItems: OrderProduct[];
-    paymentMethod: string;
+  orderItems: OrderProduct[];
+  paymentMethod: string;
 }
 
 export interface LoggedInOrRegisteredUserResponse {
@@ -127,4 +127,12 @@ export interface OrderProductItem {
 
 export interface OrderWithProductItems extends Order {
   orderProductItems: OrderProductItem[];
+}
+
+export interface ReduxAppState {
+  cart: any;
+  userRegisterLogin: any;
+  adminChat: any;
+  DarkMode: any;
+  getCategories: any;
 }
