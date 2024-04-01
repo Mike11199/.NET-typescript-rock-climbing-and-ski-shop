@@ -11,11 +11,6 @@ export interface BestsellerItem {
   orderProductItems?: OrderProductItem[]
 }
 
-export interface BestsellerImage {
-  path: string;
-  _id: string;
-}
-
 export interface Product {
   productId: string;
   name?: string | null;
@@ -97,7 +92,7 @@ export interface User {
 export type UserAddress = Pick<User, 'address' | 'city' | 'country' | 'zipCode' | 'state' | 'phoneNumber'>;
 
 export interface StoredUserInfo {
-    _id: string;
+    userId: string;
     name: string;
     lastName: string;
     email: string;

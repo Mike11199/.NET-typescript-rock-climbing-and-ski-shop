@@ -136,7 +136,7 @@ const UserCartDetailsPageComponent = ({
           er?.response?.data?.message ? er?.response?.data?.message : er?.response?.data
         )
       );
-  }, [userInfo?._id]);
+  }, [userInfo?.userId]);
 
   const orderHandler = () => {
     const orderData: orderDataDTO = {
