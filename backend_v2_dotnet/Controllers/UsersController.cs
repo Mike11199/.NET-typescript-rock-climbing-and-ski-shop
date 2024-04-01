@@ -43,28 +43,33 @@ namespace backend_v2.Controllers
                 _logger.LogInformation($"Received login request for email: {loginRequest.Email}");
 
                 var user = await _userRepository.GetUserByEmail(loginRequest.Email);
-
+                
                 if (user == null)
                 {
                     _logger.LogWarning($"Login failed: User with email '{loginRequest.Email}' not found.");
                     return Unauthorized("Wrong credentials");
                 }
 
-                var passwordMatches = BCryptUtils.ComparePasswords(loginRequest?.Password!, user?.Password!);
+                _logger.LogInformation($"Found user: {user.UserId}");
 
+                var passwordMatches = BCryptUtils.ComparePasswords(loginRequest?.Password!, user?.Password!);
+                _logger.LogInformation($"MICHAEL TEST 1");
                 if (!passwordMatches)
                 {
                     _logger.LogWarning($"Login failed: Incorrect password for user with email '{loginRequest?.Email}'.");
                     return Unauthorized("Wrong credentials");
                 }
+                _logger.LogInformation($"MICHAEL TEST 2");
                 var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"] ?? "");
-
+                _logger.LogInformation($"MICHAEL TEST 3");
                 if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
                 {
                     key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? "");
                 }
-
+                _logger.LogInformation($"MICHAEL TEST 4");
                 string token = JWTUtilities.GenerateToken(user!, key);
+                _logger.LogInformation($"MICHAEL TEST 5");
+
 
                 // Return success response
                 return StatusCode(200, new
