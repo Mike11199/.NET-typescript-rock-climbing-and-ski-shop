@@ -53,23 +53,27 @@ namespace backend_v2.Controllers
                 _logger.LogInformation($"Found user: {user.UserId}");
 
                 var passwordMatches = BCryptUtils.ComparePasswords(loginRequest?.Password!, user?.Password!);
-                _logger.LogInformation($"MICHAEL TEST 1");
+                
                 if (!passwordMatches)
                 {
                     _logger.LogWarning($"Login failed: Incorrect password for user with email '{loginRequest?.Email}'.");
                     return Unauthorized("Wrong credentials");
                 }
-                _logger.LogInformation($"MICHAEL TEST 2");
+                
                 var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"] ?? "");
-                _logger.LogInformation($"MICHAEL TEST 3");
+                
                 if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
                 {
                     key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? "");
                 }
-                _logger.LogInformation($"MICHAEL TEST 4");
+                
                 string token = JWTUtilities.GenerateToken(user!, key);
-                _logger.LogInformation($"MICHAEL TEST 5");
+                
 
+                if (token == null || token == "")
+                {
+                    return BadRequest("Error creating token!");
+                }
 
                 // Return success response
                 return StatusCode(200, new
@@ -78,7 +82,7 @@ namespace backend_v2.Controllers
                     token,
                     userLoggedIn = new
                     {
-                        _id = user.UserId,
+                        userId = user!.UserId,
                         name = user.Name,
                         lastName = user.LastName,
                         email = user.Email,
@@ -156,6 +160,10 @@ namespace backend_v2.Controllers
 
             string token = JWTUtilities.GenerateToken(newUser!, key);
 
+            if (token == null || token == "") 
+            {
+                return BadRequest("Error creating token!");
+            }
 
             // Return created response
             return StatusCode(201, new
@@ -164,7 +172,7 @@ namespace backend_v2.Controllers
                 token,
                 userLoggedIn = new
                 {
-                    _id = newUser?.UserId!,
+                    userId = newUser?.UserId!,
                     name = newUser?.Name ?? "",
                     lastName = newUser?.LastName ?? "",
                     email = newUser?.Email ?? "",

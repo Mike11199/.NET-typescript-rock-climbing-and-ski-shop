@@ -10,10 +10,8 @@ namespace backend_v2.Utilities
     {
         public static string GenerateToken(User user, byte[] key)
         {
-            Console.WriteLine($"{user} ");
-            Console.WriteLine($"{key} ");
-            Console.WriteLine($"MICHAEL TEST 2 GENERATE TOKEN");
-            Console.WriteLine($"MICHAEL TEST 1 GENERATE TOKEN");
+         try
+            {
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
@@ -30,18 +28,11 @@ namespace backend_v2.Utilities
                 (new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)
             };
-            Console.WriteLine($"{key} ");
-            Console.WriteLine($"MICHAEL TEST 2 GENERATE TOKEN");
-            var tokenHandler = new JwtSecurityTokenHandler();
-            Console.WriteLine($"{key} ");
-            Console.WriteLine($"MICHAEL TEST 3 GENERATE TOKEN");
-            try
-            {
-                var token = tokenHandler.CreateToken(tokenDescriptor);
-                Console.WriteLine($"MICHAEL TEST 4 GENERATE TOKEN");
-                var jwtToken = tokenHandler.WriteToken(token);
-                Console.WriteLine($"MICHAEL TEST 5 GENERATE TOKEN");
-                return jwtToken;
+
+            var tokenHandler = new JwtSecurityTokenHandler();            
+            var token = tokenHandler.CreateToken(tokenDescriptor);               
+            var jwtToken = tokenHandler.WriteToken(token);                
+            return jwtToken;
             }
             catch (Exception ex)
             {
