@@ -2,6 +2,7 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import CliffFacePhoto from "../../../images/cliff_3.png"
 import toast, { Toaster } from 'react-hot-toast';
+import { StoredUserInfo } from "types";
 
 
 const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFromRedux, setReduxUserState, reduxDispatch, localStorage, sessionStorage }) => {
@@ -9,13 +10,13 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
   const [validated, setValidated] = useState(false);
   const [updateUserResponseState, setUpdateUserResponseState] = useState<any>({ success: "", error: "" });
   const [user, setUser] = useState<any>({})
-  const userInfo = userInfoFromRedux;
+  const userInfo = userInfoFromRedux as StoredUserInfo;
 
   useEffect(() => {
-      fetchUser(userInfo._id)
+      fetchUser(userInfo.userId)
       .then((data) => setUser(data))
       .catch((er) => console.log(er));
-  }, [userInfo._id])
+  }, [userInfo.userId])
 
   const handleSubmit = async (event) => {
 
