@@ -2,6 +2,7 @@ using backend_v2.DTOs;
 using backend_v2.Models;
 using backend_v2.Repositories;
 using backend_v2.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
@@ -100,6 +101,7 @@ namespace backend_v2.Controllers
 
 
         // GET: apiv2/users/{id}
+        [Authorize]
         [HttpGet("profile/{id}")]
         public async Task<IActionResult> GetUserProfile(string id)
         {
