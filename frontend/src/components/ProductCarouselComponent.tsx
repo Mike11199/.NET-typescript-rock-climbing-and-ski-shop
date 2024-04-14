@@ -1,6 +1,6 @@
 import { Carousel } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { BestsellerItem } from "types";
+import { BestsellerItem, Image } from "types";
 
 interface ProductCarouselComponentProps {
   bestSellers: BestsellerItem[];
@@ -24,7 +24,7 @@ const ProductCarouselComponent = ({
               crossOrigin="anonymous"
               className="d-block w-100"
               style={{ height: "300px", objectFit: "contain" }}
-              src={item?.images?.length != 0 ? (item?.images?.at(0)?.imageUrl ?? "") : ""}
+              src={ (item?.images?.find((x: Image) => x?.isMainImage === true)?.imageUrl) ?? ""}
               alt={item?.name ?? ""}
             />
             <Carousel.Caption>

@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/actions/cartActions"; //redux action
 import toast, { Toaster } from "react-hot-toast";
-import { ReduxAppState } from "types";
+import { ReduxAppState, Image } from "types";
 
 const ProductForListComponent = ({
   productId,
@@ -52,6 +52,7 @@ const ProductForListComponent = ({
   };
 
   const productCardStyle = mode === "light" ? styles : darkStyles;
+  const mainThumbnailImage = images.find((x: Image) => x?.isMainImage === true)
 
   return (
     <>
@@ -62,7 +63,7 @@ const ProductForListComponent = ({
             <Card.Img
               crossOrigin="anonymous"
               variant="top"
-              src={images[0] ? images[0]?.path ?? images[0]?.imageUrl : ""}
+              src={mainThumbnailImage?.imageUrl}
             />
           </Col>
           <Col lg={7}>

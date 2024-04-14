@@ -71,7 +71,8 @@ public partial class AlpinePeakDbContext : DbContext
             entity.ToTable("images", "store");
 
             entity.HasIndex(e => e.ProductId, "IX_images_product_id");
-
+            entity.Property(e => e.IsMainImage)
+                .HasColumnName("is_main_image");
             entity.Property(e => e.ImageId)
                 .ValueGeneratedNever()
                 .HasColumnName("image_id");

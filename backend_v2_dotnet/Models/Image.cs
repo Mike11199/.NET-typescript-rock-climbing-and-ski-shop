@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Collections.Generic;
 
 namespace backend_v2.Models;
@@ -12,4 +13,5 @@ public partial class Image
     public string? ImageUrl { get; set; }
 
     public virtual Product? Product { get; set; }
+    public bool? IsMainImage { get; set; } = false;
 }

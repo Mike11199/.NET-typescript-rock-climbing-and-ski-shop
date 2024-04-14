@@ -1,12 +1,9 @@
 using backend_v2.DTOs;
 using backend_v2.Models;
 using backend_v2.Repositories;
-using backend_v2.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using System.Text;
 
 namespace backend_v2.Controllers
 {
@@ -17,28 +14,19 @@ namespace backend_v2.Controllers
     {
         private readonly ILogger<APIStatusController> _logger;
         private readonly AlpinePeakDbContext _context;
-        private readonly IConfiguration _configuration;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IOrderRepository _orderRepository;
-        private readonly IProductRepository _productRepository;
         private readonly IUserRepository _userRepository;
 
 
         public OrdersController(
             ILogger<APIStatusController> logger,
             AlpinePeakDbContext dbContext,
-            IConfiguration configuration,
-            IHttpContextAccessor httpContextAccessor,
-            IOrderRepository orderRepository,
-            IProductRepository productRepository,
+            IOrderRepository orderRepository,            
             IUserRepository userRepository)
         { 
             _logger = logger;
             _context = dbContext;
-            _configuration = configuration;
-            _httpContextAccessor = httpContextAccessor;
-            _orderRepository = orderRepository;
-            _productRepository = productRepository;
+            _orderRepository = orderRepository;            
             _userRepository = userRepository;
         }
 

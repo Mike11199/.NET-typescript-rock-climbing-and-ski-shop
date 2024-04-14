@@ -12,22 +12,28 @@ import ProductForListComponent from "../../components/ProductForListComponent";
 
 import { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { Product, Category, GetProductsResponse} from "types";
 
-const ProductListPageComponent = ({ getProducts, categories }) => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+interface ProductListPageComponentProps {
+  getProducts: (categoryName?: string, pageNumParam?: any, searchQuery?: string, filters?: any, sortOption?: string) => Promise<GetProductsResponse>;
+  categories: Category[];
+}
+
+const ProductListPageComponent = ({ getProducts, categories }: ProductListPageComponentProps) => {
+  const [products, setProducts] = useState<Product[] | null | undefined>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
   const [attrsFilter, setAttrsFilter] = useState<any>([]); // collect category attributes from db and show on the webpage
   const [attrsFromFilter, setAttrsFromFilter] = useState([]); // collect user filters for category attributes
   const [showResetFiltersButton, setShowResetFiltersButton] = useState(false);
 
   const [filters, setFilters] = useState({}); // collect all filters
-  const [price, setPrice] = useState(970);
+  const [priceFilter, setPriceFilter] = useState<number>(970);
   const [ratingsFromFilter, setRatingsFromFilter] = useState({});
   const [categoriesFromFilter, setCategoriesFromFilter] = useState({});
   const [sortOption, setSortOption] = useState("");
   const [paginationLinksNumber, setPaginationLinksNumber] = useState<any>(null);
-  const [pageNum, setPageNum] = useState(null);
+  const [pageNum, setPageNum] = useState<number | null>(null);
 
   const { categoryName } = useParams() || "";
   const { pageNumParam } = useParams() || 1;
@@ -42,55 +48,59 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
   }, [products]);
 
 
-
   const {mode}  = useSelector((state: ReduxAppState) => state.DarkMode)
-  // console.log('on product list page!')
+
+
+  // TODO: replace obsolete useEffect from API v1 to set attributes filter
+  // useEffect(() => {
+  //   if (categoryName) {
+  //     let categoryAllData = categories.find(
+  //       (item) => item.name === categoryName.replaceAll(",", "/")
+  //     );
+  //     if (categoryAllData) {
+  //       let mainCategory = categoryAllData?.name?.split("/")[0] ?? "";
+  //       let index = categories?.findIndex((item) => item?.name === mainCategory);
+  //       setAttrsFilter(categories[index].attrs);
+  //     }
+  //   } else {
+  //     setAttrsFilter([]);
+  //   }
+  // }, [categoryName, categories]);
+
+  // TODO: replace obsolete useEffect from API v1 to filter by categories
+  // useEffect(() => {
+  //   if (Object.entries(categoriesFromFilter).length > 0) {
+  //     setAttrsFilter([]);
+  //     var cat: any[] = [];
+  //     var count;
+  //     Object.entries(categoriesFromFilter).forEach(([category, checked]) => {
+  //       if (checked) {
+  //         var name = category.split("/")[0];
+  //         cat.push(name);
+  //         count = cat.filter((x) => x === name).length;
+  //         if (count === 1) {
+  //           var index = categories.findIndex((item) => item.name === name);
+  //           // setAttrsFilter((attrs: any) => [...attrs, ...categories[index].attrs]);
+  //         }
+  //       }
+  //     });
+  //   }
+  // }, [categoriesFromFilter, categories]);
 
   useEffect(() => {
-    if (categoryName) {
-      let categoryAllData = categories.find(
-        (item) => item.name === categoryName.replaceAll(",", "/")
-      );
-      if (categoryAllData) {
-        let mainCategory = categoryAllData.name.split("/")[0];
-        let index = categories.findIndex((item) => item.name === mainCategory);
-        setAttrsFilter(categories[index].attrs);
-      }
-    } else {
-      setAttrsFilter([]);
-    }
-  }, [categoryName, categories]);
-
-  useEffect(() => {
-    if (Object.entries(categoriesFromFilter).length > 0) {
-      setAttrsFilter([]);
-      var cat: any[] = [];
-      var count;
-      Object.entries(categoriesFromFilter).forEach(([category, checked]) => {
-        if (checked) {
-          var name = category.split("/")[0];
-          cat.push(name);
-          count = cat.filter((x) => x === name).length;
-          if (count === 1) {
-            var index = categories.findIndex((item) => item.name === name);
-            setAttrsFilter((attrs: any) => [...attrs, ...categories[index].attrs]);
-          }
-        }
-      });
-    }
-  }, [categoriesFromFilter, categories]);
-
-  useEffect(() => {
+    setLoading(true);
     getProducts(categoryName, pageNumParam, searchQuery, filters, sortOption)
       .then((products) => {
-        setProducts(products.products);
-        setPaginationLinksNumber(products.paginationLinksNumber);
-        setPageNum(products.pageNum);
+        setProducts(products?.products);
+        setPaginationLinksNumber(products?.paginationLinksNumber);
+        setPageNum(products?.pageNum ?? 0);
         setLoading(false);
+        setError(false);
       })
       .catch((er) => {
         console.log(er);
         setError(true);
+        setLoading(false);
       });
   }, [categoryName, pageNumParam, searchQuery, filters, sortOption]);
 
@@ -98,14 +108,12 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
   useEffect(() => {
     console.log(products)
   }, [products])
-  
-  
 
   const handleFilters = () => {
      navigate(location.pathname.replace(/\/[0-9]+$/, ""));
     setShowResetFiltersButton(true);
     setFilters({
-      price: price,
+      price: priceFilter,
       rating: ratingsFromFilter,
       category: categoriesFromFilter,
       attrs: attrsFromFilter,
@@ -133,7 +141,7 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
             </ListGroup.Item>
             <ListGroup.Item style={listItemStyle}>
               FILTER: <br />
-              <PriceFilterComponent price={price} setPrice={setPrice} />
+              <PriceFilterComponent price={priceFilter} setPrice={setPriceFilter} />
             </ListGroup.Item>
             <ListGroup.Item style={listItemStyle}>
               <RatingFilterComponent
@@ -172,16 +180,16 @@ const ProductListPageComponent = ({ getProducts, categories }) => {
           ) : error ? (
             <h1>Error while loading products. Try again later.</h1>
           ) : (
-            products.map((product: any) => (
+            products?.map((product) => (
               <ProductForListComponent
-                key={product._id}
-                images={product.images}
-                name={product.name}
-                description={product.description}
-                price={product.price}
-                rating={product.rating}
-                reviewsNumber={product.reviewsNumber}
-                productId={product.productId}
+                key={product?.productId}
+                images={product?.images}
+                name={product?.name}
+                description={product?.description}
+                price={product?.price}
+                rating={3 + Math.random() * 2}  //TODO - still WIP with api v2
+                reviewsNumber={ Math.floor(Math.random() * 22)} //TODO - still WIP with api v2
+                productId={product?.productId}
               />
             ))
           )}

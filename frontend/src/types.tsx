@@ -40,6 +40,7 @@ export interface Image {
   imageId: string;
   productId?: string | null;
   imageUrl?: string | null;
+  isMainImage?: boolean;
 }
 
 export interface Order {
@@ -135,4 +136,10 @@ export interface ReduxAppState {
   adminChat: any;
   DarkMode: any;
   getCategories: any;
+}
+
+export interface GetProductsResponse {
+  products?: Product[];
+  pageNum?: number;
+  paginationLinksNumber?: number;
 }
