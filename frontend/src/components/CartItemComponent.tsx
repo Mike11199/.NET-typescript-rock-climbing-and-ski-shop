@@ -1,6 +1,6 @@
 import { Row, Col, Image, ListGroup, Form, Button } from "react-bootstrap";
 import RemoveFromCartComponent from "./RemoveFromCartComponent";
-import { CartProduct, Product } from "types";
+import { CartProduct, Image as ProductImage } from "types";
 
 interface CartItemProps {
   product:  CartProduct;
@@ -22,7 +22,7 @@ const CartItemComponent = ({ product, removeFromCartHandler = false, orderCreate
           <Col md={2}>
             <Image
               crossOrigin="anonymous"
-              src={product?.images?.at(0)?.imageUrl ?? "" }
+              src={(product?.images?.find((x: ProductImage) => x?.isMainImage === true)?.imageUrl) ?? ""}
               fluid
             />
           </Col>

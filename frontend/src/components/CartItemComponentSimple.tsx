@@ -1,5 +1,5 @@
 import { Row, Col, Image, ListGroup } from "react-bootstrap";
-import { Product } from "../types";
+import { Product, Image as ProductImage } from "../types";
 
 interface CartItemProps {
   item: Product;
@@ -13,7 +13,7 @@ const CartItemComponent = ({ item }: CartItemProps) => {
           <Col>
             <Image
               crossOrigin="anonymous"
-              src={item?.images?.at(0)?.imageUrl ?? ""}
+              src={(item?.images?.find((x: ProductImage) => x?.isMainImage === true)?.imageUrl) ?? ""}
               fluid
             />
           </Col>
