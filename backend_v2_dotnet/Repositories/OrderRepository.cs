@@ -33,10 +33,11 @@ public class OrderRepository : IOrderRepository
     public async Task<IEnumerable<Order>> GetAllOrdersbyUserId(Guid userId)
     {
         var userOrders = await _context.Orders
-            .Where(o => o.UserId == userId)
-            .Include(o => o.OrderProductItems)
+            .OrderByDescending(o => o.CreatedAt)
+            .Where(o => o.UserId == userId)            
+            .Include(o => o.OrderProductItems)            
             .ThenInclude(p => p.Product)
-            .ThenInclude(p => p.Images)
+            .ThenInclude(p => p.Images)            
             .ToListAsync();
 
         return userOrders;
