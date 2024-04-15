@@ -34,10 +34,10 @@ public class OrderRepository : IOrderRepository
     {
         var userOrders = await _context.Orders
             .OrderByDescending(o => o.CreatedAt)
-            .Where(o => o.UserId == userId)            
-            .Include(o => o.OrderProductItems)            
+            .Where(o => o.UserId == userId)
+            .Include(o => o.OrderProductItems)
             .ThenInclude(p => p.Product)
-            .ThenInclude(p => p.Images)            
+            .ThenInclude(p => p.Images)
             .ToListAsync();
 
         return userOrders;
