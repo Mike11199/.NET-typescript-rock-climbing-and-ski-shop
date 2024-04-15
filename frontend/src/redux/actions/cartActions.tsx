@@ -31,3 +31,11 @@ export const removeFromCart =
     });
     localStorage.setItem("cart", JSON.stringify(getState().cart.cartItems));
   };
+
+  export const clearCart =
+  () => (dispatch, getState) => {
+    dispatch({
+      type: actionTypes.CLEAR_CART
+    });
+    localStorage.setItem("cart", JSON.stringify(getState().cart.cartItems));
+  };

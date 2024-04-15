@@ -29,9 +29,16 @@ const userInfoInLocalStorage = () =>{
     else return {}
 }
 
-const cartItemsInLocalStorage = localStorage.getItem("cart") ? JSON.parse(localStorage?.getItem("cart") ?? "") : [];
+let cartItemsInLocalStorage = [];
 
-
+try {
+  const cartItemsJson = localStorage.getItem("cart");
+  if (cartItemsJson) {
+    cartItemsInLocalStorage = JSON.parse(cartItemsJson);
+  }
+} catch (error) {
+  console.error("Error parsing cart items from localStorage:", error);
+}
 
 // set initial state values for redux
 const INITIAL_STATE = {

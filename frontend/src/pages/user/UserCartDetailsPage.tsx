@@ -1,7 +1,7 @@
 import UserCartDetailsPageComponent from "./components/UserCartDetailsPageComponent";
 
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart, removeFromCart } from "../../redux/actions/cartActions";
+import { addToCart, removeFromCart, clearCart } from "../../redux/actions/cartActions";
 import { User, StoredUserInfo, orderDataDTO, Order} from "../../types"
 import { ReduxAppState } from "../../types";
 
@@ -36,6 +36,7 @@ const UserCartDetailsPage = () => {
       reduxDispatch={reduxDispatch}
       getUser={getUser}
       createOrder={createOrder}
+      clearCart={clearCart}
     />
   );
 };

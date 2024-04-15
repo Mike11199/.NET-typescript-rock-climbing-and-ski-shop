@@ -29,6 +29,7 @@ interface UserCartDetailsPageComponentProps {
   reduxDispatch: any;
   getUser: () => Promise<User>;
   createOrder: (orderData: orderDataDTO) => Promise<Order>;
+  clearCart: any;
 }
 
 const UserCartDetailsPageComponent = ({
@@ -41,6 +42,7 @@ const UserCartDetailsPageComponent = ({
   reduxDispatch,
   getUser,
   createOrder,
+  clearCart,
 }: UserCartDetailsPageComponentProps) => {
 
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
@@ -152,6 +154,7 @@ const UserCartDetailsPageComponent = ({
           setConfetti(true);
           setTimeout(() => {
             navigate("/user/order-details/" + data?.orderId);
+            reduxDispatch(clearCart());
           }, 3000);
         }
       })
@@ -214,7 +217,7 @@ const UserCartDetailsPageComponent = ({
             <br />
             <h2>Order items</h2>
             <ListGroup variant="flush">
-              {cartItems.map((item, idx) => (
+              {cartItems?.map((item, idx) => (
                 <CartItemComponent
                   product={item}
                   key={idx}
