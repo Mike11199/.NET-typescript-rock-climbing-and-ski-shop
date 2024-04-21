@@ -466,7 +466,6 @@ footer {
 }
 
 .nasa_snow_cover {
-  margin-left: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -588,4 +587,3 @@ h1.counter > span {
 ::-webkit-scrollbar-thumb:hover {
   background: #6d0303;
 }
-
