@@ -10,17 +10,40 @@ public class ProductRepository : IProductRepository
     {
         _dbContext = dbContext;
     }
-
-    public async Task<IEnumerable<Product>> GetAllProductsPaginated(int pageNum, int recordsPerPage)
+    public async Task<IEnumerable<Product>> GetAllProductsPaginated(int pageNum, int recordsPerPage, string? sortOption)
     {
-        var products = await _dbContext.Products
-            .Include(p => p.Images)
+        IQueryable<Product> query = _dbContext.Products.Include(p => p.Images);
+
+        // sorting drop down
+        if (!string.IsNullOrEmpty(sortOption))
+        {
+            switch (sortOption.ToLower())
+            {
+                case "price_asc":
+                    query = query.OrderBy(p => p.Price);
+                    break;
+                case "price_desc":
+                    query = query.OrderByDescending(p => p.Price);
+                    break;
+                case "name_asc":
+                    query = query.OrderBy(p => p.Name);
+                    break;
+                case "name_desc":
+                    query = query.OrderByDescending(p => p.Name);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        var products = await query
             .Skip((pageNum - 1) * recordsPerPage)
             .Take(recordsPerPage)
             .ToListAsync();
 
         return products;
     }
+
 
     public async Task<int> GetAllProductsCount()
     {
@@ -36,18 +59,43 @@ public class ProductRepository : IProductRepository
 
         return totalProductsInCategory;
     }
-
-    public async Task<IEnumerable<Product>> GetProductsByCategoryPaginated(string categoryName, int pageNum, int recordsPerPage)
+    public async Task<IEnumerable<Product>> GetProductsByCategoryPaginated(string categoryName, int pageNum, int recordsPerPage, string? sortOption)
     {
-        var productsInCategory = await _dbContext.Products
+
+        IQueryable<Product> query = _dbContext.Products
             .Where(p => p.Category != null && p.Category.Name != null && EF.Functions.Like(p.Category.Name.ToLower(), categoryName.ToLower()))
-            .Include(p => p.Images)
+            .Include(p => p.Images);
+
+        // sorting drop down 
+        if (!string.IsNullOrEmpty(sortOption))
+        {
+            switch (sortOption.ToLower())
+            {
+                case "price_asc":
+                    query = query.OrderBy(p => p.Price);
+                    break;
+                case "price_desc":
+                    query = query.OrderByDescending(p => p.Price);
+                    break;
+                case "name_asc":
+                    query = query.OrderBy(p => p.Name);
+                    break;
+                case "name_desc":
+                    query = query.OrderByDescending(p => p.Name);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        var productsInCategory = await query
             .Skip((pageNum - 1) * recordsPerPage)
             .Take(recordsPerPage)
             .ToListAsync();
 
         return productsInCategory;
     }
+
 
     public async Task<IEnumerable<Product>> GetBestSellers()
     {

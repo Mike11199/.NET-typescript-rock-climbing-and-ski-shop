@@ -33,8 +33,10 @@ namespace backend_v2.Controllers
                     pageNum = 1;
                 }
 
+                var sortOption = HttpContext.Request.Query["sort"].FirstOrDefault();
+
                 var totalProducts = await _productRepository.GetAllProductsCount();
-                var products = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage);
+                var products = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage, sortOption);
 
                 return Ok(new
                 {
@@ -79,6 +81,8 @@ namespace backend_v2.Controllers
                 IEnumerable<Product> productsInCategory;
                 int pageNum = int.TryParse(HttpContext.Request.Query["pageNum"].FirstOrDefault(), out var tempPageNum) ? tempPageNum : 1;
 
+                var sortOption = HttpContext.Request.Query["sort"].FirstOrDefault();
+
                 if (!string.IsNullOrEmpty(categoryName))
                 {
                     totalProductsInCategory = await _productRepository.GetProductsCountByCategory(categoryName);
@@ -87,11 +91,11 @@ namespace backend_v2.Controllers
                 if (string.IsNullOrEmpty(categoryName) || totalProductsInCategory == 0)
                 {
                     totalProductsInCategory = await _productRepository.GetAllProductsCount();
-                    productsInCategory = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage);
+                    productsInCategory = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage, sortOption);
                 }
                 else
                 {
-                    productsInCategory = await _productRepository.GetProductsByCategoryPaginated(categoryName, pageNum, recordsPerPage);
+                    productsInCategory = await _productRepository.GetProductsByCategoryPaginated(categoryName, pageNum, recordsPerPage, sortOption);
                 }
 
                 return Ok(new

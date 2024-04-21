@@ -143,3 +143,11 @@ export interface GetProductsResponse {
   pageNum?: number;
   paginationLinksNumber?: number;
 }
+
+export interface GetProducts {
+    categoryName?: string,
+    pageNumParam?: number,
+    searchQuery?: string,
+    filters?: any,
+    sortOption?: string
+}

@@ -12,10 +12,10 @@ import ProductForListComponent from "../../components/ProductForListComponent";
 
 import { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import { Product, Category, GetProductsResponse} from "types";
+import { Product, Category, GetProductsResponse, GetProducts} from "types";
 
 interface ProductListPageComponentProps {
-  getProducts: (categoryName?: string, pageNumParam?: any, searchQuery?: string, filters?: any, sortOption?: string) => Promise<GetProductsResponse>;
+  getProducts: (params: GetProducts) => Promise<GetProductsResponse>;
   categories: Category[];
 }
 
@@ -89,7 +89,7 @@ const ProductListPageComponent = ({ getProducts, categories }: ProductListPageCo
 
   useEffect(() => {
     setLoading(true);
-    getProducts(categoryName, pageNumParam, searchQuery, filters, sortOption)
+    getProducts({categoryName, pageNumParam, searchQuery, filters, sortOption})
       .then((products) => {
         setProducts(products?.products);
         setPaginationLinksNumber(products?.paginationLinksNumber);
