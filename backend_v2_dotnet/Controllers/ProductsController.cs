@@ -34,9 +34,10 @@ namespace backend_v2.Controllers
                 }
 
                 var sortOption = HttpContext.Request.Query["sort"].FirstOrDefault();
+                var searchOption = HttpContext.Request.Query["search"].FirstOrDefault();
 
-                var totalProducts = await _productRepository.GetAllProductsCount();
-                var products = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage, sortOption);
+                var totalProducts = await _productRepository.GetAllProductsCount(searchOption);
+                var products = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage, sortOption, searchOption);
 
                 return Ok(new
                 {
@@ -82,20 +83,21 @@ namespace backend_v2.Controllers
                 int pageNum = int.TryParse(HttpContext.Request.Query["pageNum"].FirstOrDefault(), out var tempPageNum) ? tempPageNum : 1;
 
                 var sortOption = HttpContext.Request.Query["sort"].FirstOrDefault();
+                var searchOption = HttpContext.Request.Query["search"].FirstOrDefault();
 
                 if (!string.IsNullOrEmpty(categoryName))
                 {
-                    totalProductsInCategory = await _productRepository.GetProductsCountByCategory(categoryName);
+                    totalProductsInCategory = await _productRepository.GetProductsCountByCategory(categoryName, searchOption);
                 }
 
                 if (string.IsNullOrEmpty(categoryName) || totalProductsInCategory == 0)
                 {
-                    totalProductsInCategory = await _productRepository.GetAllProductsCount();
-                    productsInCategory = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage, sortOption);
+                    totalProductsInCategory = await _productRepository.GetAllProductsCount(searchOption);
+                    productsInCategory = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage, sortOption, searchOption);
                 }
                 else
                 {
-                    productsInCategory = await _productRepository.GetProductsByCategoryPaginated(categoryName, pageNum, recordsPerPage, sortOption);
+                    productsInCategory = await _productRepository.GetProductsByCategoryPaginated(categoryName, pageNum, recordsPerPage, sortOption, searchOption);
                 }
 
                 return Ok(new

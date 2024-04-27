@@ -212,8 +212,7 @@ const ProductListPageComponent = ({
               </div>
             ) : error ? (
               <>
-                <div>Error loading products:</div>
-                <h2>{error}</h2>)
+                <div>Error loading products.</div>
               </>
             ) : (
               <></>
@@ -239,6 +238,28 @@ const ProductListPageComponent = ({
                 pageNum={pageNum}
               />
             ) : null}
+             {!loading &&
+              products?.length === 0 && (
+                <div
+                  style={{
+                    left: 0,
+                    position: "absolute",
+                    alignItems: "center",
+                    display: "flex",
+                    width: "100vw",
+                    flexDirection: "column",
+                    marginTop: "2rem",
+                  }}
+                >
+                  <div
+                    style={{
+                      marginBottom: "1rem",
+                    }}
+                  >
+                    No products found.
+                  </div>
+                </div>
+              )}
           </Col>
         </Row>
       </Container>

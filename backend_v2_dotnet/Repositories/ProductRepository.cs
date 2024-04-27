@@ -1,6 +1,7 @@
 ﻿using backend_v2.Models;
 using backend_v2.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 public class ProductRepository : IProductRepository
 {
@@ -10,9 +11,16 @@ public class ProductRepository : IProductRepository
     {
         _dbContext = dbContext;
     }
-    public async Task<IEnumerable<Product>> GetAllProductsPaginated(int pageNum, int recordsPerPage, string? sortOption)
+    public async Task<IEnumerable<Product>> GetAllProductsPaginated(int pageNum, int recordsPerPage, string? sortOption, string? searchOption)
     {
         IQueryable<Product> query = _dbContext.Products.Include(p => p.Images);
+
+        // Add search filter
+        if (!string.IsNullOrEmpty(searchOption))
+        {
+            var lowerSearchOption = searchOption.ToLower();
+            query = query.Where(p => (p.Name != null && p.Name.ToLower().Contains(lowerSearchOption)) || (p.Description != null && p.Description.ToLower().Contains(lowerSearchOption)));
+        }
 
         // sorting drop down
         if (!string.IsNullOrEmpty(sortOption))
@@ -45,26 +53,52 @@ public class ProductRepository : IProductRepository
     }
 
 
-    public async Task<int> GetAllProductsCount()
+    public async Task<int> GetAllProductsCount(string? searchOption)
     {
-        var totalProductsCount = await _dbContext.Products.CountAsync();
+        IQueryable<Product> query = _dbContext.Products;
+
+        // Add search filter
+        if (!string.IsNullOrEmpty(searchOption))
+        {
+            var lowerSearchOption = searchOption.ToLower();
+            query = query.Where(p => (p.Name != null && p.Name.ToLower().Contains(lowerSearchOption)) || (p.Description != null && p.Description.ToLower().Contains(lowerSearchOption)));
+
+        }
+
+        var totalProductsCount = await query.CountAsync();
         return totalProductsCount;
     }
 
-    public async Task<int> GetProductsCountByCategory(string categoryName)
+    public async Task<int> GetProductsCountByCategory(string categoryName, string? searchOption)
     {
-        var totalProductsInCategory = await _dbContext.Products
-            .Where(p => p.Category != null && p.Category.Name != null && EF.Functions.Like(p.Category.Name.ToLower(), categoryName.ToLower()))
-            .CountAsync();
+        IQueryable<Product> query = _dbContext.Products
+            .Where(p => p.Category != null && p.Category.Name != null && p.Category.Name.ToLower().Contains(categoryName.ToLower()));
 
-        return totalProductsInCategory;
+        // Add search filter
+        if (!string.IsNullOrEmpty(searchOption))
+        {
+            var lowerSearchOption = searchOption.ToLower();
+            query = query.Where(p => (p.Name != null && p.Name.ToLower().Contains(lowerSearchOption)) || (p.Description != null && p.Description.ToLower().Contains(lowerSearchOption)));
+
+        }
+
+        var totalProductsInCategoryCount = await query.CountAsync();
+        return totalProductsInCategoryCount;
     }
-    public async Task<IEnumerable<Product>> GetProductsByCategoryPaginated(string categoryName, int pageNum, int recordsPerPage, string? sortOption)
+
+    public async Task<IEnumerable<Product>> GetProductsByCategoryPaginated(string categoryName, int pageNum, int recordsPerPage, string? sortOption, string? searchOption)
     {
 
         IQueryable<Product> query = _dbContext.Products
-            .Where(p => p.Category != null && p.Category.Name != null && EF.Functions.Like(p.Category.Name.ToLower(), categoryName.ToLower()))
+            .Where(p => p.Category != null && p.Category.Name != null && p.Category.Name.ToLower().Contains(categoryName.ToLower()))
             .Include(p => p.Images);
+
+        // Add search filter
+        if (!string.IsNullOrEmpty(searchOption))
+        {
+            var lowerSearchOption = searchOption.ToLower();
+            query = query.Where(p => (p.Name != null && p.Name.ToLower().Contains(lowerSearchOption)) || (p.Description != null && p.Description.ToLower().Contains(lowerSearchOption)));
+        }
 
         // sorting drop down 
         if (!string.IsNullOrEmpty(sortOption))
