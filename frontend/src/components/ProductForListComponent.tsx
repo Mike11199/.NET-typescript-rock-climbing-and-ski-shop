@@ -52,7 +52,7 @@ const ProductForListComponent = ({
   };
 
   const productCardStyle = mode === "light" ? styles : darkStyles;
-  const mainThumbnailImage = images.find((x: Image) => x?.isMainImage === true)
+  const mainThumbnailImage = images.find((x: Image) => x?.isMainImage === true);
 
   return (
     <>
@@ -70,7 +70,7 @@ const ProductForListComponent = ({
             <Card.Body>
               <Card.Title>{name}</Card.Title>
               <Card.Text>{description}</Card.Text>
-              <Card.Text>
+              <div>
                 <Rating
                   readonly
                   onClick={() => null}
@@ -78,8 +78,8 @@ const ProductForListComponent = ({
                   size={20}
                 />{" "}
                 ({reviewsNumber})
-              </Card.Text>
-              <Card.Text>
+              </div>
+              <div style={{ marginTop: "0.5rem" }}>
                 ${price.toFixed(2)}
                 <div className="product_list_buttons">
                   <LinkContainer to={`/product-details/${productId}`}>
@@ -95,7 +95,7 @@ const ProductForListComponent = ({
                     Add to cart
                   </Button>
                 </div>
-              </Card.Text>
+              </div>
             </Card.Body>
           </Col>
         </Row>
