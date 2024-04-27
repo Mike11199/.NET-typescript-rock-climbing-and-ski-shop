@@ -146,7 +146,7 @@ export interface GetProductsResponse {
 
 export interface GetProducts {
     categoryName?: string,
-    pageNumParam?: number,
+    pageNumParam?: string,
     searchQuery?: string,
     filters?: any,
     sortOption?: string

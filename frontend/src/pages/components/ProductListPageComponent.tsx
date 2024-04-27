@@ -7,19 +7,23 @@ import CategoryFilterComponent from "../../components/filterQueryResultOptions/C
 import AttributesFilterComponent from "../../components/filterQueryResultOptions/AttributesFilterComponent";
 import { useSelector } from "react-redux";
 import { ReduxAppState } from "types";
+import { Spinner } from "react-bootstrap";
 
 import ProductForListComponent from "../../components/ProductForListComponent";
 
 import { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import { Product, Category, GetProductsResponse, GetProducts} from "types";
+import { Product, Category, GetProductsResponse, GetProducts } from "types";
 
 interface ProductListPageComponentProps {
   getProducts: (params: GetProducts) => Promise<GetProductsResponse>;
   categories: Category[];
 }
 
-const ProductListPageComponent = ({ getProducts, categories }: ProductListPageComponentProps) => {
+const ProductListPageComponent = ({
+  getProducts,
+  categories,
+}: ProductListPageComponentProps) => {
   const [products, setProducts] = useState<Product[] | null | undefined>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
@@ -41,15 +45,11 @@ const ProductListPageComponent = ({ getProducts, categories }: ProductListPageCo
   const location = useLocation();
   const navigate = useNavigate();
 
-
-
   useEffect(() => {
-    console.log(products)
+    console.log(products);
   }, [products]);
 
-
-  const {mode}  = useSelector((state: ReduxAppState) => state.DarkMode)
-
+  const { mode } = useSelector((state: ReduxAppState) => state.DarkMode);
 
   // TODO: replace obsolete useEffect from API v1 to set attributes filter
   // useEffect(() => {
@@ -89,7 +89,13 @@ const ProductListPageComponent = ({ getProducts, categories }: ProductListPageCo
 
   useEffect(() => {
     setLoading(true);
-    getProducts({categoryName, pageNumParam, searchQuery, filters, sortOption})
+    getProducts({
+      categoryName,
+      pageNumParam,
+      searchQuery,
+      filters,
+      sortOption,
+    })
       .then((products) => {
         setProducts(products?.products);
         setPaginationLinksNumber(products?.paginationLinksNumber);
@@ -104,13 +110,12 @@ const ProductListPageComponent = ({ getProducts, categories }: ProductListPageCo
       });
   }, [categoryName, pageNumParam, searchQuery, filters, sortOption]);
 
-
   useEffect(() => {
-    console.log(products)
-  }, [products])
+    console.log(products);
+  }, [products]);
 
   const handleFilters = () => {
-     navigate(location.pathname.replace(/\/[0-9]+$/, ""));
+    navigate(location.pathname.replace(/\/[0-9]+$/, ""));
     setShowResetFiltersButton(true);
     setFilters({
       price: priceFilter,
@@ -127,85 +132,118 @@ const ProductListPageComponent = ({ getProducts, categories }: ProductListPageCo
   };
 
   const listItemStyle = {
-    backgroundColor: mode === 'dark' ? 'rgb(45, 45, 45)' : 'rgb(255, 255, 255)',
-    color: mode === 'dark' ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
+    backgroundColor: mode === "dark" ? "rgb(45, 45, 45)" : "rgb(255, 255, 255)",
+    color: mode === "dark" ? "rgb(255, 255, 255)" : "rgb(0, 0, 0)",
   };
 
   return (
-    <Container fluid>
-      <Row>
-        <Col md={3}  >
-          <ListGroup variant="flush" >
-            <ListGroup.Item className="mb-3 mt-3" style={listItemStyle}>
-              <SortOptionsComponent setSortOption={setSortOption} />
-            </ListGroup.Item>
-            <ListGroup.Item style={listItemStyle}>
-              FILTER: <br />
-              <PriceFilterComponent price={priceFilter} setPrice={setPriceFilter} />
-            </ListGroup.Item>
-            <ListGroup.Item style={listItemStyle}>
-              <RatingFilterComponent
-
-                setRatingsFromFilter={setRatingsFromFilter}
-              />
-            </ListGroup.Item>
-            {!location.pathname.match(/\/category/) && (
+    <>
+      <Container fluid>
+        <Row>
+          <Col md={3}>
+            <ListGroup variant="flush">
+              <ListGroup.Item className="mb-3 mt-3" style={listItemStyle}>
+                <SortOptionsComponent setSortOption={setSortOption} />
+              </ListGroup.Item>
               <ListGroup.Item style={listItemStyle}>
-                <CategoryFilterComponent
-                  setCategoriesFromFilter={setCategoriesFromFilter}
+                FILTER: <br />
+                <PriceFilterComponent
+                  price={priceFilter}
+                  setPrice={setPriceFilter}
                 />
               </ListGroup.Item>
-            )}
-            <ListGroup.Item style={listItemStyle}>
-              <AttributesFilterComponent
-                attrsFilter={attrsFilter}
-                setAttrsFromFilter={setAttrsFromFilter}
-              />
-            </ListGroup.Item>
-            <ListGroup.Item style={listItemStyle}>
-              <Button type="button" variant="primary" onClick={handleFilters}>
-                Filter
-              </Button>{" "}
-              {showResetFiltersButton && (
-                <Button type="button" onClick={resetFilters} variant="danger">
-                  Reset filters
-                </Button>
+              <ListGroup.Item style={listItemStyle}>
+                <RatingFilterComponent
+                  setRatingsFromFilter={setRatingsFromFilter}
+                />
+              </ListGroup.Item>
+              {!location.pathname.match(/\/category/) && (
+                <ListGroup.Item style={listItemStyle}>
+                  <CategoryFilterComponent
+                    setCategoriesFromFilter={setCategoriesFromFilter}
+                  />
+                </ListGroup.Item>
               )}
-            </ListGroup.Item>
-          </ListGroup>
-        </Col>
-        <Col md={9}>
-          {loading ? (
-            <h1>Loading products ....</h1>
-          ) : error ? (
-            <h1>Error while loading products. Try again later.</h1>
-          ) : (
-            products?.map((product) => (
-              <ProductForListComponent
-                key={product?.productId}
-                images={product?.images}
-                name={product?.name}
-                description={product?.description}
-                price={product?.price}
-                rating={3 + Math.random() * 2}  //TODO - still WIP with api v2
-                reviewsNumber={ Math.floor(Math.random() * 22)} //TODO - still WIP with api v2
-                productId={product?.productId}
+              <ListGroup.Item style={listItemStyle}>
+                <AttributesFilterComponent
+                  attrsFilter={attrsFilter}
+                  setAttrsFromFilter={setAttrsFromFilter}
+                />
+              </ListGroup.Item>
+              <ListGroup.Item style={listItemStyle}>
+                <Button type="button" variant="primary" onClick={handleFilters}>
+                  Filter
+                </Button>{" "}
+                {showResetFiltersButton && (
+                  <Button type="button" onClick={resetFilters} variant="danger">
+                    Reset filters
+                  </Button>
+                )}
+              </ListGroup.Item>
+            </ListGroup>
+          </Col>
+          <Col md={9}>
+            {loading ? (
+              <div
+                style={{
+                  left: 0,
+                  position: "absolute",
+                  alignItems: "center",
+                  display: "flex",
+                  width: "100vw",
+                  flexDirection: "column",
+                  marginTop: "2rem",
+                }}
+              >
+                <div
+                  style={{
+                    marginBottom: "1rem",
+                  }}
+                >
+                  Loading products...
+                </div>
+                <Spinner
+                  as="span"
+                  animation="border"
+                  variant="primary"
+                  role="status"
+                  aria-hidden="true"
+                />
+              </div>
+            ) : error ? (
+              <>
+                <div>Error loading products:</div>
+                <h2>{error}</h2>)
+              </>
+            ) : (
+              <></>
+            )}
+            {!loading &&
+              products?.map((product) => (
+                <ProductForListComponent
+                  key={product?.productId}
+                  images={product?.images}
+                  name={product?.name}
+                  description={product?.description}
+                  price={product?.price}
+                  rating={3 + Math.random() * 2} //TODO - still WIP with api v2
+                  reviewsNumber={Math.floor(Math.random() * 22)} //TODO - still WIP with api v2
+                  productId={product?.productId}
+                />
+              ))}
+            {paginationLinksNumber > 1 ? (
+              <PaginationComponent
+                categoryName={categoryName}
+                searchQuery={searchQuery}
+                paginationLinksNumber={paginationLinksNumber}
+                pageNum={pageNum}
               />
-            ))
-          )}
-          {paginationLinksNumber > 1 ? (
-            <PaginationComponent
-              categoryName={categoryName}
-              searchQuery={searchQuery}
-              paginationLinksNumber={paginationLinksNumber}
-              pageNum={pageNum}
-            />
-          ) : null}
-        </Col>
-      </Row>
-    </Container>
+            ) : null}
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 
 export default ProductListPageComponent;
-
