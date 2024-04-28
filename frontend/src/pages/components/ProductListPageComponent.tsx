@@ -45,10 +45,6 @@ const ProductListPageComponent = ({
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
-
   const { mode } = useSelector((state: ReduxAppState) => state.DarkMode);
 
   // TODO: replace obsolete useEffect from API v1 to set attributes filter
@@ -183,6 +179,26 @@ const ProductListPageComponent = ({
             </ListGroup>
           </Col>
           <Col md={9}>
+            {!loading && products?.length !== 0 && (
+              <div
+                style={{
+                  left: 0,
+                  position: "relative",
+                  alignItems: "start",
+                  display: "flex",
+                  flexDirection: "column",
+                  marginTop: "2rem",
+                }}
+              >
+                <div
+                  style={{
+                    marginBottom: "0rem",
+                  }}
+                >
+                  <h6>{products?.length} Results</h6>
+                </div>
+              </div>
+            )}
             {loading ? (
               <div
                 style={{
@@ -238,28 +254,27 @@ const ProductListPageComponent = ({
                 pageNum={pageNum}
               />
             ) : null}
-             {!loading &&
-              products?.length === 0 && (
+            {!loading && products?.length === 0 && (
+              <div
+                style={{
+                  left: 0,
+                  position: "absolute",
+                  alignItems: "center",
+                  display: "flex",
+                  width: "100vw",
+                  flexDirection: "column",
+                  marginTop: "2rem",
+                }}
+              >
                 <div
                   style={{
-                    left: 0,
-                    position: "absolute",
-                    alignItems: "center",
-                    display: "flex",
-                    width: "100vw",
-                    flexDirection: "column",
-                    marginTop: "2rem",
+                    marginBottom: "1rem",
                   }}
                 >
-                  <div
-                    style={{
-                      marginBottom: "1rem",
-                    }}
-                  >
-                    No products found.
-                  </div>
+                  No products found.
                 </div>
-              )}
+              </div>
+            )}
           </Col>
         </Row>
       </Container>
