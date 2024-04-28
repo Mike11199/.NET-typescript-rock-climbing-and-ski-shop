@@ -1,15 +1,15 @@
 import ProductCarouselComponent from "../../components/ProductCarouselComponent";
 import CategoryCardComponent from "../../components/CategoryCardComponent";
 import { Row, Container } from "react-bootstrap";
-import Skier_Vector from "../../images/skier_vector.png";
-import Slope_Background from "../../images/ski_slope_6.png";
+import AnimationSkierVectorImage from "../../images/skier_vector.png";
+import AnimationSlopeBackgroundImage from "../../images/ski_slope_6.png";
 import Snowfall from "react-snowfall";
 import CloudVector from "../../images/cloud_vector3.png";
-import Tree from "../../images/tree.png";
-import Ski_Chair from "../../images/ski_chair.png";
-import Plant_Tree from "../../images/plant_tree.jpg";
-import Land_Sat from "../../images/landsat.png";
-import NASA_Logo from "../../images/nasa.png";
+import AnimationTree from "../../images/tree.png";
+import AnimationSkiChairImage from "../../images/ski_chair.png";
+import PlantSmallTreeImage from "../../images/plant_tree.jpg";
+import NASALandSatImage from "../../images/landsat.png";
+import NASALogoImage from "../../images/nasa.png";
 import { useEffect, useState } from "react";
 import CountUpComponent from "./CountUpComponent";
 import axios from "axios";
@@ -18,6 +18,11 @@ import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
 import { BestsellerItem, Category } from "types";
+import {
+  testDotnetAPIStatus,
+  testDotnetAPIProtectedRoute,
+  testDotnetAPIProductController,
+} from "./HomePageTests";
 
 const HomePageComponent = ({ categories, getBestsellers }) => {
   const externalRequestAxios = axios.create();
@@ -30,42 +35,9 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
 
   const [startDate, setStartDate] = useState(currentDate);
 
-  // api v2 test
-  const testNewAPI = async () => {
-    try {
-      const { data } = await axios.get("/apiv2/APIStatus");
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  testNewAPI();
-
-  // api v2 protected
-  const testNewAPIProtected = async () => {
-    try {
-      const { data } = await axios.get("/apiv2/APIStatus/protected");
-      console.log("testing the protected route!!");
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  testNewAPIProtected();
-
-  // api v2 test - 2
-  const testNewAPI2 = async () => {
-    try {
-      const { data } = await axios.get("/apiv2/products");
-      console.log(
-        "Test retrieving a product from api v2 .NET app docker container - RDS PostgreSQL database. "
-      );
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  testNewAPI2();
+  testDotnetAPIStatus();
+  testDotnetAPIProductController();
+  // testDotnetAPIProtectedRoute();
 
   useEffect(() => {
     getBestsellers()
@@ -75,8 +47,10 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
         }
       })
       .catch((er) => {
-        setError(er?.response?.data?.message ?? er?.response?.data ?? "");
-        console.log(er?.response?.data?.message ?? er?.response?.data ?? "");
+        const errMessage =
+          er?.response?.data?.message ?? er?.response?.data ?? "";
+        setError(errMessage);
+        console.log(errMessage);
       });
 
     if (Array.isArray(categories)) {
@@ -145,14 +119,34 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
           <img
             className="skier_banner_slope"
             alt="skier_slope"
-            src={Slope_Background}
+            src={AnimationSlopeBackgroundImage}
           />
-          <img className="tree" alt="tree" src={Tree} />
-          <img className="ski_chair" alt="ski_chair" src={Ski_Chair} />
-          <img className="ski_chair2" alt="ski_chair2" src={Ski_Chair} />
-          <img className="ski_chair3" alt="ski_chair2" src={Ski_Chair} />
-          <img className="ski_chair4" alt="ski_chair2" src={Ski_Chair} />
-          <img className="ski_chair5" alt="ski_chair2" src={Ski_Chair} />
+          <img className="tree" alt="tree" src={AnimationTree} />
+          <img
+            className="ski_chair"
+            alt="ski_chair"
+            src={AnimationSkiChairImage}
+          />
+          <img
+            className="ski_chair2"
+            alt="ski_chair2"
+            src={AnimationSkiChairImage}
+          />
+          <img
+            className="ski_chair3"
+            alt="ski_chair2"
+            src={AnimationSkiChairImage}
+          />
+          <img
+            className="ski_chair4"
+            alt="ski_chair2"
+            src={AnimationSkiChairImage}
+          />
+          <img
+            className="ski_chair5"
+            alt="ski_chair2"
+            src={AnimationSkiChairImage}
+          />
           <img
             className="cloud_banner_vector"
             alt="cloud_vector"
@@ -221,7 +215,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
           <img
             className="skier_banner_vector"
             alt="skier_vector"
-            src={Skier_Vector}
+            src={AnimationSkierVectorImage}
           />
         </div>
       </div>
@@ -248,7 +242,11 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
       </Container>
       <Container>
         <div className="climate_pledge_div">
-          <img className="plant_tree" alt="skier_vector" src={Plant_Tree} />
+          <img
+            className="plant_tree"
+            alt="skier_vector"
+            src={PlantSmallTreeImage}
+          />
           <div className="climate_text_div">
             <p className="climate_text_paragraph">
               <span style={{ fontWeight: "bold" }}>Giving Back: &nbsp;</span>
@@ -269,8 +267,16 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
         <h3 className="snow_section_title">Snow Cover Satellite Image</h3>
         <div className="nasa_snow_cover">
           <div className="sat_images">
-            <img className="nasa_logo" alt="nasa_logo" src={NASA_Logo}></img>
-            <img className="land_sat" alt="land_sat" src={Land_Sat}></img>
+            <img
+              className="nasa_logo"
+              alt="nasa_logo"
+              src={NASALogoImage}
+            ></img>
+            <img
+              className="land_sat"
+              alt="land_sat"
+              src={NASALandSatImage}
+            ></img>
           </div>
           <div id="nasa_image_container"></div>
           <div className="date_and_text_nasa">
