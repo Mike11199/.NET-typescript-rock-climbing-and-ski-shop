@@ -142,6 +142,7 @@ export interface GetProductsResponse {
   products?: Product[];
   pageNum?: number;
   paginationLinksNumber?: number;
+  totalProducts?: number;
 }
 
 export interface GetProducts {

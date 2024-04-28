@@ -39,7 +39,8 @@ namespace backend_v2.Controllers
                 {
                     products,
                     pageNum,
-                    paginationLinksNumber = Math.Ceiling((double)totalProducts / recordsPerPage)
+                    paginationLinksNumber = Math.Ceiling((double)totalProducts / recordsPerPage),
+                    totalProducts
                 });
             }
             catch (Exception ex)
@@ -101,7 +102,8 @@ namespace backend_v2.Controllers
                 {
                     products = productsInCategory,
                     pageNum,
-                    paginationLinksNumber = Math.Ceiling((double)totalProductsInCategory / recordsPerPage)
+                    paginationLinksNumber = Math.Ceiling((double)totalProductsInCategory / recordsPerPage),
+                    totalProducts = totalProductsInCategory
                 });
             }
             catch (Exception ex)

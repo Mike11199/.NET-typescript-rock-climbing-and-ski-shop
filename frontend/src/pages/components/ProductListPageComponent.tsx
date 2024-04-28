@@ -25,6 +25,7 @@ const ProductListPageComponent = ({
   categories,
 }: ProductListPageComponentProps) => {
   const [products, setProducts] = useState<Product[] | null | undefined>([]);
+  const [totalProductsCount, setTotalProductsCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [attrsFilter, setAttrsFilter] = useState<any>([]); // collect category attributes from db and show on the webpage
@@ -96,6 +97,7 @@ const ProductListPageComponent = ({
         setProducts(products?.products);
         setPaginationLinksNumber(products?.paginationLinksNumber);
         setPageNum(products?.pageNum ?? 0);
+        setTotalProductsCount(products?.totalProducts ?? 0);
         setLoading(false);
         setError(false);
       })
@@ -195,7 +197,7 @@ const ProductListPageComponent = ({
                     marginBottom: "0rem",
                   }}
                 >
-                  <h6>{products?.length} Results</h6>
+                  <h6>{totalProductsCount} {totalProductsCount === 1 ? 'Result' : 'Results'}</h6>
                 </div>
               </div>
             )}
@@ -246,7 +248,7 @@ const ProductListPageComponent = ({
                   productId={product?.productId}
                 />
               ))}
-            {paginationLinksNumber > 1 ? (
+            {!loading && paginationLinksNumber > 1 ? (
               <PaginationComponent
                 categoryName={categoryName}
                 searchQuery={searchQuery}
