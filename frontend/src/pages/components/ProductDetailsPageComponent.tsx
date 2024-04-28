@@ -112,8 +112,9 @@ const ProductDetailsPageComponent = ({
     }
   };
 
-  console.log(product);
-  console.log(product?.images);
+  useEffect(() => {
+    if (product) console.log(product);
+  }, [product])
 
   return (
     <>

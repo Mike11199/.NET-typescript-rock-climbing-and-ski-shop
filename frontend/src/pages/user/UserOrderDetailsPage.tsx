@@ -9,7 +9,6 @@ import { StoredUserInfo, ReduxAppState } from "types";
 // this function is passed and called from within the page component
 const getOrder = async (orderId) => {
     const { data } = await axios.get("/apiv2/orders/user/" + orderId);
-    console.log('order items or cart data log')
     console.log(data)
     return data;
 }

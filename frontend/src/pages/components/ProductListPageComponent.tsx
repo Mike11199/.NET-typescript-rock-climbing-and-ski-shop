@@ -109,7 +109,9 @@ const ProductListPageComponent = ({
   }, [categoryName, pageNumParam, searchQuery, filters, sortOption]);
 
   useEffect(() => {
-    console.log(products);
+    if (products && products?.length > 0) {
+      console.log(products);
+    }
   }, [products]);
 
   const handleFilters = () => {
