@@ -20,7 +20,6 @@ import "react-day-picker/dist/style.css";
 import { BestsellerItem, Category } from "types";
 
 const HomePageComponent = ({ categories, getBestsellers }) => {
-
   const externalRequestAxios = axios.create();
   const [mainCategories, setMainCategories] = useState<Category[]>([]);
   const [bestSellers, setBestsellers] = useState<BestsellerItem[]>([]); // Use [] to initialize an empty array
@@ -46,9 +45,8 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
   const testNewAPIProtected = async () => {
     try {
       const { data } = await axios.get("/apiv2/APIStatus/protected");
-      console.log("testing the protected route!!")
+      console.log("testing the protected route!!");
       console.log(data);
-
     } catch (error) {
       console.log(error);
     }
@@ -59,7 +57,9 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
   const testNewAPI2 = async () => {
     try {
       const { data } = await axios.get("/apiv2/products");
-      console.log("Test retrieving a product from api v2 .NET app docker container - RDS PostgreSQL database. ");
+      console.log(
+        "Test retrieving a product from api v2 .NET app docker container - RDS PostgreSQL database. "
+      );
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -70,17 +70,13 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
   useEffect(() => {
     getBestsellers()
       .then((data: BestsellerItem[]) => {
-        if (data){
-        setBestsellers(data);
+        if (data) {
+          setBestsellers(data);
         }
       })
       .catch((er) => {
-        setError(
-          er?.response?.data?.message ?? er?.response?.data ?? ""
-        );
-        console.log(
-          er?.response?.data?.message ?? er?.response?.data ?? ""
-        );
+        setError(er?.response?.data?.message ?? er?.response?.data ?? "");
+        console.log(er?.response?.data?.message ?? er?.response?.data ?? "");
       });
 
     if (Array.isArray(categories)) {
@@ -99,7 +95,6 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
   // https://nasa-gibs.github.io/gibs-api-docs/access-basics/#map-projections
   // https://nasa-gibs.github.io/gibs-api-docs/access-basics/#service-endpoints
   const getSnowCoverData = async () => {
-
     const url2 =
       "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/";
     const format = ".jpg";
@@ -236,7 +231,10 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
         <Row xs={1} md={2} className="g-4 mt-4">
           {mainCategories.map((category, idx) => (
             <>
-              <div key={`category_div_container_${category?.categoryId}`} className="cardComponentGrid">
+              <div
+                key={`category_div_container_${category?.categoryId}`}
+                className="cardComponentGrid"
+              >
                 <CategoryCardComponent
                   key={`cardComponentGrid_${category?.categoryId}`}
                   category={category}
@@ -281,24 +279,24 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
               selected={startDate}
               onSelect={setStartDate as any}
             />
-            <p className="sat_text">
+            <div className="sat_text">
               <ul>
                 <li>
                   See latest image for snow cover from the MODIS (Moderate
                   Resolution Imaging SpectroRadiometer) sensor - on the NASA
                   Terra (EOS AM-1) satellite.
-                  <li style={{ marginTop: "20px" }}>
-                    Terra was launched in 1999 and orbits in a sun-synchronous
-                    orbit, meaning it passes over any given point on the earth
-                    at the same local solar time. This gives consistent lighting
-                    for land imagery. The satellite also boasts a 250m spatial
-                    resolution, meaning that one pixel represents an area of 250
-                    x 250 meters on the ground. This is about 14 suburban sized
-                    houses wide.
-                  </li>
+                </li>
+                <li style={{ marginTop: "20px" }}>
+                  Terra was launched in 1999 and orbits in a sun-synchronous
+                  orbit, meaning it passes over any given point on the earth at
+                  the same local solar time. This gives consistent lighting for
+                  land imagery. The satellite also boasts a 250m spatial
+                  resolution, meaning that one pixel represents an area of 250 x
+                  250 meters on the ground. This is about 14 suburban sized
+                  houses wide.
                 </li>
               </ul>
-            </p>
+            </div>
           </div>
         </div>
       </Container>
