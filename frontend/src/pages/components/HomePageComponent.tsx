@@ -1,18 +1,13 @@
 import ProductCarouselComponent from "../../components/ProductCarouselComponent";
 import CategoryCardComponent from "../../components/CategoryCardComponent";
 import { Row, Container } from "react-bootstrap";
-import AnimationSkierVectorImage from "../../images/skier_vector.png";
-import AnimationSlopeBackgroundImage from "../../images/ski_slope_6.png";
-import Snowfall from "react-snowfall";
-import CloudVector from "../../images/cloud_vector3.png";
-import AnimationTree from "../../images/tree.png";
-import AnimationSkiChairImage from "../../images/ski_chair.png";
 import PlantSmallTreeImage from "../../images/plant_tree.jpg";
 import NASALandSatImage from "../../images/landsat.png";
 import NASALogoImage from "../../images/nasa.png";
 import { useEffect, useState } from "react";
 import CountUpComponent from "./CountUpComponent";
 import axios from "axios";
+import HomePageSkiBanner from "./HomePageSkiBanner";
 
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
@@ -113,113 +108,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
 
   return (
     <>
-      <div className="banner_box_container">
-        <div className="ski_banner_box">
-          <Snowfall />
-          <img
-            className="skier_banner_slope"
-            alt="skier_slope"
-            src={AnimationSlopeBackgroundImage}
-          />
-          <img className="tree" alt="tree" src={AnimationTree} />
-          <img
-            className="ski_chair"
-            alt="ski_chair"
-            src={AnimationSkiChairImage}
-          />
-          <img
-            className="ski_chair2"
-            alt="ski_chair2"
-            src={AnimationSkiChairImage}
-          />
-          <img
-            className="ski_chair3"
-            alt="ski_chair2"
-            src={AnimationSkiChairImage}
-          />
-          <img
-            className="ski_chair4"
-            alt="ski_chair2"
-            src={AnimationSkiChairImage}
-          />
-          <img
-            className="ski_chair5"
-            alt="ski_chair2"
-            src={AnimationSkiChairImage}
-          />
-          <img
-            className="cloud_banner_vector"
-            alt="cloud_vector"
-            src={CloudVector}
-          />
-          <img
-            className="cloud_banner_vector2"
-            alt="cloud_vector"
-            src={CloudVector}
-          />
-          <img
-            className="cloud_banner_vector3"
-            alt="cloud_vector"
-            src={CloudVector}
-          />
-          <img
-            className="cloud_banner_vector4"
-            alt="cloud_vector"
-            src={CloudVector}
-          />
-          <img
-            className="cloud_banner_vector5"
-            alt="cloud_vector"
-            src={CloudVector}
-          />
-          <img
-            className="cloud_banner_vector6"
-            alt="cloud_vector"
-            src={CloudVector}
-          />
-          <img
-            className="cloud_banner_vector7"
-            alt="cloud_vector"
-            src={CloudVector}
-          />
-          <img
-            className="cloud_banner_vector8"
-            alt="cloud_vector"
-            src={CloudVector}
-          />
-          <img
-            className="cloud_banner_vector9"
-            alt="cloud_vector"
-            src={CloudVector}
-          />
-          <img
-            className="cloud_banner_vector10"
-            alt="cloud_vector"
-            src={CloudVector}
-          />
-          <img
-            className="cloud_banner_vector11"
-            alt="cloud_vector"
-            src={CloudVector}
-          />
-          <img
-            className="cloud_banner_vector12"
-            alt="cloud_vector"
-            src={CloudVector}
-          />
-          <img
-            className="cloud_banner_vector13"
-            alt="cloud_vector"
-            src={CloudVector}
-          />
-          <img
-            className="skier_banner_vector"
-            alt="skier_vector"
-            src={AnimationSkierVectorImage}
-          />
-        </div>
-      </div>
-
+      <HomePageSkiBanner />
       <ProductCarouselComponent bestSellers={bestSellers} />
       <Container>
         <Row xs={1} md={2} className="g-4 mt-4">
