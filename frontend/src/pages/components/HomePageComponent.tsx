@@ -20,9 +20,11 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
   const [bestSellers, setBestsellers] = useState<BestsellerItem[]>([]); // Use [] to initialize an empty array
   const [error, setError] = useState<any>("");
 
-  testDotnetAPIStatus();
-  testDotnetAPIProductController();
-  // testDotnetAPIProtectedRoute();
+  useEffect(() => {
+    testDotnetAPIStatus();
+    testDotnetAPIProductController();
+    // testDotnetAPIProtectedRoute();
+  }, [])
 
   useEffect(() => {
     getBestsellers()
