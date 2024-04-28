@@ -49,22 +49,29 @@ const ProductDetailsPageComponent = ({
     }
   }, [productReviewed]);
 
-  useEffect(() => {
-    if (product?.images) {
-      var options = {
-        scale: 2,
-        offset: { vertical: 0, horizontal: 0 },
-      };
 
-      product?.images.map(
-        (image) =>
-          new ImageZoom(
-            document.getElementById(`image_id_${image?.imageId}`),
-            options
-          )
-      );
-    }
-  });
+  useEffect(() => {
+
+    const sortedImages = product?.images?.sort((a, b) => {
+      if (a.isMainImage && !b.isMainImage) return -1;
+      if (b.isMainImage && !a.isMainImage) return 1;
+      return 0;
+    });
+
+    sortedImages?.forEach((image) => {
+      const imageElement = document.getElementById(`image_id_${image.imageId}`);
+      if (imageElement) {
+        new ImageZoom(imageElement, {
+          scale: 2,
+          offset: { vertical: 0, horizontal: 0 },
+        });
+      }
+    });
+
+    // Cleanup function to potentially clean up ImageZoom instances
+    return () => {
+    };
+  }, [product?.images]);
 
   useEffect(() => {
     getProductDetails(id)
@@ -154,7 +161,7 @@ const ProductDetailsPageComponent = ({
             <>
               <Col style={{ zIndex: 1 }} md={4}>
                 {product?.images?.map((image, id) => (
-                  <div key={id}>
+                  <div style={{marginBottom: "2rem"}} key={id}>
                     <Image
                       crossOrigin="anonymous"
                       fluid
