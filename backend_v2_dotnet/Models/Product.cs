@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace backend_v2.Models;
+﻿namespace backend_v2.Models;
 
 public partial class Product
 {
@@ -24,4 +21,6 @@ public partial class Product
     public virtual ICollection<Image> Images { get; set; } = new List<Image>();
 
     public virtual ICollection<OrderProductItem> OrderProductItems { get; set; } = new List<OrderProductItem>();
+
+    public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend_v2.Models;
 
@@ -14,4 +13,10 @@ public partial class Review
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
+
+    [Column("product_id")]
+    public Guid ProductId { get; set; }
+
+    [ForeignKey("ProductId")]
+    public required Product Product { get; set; }
 }

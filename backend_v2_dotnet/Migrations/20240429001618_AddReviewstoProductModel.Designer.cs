@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend_v2.Models;
@@ -11,9 +12,11 @@ using backend_v2.Models;
 namespace backend_v2.Migrations
 {
     [DbContext(typeof(AlpinePeakDbContext))]
-    partial class AlpinePeakDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240429001618_AddReviewstoProductModel")]
+    partial class AddReviewstoProductModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
