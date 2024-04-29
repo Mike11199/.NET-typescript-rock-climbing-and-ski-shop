@@ -21,6 +21,7 @@ export interface Product {
   sales?: number | null;
   category?: Category | null;
   images?: Image[];
+  reviews?: Review[];
 }
 
 export interface CartProduct
@@ -68,6 +69,8 @@ export interface Review {
   rating?: number | null;
   createdAt?: Date | string | null;
   updatedAt?: Date | string | null;
+  productId?: string;
+  user?: User;
 }
 
 export interface User {
@@ -146,9 +149,9 @@ export interface GetProductsResponse {
 }
 
 export interface GetProducts {
-    categoryName?: string,
-    pageNumParam?: string,
-    searchQuery?: string,
-    filters?: any,
-    sortOption?: string
+  categoryName?: string;
+  pageNumParam?: string;
+  searchQuery?: string;
+  filters?: any;
+  sortOption?: string;
 }

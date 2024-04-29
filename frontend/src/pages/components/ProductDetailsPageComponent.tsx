@@ -49,9 +49,7 @@ const ProductDetailsPageComponent = ({
     }
   }, [productReviewed]);
 
-
   useEffect(() => {
-
     const sortedImages = product?.images?.sort((a, b) => {
       if (a.isMainImage && !b.isMainImage) return -1;
       if (b.isMainImage && !a.isMainImage) return 1;
@@ -69,8 +67,7 @@ const ProductDetailsPageComponent = ({
     });
 
     // Cleanup function to potentially clean up ImageZoom instances
-    return () => {
-    };
+    return () => {};
   }, [product?.images]);
 
   useEffect(() => {
@@ -112,9 +109,27 @@ const ProductDetailsPageComponent = ({
     }
   };
 
+  const getAverageRating = (reviews) => {
+    if (!reviews || reviews.length === 0) return 0;
+    const total = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return total / reviews.length;
+  };
+
+  const productReviewScore = getAverageRating(product?.reviews);
+
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    weekday: "short", // Valid values: "narrow", "short", "long"
+    year: "numeric", // Valid values: "numeric", "2-digit"
+    month: "long", // Valid values: "numeric", "2-digit", "narrow", "short", "long"
+    day: "numeric", // Valid values: "numeric", "2-digit"
+    hour: "2-digit", // Valid values: "numeric", "2-digit"
+    minute: "2-digit", // Valid values: "numeric", "2-digit"
+    timeZoneName: "short", // Valid values: "short", "long"
+  };
+
   useEffect(() => {
     if (product) console.log(product);
-  }, [product])
+  }, [product]);
 
   return (
     <>
@@ -162,7 +177,7 @@ const ProductDetailsPageComponent = ({
             <>
               <Col style={{ zIndex: 1 }} md={4}>
                 {product?.images?.map((image, id) => (
-                  <div style={{marginBottom: "2rem"}} key={id}>
+                  <div style={{ marginBottom: "2rem" }} key={id}>
                     <Image
                       crossOrigin="anonymous"
                       fluid
@@ -180,15 +195,29 @@ const ProductDetailsPageComponent = ({
                         <h1>{product?.name}</h1>
                       </ListGroup.Item>
                       <ListGroup.Item>
-                        <Rating
-                          onClick={() => null}
-                          readonly
-                          size={20}
-                          // ratingValue={product.rating}
-                          ratingValue={5}
-                        />{" "}
-                        {/* ({product?.reviewsNumber ?? 0} reviews) */}({0}{" "}
-                        reviews)
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "1rem",
+                            alignItems: "end",
+                          }}
+                        >
+                          <Rating
+                            onClick={() => null}
+                            readonly
+                            size={20}
+                            ratingValue={productReviewScore}
+                          />
+                        </div>
+                        <div style={{ marginTop: "1rem" }}>
+                          {productReviewScore.toFixed(2)} Average Rating
+                        </div>
+                        <div>
+                          {product?.reviews?.length ?? 0}{" "}
+                          {product?.reviews?.length === 1
+                            ? "review"
+                            : "reviews"}
+                        </div>
                       </ListGroup.Item>
                       <ListGroup.Item>
                         Price{" "}
@@ -255,20 +284,35 @@ const ProductDetailsPageComponent = ({
                   <Col className="mt-5">
                     <h5>REVIEWS</h5>
                     <ListGroup variant="flush">
-                      {/* {product?.reviews?.map((review, idx) => (
-                      <ListGroup.Item key={idx}>
-                        {review?.user?.name} <br />
-                        <Rating
-                          readonly
-                          size={20}
-                          ratingValue={review.rating}
-                          onClick={() => null}
-                        />
-                        <br />
-                        {review?.createdAt?.substring(0, 10)} <br />
-                        {review?.comment}
-                      </ListGroup.Item>
-                    ))} */}
+                      {product?.reviews?.map((review, idx) => (
+                        <ListGroup.Item
+                          key={idx}
+                          style={{ marginBottom: "1rem" }}
+                        >
+                          <div>
+                            {review?.user?.name} {review?.user?.lastName} -{" "}
+                            {review?.rating?.toFixed(1)}
+                          </div>
+                          <div style={{ marginBottom: "0.5rem" }}>
+                            <Rating
+                              readonly
+                              size={20}
+                              ratingValue={review?.rating ?? 0}
+                              onClick={() => null}
+                            />
+                          </div>
+
+                          <div style={{ marginBottom: "0.5rem" }}>
+                            {new Intl.DateTimeFormat(
+                              undefined,
+                              dateOptions
+                            ).format(
+                              new Date(review?.createdAt?.toString() ?? "")
+                            )}
+                          </div>
+                          <div>{review?.comment}</div>
+                        </ListGroup.Item>
+                      ))}
                       <div ref={messagesEndRef} />
                     </ListGroup>
                   </Col>

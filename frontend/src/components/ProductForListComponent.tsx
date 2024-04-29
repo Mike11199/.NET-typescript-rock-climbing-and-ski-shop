@@ -70,6 +70,9 @@ const ProductForListComponent = ({
             <Card.Body>
               <Card.Title>{name}</Card.Title>
               <Card.Text>{description}</Card.Text>
+              <div style={{ marginBottom: "0.5rem", marginTop: "0.5rem" }}>
+                Price <span className="fw-bold">${price.toFixed(2)}</span>
+              </div>
               <div>
                 <Rating
                   readonly
@@ -77,10 +80,11 @@ const ProductForListComponent = ({
                   ratingValue={rating}
                   size={20}
                 />{" "}
-                ({reviewsNumber})
               </div>
+
+              <div style={{ marginTop: "0.5rem" }}>{reviewsNumber} Reviews</div>
+              <div>{rating} Average Rating</div>
               <div style={{ marginTop: "0.5rem" }}>
-                ${price.toFixed(2)}
                 <div className="product_list_buttons">
                   <LinkContainer to={`/product-details/${productId}`}>
                     <Button type="button" variant="danger">

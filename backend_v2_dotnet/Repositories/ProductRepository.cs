@@ -13,7 +13,9 @@ public class ProductRepository : IProductRepository
     }
     public async Task<IEnumerable<Product>> GetAllProductsPaginated(int pageNum, int recordsPerPage, string? sortOption, string? searchOption, int? priceFilter)
     {
-        IQueryable<Product> query = _dbContext.Products.Include(p => p.Images);
+        IQueryable<Product> query = _dbContext.Products
+            .Include(p => p.Reviews)
+            .Include(p => p.Images);
 
         // Add search filter
         if (!string.IsNullOrEmpty(searchOption))
@@ -109,6 +111,7 @@ public class ProductRepository : IProductRepository
 
         IQueryable<Product> query = _dbContext.Products
             .Where(p => p.Category != null && p.Category.Name != null && p.Category.Name.ToLower().Contains(categoryName.ToLower()))
+            .Include(p => p.Reviews)
             .Include(p => p.Images);
 
         // Add search filter
@@ -182,13 +185,15 @@ public class ProductRepository : IProductRepository
         return bestSellers;
     }
 
-    public async Task<Product> GetProductById(string productId)
+    public async Task<Product?> GetProductById(string productId)
     {
         var productGuid = Guid.Parse(productId);
 
         var product = await _dbContext.Products
             .Where(p => p.ProductId == productGuid)
             .Include(p => p.Images)
+            .Include(p => p.Reviews)
+            .ThenInclude(r => r.User)
             .FirstOrDefaultAsync();
 
         return product;

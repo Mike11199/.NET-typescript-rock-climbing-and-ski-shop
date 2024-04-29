@@ -136,6 +136,12 @@ const ProductListPageComponent = ({
     color: mode === "dark" ? "rgb(255, 255, 255)" : "rgb(0, 0, 0)",
   };
 
+  const getAverageRating = (reviews) => {
+    if (!reviews || reviews.length === 0) return 0;
+    const total = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return total / reviews.length;
+  };
+
   return (
     <>
       <Container fluid>
@@ -199,7 +205,10 @@ const ProductListPageComponent = ({
                     marginBottom: "0rem",
                   }}
                 >
-                  <h6>{totalProductsCount} {totalProductsCount === 1 ? 'Result' : 'Results'}</h6>
+                  <h6>
+                    {totalProductsCount}{" "}
+                    {totalProductsCount === 1 ? "Result" : "Results"}
+                  </h6>
                 </div>
               </div>
             )}
@@ -238,18 +247,22 @@ const ProductListPageComponent = ({
               <></>
             )}
             {!loading &&
-              products?.map((product) => (
-                <ProductForListComponent
-                  key={product?.productId}
-                  images={product?.images}
-                  name={product?.name}
-                  description={product?.description}
-                  price={product?.price}
-                  rating={3 + Math.random() * 2} //TODO - still WIP with api v2
-                  reviewsNumber={Math.floor(Math.random() * 22)} //TODO - still WIP with api v2
-                  productId={product?.productId}
-                />
-              ))}
+              products?.map((product) => {
+                const productReviewScore = getAverageRating(product?.reviews);
+                return (
+                  <ProductForListComponent
+                    key={product.productId}
+                    images={product.images}
+                    name={product.name}
+                    description={product.description}
+                    price={product.price}
+                    rating={productReviewScore.toFixed(2)}
+                    reviewsNumber={product.reviews?.length ?? 0}
+                    productId={product.productId}
+                  />
+                );
+              })}
+
             {!loading && paginationLinksNumber > 1 ? (
               <PaginationComponent
                 categoryName={categoryName}

@@ -17,6 +17,12 @@ public partial class Review
     [Column("product_id")]
     public Guid ProductId { get; set; }
 
+    [Column("user_id")]
+    public Guid UserId { get; set; }
+
     [ForeignKey("ProductId")]
     public required Product Product { get; set; }
+
+    [ForeignKey("UserId")]
+    public required User User { get; set; }
 }
