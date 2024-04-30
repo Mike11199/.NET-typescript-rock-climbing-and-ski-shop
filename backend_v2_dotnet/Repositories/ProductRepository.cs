@@ -11,7 +11,7 @@ public class ProductRepository : IProductRepository
     {
         _dbContext = dbContext;
     }
-    public async Task<IEnumerable<Product>> GetAllProductsPaginated(int pageNum, int recordsPerPage, string? sortOption, string? searchOption, int? priceFilter)
+    public async Task<IEnumerable<Product>> GetAllProductsPaginated(int pageNum, int recordsPerPage, string? sortOption, string? searchOption, int? priceFilter, int? ratingFilter)
     {
         IQueryable<Product> query = _dbContext.Products
             .Include(p => p.Reviews)
@@ -28,6 +28,12 @@ public class ProductRepository : IProductRepository
         if (priceFilter != null)
         {
             query = query.Where(p => p.Price <= priceFilter);
+        }
+
+        // Add product minimum rating filter (product rating must be equal or better)
+        if (ratingFilter != null)
+        {
+            query = query.Where(p => p.Reviews.Average(r => r.Rating) >= ratingFilter);
         }
 
         // sorting drop down
@@ -61,7 +67,7 @@ public class ProductRepository : IProductRepository
     }
 
 
-    public async Task<int> GetAllProductsCount(string? searchOption, int? priceFilter)
+    public async Task<int> GetAllProductsCount(string? searchOption, int? priceFilter, int? ratingFilter)
     {
         IQueryable<Product> query = _dbContext.Products;
 
@@ -79,11 +85,17 @@ public class ProductRepository : IProductRepository
             query = query.Where(p => p.Price <= priceFilter);
         }
 
+        // Add product minimum rating filter (product rating must be equal or better)
+        if (ratingFilter != null)
+        {
+            query = query.Where(p => p.Reviews.Average(r => r.Rating) >= ratingFilter);
+        }
+
         var totalProductsCount = await query.CountAsync();
         return totalProductsCount;
     }
 
-    public async Task<int> GetProductsCountByCategory(string categoryName, string? searchOption, int? priceFilter)
+    public async Task<int> GetProductsCountByCategory(string categoryName, string? searchOption, int? priceFilter, int? ratingFilter)
     {
         IQueryable<Product> query = _dbContext.Products
             .Where(p => p.Category != null && p.Category.Name != null && p.Category.Name.ToLower().Contains(categoryName.ToLower()));
@@ -102,11 +114,17 @@ public class ProductRepository : IProductRepository
             query = query.Where(p => p.Price <= priceFilter);
         }
 
+        // Add product minimum rating filter (product rating must be equal or better)
+        if (ratingFilter != null)
+        {
+            query = query.Where(p => p.Reviews.Average(r => r.Rating) >= ratingFilter);
+        }
+
         var totalProductsInCategoryCount = await query.CountAsync();
         return totalProductsInCategoryCount;
     }
 
-    public async Task<IEnumerable<Product>> GetProductsByCategoryPaginated(string categoryName, int pageNum, int recordsPerPage, string? sortOption, string? searchOption, int? priceFilter)
+    public async Task<IEnumerable<Product>> GetProductsByCategoryPaginated(string categoryName, int pageNum, int recordsPerPage, string? sortOption, string? searchOption, int? priceFilter, int? ratingFilter)
     {
 
         IQueryable<Product> query = _dbContext.Products
@@ -125,6 +143,12 @@ public class ProductRepository : IProductRepository
         if (priceFilter != null)
         {
             query = query.Where(p => p.Price <= priceFilter);
+        }
+
+        // Add product minimum rating filter (product rating must be equal or better)
+        if (ratingFilter != null)
+        {
+            query = query.Where(p => p.Reviews.Average(r => r.Rating) >= ratingFilter);
         }
 
         // sorting drop down 

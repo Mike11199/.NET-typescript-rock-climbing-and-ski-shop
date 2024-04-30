@@ -29,11 +29,12 @@ namespace backend_v2.Controllers
 
                 int pageNum = int.TryParse(HttpContext.Request.Query["pageNum"].FirstOrDefault(), out var tempPageNum) ? tempPageNum : 1;
                 int? priceFilter = int.TryParse(HttpContext.Request.Query["price"].FirstOrDefault(), out var tempPrice) ? tempPrice : null;
+                int? ratingFilter = int.TryParse(HttpContext.Request.Query["rating"].FirstOrDefault(), out var tempRating) ? tempRating : null;
                 var sortOption = HttpContext.Request.Query["sort"].FirstOrDefault();
                 var searchOption = HttpContext.Request.Query["search"].FirstOrDefault();
 
-                var totalProducts = await _productRepository.GetAllProductsCount(searchOption, priceFilter);
-                var products = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage, sortOption, searchOption, priceFilter);
+                var totalProducts = await _productRepository.GetAllProductsCount(searchOption, priceFilter, ratingFilter);
+                var products = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage, sortOption, searchOption, priceFilter, ratingFilter);
 
                 return Ok(new
                 {
@@ -79,23 +80,24 @@ namespace backend_v2.Controllers
                 IEnumerable<Product> productsInCategory;
 
                 int pageNum = int.TryParse(HttpContext.Request.Query["pageNum"].FirstOrDefault(), out var tempPageNum) ? tempPageNum : 1;
+                int? ratingFilter = int.TryParse(HttpContext.Request.Query["rating"].FirstOrDefault(), out var tempRating) ? tempRating : null;
                 int? priceFilter = int.TryParse(HttpContext.Request.Query["price"].FirstOrDefault(), out var tempPrice) ? tempPrice : null;
                 var sortOption = HttpContext.Request.Query["sort"].FirstOrDefault();
                 var searchOption = HttpContext.Request.Query["search"].FirstOrDefault();
 
                 if (!string.IsNullOrEmpty(categoryName))
                 {
-                    totalProductsInCategory = await _productRepository.GetProductsCountByCategory(categoryName, searchOption, priceFilter);
+                    totalProductsInCategory = await _productRepository.GetProductsCountByCategory(categoryName, searchOption, priceFilter, ratingFilter);
                 }
 
                 if (string.IsNullOrEmpty(categoryName) || totalProductsInCategory == 0)
                 {
-                    totalProductsInCategory = await _productRepository.GetAllProductsCount(searchOption, priceFilter);
-                    productsInCategory = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage, sortOption, searchOption, priceFilter);
+                    totalProductsInCategory = await _productRepository.GetAllProductsCount(searchOption, priceFilter, ratingFilter);
+                    productsInCategory = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage, sortOption, searchOption, priceFilter, ratingFilter);
                 }
                 else
                 {
-                    productsInCategory = await _productRepository.GetProductsByCategoryPaginated(categoryName, pageNum, recordsPerPage, sortOption, searchOption, priceFilter);
+                    productsInCategory = await _productRepository.GetProductsByCategoryPaginated(categoryName, pageNum, recordsPerPage, sortOption, searchOption, priceFilter, ratingFilter);
                 }
 
                 return Ok(new

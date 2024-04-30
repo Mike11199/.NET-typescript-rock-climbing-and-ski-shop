@@ -33,8 +33,8 @@ const ProductListPageComponent = ({
   const [showResetFiltersButton, setShowResetFiltersButton] = useState(false);
 
   const [filters, setFilters] = useState({}); // collect all filters
-  const [priceFilter, setPriceFilter] = useState<number>(970);
-  const [ratingsFromFilter, setRatingsFromFilter] = useState({});
+  const [priceFilter, setPriceFilter] = useState<number>(700);
+  const [maxRating, setMaxRating] = useState();
   const [categoriesFromFilter, setCategoriesFromFilter] = useState({});
   const [sortOption, setSortOption] = useState("");
   const [paginationLinksNumber, setPaginationLinksNumber] = useState<any>(null);
@@ -119,7 +119,7 @@ const ProductListPageComponent = ({
     setShowResetFiltersButton(true);
     setFilters({
       price: priceFilter,
-      rating: ratingsFromFilter,
+      rating: maxRating,
       category: categoriesFromFilter,
       attrs: attrsFromFilter,
     });
@@ -160,7 +160,7 @@ const ProductListPageComponent = ({
               </ListGroup.Item>
               <ListGroup.Item style={listItemStyle}>
                 <RatingFilterComponent
-                  setRatingsFromFilter={setRatingsFromFilter}
+                  setRating={setMaxRating} rating={maxRating}
                 />
               </ListGroup.Item>
               {!location.pathname.match(/\/category/) && (
