@@ -1,6 +1,5 @@
 using backend_v2.Models;
 using backend_v2.Repositories;
-using backend_v2.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -74,7 +73,6 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
-
 
 var app = builder.Build();
 

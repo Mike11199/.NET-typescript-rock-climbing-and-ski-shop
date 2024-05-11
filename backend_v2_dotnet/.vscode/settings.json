@@ -1,0 +1,10 @@
+{
+    "workbench.colorCustomizations": {
+        "terminal.foreground": "#00FD61",
+        "terminal.background": "#181717",
+        "activityBar.background": "#142C5B",
+        "titleBar.activeBackground": "#1C3D7F",
+        "titleBar.activeForeground": "#FAFBFE"
+    },
+    "workbench.colorTheme": "Visual Studio 2019 Dark plus syntax"
+}

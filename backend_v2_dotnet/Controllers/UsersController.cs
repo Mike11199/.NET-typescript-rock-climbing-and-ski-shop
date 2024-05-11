@@ -44,7 +44,7 @@ namespace backend_v2.Controllers
                 _logger.LogInformation($"Received login request for email: {loginRequest.Email}");
 
                 var user = await _userRepository.GetUserByEmail(loginRequest.Email);
-                
+
                 if (user == null)
                 {
                     _logger.LogWarning($"Login failed: User with email '{loginRequest.Email}' not found.");
@@ -54,22 +54,22 @@ namespace backend_v2.Controllers
                 _logger.LogInformation($"Found user: {user.UserId}");
 
                 var passwordMatches = BCryptUtils.ComparePasswords(loginRequest?.Password!, user?.Password!);
-                
+
                 if (!passwordMatches)
                 {
                     _logger.LogWarning($"Login failed: Incorrect password for user with email '{loginRequest?.Email}'.");
                     return Unauthorized("Wrong credentials");
                 }
-                
+
                 var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"] ?? "");
-                
+
                 if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
                 {
                     key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? "");
                 }
-                
+
                 string token = JWTUtilities.GenerateToken(user!, key);
-                
+
 
                 if (token == null || token == "")
                 {
@@ -162,7 +162,7 @@ namespace backend_v2.Controllers
 
             string token = JWTUtilities.GenerateToken(newUser!, key);
 
-            if (token == null || token == "") 
+            if (token == null || token == "")
             {
                 return BadRequest("Error creating token!");
             }

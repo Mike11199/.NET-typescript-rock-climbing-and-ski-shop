@@ -1,7 +1,6 @@
 ﻿using backend_v2.Models;
 using backend_v2.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 public class ProductRepository : IProductRepository
 {

@@ -15,5 +15,6 @@
         "activityBar.background": "#042772",
         "titleBar.activeBackground": "#05379F",
         "titleBar.activeForeground": "#FAFBFF"
-    }
+    },
+    "workbench.colorTheme": "Dark Plus - Alt"
 }

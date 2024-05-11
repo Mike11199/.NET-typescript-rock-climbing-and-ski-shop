@@ -21,12 +21,12 @@ namespace backend_v2.Controllers
         public OrdersController(
             ILogger<APIStatusController> logger,
             AlpinePeakDbContext dbContext,
-            IOrderRepository orderRepository,            
+            IOrderRepository orderRepository,
             IUserRepository userRepository)
-        { 
+        {
             _logger = logger;
             _context = dbContext;
-            _orderRepository = orderRepository;            
+            _orderRepository = orderRepository;
             _userRepository = userRepository;
         }
 
@@ -130,7 +130,7 @@ namespace backend_v2.Controllers
             {
                 // this gets the user from the JWT security claim https://learn.microsoft.com/en-us/dotnet/api/system.security.claims.claimsprincipal?view=net-8.0
                 // since we called [Authorize] this can't be spoofed somehow to create an order for another user.
-                var userId = User?.FindFirst("Id")?.Value;                
+                var userId = User?.FindFirst("Id")?.Value;
 
                 if (userId == null)
                 {

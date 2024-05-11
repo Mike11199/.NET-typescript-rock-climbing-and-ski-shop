@@ -10,12 +10,12 @@ namespace backend_v2.Utilities
     {
         public static string GenerateToken(User user, byte[] key)
         {
-         try
+            try
             {
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
+                var tokenDescriptor = new SecurityTokenDescriptor
                 {
+                    Subject = new ClaimsIdentity(new[]
+                    {
                     new Claim("Id", user.UserId.ToString() ?? ""),
                     new Claim("Name", user.Name ?? ""),
                     new Claim("Last Name", user.LastName ?? ""),
@@ -23,16 +23,16 @@ namespace backend_v2.Utilities
                     new Claim("isAdmin", user.IsAdmin.ToString() ?? ""),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 }),
-                Expires = DateTime.UtcNow.AddHours(7),
-                SigningCredentials = new SigningCredentials
-                (new SymmetricSecurityKey(key),
-                SecurityAlgorithms.HmacSha256Signature)
-            };
+                    Expires = DateTime.UtcNow.AddHours(7),
+                    SigningCredentials = new SigningCredentials
+                    (new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature)
+                };
 
-            var tokenHandler = new JwtSecurityTokenHandler();            
-            var token = tokenHandler.CreateToken(tokenDescriptor);               
-            var jwtToken = tokenHandler.WriteToken(token);                
-            return jwtToken;
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                var jwtToken = tokenHandler.WriteToken(token);
+                return jwtToken;
             }
             catch (Exception ex)
             {
