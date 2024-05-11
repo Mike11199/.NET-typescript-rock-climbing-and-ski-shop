@@ -14,6 +14,8 @@ const loginUserApiRequest = async (email, password, doNotLogout) => {
       doNotLogout,
     }
   );
+  localStorage.clear();
+  sessionStorage.clear();
   if (data.userLoggedIn.doNotLogout) {
     localStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn));
     localStorage.setItem("token", data.token);
@@ -25,17 +27,24 @@ const loginUserApiRequest = async (email, password, doNotLogout) => {
 };
 
 const googleLogin = async (google_token) => {
-  const token_request = { token: google_token };
-  const { data } = await axios.post("/apiv2/signin-google", token_request);
-  console.log(data);
-  if (data.userLoggedIn.doNotLogout) {
-    localStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn));
-    localStorage.setItem("token", data.token);
-  } else {
-    sessionStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn));
-    sessionStorage.setItem("token", data.token);
+  try {
+    const token_request = { token: google_token };
+    const response = await axios.post("/apiv2/signin-google", token_request);
+    const data = response?.data;
+
+    localStorage.clear();
+    sessionStorage.clear();
+    if (data.userLoggedIn.doNotLogout) {
+      localStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn));
+      localStorage.setItem("token", data.token);
+    } else {
+      sessionStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn));
+      sessionStorage.setItem("token", data.token);
+    }
+    return data;
+  } catch (error: any) {
+    console.error("Error during login:", error);
   }
-  return data;
 };
 
 const LoginPage = () => {
