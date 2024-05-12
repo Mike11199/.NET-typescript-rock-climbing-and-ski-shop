@@ -42,6 +42,7 @@ const RegisterPageComponent = ({
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    console.log("submit???")
     const form = event.currentTarget.elements;
 
     const email = form.email.value;
@@ -89,19 +90,9 @@ const RegisterPageComponent = ({
             src={RockClimbingPhoto}
           ></img>
         </div>
-        <Container
-          id="register_page_form"
-          style={{
-            marginTop: "1%",
-            marginLeft: "30%",
-            marginRight: "20%",
-            minHeight: "780px",
-          }}
-        >
-          <Row className="mt-5 justify-content-md-center">
-            <Col md={5} className="register_form">
+        <div className="register-container">
+              <Form className="register-form" noValidate validated={validated} onSubmit={handleSubmit} style={{display: "flex", flexDirection: "column"}}>
               <h1>Register</h1>
-              <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 {/* NAME - FIRST NAME */}
                 <Form.Group className="mb-3" controlId="validationCustom01">
                   <Form.Label>First Name</Form.Label>
@@ -195,7 +186,7 @@ const RegisterPageComponent = ({
                 </Row>
 
                 {/* SUBMIT BUTTON */}
-                <Button type="submit">
+                <Button type="submit" style={{marginTop: "1rem"}}>
                   {/* CONDITIONALLY DISPLAY THE SPINNER IF LOADING */}
                   {registerUserResponseState &&
                   registerUserResponseState.loading === true ? (
@@ -234,9 +225,7 @@ const RegisterPageComponent = ({
                   User created
                 </Alert>
               </Form>
-            </Col>
-          </Row>
-        </Container>
+          </div>
         <div style={{ display: "flex", height: "100%" }}>
           <img
             className="rappel_image"

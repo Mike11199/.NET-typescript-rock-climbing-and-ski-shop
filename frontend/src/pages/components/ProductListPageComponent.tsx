@@ -146,7 +146,7 @@ const ProductListPageComponent = ({
     <>
       <Container fluid>
         <Row>
-          <Col md={3}>
+          <Col md={3} >
             <ListGroup variant="flush">
               <ListGroup.Item className="mb-3 mt-3" style={listItemStyle}>
                 <SortOptionsComponent setSortOption={setSortOption} />

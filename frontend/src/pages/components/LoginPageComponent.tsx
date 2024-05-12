@@ -1,13 +1,13 @@
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 import toast, { Toaster } from "react-hot-toast";
 import IceClimbingPhoto from "../../images/ski_mountaineering_5.png";
 import IceCavePhoto from "../../images/ice_cave_2.png";
-import '../../../src/mobileStyles.css'
+import "../../../src/mobileStyles.css";
 import { AxiosResponse } from "axios";
 import GoogleLoginButton from "../../../src/components/GoogleLogIn";
+import { Button } from "react-bootstrap";
 
 interface LoginPageComponentProps {
   loginUserApiRequest: (
@@ -40,6 +40,20 @@ const LoginPageComponent = ({
     });
   const [loginWithDefaultUser, setLoginWithDefaultUser] = useState(false);
 
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    doNotLogout: false,
+  });
+
+  const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
   //event handler for login form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -52,7 +66,7 @@ const LoginPageComponent = ({
 
     if (loginWithDefaultUser) {
       email = "test@test.com";
-      password = "easy_to_guess_password";  // this doesn't matter - API won't allow test user edits
+      password = "easy_to_guess_password"; // this doesn't matter - API won't allow test user edits
     }
 
     if (email === "" || password === "") {
@@ -120,100 +134,69 @@ const LoginPageComponent = ({
           className="ice_cave_image"
           alt="ice_climbing_photo"
           src={IceCavePhoto}
-        ></img>
+        />
       </div>
-      <div style={{ display: "flex", height: "100%" }}>
-        <Container style={{ maxWidth: "100%", marginTop: "5%" }}>
-          <Row className="mt-5">
-            <Col md={5}></Col>
-            <Col
-              md={3}
-              id="log_in_page_form_1"
-              className="pr-md-2"
-              style={{ maxWidth: "100%", marginRight: "2%" }}
+
+      <div className="login-container">
+        <form onSubmit={handleSubmit} className="login-form">
+          <h1>Login</h1>
+          <div className="form-group">
+            <label>Email address</label>
+            <input
+              name="email"
+              placeholder="Enter email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <input
+                name="doNotLogout"
+                type="checkbox"
+                checked={formData.doNotLogout}
+                onChange={handleChange}
+              />
+              <label>Keep me logged in</label>
+            </div>
+            <div className="links">
+              Don't have an account? 👉{" "}
+              <strong>
+                <Link to={"/register"}>Register</Link>
+              </strong>
+            </div>
+          </div>
+          <div className="button-group">
+            <Button variant="primary" type="submit">
+              {displaySpinner()}
+              Login
+            </Button>
+            <Button
+              variant="danger"
+              type="submit"
+              onClick={(e) => {
+                setLoginWithDefaultUser(true);
+              }}
             >
-              <h1>Login</h1>
-              {/* Initial state of form validation is False */}
-              <Form noValidate onSubmit={handleSubmit} id="loginInForm">
-                {/* Email */}
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Email address</Form.Label>
-                  <Form.Control
-                    name="email"
-                    required
-                    type="email"
-                    placeholder="Enter email"
-                  />
-                </Form.Group>
-
-                {/* Password */}
-                <Form.Group
-                  className="mb-3"
-                  controlId="formBasicPassword"
-                  id="formBasicPassword"
-                >
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    name="password"
-                    required
-                    type="password"
-                    placeholder="Password"
-                  />
-                </Form.Group>
-
-                {/* Checkbox to extend JWT to 7 days */}
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                  <Form.Check
-                    name="doNotLogout"
-                    type="checkbox"
-                    label="Keep me logged in"
-                    defaultChecked
-                  />
-                </Form.Group>
-
-                {/* Link to Register Instead */}
-                <Row className="pb-2">
-                  <Col>
-                    Don't have an account? &nbsp; 👉 &nbsp;
-                    <Link to={"/register"}>
-                      <strong>Register</strong>
-                    </Link>
-                  </Col>
-                </Row>
-
-                {/* Submit Button */}
-                <Row className="pb-4">
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    style={{ width: "230px" }}
-                  >
-                    {displaySpinner()}
-                    Login
-                  </Button>
-                  </Row>
-                  <Row className="pb-2">
-                  <Button
-                    variant="danger"
-                    type="submit"
-                    style={{ width: "230px"}}
-                    onClick={(e) => {
-                      setLoginWithDefaultUser(true);
-                    }}
-                  >
-                    Demo Login
-                  </Button>
-                  </Row>
-                  <Row className="pb-2">
-                  <GoogleLoginButton
-                    googleLogin={googleLogin}
-                    reduxDispatch={reduxDispatch}
-                  />
-                  </Row>
-              </Form>
-            </Col>
-          </Row>
-        </Container>
+              {displaySpinner()}
+              Demo Login
+            </Button>
+            <GoogleLoginButton
+              googleLogin={googleLogin}
+              reduxDispatch={reduxDispatch}
+            />
+          </div>
+        </form>
       </div>
     </>
   );

@@ -2,6 +2,7 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { setReduxUserState } from "../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useWindowWidth } from "@react-hook/window-size";
 
 const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
   const navigate = useNavigate();
@@ -44,14 +45,17 @@ const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
     });
   }
 
+  
+  const windowWidth = useWindowWidth();
+  const isMobileView = windowWidth <= 600;
+
   return (
-    <div style={{ justifyContent: "center", marginTop: "20px" }}>
+    <div>
       {/* //https://console.cloud.google.com/  */}
       <GoogleOAuthProvider clientId="421793135719-tbnlgi65j46cc3oo2j74eot1ou5tg06n.apps.googleusercontent.com">
         <GoogleLogin
-          width="max"
-          text="signin_with"
-          theme="filled_black"
+          width={ isMobileView ? "320" : "1000"}
+          theme={"filled_black"}
           onSuccess={onSuccess}
           onError={onFailure}
         />
