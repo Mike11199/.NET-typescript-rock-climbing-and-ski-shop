@@ -144,7 +144,7 @@ const ProductListPageComponent = ({
 
   return (
     <>
-      <Container fluid>
+      <Container fluid >
         <Row>
           <Col md={3} >
             <ListGroup variant="flush">
@@ -280,8 +280,8 @@ const ProductListPageComponent = ({
                   display: "flex",
                   width: "100vw",
                   flexDirection: "column",
-                  marginTop: "2rem",
-                }}
+                  marginTop: "1rem",
+                   }}
               >
                 <div
                   style={{

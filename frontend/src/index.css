@@ -13,6 +13,14 @@ footer {
   width: 100%;
 }
 
+.mobile-view-header {
+  display: none;
+}
+
+.desktop-view-header {
+  display: flex;
+}
+
 .login-container {
   align-self: center;
   display: flex;

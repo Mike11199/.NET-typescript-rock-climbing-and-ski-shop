@@ -152,6 +152,7 @@ const LoginPageComponent = ({
           <div className="form-group">
             <label>Password</label>
             <input
+              id="formBasicPassword"
               name="password"
               type="password"
               placeholder="Password"

@@ -10,6 +10,7 @@ import {
   Button,
   InputGroup,
 } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 
 import React from "react";
 
@@ -27,11 +28,12 @@ import {
   removeChatRoom,
 } from "../redux/actions/chatActions";
 import { setDarkMode } from "../redux/actions/darkModeActions";
-import "../darkMode.css"; // reference https://www.makeuseof.com/how-to-add-dark-mode-to-a-react-application/
+import "../darkMode.css";
 import { ReduxAppState } from "types";
 
 const HeaderComponent = () => {
   const dispatch = useDispatch();
+
   const { userInfo } = useSelector(
     (state: ReduxAppState) => state.userRegisterLogin
   );
@@ -52,9 +54,6 @@ const HeaderComponent = () => {
   const { mode } = useSelector((state: ReduxAppState) => state.DarkMode);
   const [buttonPositionClass, setButtonPositionClass] =
     useState("position-absolute");
-
-  // console.log(mode)
-  // console.log(messageReceived)
 
   const navigate = useNavigate();
 
@@ -87,7 +86,6 @@ const HeaderComponent = () => {
   // useEffect - Getting categories for the header menu drop down - search menu
   useEffect(() => {
     dispatch(getCategories());
-    //  dispatch(setDarkMode('dark'))  turning this off as initial state in reducer takes care of this
   }, [dispatch]);
 
   const submitHandler = (e) => {
@@ -162,41 +160,38 @@ const HeaderComponent = () => {
     return () => window.removeEventListener("resize", handleResize); // Remove the listener on unmount
   }, []);
 
-  return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-      <Container>
-        {mode === "light" ? (
-          <Button
-            variant="danger"
-            className={`${buttonPositionClass} top-10 start-0`}
-            style={{ marginLeft: "1%" }}
-            onClick={toggleTheme}
-          >
-            Dark Mode
-          </Button>
-        ) : (
-          <Button
-            variant="danger"
-            className={`${buttonPositionClass} top-10 start-0`}
-            style={{ marginLeft: "1%" }}
-            onClick={toggleTheme}
-          >
-            Light Mode
-          </Button>
-        )}
+  const DarkModeToggleButton = () => {
+    return mode === "light" ? (
+      <Button
+        variant="danger"
+        className={`${buttonPositionClass} top-10 start-0`}
+        style={{ marginLeft: "1%" }}
+        onClick={toggleTheme}
+      >
+        Dark Mode
+      </Button>
+    ) : (
+      <Button
+        variant="danger"
+        className={`${buttonPositionClass} top-10 start-0`}
+        style={{ marginLeft: "1%" }}
+        onClick={toggleTheme}
+      >
+        Light Mode
+      </Button>
+    );
+  };
 
-        <LinkContainer to="/">
-          <Navbar.Brand onClick={() => setSearchCategoryToggle("All")} href="/">
-            🏔 Alpine Peak Climbing and Ski Gear
-          </Navbar.Brand>
-        </LinkContainer>
+  const DesktopNavBar = () => {
+    return (
+      <>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <InputGroup>
               <DropdownButton
                 id="dropdown-basic-button"
-                title={searchCategoryToggle}
+                title={CategoryButtonText()}
               >
                 <Dropdown.Item onClick={() => setSearchCategoryToggle("All")}>
                   All
@@ -221,7 +216,7 @@ const HeaderComponent = () => {
               </Button>
             </InputGroup>
           </Nav>
-          <Nav>
+          <Nav style={{marginLeft: "15vw"}}>
             {userInfo?.isAdmin ? (
               <LinkContainer to="/admin/orders">
                 <Nav.Link>
@@ -272,6 +267,175 @@ const HeaderComponent = () => {
             </LinkContainer>
           </Nav>
         </Navbar.Collapse>
+      </>
+    );
+  };
+
+  const DesktopMainTitleContainer = () => {
+    return (
+      <LinkContainer to="/">
+        <Navbar.Brand onClick={() => setSearchCategoryToggle("All")} href="/">
+          🏔 Alpine Peak Climbing and Ski Gear
+        </Navbar.Brand>
+      </LinkContainer>
+    );
+  };
+  const MobileMainTitleContainer = () => {
+    return (
+      <LinkContainer to="/">
+        <Navbar.Brand onClick={() => setSearchCategoryToggle("All")} href="/">
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "center",
+              height: "1rem",
+              maxHeight: "fit-content",
+            }}
+          >
+            🏔 Alpine Peak Climbing and Ski Gear
+          </div>
+        </Navbar.Brand>
+      </LinkContainer>
+    );
+  };
+
+  const MobileTopContainer = () => {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          margin: "1rem 0rem 1rem 0rem",
+        }}
+      >
+        <div style={{ width: "100%" }}>
+          <MobileMainTitleContainer />
+        </div>
+        <div style={{ width: "100%" }}>
+          <Nav
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "row",
+              gap: "1rem",
+              justifyContent: "center",
+            }}
+          >
+            {userInfo?.isAdmin ? (
+              <LinkContainer to="/admin/orders">
+                <Nav.Link>
+                  Admin
+                  {messageReceived && (
+                    <span className="position-absolute top-1 start-10 translate-middle p-2 bg-danger border border-light rounded-circle"></span>
+                  )}
+                </Nav.Link>
+              </LinkContainer>
+            ) : userInfo?.name && !userInfo?.isAdmin ? (
+              <>
+                <LinkContainer to="/user/my-orders">
+                  <Nav.Link>My orders</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to="/user">
+                  <Nav.Link>My profile</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to="/logout" onClick={() => dispatch(logout())}>
+                  <Nav.Link>Logout</Nav.Link>
+                </LinkContainer>
+              </>
+            ) : (
+              <>
+                <LinkContainer to="/login">
+                  <Nav.Link>Login</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to="/register">
+                  <Nav.Link>Register</Nav.Link>
+                </LinkContainer>
+              </>
+            )}
+
+            <LinkContainer to="/cart">
+              <Nav.Link>
+                <Badge pill bg="danger">
+                  {itemsCount === 0 ? "" : itemsCount}
+                </Badge>
+                <i className="bi bi-cart-dash"></i>
+                <span className="ms-1">CART</span>
+              </Nav.Link>
+            </LinkContainer>
+          </Nav>
+        </div>
+      </div>
+    );
+  };
+
+  const CategoryButtonText = () => {
+    return (
+      <>
+        {categories?.length === 0 && (
+          <Spinner
+            as="span"
+            animation="border"
+            variant="dark"
+            role="status"
+            aria-hidden="true"
+            size="sm"
+          />
+        )}
+        {categories?.length !== 0 && searchCategoryToggle}
+      </>
+    );
+  };
+
+  return (
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Container>
+        <div className="desktop-view-header">
+          <DesktopMainTitleContainer />
+          <DarkModeToggleButton />
+          <DesktopNavBar />
+        </div>
+        <div className="mobile-view-header">
+          <MobileTopContainer />
+          <div style={{ marginBottom: "2rem" }}>
+          <InputGroup>
+            <DropdownButton
+              id="dropdown-basic-button"
+              title={CategoryButtonText()}
+            >
+              <Dropdown.Item onClick={() => setSearchCategoryToggle("All")}>
+                All
+              </Dropdown.Item>
+              {categories.map((category, id) => (
+                <Dropdown.Item
+                  key={id}
+                  onClick={() => setSearchCategoryToggle(category.name)}
+                >
+                  {category.name}
+                </Dropdown.Item>
+              ))}
+            </DropdownButton>
+            <Form.Control
+              onChange={(e) => setSearchQuery(e.target.value)}
+              type="text"
+              placeholder="Search in shop ..."
+            />
+            <Button onClick={submitHandler} variant="warning">
+              <i className="bi bi-search text-dark"></i>
+            </Button>
+            <Button onClick={toggleTheme} variant="danger">
+              <i
+                className={
+                  mode === "dark"
+                    ? "bi-sun-fill text-dark"
+                    : "bi-moon-fill text-dark"
+                }
+              ></i>
+            </Button>
+          </InputGroup>
+        </div>
+        </div>
       </Container>
     </Navbar>
   );
