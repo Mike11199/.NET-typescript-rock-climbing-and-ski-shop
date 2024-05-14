@@ -13,6 +13,31 @@ footer {
   width: 100%;
 }
 
+.transparent-button {
+  background-color: transparent;
+  border-color: transparent;
+  height: auto;
+  padding: 0;
+  margin: 0;
+}
+
+.transparent-button:hover {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+
+.transparent-button:focus {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.transparent-button:active {
+  transform: scale(0.95) !important;
+  transition: transform .01s ease;
+
+}
+
 .mobile-view-header {
   display: none;
 }

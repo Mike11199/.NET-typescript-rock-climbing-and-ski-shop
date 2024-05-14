@@ -52,8 +52,6 @@ const HeaderComponent = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const { mode } = useSelector((state: ReduxAppState) => state.DarkMode);
-  const [buttonPositionClass, setButtonPositionClass] =
-    useState("position-absolute");
 
   const navigate = useNavigate();
 
@@ -69,7 +67,6 @@ const HeaderComponent = () => {
     if (categoryName != undefined) setSearchCategoryToggle(categoryName);
   }, [categoryName]);
 
-  // dark mode change redux state of mode
   const toggleTheme = () => {
     if (mode === "light") {
       dispatch(setDarkMode("dark"));
@@ -78,7 +75,6 @@ const HeaderComponent = () => {
     }
   };
 
-  // change document body class if mode changes
   useEffect(() => {
     document.body.className = mode;
   }, [mode]);
@@ -145,42 +141,6 @@ const HeaderComponent = () => {
     }
   }, [userInfo?.isAdmin]);
 
-  //cheating with this to resize dark mode button as don't want to add media queries to CSS file
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 1577) {
-        // Change to your desired breakpoint
-        setButtonPositionClass("position-relative");
-      } else {
-        setButtonPositionClass("position-absolute");
-      }
-    };
-    handleResize(); // Set the initial class on mount
-    window.addEventListener("resize", handleResize); // Add the listener
-    return () => window.removeEventListener("resize", handleResize); // Remove the listener on unmount
-  }, []);
-
-  const DarkModeToggleButton = () => {
-    return mode === "light" ? (
-      <Button
-        variant="danger"
-        className={`${buttonPositionClass} top-10 start-0`}
-        style={{ marginLeft: "1%" }}
-        onClick={toggleTheme}
-      >
-        Dark Mode
-      </Button>
-    ) : (
-      <Button
-        variant="danger"
-        className={`${buttonPositionClass} top-10 start-0`}
-        style={{ marginLeft: "1%" }}
-        onClick={toggleTheme}
-      >
-        Light Mode
-      </Button>
-    );
-  };
 
   const DesktopNavBar = () => {
     return (
@@ -214,6 +174,15 @@ const HeaderComponent = () => {
               <Button onClick={submitHandler} variant="warning">
                 <i className="bi bi-search text-dark"></i>
               </Button>
+              <Button onClick={toggleTheme} variant="danger">
+              <i
+                className={
+                  mode === "dark"
+                    ? "bi-sun-fill text-dark"
+                    : "bi-moon-fill text-dark"
+                }
+              ></i>
+            </Button>
             </InputGroup>
           </Nav>
           <Nav style={{marginLeft: "15vw"}}>
@@ -256,8 +225,8 @@ const HeaderComponent = () => {
               </>
             )}
 
-            <LinkContainer to="/cart">
-              <Nav.Link>
+            <LinkContainer to="/cart" style={{ whiteSpace: 'nowrap' }}>
+              <Nav.Link >
                 <Badge pill bg="danger">
                   {itemsCount === 0 ? "" : itemsCount}
                 </Badge>
@@ -273,11 +242,13 @@ const HeaderComponent = () => {
 
   const DesktopMainTitleContainer = () => {
     return (
+      <button className="transparent-button">
       <LinkContainer to="/">
         <Navbar.Brand onClick={() => setSearchCategoryToggle("All")} href="/">
           🏔 Alpine Peak Climbing and Ski Gear
         </Navbar.Brand>
       </LinkContainer>
+      </button>
     );
   };
   const MobileMainTitleContainer = () => {
@@ -393,7 +364,6 @@ const HeaderComponent = () => {
       <Container>
         <div className="desktop-view-header">
           <DesktopMainTitleContainer />
-          <DarkModeToggleButton />
           <DesktopNavBar />
         </div>
         <div className="mobile-view-header">
