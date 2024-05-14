@@ -145,7 +145,7 @@ const HeaderComponent = () => {
   const DesktopNavBar = () => {
     return (
       <>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <InputGroup>
@@ -360,7 +360,7 @@ const HeaderComponent = () => {
   };
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar collapseOnSelect expand="lg" variant="dark" className="navbar-black">
       <Container>
         <div className="desktop-view-header">
           <DesktopMainTitleContainer />

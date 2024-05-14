@@ -8,8 +8,8 @@ const FooterComponent = () => {
   return (
     <footer>
       <Container fluid>
-        <Row className="mt-5">
-          <Col className="bg-dark text-white text-center py-5">
+        <Row>
+          <Col className="text-white text-center py-5">
               {/*  https://getbootstrap.com/docs/5.1/utilities/colors/  */}
             Copyright {currentYear} &copy; Rock Climbing & Ski Shop - Michael Iwanek
           </Col>

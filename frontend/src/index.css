@@ -11,6 +11,11 @@ footer {
   position: absolute;
   bottom: 0;
   width: 100%;
+  background-color: black;
+}
+
+.navbar-black {
+  background-color: #000000;
 }
 
 .transparent-button {
