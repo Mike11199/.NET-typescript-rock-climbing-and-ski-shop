@@ -8,6 +8,7 @@ import "../../../src/mobileStyles.css";
 import { AxiosResponse } from "axios";
 import GoogleLoginButton from "../../../src/components/GoogleLogIn";
 import { Button } from "react-bootstrap";
+import { useWindowWidth } from "@react-hook/window-size";
 
 interface LoginPageComponentProps {
   loginUserApiRequest: (
@@ -121,6 +122,9 @@ const LoginPageComponent = ({
     }
   };
 
+  const windowWidth = useWindowWidth();
+  const isMobileView = windowWidth <= 600;
+
   return (
     <>
       <Toaster />
@@ -178,11 +182,16 @@ const LoginPageComponent = ({
             </div>
           </div>
           <div className="button-group">
-            <Button variant="primary" type="submit">
+            <Button
+              variant="primary"
+              type="submit"
+              style={{ width: isMobileView ? "320px" : "400px" }}
+            >
               {displaySpinner()}
               Login
             </Button>
             <Button
+              style={{ width: isMobileView ? "320px" : "400px" }}
               variant="danger"
               type="submit"
               onClick={(e) => {

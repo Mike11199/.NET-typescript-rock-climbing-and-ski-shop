@@ -54,7 +54,7 @@ const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
       {/* //https://console.cloud.google.com/  */}
       <GoogleOAuthProvider clientId="421793135719-tbnlgi65j46cc3oo2j74eot1ou5tg06n.apps.googleusercontent.com">
         <GoogleLogin
-          width={ isMobileView ? "320" : "1000"}
+          width={ isMobileView ? "320" : "400"}
           theme={"filled_black"}
           onSuccess={onSuccess}
           onError={onFailure}

@@ -43,12 +43,14 @@
   }
 
   .ski_image {
-    position: absolute;
-    max-width: 90%;
-    margin-left: 0%;
-    margin-bottom: 0% !important;
-    bottom: 116px;
-    align-self: center;
+    position: fixed;
+    bottom: 185px;
+    left: 350px;
+    width: 100vw;
+    scale: 4;
+    z-index: -1;
+    overflow: hidden;
+    object-fit: cover;
   }
 
   #log_in_page_form_1 {
