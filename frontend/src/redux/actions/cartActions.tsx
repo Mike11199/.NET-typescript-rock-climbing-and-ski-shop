@@ -2,6 +2,7 @@ import * as actionTypes from "../constants/cartConstants";
 import axios from "axios";
 import { Product } from "../../types";
 
+// cart uses local storage so items persist even if a user closes their browser tab
 export const addToCart =
   (productId, quantity) => async (dispatch, getState) => {
     const { data } = await axios.get<Product>(
@@ -37,5 +38,5 @@ export const removeFromCart =
     dispatch({
       type: actionTypes.CLEAR_CART
     });
-    localStorage.setItem("cart", JSON.stringify(getState().cart.cartItems));
+    localStorage.removeItem('cart')
   };

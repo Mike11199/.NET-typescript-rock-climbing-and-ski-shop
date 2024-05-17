@@ -1,9 +1,9 @@
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import CliffFacePhoto from "../../../images/cliff_3.png"
-import toast, { Toaster } from 'react-hot-toast';
 import { StoredUserInfo } from "types";
-
+import { Toaster } from "react-hot-toast";
+import { toastSuccess, toastError } from "../../../../src/utils/ToastNotifications"
 
 const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFromRedux, setReduxUserState, reduxDispatch, localStorage, sessionStorage }) => {
 
@@ -15,7 +15,11 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
   useEffect(() => {
       fetchUser(userInfo.userId)
       .then((data) => setUser(data))
-      .catch((er) => console.log(er));
+      .catch((er) => {
+          console.log(er)
+          toastError("Error fetching user profile information.");
+      });
+
   }, [userInfo.userId])
 
   const handleSubmit = async (event) => {
@@ -36,8 +40,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
 
 
     if (password === '') {
-      toast.dismiss()
-      toast.error('Please enter your current password to confirm changes to your profile.',{style: {borderRadius: '10px',background: '#333',color: '#fff'}})
+      toastError("Please enter your current password to confirm changes to your profile.");
       return
     }
 
@@ -50,8 +53,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
         const data = await updateUserApiRequest(name, lastName, phoneNumber, address, country, zipCode, city, state, password);
         setUpdateUserResponseState({ success: data.success, error: "" });
         reduxDispatch(setReduxUserState({ doNotLogout: userInfo.doNotLogout, ...data.userUpdated }));
-        toast.dismiss();
-        toast.success('Successfully updated your profile!', { style: { borderRadius: '10px', background: '#333', color: '#fff' } });
+        toastSuccess("Successfully updated your profile!");
 
         if (userInfo.doNotLogout) {
           localStorage.setItem("userInfo", JSON.stringify({ doNotLogout: true, ...data.userUpdated }));
@@ -70,8 +72,7 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfoFro
         else {
           setUpdateUserResponseState({ error: er.toString() })
         }
-        toast.dismiss();
-        toast.error(`Failed to update user, invalid password!`, { style: { borderRadius: '10px', background: '#333', color: '#fff' } })
+        toastError("Failed to update user, invalid password!");
     }
   }
 }

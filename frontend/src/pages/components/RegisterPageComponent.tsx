@@ -1,11 +1,13 @@
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 import RockClimbingPhoto from "../../images/climbing_inverted_2.png";
 import RappelClimbingPhoto from "../../images/rappel_5.png";
 import { registerUserRequest } from "pages/RegisterPage";
 import { LoggedInOrRegisteredUserResponse } from "types";
+import { Toaster } from "react-hot-toast";
+import { toastSuccess, toastError } from "../../../src/utils/ToastNotifications"
 
 const RegisterPageComponent = ({
   registerUserApiRequest,
@@ -17,6 +19,7 @@ const RegisterPageComponent = ({
   const [registerUserResponseState, setRegisterUserResponseState] =
     useState<any>({ success: "", error: "", loading: false });
   const [passwordsMatchState, setPasswordsMatchState] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   //onChange handler to ensure that passwords match
   const onChange = () => {
@@ -42,7 +45,7 @@ const RegisterPageComponent = ({
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    console.log("submit???")
+
     const form = event.currentTarget.elements;
 
     const email = form.email.value;
@@ -66,13 +69,18 @@ const RegisterPageComponent = ({
             loading: false,
           });
           reduxDispatch(setReduxUserState(data?.userLoggedIn));
+          if (data?.success === "New user registered!")
+            toastSuccess("Registered user.");
+            {setTimeout(function () { navigate('/user') }, 1000)
+          }
         })
         .catch((er) =>
           setRegisterUserResponseState({
             error: er?.response?.data?.message
               ? er?.response?.data?.message
               : er?.response?.data,
-          })
+          }),
+          toastError("Error registering user.")
         );
     }
 
@@ -81,6 +89,7 @@ const RegisterPageComponent = ({
 
   return (
     <>
+      <Toaster />
       <div style={{ display: "flex" }}>
         <div>
           <img

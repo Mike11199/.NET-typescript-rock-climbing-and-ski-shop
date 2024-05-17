@@ -31,15 +31,9 @@ const updateUserApiRequest = async (
 };
 
 
-const fetchUser = async (id) => {
-  try{
-    `${apiURL}/users/profile/`
+const fetchUser = async (id: string) => {
   const { data } = await axios.get( `${apiURL}/users/profile/` + id);
   return data;
-  }
-  catch (err) {
-    console.log(err)
-  }
 };
 
 const UserProfilePage = () => {

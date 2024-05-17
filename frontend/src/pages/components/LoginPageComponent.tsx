@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
-import toast, { Toaster } from "react-hot-toast";
 import IceClimbingPhoto from "../../images/ski_mountaineering_5.png";
 import IceCavePhoto from "../../images/ice_cave_2.png";
 import "../../../src/mobileStyles.css";
@@ -9,7 +8,8 @@ import { AxiosResponse } from "axios";
 import GoogleLoginButton from "../../../src/components/GoogleLogIn";
 import { Button } from "react-bootstrap";
 import { useWindowWidth } from "@react-hook/window-size";
-
+import { Toaster } from "react-hot-toast";
+import { toastSuccess, toastError } from "../../../src/utils/ToastNotifications"
 interface LoginPageComponentProps {
   loginUserApiRequest: (
     email: string,
@@ -213,20 +213,6 @@ const LoginPageComponent = ({
 };
 
 export default LoginPageComponent;
-
-function toastError(text: string) {
-  toast.dismiss();
-  toast.error(text, {
-    style: { borderRadius: "10px", background: "#333", color: "#fff" },
-  });
-}
-
-function toastSuccess(text: string) {
-  toast.dismiss();
-  toast.success(text, {
-    style: { borderRadius: "10px", background: "#333", color: "#fff" },
-  });
-}
 
 /**
  * Redirects the user or admin to the appropriate page after a successful login.
