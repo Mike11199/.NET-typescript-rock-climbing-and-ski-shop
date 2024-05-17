@@ -102,12 +102,7 @@
 
 <br/>
 
-- Admin dashboard where an admin can edit/create new products, manage users, see real-time chart data with Socket.IO on sales, and response to various user chats.
-
-<br/>
-
-![adminScreens](https://user-images.githubusercontent.com/91037796/215300841-5ae4a0d5-5187-46f9-9e88-458ec37d15cc.gif)
-
+- Admin dashboard where an admin can edit/create new products, manage users, see real-time chart data with Socket.IO on sales, and response to various user chats (this is currently broken by API v2 conversion to .NET and being recreated).
 
 <br/>
 <br/>
@@ -120,7 +115,7 @@
   - https://developer.paypal.com/sdk/js/reference/#createorder
 
 - Created business/personal PayPal sandbox accounts with fake credit/debit cards, and account balances to simulate a real order.
-- On a successful response from the PayPal API, the order is marked as paid in the MongoDB database.  An admin must later mark the product as delivered manually.
+- On a successful response from the PayPal API, the order is marked as paid in the PostgreSQL database.  An admin must later mark the product as delivered manually.
 
 <br/>
 <br/>
@@ -185,7 +180,7 @@ UserChatComponent.js
 - Used the Cloudinary service to allow an Admin to directly upload image files when creating a product to the Cloudinary REST API.
 - Referenced Cloudinary documentation for code:
   - https://cloudinary.com/documentation/upload_images#code_explorer_upload_multiple_files_using_a_form_unsigned
-- Stored URL of images in the MongoDB database as an array.  The front-end simply populates the image source with this URL to retrieve the resource from Cloudinary.
+- Stored URL of images in the PostgreSQL database as an array.  The front-end simply populates the image source with this URL to retrieve the resource from Cloudinary.
 
 <br/>
 <br/>
