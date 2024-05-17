@@ -1,13 +1,16 @@
 import { Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { useState } from "react";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 import RockClimbingPhoto from "../../images/climbing_inverted_2.png";
 import RappelClimbingPhoto from "../../images/rappel_5.png";
 import { registerUserRequest } from "pages/RegisterPage";
 import { LoggedInOrRegisteredUserResponse } from "types";
 import { Toaster } from "react-hot-toast";
-import { toastSuccess, toastError } from "../../../src/utils/ToastNotifications"
+import {
+  toastSuccess,
+  toastError,
+} from "../../../src/utils/ToastNotifications";
 
 const RegisterPageComponent = ({
   registerUserApiRequest,
@@ -19,30 +22,42 @@ const RegisterPageComponent = ({
   const [registerUserResponseState, setRegisterUserResponseState] =
     useState<any>({ success: "", error: "", loading: false });
   const [passwordsMatchState, setPasswordsMatchState] = useState<boolean>(true);
+  const [passwordIsValid, setPasswordIsValid] = useState<boolean>(true);
   const navigate = useNavigate();
 
   //onChange handler to ensure that passwords match
   const onChange = () => {
     //grab values from form
-    const password: any = document.querySelector("input[name=password]");
-    const confirmPassword: any = document.querySelector(
+    const password: HTMLInputElement | null = document.querySelector(
+      "input[name=password]"
+    );
+    const confirmPassword: HTMLInputElement | null = document.querySelector(
       "input[name=confirmPassword]"
     );
+    // check here if password and confirm passwords match and if password requirements are met
+    const passwordsBothMatch =
+      (confirmPassword &&
+        password &&
+        confirmPassword?.value === password?.value) ??
+      false;
+    setPasswordsMatchState(passwordsBothMatch);
 
-    // set state value if values match.  state value used elsewhere to mark form valid/invalid
-    if (
-      confirmPassword &&
-      password &&
-      confirmPassword?.value === password?.value
-    ) {
-      setPasswordsMatchState(true);
-    } else {
-      setPasswordsMatchState(false);
-    }
+    // regex to test password validity
+    const specialCharacters = /[!@#$%^&*]/;
+    const containsDigit = /\d/;
+    const containsLetter = /[a-zA-Z]/;
+
+    const isPasswordValid =
+      password?.value?.length !== undefined && password?.value?.length > 6 &&
+      containsDigit.test(password?.value) &&
+      containsLetter.test(password?.value) &&
+      specialCharacters.test(password?.value);
+
+    setPasswordIsValid(isPasswordValid);
   };
 
   // form submission handler for registration request - includes error handling
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -60,28 +75,36 @@ const RegisterPageComponent = ({
       lastName &&
       form.password.value === form.confirmPassword.value
     ) {
-      setRegisterUserResponseState({ loading: true });
-      const registerRequest = {name, lastName, email, password} as registerUserRequest
-      registerUserApiRequest(registerRequest)
-        .then((data: LoggedInOrRegisteredUserResponse) => {
-          setRegisterUserResponseState({
-            success: data?.success,
-            loading: false,
-          });
-          reduxDispatch(setReduxUserState(data?.userLoggedIn));
-          if (data?.success === "New user registered!")
-            toastSuccess("Registered user.");
-            {setTimeout(function () { navigate('/user') }, 1000)
-          }
-        })
-        .catch((er) =>
-          setRegisterUserResponseState({
-            error: er?.response?.data?.message
-              ? er?.response?.data?.message
-              : er?.response?.data,
-          }),
-          toastError("Error registering user.")
-        );
+      try {
+        setRegisterUserResponseState({ loading: true });
+        const registerRequest = {
+          name,
+          lastName,
+          email,
+          password,
+        } as registerUserRequest;
+        const data: LoggedInOrRegisteredUserResponse =
+          await registerUserApiRequest(registerRequest);
+        setRegisterUserResponseState({
+          success: data?.success,
+          loading: false,
+        });
+        reduxDispatch(setReduxUserState(data?.userLoggedIn));
+        if (data?.success === "New user registered!") {
+          toastSuccess("Registered user.");
+          setTimeout(function () {
+            navigate("/user");
+          }, 1000);
+        }
+      } catch (er: any) {
+        setRegisterUserResponseState({
+          error: er?.response?.data?.message ?? er?.response?.data,
+        });
+        toastError("Error registering user.");
+      }
+    }
+    else{
+      toastError("Please ensure all form fields are correctly filled out.")
     }
 
     setValidated(true);
@@ -100,141 +123,145 @@ const RegisterPageComponent = ({
           ></img>
         </div>
         <div className="register-container">
-              <Form className="register-form" noValidate validated={validated} onSubmit={handleSubmit} style={{display: "flex", flexDirection: "column"}}>
-              <h1>Register</h1>
-                {/* NAME - FIRST NAME */}
-                <Form.Group className="mb-3" controlId="validationCustom01">
-                  <Form.Label>First Name</Form.Label>
-                  <Form.Control
-                    required
-                    type="text"
-                    placeholder="Enter your first name"
-                    name="name"
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please enter a name
-                  </Form.Control.Feedback>
-                </Form.Group>
+          <Form
+            className="register-form"
+            noValidate
+            validated={validated}
+            onSubmit={handleSubmit}
+            style={{ display: "flex", flexDirection: "column" }}
+          >
+            <h1>Register</h1>
+            {/* NAME - FIRST NAME */}
+            <Form.Group className="mb-3 mt-4" controlId="validationCustom01">
+              <Form.Label>First Name</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Enter your first name"
+                name="name"
+              />
+              <Form.Control.Feedback type="invalid">
+                Please enter your first name.
+              </Form.Control.Feedback>
+            </Form.Group>
 
-                {/* NAME - LAST NAME */}
-                <Form.Group className="mb-3" controlId="formBasicLastName">
-                  <Form.Label>Your last name</Form.Label>
-                  <Form.Control
-                    required
-                    type="text"
-                    placeholder="Enter your last name"
-                    name="lastName"
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please enter your last name
-                  </Form.Control.Feedback>
-                </Form.Group>
+            {/* NAME - LAST NAME */}
+            <Form.Group className="mb-3" controlId="formBasicLastName">
+              <Form.Label>Your last name</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Enter your last name"
+                name="lastName"
+              />
+              <Form.Control.Feedback type="invalid">
+                Please enter your last name.
+              </Form.Control.Feedback>
+            </Form.Group>
 
-                {/* EMAIL ADDRESS */}
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Email address</Form.Label>
-                  <Form.Control
-                    name="email"
-                    required
-                    type="email"
-                    placeholder="Enter email"
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please enter a valid email address
-                  </Form.Control.Feedback>
-                </Form.Group>
+            {/* EMAIL ADDRESS */}
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                name="email"
+                required
+                type="email"
+                placeholder="Enter email"
+              />
+              <Form.Control.Feedback type="invalid">
+                Please enter a valid email address.
+              </Form.Control.Feedback>
+            </Form.Group>
 
-                {/* PASSWORD */}
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    name="password"
-                    required
-                    type="password"
-                    placeholder="Password"
-                    minLength={6}
-                    onChange={onChange}
-                    isInvalid={!passwordsMatchState}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please enter a valid password
-                  </Form.Control.Feedback>
-                  <Form.Text className="text-muted">
-                    Password should have at least 6 characters
-                  </Form.Text>
-                </Form.Group>
+            {/* PASSWORD */}
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                name="password"
+                required
+                type="password"
+                placeholder="Password"
+                minLength={6}
+                onChange={onChange}
+                isInvalid={!passwordIsValid}
+              />
+              <Form.Control.Feedback type="invalid">
+                Please enter a valid password.
+              </Form.Control.Feedback>
 
-                {/* REPEAT PASSWORD */}
-                <Form.Group
-                  className="mb-3"
-                  controlId="formBasicPasswordRepeat"
-                >
-                  <Form.Label>Repeat Password</Form.Label>
-                  <Form.Control
-                    name="confirmPassword"
-                    required
-                    type="password"
-                    placeholder="Repeat Password"
-                    minLength={6}
-                    onChange={onChange}
-                    isInvalid={!passwordsMatchState}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Both passwords should match
-                  </Form.Control.Feedback>
-                </Form.Group>
+            </Form.Group>
 
-                {/* LINK TO LOGIN PAGE */}
-                <Row className="pb-2">
-                  <Col>
-                    Have an account already? &nbsp; 👉 &nbsp;
-                    <Link to={"/login"}>
-                      <strong>Login</strong>
-                    </Link>
-                  </Col>
-                </Row>
+            {/* REPEAT PASSWORD */}
+            <Form.Group className="mb-3" controlId="formBasicPasswordRepeat">
+              <Form.Label>Repeat Password</Form.Label>
+              <Form.Control
+                name="confirmPassword"
+                required
+                type="password"
+                placeholder="Repeat Password"
+                minLength={6}
+                onChange={onChange}
+                isInvalid={!passwordsMatchState}
+              />
+                            <Form.Text className="text-muted">
+              Password must be at least six characters long and include a number, letter, and a special character (!@#$%^&*).
+            </Form.Text>
+              <Form.Control.Feedback type="invalid">
+                Both passwords should match.
+              </Form.Control.Feedback>
+            </Form.Group>
 
-                {/* SUBMIT BUTTON */}
-                <Button type="submit" style={{marginTop: "1rem"}}>
-                  {/* CONDITIONALLY DISPLAY THE SPINNER IF LOADING */}
-                  {registerUserResponseState &&
-                  registerUserResponseState.loading === true ? (
-                    <Spinner
-                      as="span"
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                    />
-                  ) : (
-                    ""
-                  )}
-                  Submit
-                </Button>
+            {/* LINK TO LOGIN PAGE */}
+            <Row className="pb-2">
+              <Col>
+                Have an account already? &nbsp; 👉 &nbsp;
+                <Link to={"/login"}>
+                  <strong>Login</strong>
+                </Link>
+              </Col>
+            </Row>
 
-                {/* ALERT IF EMAIL ALREADY EXISTS IN DATABASE */}
-                <Alert
-                  show={
-                    registerUserResponseState &&
-                    registerUserResponseState.error === "user exists"
-                  }
-                  variant="danger"
-                >
-                  User with that email already exists!
-                </Alert>
+            {/* SUBMIT BUTTON */}
+            <Button type="submit" style={{ marginTop: "1rem" }}>
+              {/* CONDITIONALLY DISPLAY THE SPINNER IF LOADING */}
+              {registerUserResponseState &&
+              registerUserResponseState.loading === true ? (
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              ) : (
+                ""
+              )}
+              Submit
+            </Button>
 
-                {/* ALERT ON SUCCESSFUL USER CREATION */}
-                <Alert
-                  show={
-                    registerUserResponseState &&
-                    registerUserResponseState.success === "User created"
-                  }
-                  variant="info"
-                >
-                  User created
-                </Alert>
-              </Form>
-          </div>
+            {/* ALERT IF EMAIL ALREADY EXISTS IN DATABASE */}
+            <Alert
+              show={
+                registerUserResponseState &&
+                registerUserResponseState.error === "user exists"
+              }
+              variant="danger"
+            >
+              User with that email already exists!
+            </Alert>
+
+            {/* ALERT ON SUCCESSFUL USER CREATION */}
+            <Alert
+              show={
+                registerUserResponseState &&
+                registerUserResponseState.success === "User created"
+              }
+              variant="info"
+            >
+              User created
+            </Alert>
+          </Form>
+        </div>
         <div style={{ display: "flex", height: "100%" }}>
           <img
             className="rappel_image"
