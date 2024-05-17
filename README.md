@@ -1,22 +1,15 @@
-** `Main` and other branches are inactive apart from commits to the README - all new updates are made on the `api-v2-dotnet-conversion` branch.
 
 <h1>Live Website</h1>
 
-- Domain Name - AWS CI/CD Pipeline and EC2 Load Balancer
+- Main Site - AWS ECS - CI/CD Pipeline and EC2 Load Balancer on Custom Domain
   - https://alpine-peak-climbing-ski-gear.com/
+  - Three docker containers hosted on AWS ECS and reverse proxied by Nginx.
+  - CI/CD pipeline rebuilds and deploys docker images to AWS ECS whenever a new commit is pushed to the `docker-aws-ecs` branch on GitHub.
+  - An EC2 Application Load Balancer reroutes traffic to the ECS cluster even when the IP address of it changes due to the CI/CD pipeline.
   - EC2 Load balancer automatically redirects HTTP port 80 to HTTPS port 443 which has an AWS SSL Certificate.
 
-- Heroku (CI/CD with Main Branch)
+- Backup Link (Older Version) - Heroku (CI/CD with Main Branch)
   - https://recreational-equipment-shop.herokuapp.com/
-
-- AWC ECS - Static IP and Docker Images
-  - http://18.144.31.253/
-
-- AWS ECS Docker Image Deployment (CI/CD With GitHub Actions) and EC2 Load Balancer
-  - http://react-ski-shop-1109515336.us-west-1.elb.amazonaws.com/
-  - CI/CD pipeline that rebuilds/deploys docker images to AWS ECS whenever a new commit is pushed to the `docker-aws-ecs` branch.
-  - An EC2 Application Load Balancer reroutes traffic to the ECS cluster even when the IP address of it changes due to the CI/CD pipeline.
-
 
 <br/>
 
@@ -25,7 +18,6 @@
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/6ea92f24-d4a7-43d8-a305-ff517d31dace)
 
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/57850923-072d-42a9-a0be-49e360e40bcc)
-
 
 
 - Use the following for both username and password at login for testing (or create a new account):
