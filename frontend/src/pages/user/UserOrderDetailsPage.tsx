@@ -16,13 +16,13 @@ const getOrder = async (orderId) => {
 // Paypal script to work with SDK using sandbox
 // this function is passed and called from within the component
 
-// business - sb-1gtla24828028@business.example.com  ; password = testtest
-// personal - sb-yhuyo24828035@personal.example.com  ; password = testtest
+// business - sb-crmif30865875@business.example.com  ; password = testtest
+// personal - sb-fh43v4330869755@personal.example.com ; password = testtest
 
 const loadPayPalScript = async (cartSubtotal, cartItems, orderId, updateStateAfterOrder) => {
     try {
         const paypal = await loadScript(
-          {"client-id": "AXBC2IGDVF_ZQyQYrhAVa8UIs_OIvV8d2Q8LI6gsG7fCqQt4OjgOy4ijgibC5KGVXq0oeG39s6qt2aca"})  // this is ok to expose
+          {"client-id": "Ad2JkW_OgGf5EghJ1a0rJ-rg6qpbzHvag4W643joZdOCdGRBBrMnqm7X5pM9Lk2TcOmzG6DE7lggZgFa"})  // this is ok to expose
 
           if (paypal?.Buttons !== undefined){
             paypal?.Buttons(buttons(cartSubtotal, cartItems, orderId, updateStateAfterOrder)).render("#paypal-container-element")
