@@ -16,6 +16,7 @@ import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Product } from "types";
 import { Spinner } from "react-bootstrap";
+import { toastSuccess, toastError } from "../../../src/utils/ToastNotifications";
 
 const ProductDetailsPageComponent = ({
   addToCartReduxAction,
@@ -98,6 +99,7 @@ const ProductDetailsPageComponent = ({
       try {
         const data = await writeReviewApiRequest(product?.productId, formInputs);
         if (data?.success === "New Review Created.") {
+          toastSuccess("Successfully reviewed product.");
           setProductReviewed("Successfully reviewed product.");
           setProductReviewErrorMessage("")
         }
@@ -105,6 +107,7 @@ const ProductDetailsPageComponent = ({
       } catch (er: any) {
         console.log(er?.response?.data),
         setProductReviewed(false)
+        toastError(er?.response?.data)
           setProductReviewErrorMessage(
             er?.response?.data?.message ?? er?.response?.data
           );
