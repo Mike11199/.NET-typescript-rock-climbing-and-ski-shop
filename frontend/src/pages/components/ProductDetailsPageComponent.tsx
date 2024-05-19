@@ -17,6 +17,7 @@ import { useParams } from "react-router-dom";
 import { Product } from "types";
 import { Spinner } from "react-bootstrap";
 import { toastSuccess, toastError } from "../../../src/utils/ToastNotifications";
+import { Toaster } from "react-hot-toast";
 
 const ProductDetailsPageComponent = ({
   addToCartReduxAction,
@@ -172,7 +173,7 @@ const ProductDetailsPageComponent = ({
       ) : (
         <></>
       )}
-
+      <Toaster />
       <Container>
         <AddedToCartMessageComponent
           showCartMessage={showCartMessage}

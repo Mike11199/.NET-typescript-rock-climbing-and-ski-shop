@@ -240,7 +240,7 @@ namespace backend_v2.Controllers
 
                 if (productToReview == null)
                 {
-                    return BadRequest("Error, product to review not found.");
+                    return BadRequest("Product to review not found.");
                 }
 
                 // ensure product is not already reviewed
@@ -248,7 +248,7 @@ namespace backend_v2.Controllers
 
                 if (existingReview != null)
                 {
-                    return BadRequest("Product is already reviewed.  A user can only make one review per product.");
+                    return BadRequest("Product is already reviewed.");
                 }
 
                 // create and save review in db
@@ -256,7 +256,7 @@ namespace backend_v2.Controllers
 
                 if (newReview == null)
                 {
-                    return BadRequest("Error creating new review!");
+                    return BadRequest("Error creating new review.");
                 }
 
                 // Return success response
