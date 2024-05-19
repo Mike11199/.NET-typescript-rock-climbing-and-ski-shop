@@ -1,22 +1,15 @@
-** `Main` and other branches are inactive apart from commits to the README - all new updates are made on the `api-v2-dotnet-conversion` branch.
 
 <h1>Live Website</h1>
 
-- Domain Name - AWS CI/CD Pipeline and EC2 Load Balancer
+- Main Site - AWS ECS - CI/CD Pipeline and EC2 Load Balancer on Custom Domain
   - https://alpine-peak-climbing-ski-gear.com/
+  - Three docker containers hosted on AWS ECS and reverse proxied by Nginx.
+  - CI/CD pipeline rebuilds and deploys docker images to AWS ECS whenever a new commit is pushed to the `docker-aws-ecs` branch on GitHub.
+  - An EC2 Application Load Balancer reroutes traffic to the ECS cluster even when the IP address of it changes due to the CI/CD pipeline.
   - EC2 Load balancer automatically redirects HTTP port 80 to HTTPS port 443 which has an AWS SSL Certificate.
 
-- Heroku (CI/CD with Main Branch)
+- Backup Link (Older Version) - Heroku (CI/CD with Main Branch)
   - https://recreational-equipment-shop.herokuapp.com/
-
-- AWC ECS - Static IP and Docker Images
-  - http://18.144.31.253/
-
-- AWS ECS Docker Image Deployment (CI/CD With GitHub Actions) and EC2 Load Balancer
-  - http://react-ski-shop-1109515336.us-west-1.elb.amazonaws.com/
-  - CI/CD pipeline that rebuilds/deploys docker images to AWS ECS whenever a new commit is pushed to the `docker-aws-ecs` branch.
-  - An EC2 Application Load Balancer reroutes traffic to the ECS cluster even when the IP address of it changes due to the CI/CD pipeline.
-
 
 <br/>
 
@@ -25,7 +18,6 @@
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/6ea92f24-d4a7-43d8-a305-ff517d31dace)
 
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/57850923-072d-42a9-a0be-49e360e40bcc)
-
 
 
 - Use the following for both username and password at login for testing (or create a new account):
@@ -110,12 +102,7 @@
 
 <br/>
 
-- Admin dashboard where an admin can edit/create new products, manage users, see real-time chart data with Socket.IO on sales, and response to various user chats.
-
-<br/>
-
-![adminScreens](https://user-images.githubusercontent.com/91037796/215300841-5ae4a0d5-5187-46f9-9e88-458ec37d15cc.gif)
-
+- Admin dashboard where an admin can edit/create new products, manage users, see real-time chart data with Socket.IO on sales, and response to various user chats (this is currently broken by API v2 conversion to .NET and being recreated).
 
 <br/>
 <br/>
@@ -128,7 +115,7 @@
   - https://developer.paypal.com/sdk/js/reference/#createorder
 
 - Created business/personal PayPal sandbox accounts with fake credit/debit cards, and account balances to simulate a real order.
-- On a successful response from the PayPal API, the order is marked as paid in the MongoDB database.  An admin must later mark the product as delivered manually.
+- On a successful response from the PayPal API, the order is marked as paid in the PostgreSQL database.  An admin must later mark the product as delivered manually.
 
 <br/>
 <br/>
@@ -193,7 +180,7 @@ UserChatComponent.js
 - Used the Cloudinary service to allow an Admin to directly upload image files when creating a product to the Cloudinary REST API.
 - Referenced Cloudinary documentation for code:
   - https://cloudinary.com/documentation/upload_images#code_explorer_upload_multiple_files_using_a_form_unsigned
-- Stored URL of images in the MongoDB database as an array.  The front-end simply populates the image source with this URL to retrieve the resource from Cloudinary.
+- Stored URL of images in the PostgreSQL database as an array.  The front-end simply populates the image source with this URL to retrieve the resource from Cloudinary.
 
 <br/>
 <br/>
