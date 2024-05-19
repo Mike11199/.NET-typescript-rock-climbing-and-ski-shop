@@ -17,12 +17,13 @@ namespace backend_v2.Controllers
         private readonly IOrderRepository _orderRepository;
         private readonly IUserRepository _userRepository;
 
-
-        public OrdersController(
+        public OrdersController
+        (
             ILogger<APIStatusController> logger,
             AlpinePeakDbContext dbContext,
             IOrderRepository orderRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository
+        )
         {
             _logger = logger;
             _context = dbContext;

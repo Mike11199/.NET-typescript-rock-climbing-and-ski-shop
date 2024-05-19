@@ -33,6 +33,8 @@ const ProductDetailsPageComponent = ({
   const [productReviewed, setProductReviewed] = useState<boolean | string>(
     false
   );
+  const [productReviewErrorMessage, setProductReviewErrorMessage] =
+    useState<string>("");
 
   const messagesEndRef = useRef<any>(null);
 
@@ -85,7 +87,7 @@ const ProductDetailsPageComponent = ({
       );
   }, [id, productReviewed]);
 
-  const sendReviewHandler = (e) => {
+  const sendReviewHandler = async (e) => {
     e.preventDefault();
     const form = e.currentTarget.elements;
     const formInputs = {
@@ -93,19 +95,20 @@ const ProductDetailsPageComponent = ({
       rating: form.rating.value,
     };
     if (e.currentTarget.checkValidity() === true) {
-      writeReviewApiRequest(product?.productId, formInputs)
-        .then((data) => {
-          if (data === "review created") {
-            setProductReviewed("You successfully reviewed the page!");
-          }
-        })
-        .catch((er) =>
-          setProductReviewed(
-            er.response.data.message
-              ? er.response.data.message
-              : er.response.data
-          )
-        );
+      try {
+        const data = await writeReviewApiRequest(product?.productId, formInputs);
+        if (data?.success === "New Review Created.") {
+          setProductReviewed("Successfully reviewed product.");
+          setProductReviewErrorMessage("")
+        }
+        console.log(data)
+      } catch (er: any) {
+        console.log(er?.response?.data),
+        setProductReviewed(false)
+          setProductReviewErrorMessage(
+            er?.response?.data?.message ?? er?.response?.data
+          );
+      }
     }
   };
 
@@ -357,7 +360,16 @@ const ProductDetailsPageComponent = ({
                   >
                     Submit
                   </Button>{" "}
-                  {productReviewed}
+                  {productReviewed && (
+                    <div style={{ color: "green" }}>
+                      {productReviewed}
+                    </div>
+                  )}
+                  {productReviewErrorMessage !== "" && (
+                    <div style={{ color: "red" }}>
+                      {productReviewErrorMessage}
+                    </div>
+                  )}
                 </Form>
               </Col>
             </>

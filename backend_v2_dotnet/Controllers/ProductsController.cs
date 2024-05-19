@@ -12,7 +12,11 @@ namespace backend_v2.Controllers
         private readonly ILogger<APIStatusController> _logger;
         private readonly IProductRepository _productRepository;
 
-        public ProductsController(ILogger<APIStatusController> logger, IProductRepository productRepository)
+        public ProductsController
+        (
+            ILogger<APIStatusController> logger, 
+            IProductRepository productRepository
+        )
         {
             _logger = logger;
             _productRepository = productRepository;

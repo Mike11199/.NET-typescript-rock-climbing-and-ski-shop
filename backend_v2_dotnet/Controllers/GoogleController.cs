@@ -1,8 +1,8 @@
-﻿using backend_v2.Repositories;
+﻿using backend_v2.DTOs;
+using backend_v2.Repositories;
 using backend_v2.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
-using backend_v2.DTOs;
 
 namespace backend_v2.Controllers
 {
@@ -86,7 +86,7 @@ namespace backend_v2.Controllers
                         doNotLogout = true,
                     }
                 });
-             }
+            }
             catch (Exception ex)
             {
                 _logger.LogError("Error in user login: ", ex);

@@ -15,7 +15,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
 // Configure Serilog
 builder.Host.UseSerilog((context, services, configuration) => configuration

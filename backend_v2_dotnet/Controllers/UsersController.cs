@@ -19,14 +19,26 @@ namespace backend_v2.Controllers
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserRepository _userRepository;
-
-        public UsersController(ILogger<APIStatusController> logger, AlpinePeakDbContext dbContext, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IUserRepository userRepository)
+        private readonly IProductRepository _productRepository;
+        private readonly IReviewRepository _reviewRepository;
+        public UsersController
+        (
+            ILogger<APIStatusController> logger,
+            AlpinePeakDbContext dbContext,
+            IConfiguration configuration,
+            IHttpContextAccessor httpContextAccessor,
+            IUserRepository userRepository,
+            IProductRepository productRepository,
+            IReviewRepository reviewRepository
+        )
         {
             _logger = logger;
             _context = dbContext;
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
+            _productRepository = productRepository;
+            _reviewRepository = reviewRepository;
         }
 
         // POST: apiv2/users/login
@@ -182,6 +194,84 @@ namespace backend_v2.Controllers
                     doNotLogout = false
                 }
             });
+        }
+
+        // POST: apiv2/users/review/{productId}
+        [Authorize]
+        [HttpPost("review/{productId}", Name = "ReviewRoute")]
+        public async Task<ActionResult> UserCreateProductReview(string productId, [FromBody] CreateReviewDto createReviewRequest)
+        {
+            try
+            {
+                _logger.LogInformation($"Product Id from Request: {productId}");
+
+                //verify user info for review
+                // this gets the user from the JWT security claim https://learn.microsoft.com/en-us/dotnet/api/system.security.claims.claimsprincipal?view=net-8.0
+                // since we called [Authorize] this can't be spoofed somehow to create an order for another user.
+                var userId = User?.FindFirst("Id")?.Value;
+
+                if (userId == null)
+                {
+                    return BadRequest("User not found, please log in to create an order.");
+                }
+
+                var userFromDb = await _userRepository.GetUserById(Guid.Parse(userId));
+
+                if (userFromDb == null)
+                {
+                    return BadRequest("User not found, please log in to review a product.");
+                }
+
+                _logger.LogInformation($"Found user: {userFromDb.UserId}");
+
+                // validate review request
+                if (string.IsNullOrEmpty(createReviewRequest.Comment))
+                {
+                    return BadRequest("Review comment cannot be empty.");
+                }
+
+                if (createReviewRequest.Rating <= 0 || createReviewRequest.Rating > 5)
+                {
+                    return BadRequest("Review rating must be between 1 and 5.");
+                }
+
+                // validate product to review exists
+                var productToReview = await _productRepository.GetProductById(productId);
+
+                if (productToReview == null)
+                {
+                    return BadRequest("Error, product to review not found.");
+                }
+
+                // ensure product is not already reviewed
+                var existingReview = await _reviewRepository.GetUserReviewByProduct(productToReview.ProductId.ToString(), userFromDb.UserId.ToString()); 
+
+                if (existingReview != null)
+                {
+                    return BadRequest("Product is already reviewed.  A user can only make one review per product.");
+                }
+
+                // create and save review in db
+                var newReview = await _reviewRepository.CreateNewReview(productToReview, userFromDb, createReviewRequest.Rating, createReviewRequest.Comment);
+
+                if (newReview == null)
+                {
+                    return BadRequest("Error creating new review!");
+                }
+
+                // Return success response
+                return StatusCode
+                (200, new
+                {
+                    reviewId = newReview.ReviewId,
+                    success = "New Review Created.",
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error creating a product review: ", ex);
+                return StatusCode(500, "Internal server error while creating a product review.");
+            }
         }
     }
 
