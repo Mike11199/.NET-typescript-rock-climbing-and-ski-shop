@@ -19,13 +19,8 @@
 
 ![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/57850923-072d-42a9-a0be-49e360e40bcc)
 
-
-- Use the following for both username and password at login for testing (or create a new account):
-  - Username: test@gmail.com
-  - Password: test@gmail.com
-
 - Use the following user and password to test the fake PayPal sandbox account to pay for an order (fake account with bank/credit cards):
-  - Username: sb-yhuyo24828035@personal.example.com
+  - Username: sb-fh43v4330869755@personal.example.com
   - Password: testtest
 
 <h1>Summary</h1>
