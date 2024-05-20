@@ -69,12 +69,31 @@
     padding-bottom: 0px;
   }
 
-  .desktop-view-header {
-    display: none;
+  .navbar-brand {
+    margin: 0px;
   }
 
-  .mobile-view-header {
-    display: block;
+  
+  .navbar-black {
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .navbar-items-container {
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    margin-right: 0px;
+    margin-left: 0px;
+    justify-content: center;
+  }
+
+  .nav-links-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
   }
 
   .climate_pledge_div {

@@ -14,6 +14,23 @@ footer {
   background-color: black;
 }
 
+.navbar-brand {
+  margin: 0px;
+}
+
+.navbar-items-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 15vw;
+  margin-left: 15vw;
+}
+
+.nav-links-container {
+  display: flex;
+  gap: 2rem;
+}
+
 .navbar-black {
   background-color: #000000;
 }
@@ -22,15 +39,14 @@ footer {
   background-color: transparent;
   border-color: transparent;
   height: auto;
-  padding: 0;
-  margin: 0;
+  padding: 0px;
+  margin: 0px !important;
 }
 
 .transparent-button:hover {
   background-color: transparent;
   border-color: transparent;
 }
-
 
 .transparent-button:focus {
   background-color: transparent;
@@ -39,16 +55,7 @@ footer {
 
 .transparent-button:active {
   transform: scale(0.95) !important;
-  transition: transform .01s ease;
-
-}
-
-.mobile-view-header {
-  display: none;
-}
-
-.desktop-view-header {
-  display: flex;
+  transition: transform 0.01s ease;
 }
 
 .login-container {

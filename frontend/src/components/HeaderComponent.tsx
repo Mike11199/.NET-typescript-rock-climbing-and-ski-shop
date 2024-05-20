@@ -1,25 +1,13 @@
-import {
-  Navbar,
-  Nav,
-  Container,
-  NavDropdown,
-  Badge,
-  Form,
-  DropdownButton,
-  Dropdown,
-  Button,
-  InputGroup,
-} from "react-bootstrap";
-import { Spinner } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Badge } from "react-bootstrap";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { LinkContainer } from "react-router-bootstrap";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { logout } from "../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { getCategories } from "../redux/actions/categoryActions";
+import { useEffect } from "react";
+
 import socketIOClient from "socket.io-client";
 import {
   setChatRooms,
@@ -27,12 +15,15 @@ import {
   setMessageReceived,
   removeChatRoom,
 } from "../redux/actions/chatActions";
-import { setDarkMode } from "../redux/actions/darkModeActions";
+
 import "../darkMode.css";
 import { ReduxAppState } from "types";
+import HeaderSearchContainer from "./HeaderSearchContainer";
 
 const HeaderComponent = () => {
   const dispatch = useDispatch();
+  const [searchCategoryToggle, setSearchCategoryToggle] =
+    useState<string>("All");
 
   const { userInfo } = useSelector(
     (state: ReduxAppState) => state.userRegisterLogin
@@ -40,72 +31,10 @@ const HeaderComponent = () => {
   const itemsCount = useSelector(
     (state: ReduxAppState) => state.cart.itemsCount
   );
-  const { categories } = useSelector(
-    (state: ReduxAppState) => state.getCategories
-  );
 
   const { messageReceived } = useSelector(
     (state: ReduxAppState) => state.adminChat
   );
-
-  const [searchCategoryToggle, setSearchCategoryToggle] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const { mode } = useSelector((state: ReduxAppState) => state.DarkMode);
-
-  const navigate = useNavigate();
-
-  const extractCategoryName = (pathname) => {
-    const match = pathname.match(/\/product-list\/category\/([^/]+)/);
-    return match ? match[1] : null;
-  };
-
-  const location = useLocation();
-  const categoryName = extractCategoryName(location.pathname);
-
-  useEffect(() => {
-    if (categoryName != undefined) setSearchCategoryToggle(categoryName);
-  }, [categoryName]);
-
-  const toggleTheme = () => {
-    if (mode === "light") {
-      dispatch(setDarkMode("dark"));
-    } else {
-      dispatch(setDarkMode("light"));
-    }
-  };
-
-  useEffect(() => {
-    document.body.className = mode;
-  }, [mode]);
-
-  // useEffect - Getting categories for the header menu drop down - search menu
-  useEffect(() => {
-    dispatch(getCategories());
-  }, [dispatch]);
-
-  const submitHandler = (e) => {
-    if (e.keyCode && e.keyCode !== 13) return;
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      if (searchCategoryToggle === "All") {
-        navigate(`/product-list/search/${searchQuery}`);
-      } else {
-        navigate(
-          `/product-list/category/${searchCategoryToggle.replaceAll(
-            "/",
-            ","
-          )}/search/${searchQuery}`
-        );
-      }
-    } else if (searchCategoryToggle !== "All") {
-      navigate(
-        `/product-list/category/${searchCategoryToggle.replaceAll("/", ",")}`
-      );
-    } else {
-      navigate("/product-list");
-    }
-  };
 
   useEffect((): any => {
     if (userInfo?.isAdmin) {
@@ -141,272 +70,90 @@ const HeaderComponent = () => {
     }
   }, [userInfo?.isAdmin]);
 
-
-  const DesktopNavBar = () => {
-    return (
-      <>
-        
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            <InputGroup>
-              <DropdownButton
-                id="dropdown-basic-button"
-                title={CategoryButtonText()}
-              >
-                <Dropdown.Item onClick={() => setSearchCategoryToggle("All")}>
-                  All
-                </Dropdown.Item>
-                {categories.map((category, id) => (
-                  <Dropdown.Item
-                    key={id}
-                    onClick={() => setSearchCategoryToggle(category.name)}
-                  >
-                    {category.name}
-                  </Dropdown.Item>
-                ))}
-              </DropdownButton>
-              <Form.Control
-                onKeyUp={submitHandler}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                type="text"
-                placeholder="Search in shop ..."
-              />
-              <Button onClick={submitHandler} variant="warning">
-                <i className="bi bi-search text-dark"></i>
-              </Button>
-              <Button onClick={toggleTheme} variant="danger">
-              <i
-                className={
-                  mode === "dark"
-                    ? "bi-sun-fill text-dark"
-                    : "bi-moon-fill text-dark"
-                }
-              ></i>
-            </Button>
-            </InputGroup>
-          </Nav>
-          <Nav style={{marginLeft: "15vw"}}>
-            {userInfo?.isAdmin ? (
-              <LinkContainer to="/admin/orders">
-                <Nav.Link>
-                  Admin
-                  {messageReceived && (
-                    <span className="position-absolute top-1 start-10 translate-middle p-2 bg-danger border border-light rounded-circle"></span>
-                  )}
-                </Nav.Link>
-              </LinkContainer>
-            ) : userInfo?.name && !userInfo?.isAdmin ? (
-              <NavDropdown
-                title={`${userInfo.name} ${userInfo.lastName}`}
-                id="collasible-nav-dropdown"
-              >
-                <NavDropdown.Item
-                  eventKey="/user/my-orders"
-                  as={Link}
-                  to="/user/my-orders"
-                >
-                  My orders
-                </NavDropdown.Item>
-                <NavDropdown.Item eventKey="/user" as={Link} to="/user">
-                  My profile
-                </NavDropdown.Item>
-                <NavDropdown.Item onClick={() => dispatch(logout())}>
-                  Logout
-                </NavDropdown.Item>
-              </NavDropdown>
-            ) : (
-              <>
-                <LinkContainer to="/login">
-                  <Nav.Link>Login</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/register">
-                  <Nav.Link>Register</Nav.Link>
-                </LinkContainer>
-              </>
-            )}
-
-            <LinkContainer to="/cart" style={{ whiteSpace: 'nowrap' }}>
-              <Nav.Link >
-                <Badge pill bg="danger">
-                  {itemsCount === 0 ? "" : itemsCount}
-                </Badge>
-                <i className="bi bi-cart-dash"></i>
-                <span className="ms-1">CART</span>
-              </Nav.Link>
-            </LinkContainer>
-          </Nav>
-        </Navbar.Collapse>
-      </>
-    );
-  };
-
-  const DesktopMainTitleContainer = () => {
+  const MainTitleContainer = () => {
     return (
       <button className="transparent-button">
-      <LinkContainer to="/">
-        <Navbar.Brand onClick={() => setSearchCategoryToggle("All")} href="/">
-          🏔 Alpine Peak Climbing and Ski Gear
-        </Navbar.Brand>
-      </LinkContainer>
+        <LinkContainer to="/">
+          <Navbar.Brand onClick={() => setSearchCategoryToggle("All")} href="/">
+            🏔 Alpine Peak Climbing and Ski Gear
+          </Navbar.Brand>
+        </LinkContainer>
       </button>
     );
   };
-  const MobileMainTitleContainer = () => {
-    return (
-      <LinkContainer to="/">
-        <Navbar.Brand onClick={() => setSearchCategoryToggle("All")} href="/">
-          <div
-            style={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "center",
-              height: "1rem",
-              maxHeight: "fit-content",
-            }}
-          >
-            🏔 Alpine Peak Climbing and Ski Gear
-          </div>
-        </Navbar.Brand>
-      </LinkContainer>
-    );
-  };
 
-  const MobileTopContainer = () => {
+  const NavLinks = () => {
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "100%",
-          margin: "1rem 0rem 1rem 0rem",
-        }}
-      >
-        <div style={{ width: "100%" }}>
-          <MobileMainTitleContainer />
-        </div>
-        <div style={{ width: "100%" }}>
-          <Nav
-            style={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "row",
-              gap: "1rem",
-              justifyContent: "center",
-            }}
-          >
-            {userInfo?.isAdmin ? (
-              <LinkContainer to="/admin/orders">
-                <Nav.Link>
-                  Admin
-                  {messageReceived && (
-                    <span className="position-absolute top-1 start-10 translate-middle p-2 bg-danger border border-light rounded-circle"></span>
-                  )}
-                </Nav.Link>
-              </LinkContainer>
-            ) : userInfo?.name && !userInfo?.isAdmin ? (
-              <>
-                <LinkContainer to="/user/my-orders">
-                  <Nav.Link>My orders</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/user">
-                  <Nav.Link>My profile</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/logout" onClick={() => dispatch(logout())}>
-                  <Nav.Link>Logout</Nav.Link>
-                </LinkContainer>
-              </>
-            ) : (
-              <>
-                <LinkContainer to="/login">
-                  <Nav.Link>Login</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/register">
-                  <Nav.Link>Register</Nav.Link>
-                </LinkContainer>
-              </>
-            )}
-
-            <LinkContainer to="/cart">
+      <Nav>
+        <div className="nav-links-container">
+          {userInfo?.isAdmin ? (
+            <LinkContainer to="/admin/orders">
               <Nav.Link>
-                <Badge pill bg="danger">
-                  {itemsCount === 0 ? "" : itemsCount}
-                </Badge>
-                <i className="bi bi-cart-dash"></i>
-                <span className="ms-1">CART</span>
+                Admin
+                {messageReceived && (
+                  <span className="position-absolute top-1 start-10 translate-middle p-2 bg-danger border border-light rounded-circle"></span>
+                )}
               </Nav.Link>
             </LinkContainer>
-          </Nav>
-        </div>
-      </div>
-    );
-  };
+          ) : userInfo?.name && !userInfo?.isAdmin ? (
+            <NavDropdown
+              title={`${userInfo.name} ${userInfo.lastName}`}
+              id="collasible-nav-dropdown"
+            >
+              <NavDropdown.Item
+                eventKey="/user/my-orders"
+                as={Link}
+                to="/user/my-orders"
+              >
+                My orders
+              </NavDropdown.Item>
+              <NavDropdown.Item eventKey="/user" as={Link} to="/user">
+                My profile
+              </NavDropdown.Item>
+              <NavDropdown.Item onClick={() => dispatch(logout())}>
+                Logout
+              </NavDropdown.Item>
+            </NavDropdown>
+          ) : (
+            <>
+              <LinkContainer to="/login">
+                <Nav.Link>Login</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/register">
+                <Nav.Link>Register</Nav.Link>
+              </LinkContainer>
+            </>
+          )}
 
-  const CategoryButtonText = () => {
-    return (
-      <>
-        {categories?.length === 0 && (
-          <Spinner
-            as="span"
-            animation="border"
-            variant="dark"
-            role="status"
-            aria-hidden="true"
-            size="sm"
-          />
-        )}
-        {categories?.length !== 0 && searchCategoryToggle}
-      </>
+          <LinkContainer to="/cart" style={{ whiteSpace: "nowrap" }}>
+            <Nav.Link>
+              <Badge pill bg="danger">
+                {itemsCount === 0 ? "" : itemsCount}
+              </Badge>
+              <i className="bi bi-cart-dash"></i>
+              <span className="ms-1">CART</span>
+            </Nav.Link>
+          </LinkContainer>
+        </div>
+      </Nav>
     );
   };
 
   return (
-    <Navbar collapseOnSelect expand="lg" variant="dark" className="navbar-black">
-      <Container>
-        <div className="desktop-view-header">
-          <DesktopMainTitleContainer />
-          <DesktopNavBar />
-        </div>
-        <div className="mobile-view-header">
-          <MobileTopContainer />
-          <div style={{ marginBottom: "2rem" }}>
-          <InputGroup>
-            <DropdownButton
-              id="dropdown-basic-button"
-              title={CategoryButtonText()}
-            >
-              <Dropdown.Item onClick={() => setSearchCategoryToggle("All")}>
-                All
-              </Dropdown.Item>
-              {categories.map((category, id) => (
-                <Dropdown.Item
-                  key={id}
-                  onClick={() => setSearchCategoryToggle(category.name)}
-                >
-                  {category.name}
-                </Dropdown.Item>
-              ))}
-            </DropdownButton>
-            <Form.Control
-              onChange={(e) => setSearchQuery(e.target.value)}
-              type="text"
-              placeholder="Search in shop ..."
-            />
-            <Button onClick={submitHandler} variant="warning">
-              <i className="bi bi-search text-dark"></i>
-            </Button>
-            <Button onClick={toggleTheme} variant="danger">
-              <i
-                className={
-                  mode === "dark"
-                    ? "bi-sun-fill text-dark"
-                    : "bi-moon-fill text-dark"
-                }
-              ></i>
-            </Button>
-          </InputGroup>
-        </div>
-        </div>
-      </Container>
+    <Navbar
+      collapseOnSelect
+      expand={false}
+      variant="dark"
+      className="navbar-black"
+    >
+      <div className="navbar-items-container">
+        <MainTitleContainer />
+        <HeaderSearchContainer
+          searchCategoryToggle={searchCategoryToggle}
+          setSearchCategoryToggle={setSearchCategoryToggle}
+        />
+        <NavLinks />
+      </div>
     </Navbar>
   );
 };
