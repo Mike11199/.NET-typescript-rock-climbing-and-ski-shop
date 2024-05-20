@@ -13,9 +13,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getCategories } from "../redux/actions/categoryActions";
-import { setDarkMode } from "../redux/actions/darkModeActions";
-import "../darkMode.css";
+import { getCategories } from "../../redux/actions/categoryActions";
+import { setDarkMode } from "../../redux/actions/darkModeActions";
+import "../../darkMode.css"
 import { ReduxAppState } from "types";
 
 interface HeaderSearchContainerProps {

@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // components:
-import HeaderComponent from "./components/HeaderComponent";
+import HeaderComponent from "./components/header/HeaderComponent";
 import FooterComponent from "./components/FooterComponent";
 
 //user components:
