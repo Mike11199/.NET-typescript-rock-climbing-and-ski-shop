@@ -18,6 +18,13 @@ footer {
   margin: 0px;
 }
 
+.nav-item.show .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000; /* Ensure it appears on top of other elements */
+}
+
 .navbar-items-container {
   width: 100%;
   display: flex;
