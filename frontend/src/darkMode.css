@@ -8,7 +8,6 @@
   color: #333;
 }
 
-/* Common styles for dark theme */
 .dark .register-container,
 .dark .login-container {
   align-self: center;
@@ -22,7 +21,6 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-/* Common styles for light theme */
 .light .register-container,
 .light .login-container {
   align-self: center;
@@ -64,8 +62,17 @@
   color: #e4e6ed;
   opacity: 0.3;
 }
+
+.search-input-group:focus-within {
+  border-radius: 8px;
+  height: 100%;
+  outline: 2.5px solid #05509f6a;
+  box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
+  padding: 0px;
+}
+
 .custom-input-group-field:focus {
-  outline: 1px solid #007bff;
+  outline: 1px solid #05509f;
   box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
 }
 
@@ -86,46 +93,39 @@
   opacity: 0.5;
 }
 
-/* Light mode */
 .light .dropdown-menu {
   background-color: #fff;
   color: #333;
 }
 
-/* Dark mode */
 .dark .dropdown-menu {
   background-color: #bdb9b9;
   color: #fff;
 }
 
-/* Light mode */
 .light select {
   background-color: #fff;
   color: #333;
   border: 1px solid #ccc;
 }
 
-/* Dark mode */
 .dark select {
   background-color: #333;
   color: #fff;
   border: 1px solid #777;
 }
 
-/* Light mode */
 .list-group-item {
   background-color: #fff;
   color: #333;
 }
 
-/* Dark mode */
 .dark .list-group-item {
   /* background-color: #333; */
   background-color: #000000;
   color: #ffffff;
 }
 
-/* Dark mode table */
 .dark table {
   background-color: #343a40;
 
@@ -136,7 +136,6 @@
   color: white;
 }
 
-/* .dark table td */
 .dark table thead th {
   border-color: #010101;
   background-color: #170c58;
@@ -170,14 +169,12 @@
   color: white;
 }
 
-/* Light mode */
 .light select:disabled {
   background-color: #ccc;
   color: #000;
   border: 1px solid #ccc;
 }
 
-/* Dark mode */
 .dark select:disabled {
   background-color: #777474;
   color: #fff;
@@ -190,40 +187,24 @@
   border: 1px solid #ccc;
 }
 
-/* Dark mode */
 .dark select:disabled:hover {
   background-color: #777474;
   color: #fff;
   border: 1px solid #777;
 }
 
-/* Light mode */
 .light select:hover {
   background-color: #f5f5f5;
   color: #333;
 }
 
-/* Light mode */
 .light .cht-msg {
   color: black;
 }
 
-/* Dark mode */
 .dark .cht-msg {
   color: black;
 }
-/* 
-.light .form-control:focus {
-  border-color: #0b2ac6c5 !important;  
-  transition:  box-shadow .2s ease-in-out;  
-  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5) !important;   
-}
-
-.dark .form-control:focus {
-  border-color: #0b2ac6c5 !important;  
-  transition:  box-shadow .2s ease-in-out;  
-  box-shadow: 7px 8px 25px -2px rgba(0,0,0,0.75) !important;   
-} */
 
 .dark #adminLinksMenu .nav-link {
   color: rgb(1, 1, 1);
@@ -293,13 +274,11 @@
   width: 100%;
 }
 
-/* Dark mode */
 .dark .toast-body {
   color: rgb(255, 255, 255);
   background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
 }
 
-/* Dark mode */
 .light .toast-body {
   color: rgb(0, 0, 0);
 }
