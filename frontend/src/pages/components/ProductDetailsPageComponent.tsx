@@ -336,6 +336,7 @@ const ProductDetailsPageComponent = ({
                   >
                     <Form.Label>Write a review</Form.Label>
                     <Form.Control
+                      className="custom-input-group-field"
                       name="comment"
                       required
                       as="textarea"
