@@ -1,33 +1,68 @@
 .dark {
     background-color: #333;
     color: #fff;
-
 }
 
 .light {
-    background-color: #fff;
+    background-color: #d7d6d2;
     color: #333;
 }
+
+.dark #dropdown-basic-button {
+  border: none;
+  background-color: #315ed9 !important;
+}
+
+.dark #header-search-input{
+  background-color: #50505c;
+  outline: none;
+  border: none;
+  color: #dadee7;
+}
+
+.dark #header-search-input::placeholder {
+  color: #e4e6ed;
+  opacity: .3;
+}
+
+.light #dropdown-basic-button {
+  border: none;
+  background-color: #315ed9 !important;
+}
+
+.light #header-search-input{
+  background-color: #f5f5f5;
+  outline: none;
+  border: none;
+  color: #000000;
+}
+
+.light #header-search-input::placeholder {
+  color: #8c8d8e;
+  opacity: .5;
+}
+
+
 
 /* Light mode */
 .light .dropdown-menu {
     background-color: #fff;
     color: #333;
   }
-  
+
   /* Dark mode */
   .dark .dropdown-menu {
     background-color: #bdb9b9;
     color: #fff;
   }
-  
+
   /* Light mode */
 .light select {
     background-color: #fff;
     color: #333;
     border: 1px solid #ccc;
   }
-  
+
   /* Dark mode */
   .dark select {
     background-color: #333;

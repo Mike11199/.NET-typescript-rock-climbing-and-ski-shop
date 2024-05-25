@@ -112,8 +112,8 @@ const HeaderSearchContainer = ({
   };
 
   return (
-    <Form onSubmit={searchButtonSubmitHandler}>
-      <InputGroup style={{ maxWidth: "25rem" }}>
+    <Form onSubmit={searchButtonSubmitHandler} className="search-input-group">
+      <InputGroup style={{flexWrap: "nowrap"}}>
         <DropdownButton id="dropdown-basic-button" title={CategoryButtonText()}>
           <Dropdown.Item onClick={() => setSearchCategoryToggle("All")}>
             All
@@ -128,6 +128,7 @@ const HeaderSearchContainer = ({
           ))}
         </DropdownButton>
         <Form.Control
+          id="header-search-input"
           onChange={(e) => setSearchQuery(e.target.value)}
           type="text"
           placeholder="Search in shop ..."
