@@ -70,33 +70,6 @@ footer {
   transition: transform 0.01s ease;
 }
 
-.login-container {
-  align-self: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  padding: 2rem;
-  margin-top: 4%;
-  background: rgba(0, 0, 0, 0.25);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-.register-container {
-  align-self: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  padding: 2rem;
-  margin-top: 3%;
-  height: 50%;
-  background: rgba(0, 0, 0, 0.25);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
 .register-form {
   width: 22%;
 }

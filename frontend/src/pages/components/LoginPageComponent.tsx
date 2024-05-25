@@ -48,7 +48,7 @@ const LoginPageComponent = ({
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    doNotLogout: false,
+    doNotLogout: true,
   });
 
   const handleChange = (event) => {

@@ -8,6 +8,32 @@
   color: #333;
 }
 
+/* Common styles for dark theme */
+.dark .register-container,
+.dark .login-container {
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 2rem;
+  margin-top: 3%;
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Common styles for light theme */
+.light .register-container,
+.light .login-container {
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 2rem;
+  margin-top: 3%;
+}
+
 .dark .custom-input-group-field {
   background-color: #50505c;
   outline: none;
