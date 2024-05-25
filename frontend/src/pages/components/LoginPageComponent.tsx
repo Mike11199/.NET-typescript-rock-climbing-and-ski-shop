@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 import IceClimbingPhoto from "../../images/ski_mountaineering_5.png";
@@ -6,10 +6,14 @@ import IceCavePhoto from "../../images/ice_cave_2.png";
 import "../../../src/mobileStyles.css";
 import { AxiosResponse } from "axios";
 import GoogleLoginButton from "../../../src/components/GoogleLogIn";
-import { Button } from "react-bootstrap";
 import { useWindowWidth } from "@react-hook/window-size";
 import { Toaster } from "react-hot-toast";
-import { toastSuccess, toastError } from "../../../src/utils/ToastNotifications"
+import {
+  toastSuccess,
+  toastError,
+} from "../../../src/utils/ToastNotifications";
+import { Row, Col, Form, Button, Alert } from "react-bootstrap";
+
 interface LoginPageComponentProps {
   loginUserApiRequest: (
     email: string,
@@ -59,6 +63,7 @@ const LoginPageComponent = ({
   const handleSubmit = async (event) => {
     event.preventDefault();
     event.stopPropagation();
+    setValidated(true);
 
     let form = event.currentTarget.elements;
     let email = form.email.value;
@@ -124,6 +129,7 @@ const LoginPageComponent = ({
 
   const windowWidth = useWindowWidth();
   const isMobileView = windowWidth <= 600;
+  const [validated, setValidated] = useState<boolean>(false);
 
   return (
     <>
@@ -142,56 +148,77 @@ const LoginPageComponent = ({
       </div>
 
       <div className="login-container">
-        <form onSubmit={handleSubmit} className="login-form">
+        <Form
+          className="register-form"
+          noValidate
+          validated={validated}
+          onSubmit={handleSubmit}
+          style={{ display: "flex", flexDirection: "column" }}
+        >
           <h1>Login</h1>
-          <div className="form-group">
-            <label>Email address</label>
-            <input
+
+          {/* EMAIL ADDRESS */}
+          <Form.Group className="mb-3 mt-4" controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              className="custom-input-group-field"
               name="email"
+              required
+              type="email"
               placeholder="Enter email"
-              value={formData.email}
-              onChange={handleChange}
+              autoComplete="off"
             />
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input
+            <Form.Control.Feedback type="invalid">
+              Please enter a valid email address.
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          {/* PASSWORD */}
+          <Form.Group className="mb-4" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
               id="formBasicPassword"
+              className="custom-input-group-field"
               name="password"
+              required
               type="password"
               placeholder="Password"
-              value={formData.password}
+              autoComplete="off"
+            />
+            <Form.Control.Feedback type="invalid">
+              Please enter a valid password.
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          {/* OPTION TO KEEP USER LOGGED IN IF THEY NAVIGATE FROM SITE */}
+          <div style={{ display: "flex", gap: "1rem" }}>
+            <input
+              className="custom-input-group-field"
+              name="doNotLogout"
+              type="checkbox"
+              checked={formData.doNotLogout}
               onChange={handleChange}
             />
+            <label>Keep me logged in</label>
           </div>
-          <div>
-            <div style={{ display: "flex", gap: "1rem" }}>
-              <input
-                name="doNotLogout"
-                type="checkbox"
-                checked={formData.doNotLogout}
-                onChange={handleChange}
-              />
-              <label>Keep me logged in</label>
-            </div>
-            <div className="links">
-              Don't have an account? 👉{" "}
-              <strong>
-                <Link to={"/register"}>Register</Link>
-              </strong>
-            </div>
-          </div>
+
+          {/* LINK TO LOGIN PAGE */}
+          <Row className="pb-2 mt-2 mb-4">
+            <Col>
+              Don't have an account? &nbsp; 👉 &nbsp;
+              <Link to={"/register"}>
+                <strong>Register</strong>
+              </Link>
+            </Col>
+          </Row>
+
           <div className="button-group">
-            <Button
-              variant="primary"
-              type="submit"
-              style={{ width: isMobileView ? "320px" : "400px" }}
-            >
+            <Button variant="primary" type="submit" style={{ width: "100%" }}>
               {displaySpinner()}
               Login
             </Button>
             <Button
-              style={{ width: isMobileView ? "320px" : "400px" }}
+              style={{ width: "100%" }}
               variant="danger"
               type="submit"
               onClick={(e) => {
@@ -206,7 +233,7 @@ const LoginPageComponent = ({
               reduxDispatch={reduxDispatch}
             />
           </div>
-        </form>
+        </Form>
       </div>
     </>
   );

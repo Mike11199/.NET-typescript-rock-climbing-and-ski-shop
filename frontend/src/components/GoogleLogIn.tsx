@@ -3,6 +3,7 @@ import { setReduxUserState } from "../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useWindowWidth } from "@react-hook/window-size";
+import { useEffect, useState, useRef } from "react";
 
 const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
   const navigate = useNavigate();
@@ -45,20 +46,39 @@ const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
     });
   }
 
-  
   const windowWidth = useWindowWidth();
-  const isMobileView = windowWidth <= 600;
+  const [divWidth, setDivWidth] = useState(0);
+  const divRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (divRef.current) {
+        setDivWidth(divRef.current.offsetWidth);
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [windowWidth]);
+
+  console.log(divWidth);
 
   return (
     <div>
       {/* //https://console.cloud.google.com/  */}
       <GoogleOAuthProvider clientId="421793135719-tbnlgi65j46cc3oo2j74eot1ou5tg06n.apps.googleusercontent.com">
-        <GoogleLogin
-          width={ isMobileView ? "320" : "400"}
-          theme={"filled_black"}
-          onSuccess={onSuccess}
-          onError={onFailure}
-        />
+        <div
+          ref={divRef}
+          style={{ width: "100%", display: "flex", justifyContent: "center" }}
+        >
+          <GoogleLogin
+            width={`${divWidth?.toString()}`}
+            theme={"filled_black"}
+            onSuccess={onSuccess}
+            onError={onFailure}
+          />
+        </div>
       </GoogleOAuthProvider>
     </div>
   );

@@ -132,6 +132,7 @@ const HeaderSearchContainer = ({
           onChange={(e) => setSearchQuery(e.target.value)}
           type="text"
           placeholder="Search in shop ..."
+          autoComplete="off"
         />
         <Button onClick={searchButtonSubmitHandler} variant="warning">
           <i className="bi bi-search text-dark"></i>

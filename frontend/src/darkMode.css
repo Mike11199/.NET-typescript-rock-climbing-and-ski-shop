@@ -1,11 +1,25 @@
 .dark {
-    background-color: #333;
-    color: #fff;
+  background-color: #333;
+  color: #fff;
 }
 
 .light {
-    background-color: #d7d6d2;
-    color: #333;
+  background-color: #d7d6d2;
+  color: #333;
+}
+
+.dark .custom-input-group-field {
+  background-color: #50505c;
+  outline: none;
+  border: none;
+  color: #dadee7;
+}
+
+.light .custom-input-group-field {
+  background-color: #f5f5f5;
+  outline: none;
+  border: none;
+  color: #000000;
 }
 
 .dark #dropdown-basic-button {
@@ -13,7 +27,7 @@
   background-color: #315ed9 !important;
 }
 
-.dark #header-search-input{
+.dark #header-search-input {
   background-color: #50505c;
   outline: none;
   border: none;
@@ -22,7 +36,11 @@
 
 .dark #header-search-input::placeholder {
   color: #e4e6ed;
-  opacity: .3;
+  opacity: 0.3;
+}
+.custom-input-group-field:focus {
+  outline: 1px solid #007bff;
+  box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
 }
 
 .light #dropdown-basic-button {
@@ -30,7 +48,7 @@
   background-color: #315ed9 !important;
 }
 
-.light #header-search-input{
+.light #header-search-input {
   background-color: #f5f5f5;
   outline: none;
   border: none;
@@ -39,54 +57,52 @@
 
 .light #header-search-input::placeholder {
   color: #8c8d8e;
-  opacity: .5;
+  opacity: 0.5;
 }
-
-
 
 /* Light mode */
 .light .dropdown-menu {
-    background-color: #fff;
-    color: #333;
-  }
+  background-color: #fff;
+  color: #333;
+}
 
-  /* Dark mode */
-  .dark .dropdown-menu {
-    background-color: #bdb9b9;
-    color: #fff;
-  }
+/* Dark mode */
+.dark .dropdown-menu {
+  background-color: #bdb9b9;
+  color: #fff;
+}
 
-  /* Light mode */
+/* Light mode */
 .light select {
-    background-color: #fff;
-    color: #333;
-    border: 1px solid #ccc;
-  }
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+}
 
-  /* Dark mode */
-  .dark select {
-    background-color: #333;
-    color: #fff;
-    border: 1px solid #777;
-  }
+/* Dark mode */
+.dark select {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #777;
+}
 
-  /* Light mode */
-  .list-group-item {
-    background-color: #fff;
-    color: #333;
-  }
-  
-  /* Dark mode */
-  .dark .list-group-item {
-    /* background-color: #333; */
-    background-color: #000000;
-    color: #ffffff;
-  }
+/* Light mode */
+.list-group-item {
+  background-color: #fff;
+  color: #333;
+}
 
-  /* Dark mode table */
+/* Dark mode */
+.dark .list-group-item {
+  /* background-color: #333; */
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* Dark mode table */
 .dark table {
   background-color: #343a40;
-  
+
   border-color: #010101;
 }
 
@@ -103,9 +119,8 @@
   font-size: 15px;
 }
 
-.light table  {
+.light table {
   border-color: #010101;
-  
 }
 
 .light table thead th {
@@ -116,10 +131,9 @@
   font-size: 15px;
 }
 
-
 .dark table.table-striped tbody tr:nth-of-type(odd) {
   background-color: rgba(122, 118, 118, 0.386);
-  color:white;
+  color: white;
 }
 
 .dark table.table-hover tbody tr:hover {
@@ -185,13 +199,12 @@
   box-shadow: 7px 8px 25px -2px rgba(0,0,0,0.75) !important;   
 } */
 
-
 .dark #adminLinksMenu .nav-link {
-  color:rgb(1, 1, 1);   
+  color: rgb(1, 1, 1);
 }
 
 .dark #adminLinksMenu .nav-link:hover {
-  color:rgb(42, 27, 184);   
+  color: rgb(42, 27, 184);
 }
 
 .dark .navbar#adminLinksMenu {
@@ -200,7 +213,7 @@
 }
 
 .light #adminLinksMenu .nav-link {
-  color:rgb(1, 1, 1);  
+  color: rgb(1, 1, 1);
 }
 
 .light .navbar#adminLinksMenu {
@@ -209,28 +222,34 @@
 }
 
 .light #adminLinksMenu .nav-link:hover {
-  color:rgb(42, 27, 184);   
+  color: rgb(42, 27, 184);
 }
 
 .shake {
-  animation: shake 0.5s;  
+  animation: shake 0.5s;
 }
 
 @keyframes shake {
   0% {
     transform: translateX(0);
   }
-  10%, 30%, 50%, 70%, 90% {
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
     transform: translateX(-5px);
   }
-  20%, 40%, 60%, 80% {
+  20%,
+  40%,
+  60%,
+  80% {
     transform: translateX(5px);
   }
   100% {
     transform: translateX(0);
   }
 }
-
 
 .dark .toast-header {
   color: rgb(255, 255, 255);
@@ -244,7 +263,7 @@
   width: 1200px;
 }
 
-.admin_chat_header{
+.admin_chat_header {
   width: 100%;
 }
 
@@ -254,18 +273,17 @@
   background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
 }
 
-
 /* Dark mode */
 .light .toast-body {
   color: rgb(0, 0, 0);
 }
 
-.btn-close{
+.btn-close {
   color: white;
   background-color: rgb(179, 185, 245);
 }
 
-.btn-close:hover{
+.btn-close:hover {
   background-color: rgb(158, 161, 211);
 }
 

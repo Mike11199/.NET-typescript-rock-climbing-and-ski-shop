@@ -48,7 +48,8 @@ const RegisterPageComponent = ({
     const containsLetter = /[a-zA-Z]/;
 
     const isPasswordValid =
-      password?.value?.length !== undefined && password?.value?.length > 6 &&
+      password?.value?.length !== undefined &&
+      password?.value?.length > 6 &&
       containsDigit.test(password?.value) &&
       containsLetter.test(password?.value) &&
       specialCharacters.test(password?.value);
@@ -60,6 +61,7 @@ const RegisterPageComponent = ({
   const handleSubmit = async (event) => {
     event.preventDefault();
     event.stopPropagation();
+    setValidated(true);
 
     const form = event.currentTarget.elements;
 
@@ -102,12 +104,9 @@ const RegisterPageComponent = ({
         });
         toastError("Error registering user.");
       }
+    } else {
+      toastError("Please ensure all form fields are correctly filled out.");
     }
-    else{
-      toastError("Please ensure all form fields are correctly filled out.")
-    }
-
-    setValidated(true);
   };
 
   return (
@@ -135,10 +134,12 @@ const RegisterPageComponent = ({
             <Form.Group className="mb-3 mt-4" controlId="validationCustom01">
               <Form.Label>First Name</Form.Label>
               <Form.Control
+                className="custom-input-group-field"
                 required
                 type="text"
                 placeholder="Enter your first name"
                 name="name"
+                autoComplete="off"
               />
               <Form.Control.Feedback type="invalid">
                 Please enter your first name.
@@ -149,10 +150,12 @@ const RegisterPageComponent = ({
             <Form.Group className="mb-3" controlId="formBasicLastName">
               <Form.Label>Your last name</Form.Label>
               <Form.Control
+                className="custom-input-group-field"
                 required
                 type="text"
                 placeholder="Enter your last name"
                 name="lastName"
+                autoComplete="off"
               />
               <Form.Control.Feedback type="invalid">
                 Please enter your last name.
@@ -163,10 +166,12 @@ const RegisterPageComponent = ({
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control
+                className="custom-input-group-field"
                 name="email"
                 required
                 type="email"
                 placeholder="Enter email"
+                autoComplete="off"
               />
               <Form.Control.Feedback type="invalid">
                 Please enter a valid email address.
@@ -177,6 +182,7 @@ const RegisterPageComponent = ({
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control
+                className="custom-input-group-field"
                 name="password"
                 required
                 type="password"
@@ -184,17 +190,18 @@ const RegisterPageComponent = ({
                 minLength={6}
                 onChange={onChange}
                 isInvalid={!passwordIsValid}
+                autoComplete="off"
               />
               <Form.Control.Feedback type="invalid">
                 Please enter a valid password.
               </Form.Control.Feedback>
-
             </Form.Group>
 
             {/* REPEAT PASSWORD */}
             <Form.Group className="mb-3" controlId="formBasicPasswordRepeat">
               <Form.Label>Repeat Password</Form.Label>
               <Form.Control
+                className="custom-input-group-field"
                 name="confirmPassword"
                 required
                 type="password"
@@ -202,10 +209,12 @@ const RegisterPageComponent = ({
                 minLength={6}
                 onChange={onChange}
                 isInvalid={!passwordsMatchState}
+                autoComplete="off"
               />
-                            <Form.Text className="text-muted">
-              Password must be at least six characters long and include a number, letter, and a special character (!@#$%^&*).
-            </Form.Text>
+              <Form.Text className="text-muted">
+                Password must be at least six characters long and include a
+                number, letter, and a special character (!@#$%^&*).
+              </Form.Text>
               <Form.Control.Feedback type="invalid">
                 Both passwords should match.
               </Form.Control.Feedback>
