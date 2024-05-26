@@ -58,10 +58,10 @@
   color: #000000;
 }
 
-.dark #dropdown-basic-button {
+/* .dark #dropdown-basic-button {
   border: none;
   background-color: #315ed9 !important;
-}
+} */
 
 .dark #header-search-input {
   background-color: #50505c;
