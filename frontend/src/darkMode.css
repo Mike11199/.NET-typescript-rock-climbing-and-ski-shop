@@ -33,17 +33,17 @@
 }
 
 .dark .custom-input-group-field {
-  background-color: #50505c;
-  outline: none;
-  border: none;
-  color: #dadee7;
+  background-color: #50505c !important ;
+  outline: none !important;
+  border: none !important;
+  color: #dadee7 !important;
 }
 
 .light .custom-input-group-field {
-  background-color: #f5f5f5;
-  outline: none;
-  border: none;
-  color: #000000;
+  background-color: #f5f5f5 !important;
+  outline: none !important;
+  border: none !important;
+  color: #000000 !important;
 }
 
 .dark #dropdown-basic-button {

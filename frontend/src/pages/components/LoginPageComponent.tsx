@@ -63,16 +63,17 @@ const LoginPageComponent = ({
   const handleSubmit = async (event) => {
     event.preventDefault();
     event.stopPropagation();
-    setValidated(true);
+    if (!loginWithDefaultUser) setValidated(true);
 
     let form = event.currentTarget.elements;
     let email = form.email.value;
     let password = form.password.value;
     let doNotLogout = form.doNotLogout.checked;
 
+    // ok to expose credentials - API won't allow profile edits for test user
     if (loginWithDefaultUser) {
       email = "test@test.com";
-      password = "easy_to_guess_password"; // this doesn't matter - API won't allow test user edits
+      password = "easy_to_guess_password";
     }
 
     if (email === "" || password === "") {
@@ -111,7 +112,7 @@ const LoginPageComponent = ({
     }
   };
 
-  const displaySpinner = () => {
+  const LoadingSpinner = () => {
     if (LogInUserResponseState && LogInUserResponseState.loading === true) {
       return (
         <Spinner
@@ -214,8 +215,17 @@ const LoginPageComponent = ({
 
           <div className="button-group">
             <Button variant="primary" type="submit" style={{ width: "100%" }}>
-              {displaySpinner()}
-              Login
+              <div
+                style={{
+                  display: "flex",
+                  gap: "1rem",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                Login
+                <LoadingSpinner />
+              </div>
             </Button>
             <Button
               style={{ width: "100%" }}
@@ -225,8 +235,17 @@ const LoginPageComponent = ({
                 setLoginWithDefaultUser(true);
               }}
             >
-              {displaySpinner()}
-              Demo Login
+              <div
+                style={{
+                  display: "flex",
+                  gap: "1rem",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                Demo Login
+                <LoadingSpinner />
+              </div>
             </Button>
             <GoogleLoginButton
               googleLogin={googleLogin}

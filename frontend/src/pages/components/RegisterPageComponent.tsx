@@ -99,14 +99,30 @@ const RegisterPageComponent = ({
           }, 1000);
         }
       } catch (er: any) {
+        const errMessage = er?.response?.data?.message ?? er?.response?.data
         setRegisterUserResponseState({
-          error: er?.response?.data?.message ?? er?.response?.data,
+          error: errMessage,
         });
-        toastError("Error registering user.");
+        console.error(errMessage)
+        toastError(`Error registering user: \n ${errMessage}`);
       }
     } else {
       toastError("Please ensure all form fields are correctly filled out.");
     }
+  };
+
+  const LoadingSpinner = () => {
+    return (
+      registerUserResponseState?.loading === true && (
+        <Spinner
+          as="span"
+          animation="border"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        />
+      )
+    );
   };
 
   return (
@@ -233,19 +249,17 @@ const RegisterPageComponent = ({
             {/* SUBMIT BUTTON */}
             <Button type="submit" style={{ marginTop: "1rem" }}>
               {/* CONDITIONALLY DISPLAY THE SPINNER IF LOADING */}
-              {registerUserResponseState &&
-              registerUserResponseState.loading === true ? (
-                <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                />
-              ) : (
-                ""
-              )}
-              Submit
+              <div
+                style={{
+                  display: "flex",
+                  gap: "1rem",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                Submit
+                <LoadingSpinner />
+              </div>
             </Button>
 
             {/* ALERT IF EMAIL ALREADY EXISTS IN DATABASE */}
