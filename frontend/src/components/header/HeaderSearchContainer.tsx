@@ -7,12 +7,12 @@ import {
 } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
 
-import React from "react";
+import React, { useRef, useEffect } from "react";
+
 
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import { getCategories } from "../../redux/actions/categoryActions";
 import { setDarkMode } from "../../redux/actions/darkModeActions";
 import { updateSearchString } from "../../redux/actions/searchActions";
@@ -30,6 +30,8 @@ const HeaderSearchContainer = ({
 }: HeaderSearchContainerProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const { categories } = useSelector(
     (state: ReduxAppState) => state.getCategories
@@ -72,16 +74,16 @@ const HeaderSearchContainer = ({
 
   const searchButtonSubmitHandler = (e: any) => {
     if (e.keyCode && e.keyCode !== 13) return;
-    if (e.keyCode == 13) {
-      console.log("pressed enter!");
-    }
     e.preventDefault();
-    if (searchString.trim()) {
+    if (searchInputRef?.current) {
+      searchInputRef?.current?.blur();
+    }
+    if (searchString?.trim()) {
       if (searchCategoryToggle === "All") {
         navigate(`/product-list/search/${searchString}`);
       } else {
         navigate(
-          `/product-list/category/${searchCategoryToggle.replaceAll(
+          `/product-list/category/${searchCategoryToggle?.replaceAll(
             "/",
             ","
           )}/search/${searchString}`
@@ -89,7 +91,7 @@ const HeaderSearchContainer = ({
       }
     } else if (searchCategoryToggle !== "All") {
       navigate(
-        `/product-list/category/${searchCategoryToggle.replaceAll("/", ",")}`
+        `/product-list/category/${searchCategoryToggle?.replaceAll("/", ",")}`
       );
     } else {
       navigate("/product-list");
@@ -124,7 +126,7 @@ const HeaderSearchContainer = ({
           {categories.map((category, id) => (
             <Dropdown.Item
               key={id}
-              onClick={() => setSearchCategoryToggle(category.name)}
+              onClick={() => setSearchCategoryToggle(category?.name)}
             >
               {category.name}
             </Dropdown.Item>
@@ -132,6 +134,7 @@ const HeaderSearchContainer = ({
         </DropdownButton>
         <Form.Control
           id="header-search-input"
+          ref={searchInputRef}
           onChange={(e) => updateSearchReduxState(e.target.value)}
           type="text"
           placeholder="Search in shop ..."

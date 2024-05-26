@@ -1,5 +1,5 @@
 import { Navbar } from "react-bootstrap";
-import { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 
 import HeaderNavLinks from "./HeaderNavLinks";
@@ -12,25 +12,18 @@ const HeaderComponent = () => {
     useState<string>("All");
 
   const dispatch = useDispatch();
-  const updateSearchQuery = (search: string) => dispatch(updateSearchString(search));
 
-  const handleClickingTitle = () => {
-    setSearchCategoryToggle("All")
-    updateSearchQuery("")
-  }
+  const updateSearchQuery = useCallback(
+    (search: string) => {
+      dispatch(updateSearchString(search));
+    },
+    [dispatch]
+  );
 
-
-  const MainTitleContainer = () => {
-    return (
-      <button className="transparent-button">
-        <LinkContainer to="/">
-          <Navbar.Brand onClick={() => handleClickingTitle()} href="/">
-            🏔 Alpine Peak Climbing and Ski Gear
-          </Navbar.Brand>
-        </LinkContainer>
-      </button>
-    );
-  };
+  const handleClickingTitle = useCallback(() => {
+    setSearchCategoryToggle("All");
+    updateSearchQuery("");
+  }, [updateSearchQuery]);
 
   return (
     <Navbar
@@ -40,7 +33,7 @@ const HeaderComponent = () => {
       className="navbar-black"
     >
       <div className="navbar-items-container">
-        <MainTitleContainer />
+        <MainTitleContainer handleClickingTitle={handleClickingTitle} />
         <HeaderSearchContainer
           searchCategoryToggle={searchCategoryToggle}
           setSearchCategoryToggle={setSearchCategoryToggle}
@@ -52,3 +45,20 @@ const HeaderComponent = () => {
 };
 
 export default HeaderComponent;
+
+
+const MainTitleContainer = React.memo(({
+  handleClickingTitle,
+}: {
+  handleClickingTitle: () => void;
+}) => {
+  return (
+    <button className="transparent-button">
+      <LinkContainer to="/">
+        <Navbar.Brand onClick={handleClickingTitle} href="/">
+          🏔 Alpine Peak Climbing and Ski Gear
+        </Navbar.Brand>
+      </LinkContainer>
+    </button>
+  );
+});
