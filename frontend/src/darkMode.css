@@ -39,17 +39,17 @@
 }
 
 .dark .custom-input-group-field {
-  background-color: #50505c !important ;
-  outline: none !important;
-  border: none !important;
-  color: #dadee7 !important;
+  background-color: #50505c ;
+  outline: none;
+  border: none;
+  color: #dadee7;
 }
 
 .light .custom-input-group-field {
-  background-color: #f5f5f5 !important;
-  outline: none !important;
-  border: none !important;
-  color: #000000 !important;
+  background-color: #f5f5f5;
+  outline: none;
+  border: none;
+  color: #000000;
 }
 
 .dark #dropdown-basic-button {
@@ -78,13 +78,13 @@
 }
 
 .custom-input-group-field:focus {
-  outline: 1px solid #05509f;
+  outline: 2px solid #05509f;
   box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
 }
 
 .light #dropdown-basic-button {
   border: none;
-  background-color: #315ed9 !important;
+  background-color: #315ed9;
 }
 
 .light #header-search-input {

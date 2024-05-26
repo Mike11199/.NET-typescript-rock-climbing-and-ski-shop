@@ -32,6 +32,10 @@ const HeaderSearchContainer = ({
   const dispatch = useDispatch();
 
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const searchInputGroupRef = useRef<HTMLFormElement>(null);
+  const searchButtonRef = useRef<HTMLButtonElement>(null);
+  const toggleThemeRef = useRef<HTMLButtonElement>(null);
+  const dropdownButtonRef = useRef<HTMLDivElement>(null);
 
   const { categories } = useSelector(
     (state: ReduxAppState) => state.getCategories
@@ -57,6 +61,7 @@ const HeaderSearchContainer = ({
   }, [categoryName]);
 
   const toggleTheme = () => {
+    toggleThemeRef?.current?.blur();
     if (mode === "light") {
       dispatch(setDarkMode("dark"));
     } else {
@@ -73,11 +78,12 @@ const HeaderSearchContainer = ({
   }, [dispatch]);
 
   const searchButtonSubmitHandler = (e: any) => {
-    if (e.keyCode && e.keyCode !== 13) return;
     e.preventDefault();
-    if (searchInputRef?.current) {
-      searchInputRef?.current?.blur();
-    }
+
+    searchInputRef?.current?.blur();
+    searchInputGroupRef?.current?.blur();
+    searchButtonRef?.current?.blur();
+
     if (searchString?.trim()) {
       if (searchCategoryToggle === "All") {
         navigate(`/product-list/search/${searchString}`);
@@ -117,16 +123,16 @@ const HeaderSearchContainer = ({
   };
 
   return (
-    <Form onSubmit={searchButtonSubmitHandler} className="search-input-group">
+    <Form onSubmit={searchButtonSubmitHandler} className="search-input-group" ref={searchInputGroupRef}>
       <InputGroup style={{ flexWrap: "nowrap" }}>
-        <DropdownButton id="dropdown-basic-button" title={CategoryButtonText()}>
-          <Dropdown.Item onClick={() => setSearchCategoryToggle("All")}>
+        <DropdownButton id="dropdown-basic-button" title={CategoryButtonText()} ref={dropdownButtonRef}>
+          <Dropdown.Item onClick={() => {setSearchCategoryToggle("All"); dropdownButtonRef?.current?.blur()}}>
             All
           </Dropdown.Item>
           {categories.map((category, id) => (
             <Dropdown.Item
               key={id}
-              onClick={() => setSearchCategoryToggle(category?.name)}
+              onClick={() => {setSearchCategoryToggle(category?.name); dropdownButtonRef?.current?.blur()}}
             >
               {category.name}
             </Dropdown.Item>
@@ -141,10 +147,10 @@ const HeaderSearchContainer = ({
           autoComplete="off"
           value={searchString}
         />
-        <Button onClick={searchButtonSubmitHandler} variant="warning">
+        <Button onClick={searchButtonSubmitHandler} variant="warning" ref={searchButtonRef}>
           <i className="bi bi-search text-dark"></i>
         </Button>
-        <Button onClick={toggleTheme} variant="danger">
+        <Button onClick={toggleTheme} variant="danger" ref={toggleThemeRef}>
           <i
             className={
               mode === "dark"
