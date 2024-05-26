@@ -139,6 +139,7 @@ export interface ReduxAppState {
   adminChat: any;
   DarkMode: any;
   getCategories: any;
+  searchString: any;
 }
 
 export interface GetProductsResponse {

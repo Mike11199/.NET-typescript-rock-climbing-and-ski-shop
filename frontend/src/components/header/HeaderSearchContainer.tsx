@@ -12,10 +12,11 @@ import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getCategories } from "../../redux/actions/categoryActions";
 import { setDarkMode } from "../../redux/actions/darkModeActions";
-import "../../darkMode.css"
+import { updateSearchString } from "../../redux/actions/searchActions";
+import "../../darkMode.css";
 import { ReduxAppState } from "types";
 
 interface HeaderSearchContainerProps {
@@ -27,17 +28,19 @@ const HeaderSearchContainer = ({
   searchCategoryToggle,
   setSearchCategoryToggle,
 }: HeaderSearchContainerProps) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { categories } = useSelector(
     (state: ReduxAppState) => state.getCategories
   );
-
-  const [searchQuery, setSearchQuery] = useState<string>("");
-
   const { mode } = useSelector((state: ReduxAppState) => state.DarkMode);
+  const { searchString } = useSelector(
+    (state: ReduxAppState) => state.searchString
+  );
 
-  const navigate = useNavigate();
+  const updateSearchReduxState = (search: string) =>
+    dispatch(updateSearchString(search));
 
   const extractCategoryName = (pathname) => {
     const match = pathname.match(/\/product-list\/category\/([^/]+)/);
@@ -73,15 +76,15 @@ const HeaderSearchContainer = ({
       console.log("pressed enter!");
     }
     e.preventDefault();
-    if (searchQuery.trim()) {
+    if (searchString.trim()) {
       if (searchCategoryToggle === "All") {
-        navigate(`/product-list/search/${searchQuery}`);
+        navigate(`/product-list/search/${searchString}`);
       } else {
         navigate(
           `/product-list/category/${searchCategoryToggle.replaceAll(
             "/",
             ","
-          )}/search/${searchQuery}`
+          )}/search/${searchString}`
         );
       }
     } else if (searchCategoryToggle !== "All") {
@@ -113,7 +116,7 @@ const HeaderSearchContainer = ({
 
   return (
     <Form onSubmit={searchButtonSubmitHandler} className="search-input-group">
-      <InputGroup style={{flexWrap: "nowrap"}}>
+      <InputGroup style={{ flexWrap: "nowrap" }}>
         <DropdownButton id="dropdown-basic-button" title={CategoryButtonText()}>
           <Dropdown.Item onClick={() => setSearchCategoryToggle("All")}>
             All
@@ -129,10 +132,11 @@ const HeaderSearchContainer = ({
         </DropdownButton>
         <Form.Control
           id="header-search-input"
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => updateSearchReduxState(e.target.value)}
           type="text"
           placeholder="Search in shop ..."
           autoComplete="off"
+          value={searchString}
         />
         <Button onClick={searchButtonSubmitHandler} variant="warning">
           <i className="bi bi-search text-dark"></i>

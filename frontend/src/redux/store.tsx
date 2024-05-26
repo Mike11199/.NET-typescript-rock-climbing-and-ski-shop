@@ -1,33 +1,33 @@
-import { createStore, combineReducers,applyMiddleware } from "redux";
-import {composeWithDevTools } from 'redux-devtools-extension'
-import thunk from "redux-thunk"
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import thunk from "redux-thunk";
 
 import { cartReducer } from "./reducers/cartReducers";
 import { userRegisterLoginReducer } from "./reducers/userReducers";
-import {getCategoriesReducer} from "./reducers/categoryReducers"
+import { getCategoriesReducer } from "./reducers/categoryReducers";
 import { adminChatReducer } from "./reducers/adminChatReducers";
 import { setDarkModeReducer } from "./reducers/darkModeReducers";
-
+import { searchStringReducer } from "./reducers/searchReducers";
+import { ReduxAppState } from "types";
 
 const reducer = combineReducers({
-    cart: cartReducer,
-    userRegisterLogin: userRegisterLoginReducer,
-    getCategories: getCategoriesReducer,
-    adminChat: adminChatReducer,
-    DarkMode: setDarkModeReducer
-})
+  cart: cartReducer,
+  userRegisterLogin: userRegisterLoginReducer,
+  getCategories: getCategoriesReducer,
+  adminChat: adminChatReducer,
+  DarkMode: setDarkModeReducer,
+  searchString: searchStringReducer,
+});
 
-// this for setting initial state - get user data from local storage or session storage if there 
+// this for setting initial state - get user data from local storage or session storage if there
 // only for conditional header link rendering - Use JSON web token for protected routes
-const userInfoInLocalStorage = () =>{
-    if(localStorage.getItem('userInfo')){
-        return JSON.parse(localStorage?.getItem('userInfo') ?? "")
-    }
-    else if(sessionStorage.getItem('userInfo')) {
-        return JSON.parse(sessionStorage?.getItem('userInfo') ?? "")
-    }
-    else return {}
-}
+const userInfoInLocalStorage = () => {
+  if (localStorage.getItem("userInfo")) {
+    return JSON.parse(localStorage?.getItem("userInfo") ?? "");
+  } else if (sessionStorage.getItem("userInfo")) {
+    return JSON.parse(sessionStorage?.getItem("userInfo") ?? "");
+  } else return {};
+};
 
 let cartItemsInLocalStorage = [];
 
@@ -42,17 +42,30 @@ try {
 
 // set initial state values for redux
 const INITIAL_STATE = {
-    cart: {
-        cartItems: cartItemsInLocalStorage,
-        itemsCount: cartItemsInLocalStorage ? cartItemsInLocalStorage.reduce((quantity, item) => Number(item.quantity) + quantity, 0) : 0,
-        cartSubtotal: cartItemsInLocalStorage ? cartItemsInLocalStorage.reduce((price, item) => price + item.price * item.quantity, 0) : 0
-    },
-    userRegisterLogin: {userInfo: userInfoInLocalStorage()}
-}
+  cart: {
+    cartItems: cartItemsInLocalStorage,
+    itemsCount: cartItemsInLocalStorage
+      ? cartItemsInLocalStorage.reduce(
+          (quantity, item) => Number(item.quantity) + quantity,
+          0
+        )
+      : 0,
+    cartSubtotal: cartItemsInLocalStorage
+      ? cartItemsInLocalStorage.reduce(
+          (price, item) => price + item.price * item.quantity,
+          0
+        )
+      : 0,
+  },
+  userRegisterLogin: { userInfo: userInfoInLocalStorage() },
+  searchString: "",
+} as ReduxAppState;
 
-
-const middleware = [thunk]
-const store = createStore(reducer, INITIAL_STATE, composeWithDevTools(applyMiddleware(...middleware)))
+const middleware = [thunk];
+const store = createStore(
+  reducer,
+  INITIAL_STATE,
+  composeWithDevTools(applyMiddleware(...middleware))
+);
 
 export default store;
-
