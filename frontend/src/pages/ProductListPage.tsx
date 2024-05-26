@@ -26,22 +26,18 @@ export const getProducts = async ({
   filters,
   sortOption,
 }: GetProducts): Promise<GetProductsResponse> => {
-  // path segments - affect which controller is called
-  const category = categoryName ? `/category/${categoryName}/` : "";
-  // query parameters
+
   let queryParams: string[] = [];
+  if (categoryName) queryParams.push(`category=${categoryName}`);
   if (searchQuery) queryParams.push(`search=${searchQuery}`);
   if (pageNumParam) queryParams.push(`pageNum=${pageNumParam}`);
   if (sortOption) queryParams.push(`sort=${sortOption}`);
-  console.log(filters);
   const filterOptions = parseFiltersToQueryURLString(filters);
-  console.log(filterOptions);
   if (filterOptions) queryParams.push(`${filterOptions}`);
 
   // final request
   const queryString = queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
-  const requestUrl = `${apiURL}/products${category}${queryString}`;
-  console.log(requestUrl);
+  const requestUrl = `${apiURL}/products${queryString}`;
   const { data } = await axios.get(requestUrl);
   return data;
 };

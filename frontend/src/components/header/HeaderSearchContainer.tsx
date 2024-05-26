@@ -9,7 +9,6 @@ import { Spinner } from "react-bootstrap";
 
 import React, { useRef, useEffect } from "react";
 
-
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -44,17 +43,15 @@ const HeaderSearchContainer = ({
   const { searchString } = useSelector(
     (state: ReduxAppState) => state.searchString
   );
+  function useQuery() {
+    return new URLSearchParams(useLocation().search);
+  }
+
+  const query = useQuery();
+  const categoryName = query.get("category") || "All";
 
   const updateSearchReduxState = (search: string) =>
     dispatch(updateSearchString(search));
-
-  const extractCategoryName = (pathname) => {
-    const match = pathname.match(/\/product-list\/category\/([^/]+)/);
-    return match ? match[1] : null;
-  };
-
-  const location = useLocation();
-  const categoryName = extractCategoryName(location.pathname);
 
   useEffect(() => {
     if (categoryName != undefined) setSearchCategoryToggle(categoryName);
@@ -77,40 +74,29 @@ const HeaderSearchContainer = ({
     dispatch(getCategories());
   }, [dispatch]);
 
-  const searchButtonSubmitHandler = (e: any) => {
+  const searchButtonSubmitHandler = (e) => {
     e.preventDefault();
 
-    // blur so input group not focused with blue border and mobile keyboard disappears
     searchInputRef?.current?.blur();
     searchInputGroupRef?.current?.blur();
     searchButtonRef?.current?.blur();
 
-    // stop links on right of navbar from being highlighted
-    setTimeout(() => {
-      const navItems = document.querySelectorAll(".nav-link");
-      navItems.forEach((item) => {
-        item.classList.remove("active");
-      });
-    }, 0);
+    let params = new URLSearchParams();
 
     if (searchString?.trim()) {
-      if (searchCategoryToggle === "All") {
-        navigate(`/product-list/search/${searchString}`);
-      } else {
-        navigate(
-          `/product-list/category/${searchCategoryToggle?.replaceAll(
-            "/",
-            ","
-          )}/search/${searchString}`
-        );
-      }
-    } else if (searchCategoryToggle !== "All") {
-      navigate(
-        `/product-list/category/${searchCategoryToggle?.replaceAll("/", ",")}`
-      );
-    } else {
-      navigate("/product-list");
+      params.append("search", searchString);
     }
+
+    if (searchCategoryToggle !== "All") {
+      params.append("category", searchCategoryToggle?.replaceAll("/", ","));
+    }
+
+    const queryString = params.toString();
+    const url = queryString
+      ? `/product-list?pageNum=1&${queryString}`
+      : `/product-list?pageNum=1`;
+
+    navigate(url);
   };
 
   const CategoryButtonText = () => {
@@ -132,16 +118,32 @@ const HeaderSearchContainer = ({
   };
 
   return (
-    <Form onSubmit={searchButtonSubmitHandler} className="search-input-group" ref={searchInputGroupRef}>
+    <Form
+      onSubmit={searchButtonSubmitHandler}
+      className="search-input-group"
+      ref={searchInputGroupRef}
+    >
       <InputGroup style={{ flexWrap: "nowrap" }}>
-        <DropdownButton id="dropdown-basic-button" title={CategoryButtonText()} ref={dropdownButtonRef}>
-          <Dropdown.Item onClick={() => {setSearchCategoryToggle("All"); dropdownButtonRef?.current?.blur()}}>
+        <DropdownButton
+          id="dropdown-basic-button"
+          title={CategoryButtonText()}
+          ref={dropdownButtonRef}
+        >
+          <Dropdown.Item
+            onClick={() => {
+              setSearchCategoryToggle("All");
+              dropdownButtonRef?.current?.blur();
+            }}
+          >
             All
           </Dropdown.Item>
           {categories.map((category, id) => (
             <Dropdown.Item
               key={id}
-              onClick={() => {setSearchCategoryToggle(category?.name); dropdownButtonRef?.current?.blur()}}
+              onClick={() => {
+                setSearchCategoryToggle(category?.name);
+                dropdownButtonRef?.current?.blur();
+              }}
             >
               {category.name}
             </Dropdown.Item>
@@ -156,7 +158,11 @@ const HeaderSearchContainer = ({
           autoComplete="off"
           value={searchString}
         />
-        <Button onClick={searchButtonSubmitHandler} variant="warning" ref={searchButtonRef}>
+        <Button
+          onClick={searchButtonSubmitHandler}
+          variant="warning"
+          ref={searchButtonRef}
+        >
           <i className="bi bi-search text-dark"></i>
         </Button>
         <Button onClick={toggleTheme} variant="danger" ref={toggleThemeRef}>

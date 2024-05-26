@@ -12,7 +12,7 @@ import { Spinner } from "react-bootstrap";
 import ProductForListComponent from "../../components/ProductForListComponent";
 
 import { useEffect, useState } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Product, Category, GetProductsResponse, GetProducts } from "types";
 
 interface ProductListPageComponentProps {
@@ -24,6 +24,10 @@ const ProductListPageComponent = ({
   getProducts,
   categories,
 }: ProductListPageComponentProps) => {
+  function useQuery() {
+    return new URLSearchParams(useLocation().search);
+  }
+
   const [products, setProducts] = useState<Product[] | null | undefined>([]);
   const [totalProductsCount, setTotalProductsCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
@@ -40,49 +44,15 @@ const ProductListPageComponent = ({
   const [paginationLinksNumber, setPaginationLinksNumber] = useState<any>(null);
   const [pageNum, setPageNum] = useState<number | null>(null);
 
-  const { categoryName } = useParams() || "";
-  const { pageNumParam } = useParams() || 1;
-  const { searchQuery } = useParams() || "";
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const query = useQuery();
+  const categoryName = query.get("category") || "";
+  const searchQuery = query.get("search") || "";
+  const pageNumParam = query.get("pageNum") || "1";
 
   const { mode } = useSelector((state: ReduxAppState) => state.DarkMode);
-
-  // TODO: replace obsolete useEffect from API v1 to set attributes filter
-  // useEffect(() => {
-  //   if (categoryName) {
-  //     let categoryAllData = categories.find(
-  //       (item) => item.name === categoryName.replaceAll(",", "/")
-  //     );
-  //     if (categoryAllData) {
-  //       let mainCategory = categoryAllData?.name?.split("/")[0] ?? "";
-  //       let index = categories?.findIndex((item) => item?.name === mainCategory);
-  //       setAttrsFilter(categories[index].attrs);
-  //     }
-  //   } else {
-  //     setAttrsFilter([]);
-  //   }
-  // }, [categoryName, categories]);
-
-  // TODO: replace obsolete useEffect from API v1 to filter by categories
-  // useEffect(() => {
-  //   if (Object.entries(categoriesFromFilter).length > 0) {
-  //     setAttrsFilter([]);
-  //     var cat: any[] = [];
-  //     var count;
-  //     Object.entries(categoriesFromFilter).forEach(([category, checked]) => {
-  //       if (checked) {
-  //         var name = category.split("/")[0];
-  //         cat.push(name);
-  //         count = cat.filter((x) => x === name).length;
-  //         if (count === 1) {
-  //           var index = categories.findIndex((item) => item.name === name);
-  //           // setAttrsFilter((attrs: any) => [...attrs, ...categories[index].attrs]);
-  //         }
-  //       }
-  //     });
-  //   }
-  // }, [categoriesFromFilter, categories]);
 
   useEffect(() => {
     setLoading(true);
@@ -144,9 +114,9 @@ const ProductListPageComponent = ({
 
   return (
     <>
-      <Container fluid >
+      <Container fluid>
         <Row>
-          <Col md={3} >
+          <Col md={3}>
             <ListGroup variant="flush">
               <ListGroup.Item className="mb-3 mt-3" style={listItemStyle}>
                 <SortOptionsComponent setSortOption={setSortOption} />
@@ -160,7 +130,8 @@ const ProductListPageComponent = ({
               </ListGroup.Item>
               <ListGroup.Item style={listItemStyle}>
                 <RatingFilterComponent
-                  setRating={setMaxRating} rating={maxRating}
+                  setRating={setMaxRating}
+                  rating={maxRating}
                 />
               </ListGroup.Item>
               {!location.pathname.match(/\/category/) && (
@@ -265,8 +236,6 @@ const ProductListPageComponent = ({
 
             {!loading && paginationLinksNumber > 1 ? (
               <PaginationComponent
-                categoryName={categoryName}
-                searchQuery={searchQuery}
                 paginationLinksNumber={paginationLinksNumber}
                 pageNum={pageNum}
               />
@@ -281,7 +250,7 @@ const ProductListPageComponent = ({
                   width: "100vw",
                   flexDirection: "column",
                   marginTop: "1rem",
-                   }}
+                }}
               >
                 <div
                   style={{

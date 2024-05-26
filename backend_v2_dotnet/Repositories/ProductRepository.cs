@@ -10,11 +10,17 @@ public class ProductRepository : IProductRepository
     {
         _dbContext = dbContext;
     }
-    public async Task<IEnumerable<Product>> GetAllProductsPaginated(int pageNum, int recordsPerPage, string? sortOption, string? searchOption, int? priceFilter, int? ratingFilter)
+    public async Task<IEnumerable<Product>> GetAllProductsPaginated(int pageNum, int recordsPerPage, string? sortOption, string? searchOption, int? priceFilter, int? ratingFilter, string? categoryFilter)
     {
         IQueryable<Product> query = _dbContext.Products
             .Include(p => p.Reviews)
             .Include(p => p.Images);
+
+        // Add category filter
+        if (categoryFilter != null)
+        {
+            query = query.Where(p => p.Category != null && p.Category.Name != null && p.Category.Name.ToLower().Contains(categoryFilter.ToLower()));
+        }
 
         // Add search filter
         if (!string.IsNullOrEmpty(searchOption))
@@ -66,9 +72,15 @@ public class ProductRepository : IProductRepository
     }
 
 
-    public async Task<int> GetAllProductsCount(string? searchOption, int? priceFilter, int? ratingFilter)
+    public async Task<int> GetAllProductsCount(string? searchOption, int? priceFilter, int? ratingFilter, string? categoryFilter)
     {
         IQueryable<Product> query = _dbContext.Products;
+        
+        // Add category filter
+        if (categoryFilter != null)
+        {
+            query = query.Where(p => p.Category != null && p.Category.Name != null && p.Category.Name.ToLower().Contains(categoryFilter.ToLower()));
+        }
 
         // Add search filter
         if (!string.IsNullOrEmpty(searchOption))
@@ -93,93 +105,6 @@ public class ProductRepository : IProductRepository
         var totalProductsCount = await query.CountAsync();
         return totalProductsCount;
     }
-
-    public async Task<int> GetProductsCountByCategory(string categoryName, string? searchOption, int? priceFilter, int? ratingFilter)
-    {
-        IQueryable<Product> query = _dbContext.Products
-            .Where(p => p.Category != null && p.Category.Name != null && p.Category.Name.ToLower().Contains(categoryName.ToLower()));
-
-        // Add search filter
-        if (!string.IsNullOrEmpty(searchOption))
-        {
-            var lowerSearchOption = searchOption.ToLower();
-            query = query.Where(p => (p.Name != null && p.Name.ToLower().Contains(lowerSearchOption)) || (p.Description != null && p.Description.ToLower().Contains(lowerSearchOption)));
-
-        }
-
-        // Add price filter
-        if (priceFilter != null)
-        {
-            query = query.Where(p => p.Price <= priceFilter);
-        }
-
-        // Add product minimum rating filter (product rating must be equal or better)
-        if (ratingFilter != null)
-        {
-            query = query.Where(p => p.Reviews.Average(r => r.Rating) >= ratingFilter);
-        }
-
-        var totalProductsInCategoryCount = await query.CountAsync();
-        return totalProductsInCategoryCount;
-    }
-
-    public async Task<IEnumerable<Product>> GetProductsByCategoryPaginated(string categoryName, int pageNum, int recordsPerPage, string? sortOption, string? searchOption, int? priceFilter, int? ratingFilter)
-    {
-
-        IQueryable<Product> query = _dbContext.Products
-            .Where(p => p.Category != null && p.Category.Name != null && p.Category.Name.ToLower().Contains(categoryName.ToLower()))
-            .Include(p => p.Reviews)
-            .Include(p => p.Images);
-
-        // Add search filter
-        if (!string.IsNullOrEmpty(searchOption))
-        {
-            var lowerSearchOption = searchOption.ToLower();
-            query = query.Where(p => (p.Name != null && p.Name.ToLower().Contains(lowerSearchOption)) || (p.Description != null && p.Description.ToLower().Contains(lowerSearchOption)));
-        }
-
-        // Add price filter
-        if (priceFilter != null)
-        {
-            query = query.Where(p => p.Price <= priceFilter);
-        }
-
-        // Add product minimum rating filter (product rating must be equal or better)
-        if (ratingFilter != null)
-        {
-            query = query.Where(p => p.Reviews.Average(r => r.Rating) >= ratingFilter);
-        }
-
-        // sorting drop down 
-        if (!string.IsNullOrEmpty(sortOption))
-        {
-            switch (sortOption.ToLower())
-            {
-                case "price_asc":
-                    query = query.OrderBy(p => p.Price);
-                    break;
-                case "price_desc":
-                    query = query.OrderByDescending(p => p.Price);
-                    break;
-                case "name_asc":
-                    query = query.OrderBy(p => p.Name);
-                    break;
-                case "name_desc":
-                    query = query.OrderByDescending(p => p.Name);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        var productsInCategory = await query
-            .Skip((pageNum - 1) * recordsPerPage)
-            .Take(recordsPerPage)
-            .ToListAsync();
-
-        return productsInCategory;
-    }
-
 
     public async Task<IEnumerable<Product>> GetBestSellers()
     {

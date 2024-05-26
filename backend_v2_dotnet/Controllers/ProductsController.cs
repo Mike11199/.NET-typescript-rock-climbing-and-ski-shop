@@ -34,11 +34,14 @@ namespace backend_v2.Controllers
                 int pageNum = int.TryParse(HttpContext.Request.Query["pageNum"].FirstOrDefault(), out var tempPageNum) ? tempPageNum : 1;
                 int? priceFilter = int.TryParse(HttpContext.Request.Query["price"].FirstOrDefault(), out var tempPrice) ? tempPrice : null;
                 int? ratingFilter = int.TryParse(HttpContext.Request.Query["rating"].FirstOrDefault(), out var tempRating) ? tempRating : null;
+                
                 var sortOption = HttpContext.Request.Query["sort"].FirstOrDefault();
                 var searchOption = HttpContext.Request.Query["search"].FirstOrDefault();
+                var categoryFilter = HttpContext.Request.Query["category"].FirstOrDefault();
 
-                var totalProducts = await _productRepository.GetAllProductsCount(searchOption, priceFilter, ratingFilter);
-                var products = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage, sortOption, searchOption, priceFilter, ratingFilter);
+
+                var totalProducts = await _productRepository.GetAllProductsCount(searchOption, priceFilter, ratingFilter, categoryFilter);
+                var products = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage, sortOption, searchOption, priceFilter, ratingFilter, categoryFilter);
 
                 return Ok(new
                 {
@@ -71,54 +74,6 @@ namespace backend_v2.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
-
-        // GET api/products/category/boots?pageNum=1
-        [HttpGet("category/{categoryName}")]
-        public async Task<ActionResult> GetProductsByCategory(string categoryName)
-
-        {
-            try
-            {
-                int recordsPerPage = 3;
-                int totalProductsInCategory = 0;
-                IEnumerable<Product> productsInCategory;
-
-                int pageNum = int.TryParse(HttpContext.Request.Query["pageNum"].FirstOrDefault(), out var tempPageNum) ? tempPageNum : 1;
-                int? ratingFilter = int.TryParse(HttpContext.Request.Query["rating"].FirstOrDefault(), out var tempRating) ? tempRating : null;
-                int? priceFilter = int.TryParse(HttpContext.Request.Query["price"].FirstOrDefault(), out var tempPrice) ? tempPrice : null;
-                var sortOption = HttpContext.Request.Query["sort"].FirstOrDefault();
-                var searchOption = HttpContext.Request.Query["search"].FirstOrDefault();
-
-                if (!string.IsNullOrEmpty(categoryName))
-                {
-                    totalProductsInCategory = await _productRepository.GetProductsCountByCategory(categoryName, searchOption, priceFilter, ratingFilter);
-                }
-
-                if (string.IsNullOrEmpty(categoryName) || totalProductsInCategory == 0)
-                {
-                    totalProductsInCategory = await _productRepository.GetAllProductsCount(searchOption, priceFilter, ratingFilter);
-                    productsInCategory = await _productRepository.GetAllProductsPaginated(pageNum, recordsPerPage, sortOption, searchOption, priceFilter, ratingFilter);
-                }
-                else
-                {
-                    productsInCategory = await _productRepository.GetProductsByCategoryPaginated(categoryName, pageNum, recordsPerPage, sortOption, searchOption, priceFilter, ratingFilter);
-                }
-
-                return Ok(new
-                {
-                    products = productsInCategory,
-                    pageNum,
-                    paginationLinksNumber = Math.Ceiling((double)totalProductsInCategory / recordsPerPage),
-                    totalProducts = totalProductsInCategory
-                });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"An error occurred while fetching products for category {categoryName}.");
-                return StatusCode(500, "Internal Server Error");
-            }
-        }
-
 
         // GET api/products/get-one/id
         [HttpGet("get-one/{id}")]

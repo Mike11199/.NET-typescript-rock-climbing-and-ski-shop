@@ -24,7 +24,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
     testDotnetAPIStatus();
     testDotnetAPIProductController();
     // testDotnetAPIProtectedRoute();
-  }, [])
+  }, []);
 
   useEffect(() => {
     getBestsellers()
@@ -75,18 +75,16 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
     <Container>
       <Row xs={1} md={2} className="g-4 mt-4">
         {mainCategories.map((category, idx) => (
-          <>
-            <div
-              key={`category_div_container_${category?.categoryId}`}
-              className="cardComponentGrid"
-            >
-              <CategoryCardComponent
-                key={`cardComponentGrid_${category?.categoryId}`}
-                category={category}
-                idx={idx}
-              />
-            </div>
-          </>
+          <div
+            key={`category_div_container_${category?.categoryId}`}
+            className="cardComponentGrid"
+          >
+            <CategoryCardComponent
+              key={`cardComponentGrid_${category?.categoryId}`}
+              category={category}
+              idx={idx}
+            />
+          </div>
         ))}
       </Row>
       {error}
