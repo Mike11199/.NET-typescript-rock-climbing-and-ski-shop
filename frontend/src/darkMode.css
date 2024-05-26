@@ -32,10 +32,16 @@
   margin-top: 3%;
 }
 
+/* dark mode - targets pagination component links*/
 .dark .page-item:not(.active) .page-link {
-  background-color: #50505c !important;
-  color: #dadee7 !important;
+  background-color: #50505c;
+  color: #dadee7;
+}
+
+/* dark mode - targets pagination component links*/
+.dark .page-link {
   border: 1px solid black;
+  border-color: black !important;
 }
 
 .dark .custom-input-group-field {
