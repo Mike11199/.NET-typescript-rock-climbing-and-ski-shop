@@ -23,6 +23,13 @@ const HeaderComponent = () => {
   const handleClickingTitle = useCallback(() => {
     setSearchCategoryToggle("All");
     updateSearchQuery("");
+
+    setTimeout(() => {
+      const navItems = document.querySelectorAll(".nav-link");
+      navItems.forEach((item) => {
+        item.classList.remove("active");
+      });
+    }, 0);
   }, [updateSearchQuery]);
 
   return (
@@ -46,19 +53,16 @@ const HeaderComponent = () => {
 
 export default HeaderComponent;
 
-
-const MainTitleContainer = React.memo(({
-  handleClickingTitle,
-}: {
-  handleClickingTitle: () => void;
-}) => {
-  return (
-    <button className="transparent-button">
-      <LinkContainer to="/">
-        <Navbar.Brand onClick={handleClickingTitle} href="/">
-          🏔 Alpine Peak Climbing and Ski Gear
-        </Navbar.Brand>
-      </LinkContainer>
-    </button>
-  );
-});
+const MainTitleContainer = React.memo(
+  ({ handleClickingTitle }: { handleClickingTitle: () => void }) => {
+    return (
+      <button className="transparent-button">
+        <LinkContainer to="/">
+          <Navbar.Brand onClick={handleClickingTitle} href="/">
+            🏔 Alpine Peak Climbing and Ski Gear
+          </Navbar.Brand>
+        </LinkContainer>
+      </button>
+    );
+  }
+);

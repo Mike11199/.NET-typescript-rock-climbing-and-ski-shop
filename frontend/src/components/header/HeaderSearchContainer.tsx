@@ -80,9 +80,18 @@ const HeaderSearchContainer = ({
   const searchButtonSubmitHandler = (e: any) => {
     e.preventDefault();
 
+    // blur so input group not focused with blue border and mobile keyboard disappears
     searchInputRef?.current?.blur();
     searchInputGroupRef?.current?.blur();
     searchButtonRef?.current?.blur();
+
+    // stop links on right of navbar from being highlighted
+    setTimeout(() => {
+      const navItems = document.querySelectorAll(".nav-link");
+      navItems.forEach((item) => {
+        item.classList.remove("active");
+      });
+    }, 0);
 
     if (searchString?.trim()) {
       if (searchCategoryToggle === "All") {

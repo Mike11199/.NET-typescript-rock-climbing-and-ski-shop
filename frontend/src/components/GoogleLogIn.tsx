@@ -62,8 +62,6 @@ const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, [windowWidth]);
 
-  console.log(divWidth);
-
   return (
     <div>
       {/* //https://console.cloud.google.com/  */}
