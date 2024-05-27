@@ -18,7 +18,7 @@ interface LoginPageComponentProps {
   loginUserApiRequest: (
     email: string,
     password: string,
-    doNotLogout: boolean
+    doNotLogout: boolean,
   ) => Promise<any>;
   reduxDispatch?: Function;
   setReduxUserState: Function;

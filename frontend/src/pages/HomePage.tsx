@@ -13,12 +13,14 @@ const getBestsellers = async () => {
     const { data } = await axios.get(`${apiURL}/products/bestsellers`);
     return data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 
 const HomePage = () => {
-  const { categories } = useSelector((state: ReduxAppState) => state.getCategories);
+  const { categories } = useSelector(
+    (state: ReduxAppState) => state.getCategories,
+  );
 
   return (
     <HomePageComponent

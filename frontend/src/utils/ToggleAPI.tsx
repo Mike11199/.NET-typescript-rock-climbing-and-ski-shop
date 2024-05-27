@@ -9,9 +9,9 @@
 //* "/apiv2" = .NET - useAPIV2 = true
 //*
 //****************************************************************************************************** */
-const useAPIV2 = true  //toggle API
+const useAPIV2 = true; //toggle API
 // const useAPIV2 = true  //toggle API
 
-const apiURL = useAPIV2 ? '/apiv2' : '/api';
+const apiURL = useAPIV2 ? "/apiv2" : "/api";
 
 export default apiURL;

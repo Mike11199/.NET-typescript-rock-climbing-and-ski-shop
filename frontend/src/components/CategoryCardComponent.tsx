@@ -34,13 +34,17 @@ const CategoryCardComponent = ({ category, idx }) => {
   const navigate = useNavigate();
 
   const handleClick = (categoryName) => {
-    navigate(`/product-list?pageNum=1&category=${encodeURIComponent(categoryName)}`);
+    navigate(
+      `/product-list?pageNum=1&category=${encodeURIComponent(categoryName)}`,
+    );
   };
 
   return (
     <>
       <Card style={cardStyle as any}>
-        <LinkContainer to={`/product-list?pageNum=1&category=${encodeURIComponent(category.name)}`}>
+        <LinkContainer
+          to={`/product-list?pageNum=1&category=${encodeURIComponent(category.name)}`}
+        >
           <img
             src={category.image ?? null}
             height="365px"

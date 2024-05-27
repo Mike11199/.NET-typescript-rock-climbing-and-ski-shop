@@ -13,7 +13,10 @@ const CartItemComponent = ({ item }: CartItemProps) => {
           <Col>
             <Image
               crossOrigin="anonymous"
-              src={(item?.images?.find((x: ProductImage) => x?.isMainImage === true)?.imageUrl) ?? ""}
+              src={
+                item?.images?.find((x: ProductImage) => x?.isMainImage === true)
+                  ?.imageUrl ?? ""
+              }
               fluid
             />
           </Col>

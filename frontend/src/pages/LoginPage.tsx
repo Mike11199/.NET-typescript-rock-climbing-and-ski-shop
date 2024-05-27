@@ -12,7 +12,7 @@ const loginUserApiRequest = async (email, password, doNotLogout) => {
       email,
       password,
       doNotLogout,
-    }
+    },
   );
   localStorage.clear();
   sessionStorage.clear();

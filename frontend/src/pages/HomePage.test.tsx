@@ -22,11 +22,10 @@ var mockState = {
 };
 
 test("if product name is seen", async () => {
- 
   // mock useSelector
-  useSelectorMock.mockReturnValue(mockState);  
-  
-  // mock axios return from get 
+  useSelectorMock.mockReturnValue(mockState);
+
+  // mock axios return from get
   axios.get.mockResolvedValue({
     data: [
       {
@@ -40,11 +39,10 @@ test("if product name is seen", async () => {
     ],
   });
 
-
   render(
     <Router>
       <HomePage />
-    </Router>
+    </Router>,
   );
   await waitFor(() => screen.getByText(/Product test Description/i));
   expect(screen.getByText(/Product test Description/i)).toBeInTheDocument();

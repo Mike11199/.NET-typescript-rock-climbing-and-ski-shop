@@ -16,7 +16,7 @@ export const cartReducer = (state = CART_INITIAL_STATE, action) => {
       const productBeingAddedToCart = action.payload;
 
       const productAlreadyExistsInState = state.cartItems.find(
-        (x: CartProduct) => x?.productId === productBeingAddedToCart?.productId
+        (x: CartProduct) => x?.productId === productBeingAddedToCart?.productId,
       );
 
       const currentState = { ...state };
@@ -57,7 +57,7 @@ export const cartReducer = (state = CART_INITIAL_STATE, action) => {
       return {
         ...state,
         cartItems: state.cartItems.filter(
-          (x: CartProduct) => x?.productId !== action.payload.productId
+          (x: CartProduct) => x?.productId !== action.payload.productId,
         ),
         itemsCount: state.itemsCount - action.payload.quantity,
         cartSubtotal:

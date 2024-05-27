@@ -6,13 +6,15 @@ import { useNavigate } from "react-router-dom";
 
 const EditUserPageComponent = ({ updateUserApiRequest, fetchUser }) => {
   const [validated, setValidated] = useState(false);
-    const [user, setUser] = useState<any>([]);
-    const [isAdminState, setIsAdminState] = useState(false);
-    const [updateUserResponseState, setUpdateUserResponseState] = useState<any>({ message: "", error: "" });
+  const [user, setUser] = useState<any>([]);
+  const [isAdminState, setIsAdminState] = useState(false);
+  const [updateUserResponseState, setUpdateUserResponseState] = useState<any>({
+    message: "",
+    error: "",
+  });
 
-    const { id } = useParams();
-    const navigate = useNavigate();
-
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -23,28 +25,38 @@ const EditUserPageComponent = ({ updateUserApiRequest, fetchUser }) => {
     const email = form.email.value;
     const isAdmin = form.isAdmin.checked;
     if (event.currentTarget.checkValidity() === true) {
-        updateUserApiRequest(id, name, lastName, email, isAdmin)
-        .then(data => {
-            if (data === "user updated") {
-                navigate("/admin/users");
-            }
+      updateUserApiRequest(id, name, lastName, email, isAdmin)
+        .then((data) => {
+          if (data === "user updated") {
+            navigate("/admin/users");
+          }
         })
-        .catch(er => {
-            setUpdateUserResponseState({ error: er.response.data.message ? er.response.data.message : er.response.data });
-        })
+        .catch((er) => {
+          setUpdateUserResponseState({
+            error: er.response.data.message
+              ? er.response.data.message
+              : er.response.data,
+          });
+        });
     }
 
     setValidated(true);
   };
 
-    useEffect(() => {
-        fetchUser(id)
-        .then(data => {
-            setUser(data);
-            setIsAdminState(data.isAdmin);
-        })
-        .catch((er) => console.log(er.response.data.message ? er.response.data.message : er.response.data));
-    }, [id])
+  useEffect(() => {
+    fetchUser(id)
+      .then((data) => {
+        setUser(data);
+        setIsAdminState(data.isAdmin);
+      })
+      .catch((er) =>
+        console.log(
+          er.response.data.message
+            ? er.response.data.message
+            : er.response.data,
+        ),
+      );
+  }, [id]);
 
   return (
     <Container>
@@ -73,7 +85,7 @@ const EditUserPageComponent = ({ updateUserApiRequest, fetchUser }) => {
                 name="lastName"
                 required
                 type="text"
-                defaultValue={user.lastName} 
+                defaultValue={user.lastName}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -87,7 +99,13 @@ const EditUserPageComponent = ({ updateUserApiRequest, fetchUser }) => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check name="isAdmin" type="checkbox" label="Is admin" checked={isAdminState} onChange={(e) => setIsAdminState(e.target.checked)} />
+              <Form.Check
+                name="isAdmin"
+                type="checkbox"
+                label="Is admin"
+                checked={isAdminState}
+                onChange={(e) => setIsAdminState(e.target.checked)}
+              />
             </Form.Group>
 
             <Button variant="primary" type="submit">
@@ -102,4 +120,3 @@ const EditUserPageComponent = ({ updateUserApiRequest, fetchUser }) => {
 };
 
 export default EditUserPageComponent;
-

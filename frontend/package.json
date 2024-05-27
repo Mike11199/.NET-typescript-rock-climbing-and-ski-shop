@@ -42,7 +42,8 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "cross-env GENERATE_SOURCEMAP=false vite build"
+    "build": "cross-env GENERATE_SOURCEMAP=false vite build",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
   },
   "eslintConfig": {
     "extends": [
@@ -73,6 +74,7 @@
     "@types/react": "^18.2.21",
     "@types/react-bootstrap": "^0.32.32",
     "@typescript-eslint/parser": "^5.62.0",
+    "prettier": "^3.2.5",
     "typescript": "^4.0.0"
   }
 }

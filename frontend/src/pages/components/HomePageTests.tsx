@@ -20,13 +20,13 @@ export const testDotnetAPIStatus = async () => {
 };
 
 export const testDotnetAPIProductController = async () => {
-    try {
-      const { data } = await axios.get("/apiv2/products");
-      console.log(
-        "Test retrieving a product from api v2 .NET app docker container - RDS PostgreSQL database. "
-      );
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  try {
+    const { data } = await axios.get("/apiv2/products");
+    console.log(
+      "Test retrieving a product from api v2 .NET app docker container - RDS PostgreSQL database. ",
+    );
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+};

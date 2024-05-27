@@ -14,11 +14,10 @@ import { useEffect, useState } from "react";
 import { logout } from "../../../redux/actions/userActions";
 import { useDispatch } from "react-redux";
 
-
 const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
   const { id } = useParams();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [userInfo, setUserInfo] = useState<any>({});
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -50,8 +49,7 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
         // console.log(
         //   er.response.data.message ? er.response.data.message : er.response.data
         // )
-      dispatch(logout())
-
+        dispatch(logout()),
       );
   }, [isDelivered, id]);
   return (
@@ -72,9 +70,7 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
               <h2>Payment method</h2>
               <Form.Select value={paymentMethod} disabled={true}>
                 <option value="PayPal">PayPal</option>
-                <option value="Cash">
-                  Cash On Delivery
-                </option>
+                <option value="Cash">Cash On Delivery</option>
               </Form.Select>
             </Col>
             <Row>
@@ -127,14 +123,20 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
               <div className="d-grid gap-2">
                 <Button
                   size="lg"
-                  onClick={() => 
+                  onClick={() =>
                     markAsDelivered(id)
-                    .then((res) => {
-                       if (res) {
-                          setIsDelivered(true); 
-                       } 
-                    })
-                    .catch(er => console.log(er.response.data.message ? er.response.data.message : er.response.data))
+                      .then((res) => {
+                        if (res) {
+                          setIsDelivered(true);
+                        }
+                      })
+                      .catch((er) =>
+                        console.log(
+                          er.response.data.message
+                            ? er.response.data.message
+                            : er.response.data,
+                        ),
+                      )
                   }
                   disabled={buttonDisabled}
                   variant="danger"
@@ -152,4 +154,3 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
 };
 
 export default OrderDetailsPageComponent;
-

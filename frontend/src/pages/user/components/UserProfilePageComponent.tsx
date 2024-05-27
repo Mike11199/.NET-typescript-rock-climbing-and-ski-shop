@@ -56,13 +56,13 @@ const UserProfilePageComponent = ({
 
     if (password === "") {
       toastError(
-        "Please enter your current password to confirm changes to your profile."
+        "Please enter your current password to confirm changes to your profile.",
       );
       return;
     }
 
     const confirmed = window.confirm(
-      "Are you sure you want to update your profile?"
+      "Are you sure you want to update your profile?",
     );
     if (!confirmed) {
       return;
@@ -78,26 +78,26 @@ const UserProfilePageComponent = ({
           zipCode,
           city,
           state,
-          password
+          password,
         );
         setUpdateUserResponseState({ success: data.success, error: "" });
         reduxDispatch(
           setReduxUserState({
             doNotLogout: userInfo.doNotLogout,
             ...data.userUpdated,
-          })
+          }),
         );
         toastSuccess("Successfully updated your profile!");
 
         if (userInfo.doNotLogout) {
           localStorage.setItem(
             "userInfo",
-            JSON.stringify({ doNotLogout: true, ...data.userUpdated })
+            JSON.stringify({ doNotLogout: true, ...data.userUpdated }),
           );
         } else {
           sessionStorage.setItem(
             "userInfo",
-            JSON.stringify({ doNotLogout: false, ...data.userUpdated })
+            JSON.stringify({ doNotLogout: false, ...data.userUpdated }),
           );
           setTimeout(function () {
             window.location.assign("/user");

@@ -42,7 +42,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
 
     if (Array.isArray(categories)) {
       setMainCategories((cat) =>
-        categories.filter((item) => !item.name.includes("/"))
+        categories.filter((item) => !item.name.includes("/")),
       );
     }
   }, [categories, getBestsellers]);

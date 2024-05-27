@@ -5,10 +5,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import HomePageComponent from "./HomePageComponent";
-import { MemoryRouter as Router } from "react-router-dom";  //as useNavigate called in other components in home page (MemoryRouter faster than BrowserRouter)
-
-
-
+import { MemoryRouter as Router } from "react-router-dom"; //as useNavigate called in other components in home page (MemoryRouter faster than BrowserRouter)
 
 //*******************************MOCK DATA*********************************************//
 
@@ -31,9 +28,6 @@ let getBestsellers = () => {
   });
 };
 
-
-
-
 //***************************TESTS ARE BELOW HERE************************************//
 
 //test that the catch function works in the front end if an error with the API - if the promise rejects instead of resolves
@@ -49,8 +43,6 @@ let getBestsellersError = () => {
   });
 };
 
-
-
 test("if category is seen", async () => {
   render(
     <Router>
@@ -58,15 +50,12 @@ test("if category is seen", async () => {
         categories={categories}
         getBestsellers={getBestsellers}
       />
-    </Router>
+    </Router>,
   );
-  await waitFor(() => screen.getByText(/Boots\/Climbing\/Sportiva/i));  // i means case insensitive
+  await waitFor(() => screen.getByText(/Boots\/Climbing\/Sportiva/i)); // i means case insensitive
   expect(screen.getByText(/Boots\/Climbing\/Sportiva/i)).toBeInTheDocument();
   // expect(screen.getByRole("heading", { name: /Boots\/Climbing\/Sportiva/i }));   //to get text from header
-
 });
-
-
 
 test("if error is seen", async () => {
   render(
@@ -75,7 +64,7 @@ test("if error is seen", async () => {
         categories={categories}
         getBestsellers={getBestsellersError}
       />
-    </Router>
+    </Router>,
   );
 
   await waitFor(() => screen.getByText(/Product is not defined/i));

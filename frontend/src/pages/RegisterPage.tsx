@@ -19,7 +19,7 @@ export const registerUserApiRequest = async ({
 }: registerUserRequest): Promise<LoggedInOrRegisteredUserResponse> => {
   const { data } = await axios.post<LoggedInOrRegisteredUserResponse>(
     "/apiv2/users/register",
-    { name, lastName, email, password }
+    { name, lastName, email, password },
   );
 
   localStorage.clear();

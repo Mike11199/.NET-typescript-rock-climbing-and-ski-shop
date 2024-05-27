@@ -16,8 +16,15 @@ import Confetti from "react-dom-confetti";
 import toast, { Toaster } from "react-hot-toast";
 import ShoppingCartImage from "../../../images/shopping_cart.png";
 import { ConfettiConfig } from "react-dom-confetti";
-import { CartProduct, StoredUserInfo, User, orderDataDTO, Order, UserAddress, Product} from "types";
-
+import {
+  CartProduct,
+  StoredUserInfo,
+  User,
+  orderDataDTO,
+  Order,
+  UserAddress,
+  Product,
+} from "types";
 
 interface UserCartDetailsPageComponentProps {
   cartItems: CartProduct[];
@@ -44,9 +51,10 @@ const UserCartDetailsPageComponent = ({
   createOrder,
   clearCart,
 }: UserCartDetailsPageComponentProps) => {
-
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
-  const [userAddress, setUserAddress] = useState<UserAddress | undefined>(undefined);
+  const [userAddress, setUserAddress] = useState<UserAddress | undefined>(
+    undefined,
+  );
   const [missingAddress, setMissingAddress] = useState<boolean>(false);
   const [paymentMethod, setPaymentMethod] = useState<string>("PayPal");
   const [confetti, setConfetti] = useState<boolean>(false);
@@ -109,14 +117,13 @@ const UserCartDetailsPageComponent = ({
   useEffect(() => {
     getUser()
       .then((data) => {
-        const addressInfoIsMissing = (
+        const addressInfoIsMissing =
           !data?.address ||
           !data?.city ||
           !data?.country ||
           !data?.zipCode ||
           !data?.state ||
-          !data?.phoneNumber
-        )
+          !data?.phoneNumber;
 
         if (addressInfoIsMissing) {
           setButtonDisabled(true);
@@ -135,17 +142,19 @@ const UserCartDetailsPageComponent = ({
       })
       .catch((er) =>
         console.log(
-          er?.response?.data?.message ? er?.response?.data?.message : er?.response?.data
-        )
+          er?.response?.data?.message
+            ? er?.response?.data?.message
+            : er?.response?.data,
+        ),
       );
   }, [userInfo?.userId]);
 
   const orderHandler = () => {
     const orderData: orderDataDTO = {
       paymentMethod: paymentMethod,
-      orderItems: cartItems?.map( p => ({
+      orderItems: cartItems?.map((p) => ({
         productId: p?.productId,
-        quantity: p?.quantity
+        quantity: p?.quantity,
       })),
     };
     createOrder(orderData)
@@ -196,9 +205,7 @@ const UserCartDetailsPageComponent = ({
                 <h2>Payment method</h2>
                 <Form.Select onChange={choosePayment}>
                   <option value="PayPal">PayPal</option>
-                  <option value="Cash">
-                    Cash On Delivery
-                  </option>
+                  <option value="Cash">Cash On Delivery</option>
                 </Form.Select>
               </Col>
               <Row>
@@ -234,7 +241,9 @@ const UserCartDetailsPageComponent = ({
               </ListGroup.Item>
               <ListGroup.Item>
                 Items price (after tax):{" "}
-                <span className="fw-bold">${(cartSubtotal ?? 0).toFixed(2)}</span>
+                <span className="fw-bold">
+                  ${(cartSubtotal ?? 0).toFixed(2)}
+                </span>
               </ListGroup.Item>
               <ListGroup.Item>
                 Shipping: <span className="fw-bold">included</span>
@@ -244,7 +253,9 @@ const UserCartDetailsPageComponent = ({
               </ListGroup.Item>
               <ListGroup.Item className="text-danger">
                 Total price:{" "}
-                <span className="fw-bold">${(cartSubtotal ?? 0).toFixed(2)}</span>
+                <span className="fw-bold">
+                  ${(cartSubtotal ?? 0).toFixed(2)}
+                </span>
               </ListGroup.Item>
               <ListGroup.Item>
                 <div className="d-grid gap-2">
@@ -259,7 +270,8 @@ const UserCartDetailsPageComponent = ({
                     Place order
                   </Button>
                   <p style={{ color: "red", fontWeight: "500" }}>
-                    {missingAddress && "In order to make an order, fill out your profile with correct address, city etc."}
+                    {missingAddress &&
+                      "In order to make an order, fill out your profile with correct address, city etc."}
                   </p>
                 </div>
               </ListGroup.Item>

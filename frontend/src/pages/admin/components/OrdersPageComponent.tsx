@@ -4,14 +4,12 @@ import AdminLinksComponent from "../../../components/admin/AdminLinksComponent";
 import { logout } from "../../../redux/actions/userActions";
 import { useDispatch } from "react-redux";
 
-
 import { useEffect, useState } from "react";
 
 const OrdersPageComponent = ({ getOrders }) => {
+  const [orders, setOrders] = useState<any>([]);
 
-  const [orders, setOrders] = useState<any>([])
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getOrders()
@@ -20,13 +18,13 @@ const OrdersPageComponent = ({ getOrders }) => {
         // console.log(
         //   er.response.data.message ? er.response.data.message : er.response.data
         // )
-        dispatch(logout())
+        dispatch(logout()),
       );
   }, []);
 
-  let USDollar = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
+  let USDollar = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
   });
 
   return (
@@ -84,4 +82,3 @@ const OrdersPageComponent = ({ getOrders }) => {
 };
 
 export default OrdersPageComponent;
-

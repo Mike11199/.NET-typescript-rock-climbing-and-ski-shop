@@ -11,5 +11,5 @@ const Counter = () => {
       <button onClick={increment}>Increment</button>
     </div>
   );
-}
+};
 export default Counter;

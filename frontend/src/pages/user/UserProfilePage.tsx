@@ -14,7 +14,7 @@ const updateUserApiRequest = async (
   zipCode,
   city,
   state,
-  password
+  password,
 ) => {
   const { data } = await axios.put("/api/users/profile", {
     name,
@@ -30,15 +30,16 @@ const updateUserApiRequest = async (
   return data;
 };
 
-
 const fetchUser = async (id: string) => {
-  const { data } = await axios.get( `${apiURL}/users/profile/` + id);
+  const { data } = await axios.get(`${apiURL}/users/profile/` + id);
   return data;
 };
 
 const UserProfilePage = () => {
   const reduxDispatch = useDispatch();
-  const { userInfo } = useSelector((state: ReduxAppState) => state.userRegisterLogin);
+  const { userInfo } = useSelector(
+    (state: ReduxAppState) => state.userRegisterLogin,
+  );
 
   return (
     <UserProfilePageComponent
@@ -54,4 +55,3 @@ const UserProfilePage = () => {
 };
 
 export default UserProfilePage;
-

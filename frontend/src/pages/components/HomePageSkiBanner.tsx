@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import AnimationSkierVectorImage from "../../images/skier_vector.png";
 import AnimationSlopeBackgroundImage from "../../images/ski_slope_6.png";
 import Snowfall from "react-snowfall";
@@ -7,7 +7,6 @@ import AnimationTree from "../../images/tree.png";
 import AnimationSkiChairImage from "../../images/ski_chair.png";
 
 const HomePageSkiBanner = () => {
-
   const numberOfChairs = 5;
   const numberOfClouds = 13;
 

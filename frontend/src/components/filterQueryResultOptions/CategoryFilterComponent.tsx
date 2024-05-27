@@ -3,8 +3,14 @@ import { useSelector } from "react-redux";
 import { useRef, useState, useEffect } from "react";
 import { ReduxAppState } from "types";
 
-const CategoryFilterComponent = ({ setCategoryFromFilter, categoryFromFilter, queryParamCategoryName }) => {
-  const { categories } = useSelector((state: ReduxAppState) => state.getCategories);
+const CategoryFilterComponent = ({
+  setCategoryFromFilter,
+  categoryFromFilter,
+  queryParamCategoryName,
+}) => {
+  const { categories } = useSelector(
+    (state: ReduxAppState) => state.getCategories,
+  );
 
   return (
     <>
@@ -15,7 +21,7 @@ const CategoryFilterComponent = ({ setCategoryFromFilter, categoryFromFilter, qu
             <Form.Check type="checkbox" id={`check-api2-${idx}`}>
               <Form.Check.Input
                 type="checkbox"
-                checked={category?.name === categoryFromFilter }
+                checked={category?.name === categoryFromFilter}
                 onChange={() => setCategoryFromFilter(category?.name)}
               />
               <Form.Check.Label style={{ cursor: "pointer", color: "#137b28" }}>

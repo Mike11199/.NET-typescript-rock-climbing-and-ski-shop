@@ -37,11 +37,11 @@ const HeaderSearchContainer = ({
   const dropdownButtonRef = useRef<HTMLDivElement>(null);
 
   const { categories } = useSelector(
-    (state: ReduxAppState) => state.getCategories
+    (state: ReduxAppState) => state.getCategories,
   );
   const { mode } = useSelector((state: ReduxAppState) => state.DarkMode);
   const { searchString } = useSelector(
-    (state: ReduxAppState) => state.searchString
+    (state: ReduxAppState) => state.searchString,
   );
   function useQuery() {
     return new URLSearchParams(useLocation().search);

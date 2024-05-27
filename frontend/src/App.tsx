@@ -5,7 +5,7 @@ import HeaderComponent from "./components/header/HeaderComponent";
 import FooterComponent from "./components/FooterComponent";
 
 //user components:
-import RoutesWithUserChatComponent from './pages/user/RoutesWithUserChatComponent'
+import RoutesWithUserChatComponent from "./pages/user/RoutesWithUserChatComponent";
 
 // publicly available pages:
 import HomePage from "./pages/HomePage";
@@ -37,12 +37,11 @@ import ScrollToTop from "./utils/ScrollToTop";
 import setupAxiosInterceptor from "./utils/AxiosSetup";
 
 function App() {
-
   setupAxiosInterceptor();
 
   return (
     <BrowserRouter>
-    <ScrollToTop />
+      <ScrollToTop />
       <HeaderComponent />
       <Routes>
         <Route element={<RoutesWithUserChatComponent />}>
@@ -62,7 +61,9 @@ function App() {
           <Route path="/user" element={<UserProfilePage />} />
           <Route path="/user/my-orders" element={<UserOrdersPage />} />
           <Route path="/user/cart-details" element={<UserCartDetailsPage />} />
-          <Route path="/user/order-details/:id" element={<UserOrderDetailsPage />}
+          <Route
+            path="/user/order-details/:id"
+            element={<UserOrderDetailsPage />}
           />
         </Route>
 
@@ -71,18 +72,26 @@ function App() {
           <Route path="/admin/users" element={<AdminUsersPage />} />
           <Route path="/admin/edit-user/:id" element={<AdminEditUserPage />} />
           <Route path="/admin/products" element={<AdminProductsPage />} />
-          <Route path="/admin/create-new-product" element={<AdminCreateProductPage />} />
-          <Route path="/admin/edit-product/:id" element={<AdminEditProductPage />} />
+          <Route
+            path="/admin/create-new-product"
+            element={<AdminCreateProductPage />}
+          />
+          <Route
+            path="/admin/edit-product/:id"
+            element={<AdminEditProductPage />}
+          />
           <Route path="/admin/orders" element={<AdminOrdersPage />} />
-          <Route path="/admin/order-details/:id" element={<AdminOrderDetailsPage />}/>
+          <Route
+            path="/admin/order-details/:id"
+            element={<AdminOrderDetailsPage />}
+          />
           <Route path="/admin/chats" element={<AdminChatsPage />} />
           <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
         </Route>
       </Routes>
       <FooterComponent />
     </BrowserRouter>
-  )
+  );
 }
 
 export default App;
-

@@ -6,30 +6,27 @@ import Counter from "./exampleComponent";
 
 test("counter test, not part of the e-comm app", () => {
   render(<Counter />);
- 
+
   expect(screen.getByText("Decrement")).toBeInTheDocument();
-  
+
   const increment = screen.getByText("Increment");
   const decrement = screen.getByText("Decrement");
-  const message = screen.getByText(/Current count/);  //regular expression
- 
-  fireEvent.click(increment) 
-  expect(message.textContent).toBe('Current count: 1')
-  
-  fireEvent.click(decrement)
-  fireEvent.click(decrement)
-  fireEvent.click(decrement)
-  fireEvent.click(decrement)
+  const message = screen.getByText(/Current count/); //regular expression
 
+  fireEvent.click(increment);
+  expect(message.textContent).toBe("Current count: 1");
 
-  expect(message.textContent).toBe('Current count: -3')
+  fireEvent.click(decrement);
+  fireEvent.click(decrement);
+  fireEvent.click(decrement);
+  fireEvent.click(decrement);
+
+  expect(message.textContent).toBe("Current count: -3");
 
   // for (let index = 0; index < 10000; index++) {
-  //   fireEvent.click(increment) 
-    
+  //   fireEvent.click(increment)
+
   // }
-  
+
   // expect(message.textContent).toBe('Current count: 9997')
-
-
 });

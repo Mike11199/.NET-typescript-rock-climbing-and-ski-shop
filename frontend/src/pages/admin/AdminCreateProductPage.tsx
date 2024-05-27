@@ -5,7 +5,11 @@ import {
   uploadImagesCloudinaryApiRequest,
 } from "./utils/utils";
 import { useSelector } from "react-redux";
-import { newCategory,deleteCategory, saveAttributeToCatDoc } from "../../redux/actions/categoryActions";
+import {
+  newCategory,
+  deleteCategory,
+  saveAttributeToCatDoc,
+} from "../../redux/actions/categoryActions";
 import { useDispatch } from "react-redux";
 import { ReduxAppState } from "types";
 
@@ -15,7 +19,9 @@ const createProductApiRequest = async (formInputs) => {
 };
 
 const AdminCreateProductPage = () => {
-  const { categories } = useSelector((state: ReduxAppState) => state.getCategories);
+  const { categories } = useSelector(
+    (state: ReduxAppState) => state.getCategories,
+  );
   const dispatch = useDispatch();
 
   return (
@@ -33,4 +39,3 @@ const AdminCreateProductPage = () => {
 };
 
 export default AdminCreateProductPage;
-

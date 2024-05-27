@@ -6,7 +6,7 @@ import { Product } from "../../types";
 export const addToCart =
   (productId, quantity) => async (dispatch, getState) => {
     const { data } = await axios.get<Product>(
-      `/apiv2/products/get-one/${productId}`
+      `/apiv2/products/get-one/${productId}`,
     );
 
     dispatch({
@@ -33,10 +33,9 @@ export const removeFromCart =
     localStorage.setItem("cart", JSON.stringify(getState().cart.cartItems));
   };
 
-  export const clearCart =
-  () => (dispatch, getState) => {
-    dispatch({
-      type: actionTypes.CLEAR_CART
-    });
-    localStorage.removeItem('cart')
-  };
+export const clearCart = () => (dispatch, getState) => {
+  dispatch({
+    type: actionTypes.CLEAR_CART,
+  });
+  localStorage.removeItem("cart");
+};

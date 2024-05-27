@@ -6,7 +6,9 @@ import { useSelector } from "react-redux";
 import { ReduxAppState } from "types";
 
 const AdminChatsPage = () => {
-  const { chatRooms, socket } = useSelector((state: ReduxAppState) => state.adminChat);
+  const { chatRooms, socket } = useSelector(
+    (state: ReduxAppState) => state.adminChat,
+  );
 
   return (
     <Row className="m-5">
@@ -16,7 +18,13 @@ const AdminChatsPage = () => {
       <Col md={10}>
         <Row>
           {Object.entries(chatRooms).map((chatRoom, index) => (
-            <AdminChatRoomComponent key={index} chatRoom={chatRoom} roomIndex={index + 1} socket={socket} socketUser={chatRoom[0]}  />
+            <AdminChatRoomComponent
+              key={index}
+              chatRoom={chatRoom}
+              roomIndex={index + 1}
+              socket={socket}
+              socketUser={chatRoom[0]}
+            />
           ))}
         </Row>
       </Col>
@@ -25,4 +33,3 @@ const AdminChatsPage = () => {
 };
 
 export default AdminChatsPage;
-

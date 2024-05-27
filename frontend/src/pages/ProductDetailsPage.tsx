@@ -22,7 +22,7 @@ const ProductDetailsPage = () => {
   const dispatch = useDispatch();
 
   const userInfo = useSelector(
-    (state: ReduxAppState) => state.userRegisterLogin.userInfo
+    (state: ReduxAppState) => state.userRegisterLogin.userInfo,
   );
 
   return (

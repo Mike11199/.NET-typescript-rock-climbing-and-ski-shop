@@ -16,7 +16,10 @@ import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Product } from "types";
 import { Spinner } from "react-bootstrap";
-import { toastSuccess, toastError } from "../../../src/utils/ToastNotifications";
+import {
+  toastSuccess,
+  toastError,
+} from "../../../src/utils/ToastNotifications";
 import { Toaster } from "react-hot-toast";
 
 const ProductDetailsPageComponent = ({
@@ -33,7 +36,7 @@ const ProductDetailsPageComponent = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [productReviewed, setProductReviewed] = useState<boolean | string>(
-    false
+    false,
   );
   const [productReviewErrorMessage, setProductReviewErrorMessage] =
     useState<string>("");
@@ -84,8 +87,8 @@ const ProductDetailsPageComponent = ({
         setError(
           (er?.response?.data?.message
             ? er?.response?.data?.message
-            : er?.response?.data) ?? "Error"
-        )
+            : er?.response?.data) ?? "Error",
+        ),
       );
   }, [id, productReviewed]);
 
@@ -98,20 +101,22 @@ const ProductDetailsPageComponent = ({
     };
     if (e.currentTarget.checkValidity() === true) {
       try {
-        const data = await writeReviewApiRequest(product?.productId, formInputs);
+        const data = await writeReviewApiRequest(
+          product?.productId,
+          formInputs,
+        );
         if (data?.success === "New Review Created.") {
           toastSuccess("Successfully reviewed product.");
           setProductReviewed("Successfully reviewed product.");
-          setProductReviewErrorMessage("")
+          setProductReviewErrorMessage("");
         }
-        console.log(data)
+        console.log(data);
       } catch (er: any) {
-        console.log(er?.response?.data),
-        setProductReviewed(false)
-        toastError(er?.response?.data)
-          setProductReviewErrorMessage(
-            er?.response?.data?.message ?? er?.response?.data
-          );
+        console.log(er?.response?.data), setProductReviewed(false);
+        toastError(er?.response?.data);
+        setProductReviewErrorMessage(
+          er?.response?.data?.message ?? er?.response?.data,
+        );
       }
     }
   };
@@ -312,9 +317,9 @@ const ProductDetailsPageComponent = ({
                           <div style={{ marginBottom: "0.5rem" }}>
                             {new Intl.DateTimeFormat(
                               undefined,
-                              dateOptions
+                              dateOptions,
                             ).format(
-                              new Date(review?.createdAt?.toString() ?? "")
+                              new Date(review?.createdAt?.toString() ?? ""),
                             )}
                           </div>
                           <div>{review?.comment}</div>
@@ -366,9 +371,7 @@ const ProductDetailsPageComponent = ({
                     Submit
                   </Button>{" "}
                   {productReviewed && (
-                    <div style={{ color: "green" }}>
-                      {productReviewed}
-                    </div>
+                    <div style={{ color: "green" }}>{productReviewed}</div>
                   )}
                   {productReviewErrorMessage !== "" && (
                     <div style={{ color: "red" }}>

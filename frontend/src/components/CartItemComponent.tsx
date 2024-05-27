@@ -3,16 +3,19 @@ import RemoveFromCartComponent from "./RemoveFromCartComponent";
 import { CartProduct, Image as ProductImage } from "types";
 
 interface CartItemProps {
-  product:  CartProduct;
+  product: CartProduct;
   removeFromCartHandler?: any;
   orderCreated?: boolean | undefined;
   changeCount?: any;
 }
 
-
-const CartItemComponent = ({ product, removeFromCartHandler = false, orderCreated = false, changeCount = false }: CartItemProps) => {
-
-  const productId = product?.productId
+const CartItemComponent = ({
+  product,
+  removeFromCartHandler = false,
+  orderCreated = false,
+  changeCount = false,
+}: CartItemProps) => {
+  const productId = product?.productId;
   const productUrl = `/product-details/${productId}`;
 
   return (
@@ -22,7 +25,11 @@ const CartItemComponent = ({ product, removeFromCartHandler = false, orderCreate
           <Col md={2}>
             <Image
               crossOrigin="anonymous"
-              src={(product?.images?.find((x: ProductImage) => x?.isMainImage === true)?.imageUrl) ?? ""}
+              src={
+                product?.images?.find(
+                  (x: ProductImage) => x?.isMainImage === true,
+                )?.imageUrl ?? ""
+              }
               fluid
             />
           </Col>
@@ -33,7 +40,15 @@ const CartItemComponent = ({ product, removeFromCartHandler = false, orderCreate
             <b>${(product?.price ?? 0).toFixed(2)}</b>
           </Col>
           <Col md={3}>
-            <Form.Select onChange={changeCount ? (e) => changeCount(product?.productId, e.target.value) : undefined } disabled={orderCreated} value={product?.quantity}>
+            <Form.Select
+              onChange={
+                changeCount
+                  ? (e) => changeCount(product?.productId, e.target.value)
+                  : undefined
+              }
+              disabled={orderCreated}
+              value={product?.quantity}
+            >
               {[...Array(product?.count).keys()].map((x) => (
                 <option key={x + 1} value={x + 1}>
                   {x + 1}
@@ -43,12 +58,14 @@ const CartItemComponent = ({ product, removeFromCartHandler = false, orderCreate
           </Col>
           <Col md={3}>
             <RemoveFromCartComponent
-            orderCreated={orderCreated}
-            productId={product?.productId}
-            quantity={product?.quantity}
-            price={product?.price}
-            removeFromCartHandler={removeFromCartHandler ? removeFromCartHandler : undefined}
-             />
+              orderCreated={orderCreated}
+              productId={product?.productId}
+              quantity={product?.quantity}
+              price={product?.price}
+              removeFromCartHandler={
+                removeFromCartHandler ? removeFromCartHandler : undefined
+              }
+            />
           </Col>
         </Row>
       </ListGroup.Item>
@@ -58,4 +75,3 @@ const CartItemComponent = ({ product, removeFromCartHandler = false, orderCreate
 };
 
 export default CartItemComponent;
-

@@ -1,26 +1,27 @@
-import axios from 'axios';
+import axios from "axios";
 
 const setupAxiosInterceptor = () => {
   axios.interceptors.request.use(
-    async config => {
+    async (config) => {
       if (!config.headers) {
         config.headers = {};
       }
 
       const getToken = async () => {
-        let token = localStorage.getItem('token') || sessionStorage.getItem('token');
+        let token =
+          localStorage.getItem("token") || sessionStorage.getItem("token");
         return token;
       };
 
       const token = await getToken();
 
       if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`;
+        config.headers["Authorization"] = `Bearer ${token}`;
       }
 
       return config;
     },
-    error => Promise.reject(error)
+    (error) => Promise.reject(error),
   );
 };
 

@@ -47,13 +47,13 @@ const INITIAL_STATE = {
     itemsCount: cartItemsInLocalStorage
       ? cartItemsInLocalStorage.reduce(
           (quantity, item) => Number(item.quantity) + quantity,
-          0
+          0,
         )
       : 0,
     cartSubtotal: cartItemsInLocalStorage
       ? cartItemsInLocalStorage.reduce(
           (price, item) => price + item.price * item.quantity,
-          0
+          0,
         )
       : 0,
   },
@@ -65,7 +65,7 @@ const middleware = [thunk];
 const store = createStore(
   reducer,
   INITIAL_STATE,
-  composeWithDevTools(applyMiddleware(...middleware))
+  composeWithDevTools(applyMiddleware(...middleware)),
 );
 
 export default store;

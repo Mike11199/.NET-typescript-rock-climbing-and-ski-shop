@@ -29,10 +29,10 @@ const RegisterPageComponent = ({
   const onChange = () => {
     //grab values from form
     const password: HTMLInputElement | null = document.querySelector(
-      "input[name=password]"
+      "input[name=password]",
     );
     const confirmPassword: HTMLInputElement | null = document.querySelector(
-      "input[name=confirmPassword]"
+      "input[name=confirmPassword]",
     );
     // check here if password and confirm passwords match and if password requirements are met
     const passwordsBothMatch =
@@ -99,11 +99,11 @@ const RegisterPageComponent = ({
           }, 1000);
         }
       } catch (er: any) {
-        const errMessage = er?.response?.data?.message ?? er?.response?.data
+        const errMessage = er?.response?.data?.message ?? er?.response?.data;
         setRegisterUserResponseState({
           error: errMessage,
         });
-        console.error(errMessage)
+        console.error(errMessage);
         toastError(`Error registering user: \n ${errMessage}`);
       }
     } else {

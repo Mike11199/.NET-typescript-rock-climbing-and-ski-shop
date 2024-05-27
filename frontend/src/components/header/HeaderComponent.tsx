@@ -17,7 +17,7 @@ const HeaderComponent = () => {
     (search: string) => {
       dispatch(updateSearchString(search));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleClickingTitle = useCallback(() => {
@@ -64,5 +64,5 @@ const MainTitleContainer = React.memo(
         </LinkContainer>
       </button>
     );
-  }
+  },
 );

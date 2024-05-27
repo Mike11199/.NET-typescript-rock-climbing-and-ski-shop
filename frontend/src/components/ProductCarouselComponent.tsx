@@ -24,7 +24,10 @@ const ProductCarouselComponent = ({
               crossOrigin="anonymous"
               className="d-block w-100"
               style={{ height: "300px", objectFit: "contain" }}
-              src={ (item?.images?.find((x: Image) => x?.isMainImage === true)?.imageUrl) ?? ""}
+              src={
+                item?.images?.find((x: Image) => x?.isMainImage === true)
+                  ?.imageUrl ?? ""
+              }
               alt={item?.name ?? ""}
             />
             <Carousel.Caption>

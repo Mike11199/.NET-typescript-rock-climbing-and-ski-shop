@@ -1,11 +1,25 @@
-import {Row,Col,Container,Form,Button,CloseButton,Table,Alert,Image} from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Container,
+  Form,
+  Button,
+  CloseButton,
+  Table,
+  Alert,
+  Image,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useState, useEffect, Fragment, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { changeCategory, setValuesForAttrFromDbSelectForm, setAttributesTableWrapper } from "./utils/utils";
+import {
+  changeCategory,
+  setValuesForAttrFromDbSelectForm,
+  setAttributesTableWrapper,
+} from "./utils/utils";
 
-const onHover:any = {
+const onHover: any = {
   cursor: "pointer",
   position: "absolute",
   left: "5px",
@@ -34,20 +48,21 @@ const EditProductPageComponent = ({
   imageDeleteHandler,
   uploadHandler,
   uploadImagesApiRequest,
-  uploadImagesCloudinaryApiRequest
+  uploadImagesCloudinaryApiRequest,
 }: EditProductPageComponentProps) => {
   const [validated, setValidated] = useState(false);
   const [product, setProduct] = useState<any>({});
-  const [updateProductResponseState, setUpdateProductResponseState] = useState<any>({
-    message: "",
-    error: "",
-  });
+  const [updateProductResponseState, setUpdateProductResponseState] =
+    useState<any>({
+      message: "",
+      error: "",
+    });
   const [attributesFromDb, setAttributesFromDb] = useState<any>([]); // for select lists
   const [attributesTable, setAttributesTable] = useState<any>([]); // for html table
   const [categoryChoosen, setCategoryChoosen] = useState("Choose category");
   const [newAttrKey, setNewAttrKey] = useState(false);
   const [newAttrValue, setNewAttrValue] = useState(false);
-  const [imageRemoved, setImageRemoved] = useState(false)
+  const [imageRemoved, setImageRemoved] = useState(false);
   const [isUploading, setIsUploading] = useState("");
   const [imageUploaded, setImageUploaded] = useState(false);
 
@@ -55,8 +70,6 @@ const EditProductPageComponent = ({
   const attrKey = useRef<any>(null);
   const createNewAttrKey = useRef<any>(null);
   const createNewAttrVal = useRef<any>(null);
-
-
 
   const { id } = useParams();
 
@@ -92,7 +105,7 @@ const EditProductPageComponent = ({
             error: er.response.data.message
               ? er.response.data.message
               : er.response.data,
-          })
+          }),
         );
     }
 
@@ -101,14 +114,14 @@ const EditProductPageComponent = ({
 
   useEffect(() => {
     let categoryOfEditedProduct = categories.find(
-      (item) => item.name === product.category
+      (item) => item.name === product.category,
     );
     if (categoryOfEditedProduct) {
       const mainCategoryOfEditedProduct =
         categoryOfEditedProduct.name.split("/")[0];
       const mainCategoryOfEditedProductAllData = categories.find(
         (categoryOfEditedProduct) =>
-          categoryOfEditedProduct.name === mainCategoryOfEditedProduct
+          categoryOfEditedProduct.name === mainCategoryOfEditedProduct,
       );
       if (
         mainCategoryOfEditedProductAllData &&
@@ -121,49 +134,51 @@ const EditProductPageComponent = ({
     setAttributesTable(product.attrs);
   }, [product]);
 
-  
-
   const attributeValueSelected = (e) => {
-      if (e.target.value !== "Choose attribute value") {
-          setAttributesTableWrapper(attrKey.current.value, e.target.value, setAttributesTable);
-      }
-  }
-
-  
+    if (e.target.value !== "Choose attribute value") {
+      setAttributesTableWrapper(
+        attrKey.current.value,
+        e.target.value,
+        setAttributesTable,
+      );
+    }
+  };
 
   const deleteAttribute = (key) => {
-      setAttributesTable((table) => table.filter((item) => item.key !== key));
-  }
+    setAttributesTable((table) => table.filter((item) => item.key !== key));
+  };
 
   const checkKeyDown = (e) => {
-      if (e.code === "Enter") e.preventDefault();
-  }
+    if (e.code === "Enter") e.preventDefault();
+  };
 
   const newAttrKeyHandler = (e) => {
-      e.preventDefault();
-      setNewAttrKey(e.target.value);
-      addNewAttributeManually(e);
-  }
+    e.preventDefault();
+    setNewAttrKey(e.target.value);
+    addNewAttributeManually(e);
+  };
 
   const newAttrValueHandler = (e) => {
-      e.preventDefault();
-      setNewAttrValue(e.target.value);
-      addNewAttributeManually(e);
-  }
+    e.preventDefault();
+    setNewAttrValue(e.target.value);
+    addNewAttributeManually(e);
+  };
 
   const addNewAttributeManually = (e) => {
-      if (e.keyCode && e.keyCode === 13) {
-          if (newAttrKey && newAttrValue) {
-              reduxDispatch(saveAttributeToCatDoc(newAttrKey, newAttrValue, categoryChoosen));
-             setAttributesTableWrapper(newAttrKey, newAttrValue, setAttributesTable);
-             e.target.value = "";
-             createNewAttrKey.current.value = "";
-             createNewAttrVal.current.value = "";
-             setNewAttrKey(false);
-             setNewAttrValue(false);
-          }
+    if (e.keyCode && e.keyCode === 13) {
+      if (newAttrKey && newAttrValue) {
+        reduxDispatch(
+          saveAttributeToCatDoc(newAttrKey, newAttrValue, categoryChoosen),
+        );
+        setAttributesTableWrapper(newAttrKey, newAttrValue, setAttributesTable);
+        e.target.value = "";
+        createNewAttrKey.current.value = "";
+        createNewAttrVal.current.value = "";
+        setNewAttrKey(false);
+        setNewAttrValue(false);
       }
-  }
+    }
+  };
 
   return (
     <Container>
@@ -175,7 +190,12 @@ const EditProductPageComponent = ({
         </Col>
         <Col md={6}>
           <h1>Edit product</h1>
-          <Form noValidate validated={validated} onSubmit={handleSubmit} onKeyDown={(e) => checkKeyDown(e)}>
+          <Form
+            noValidate
+            validated={validated}
+            onSubmit={handleSubmit}
+            onKeyDown={(e) => checkKeyDown(e)}
+          >
             <Form.Group className="mb-3" controlId="formBasicName">
               <Form.Label>Name</Form.Label>
               <Form.Control
@@ -223,7 +243,14 @@ const EditProductPageComponent = ({
                 required
                 name="category"
                 aria-label="Default select example"
-                onChange={(e) => changeCategory(e, categories, setAttributesFromDb, setCategoryChoosen)}
+                onChange={(e) =>
+                  changeCategory(
+                    e,
+                    categories,
+                    setAttributesFromDb,
+                    setCategoryChoosen,
+                  )
+                }
               >
                 <option value="Choose category">Choose category</option>
                 {categories.map((category, idx) => {
@@ -249,7 +276,13 @@ const EditProductPageComponent = ({
                       name="atrrKey"
                       aria-label="Default select example"
                       ref={attrKey}
-                      onChange={(e)=>setValuesForAttrFromDbSelectForm(e, attrVal, attributesFromDb)}
+                      onChange={(e) =>
+                        setValuesForAttrFromDbSelectForm(
+                          e,
+                          attrVal,
+                          attributesFromDb,
+                        )
+                      }
                     >
                       <option>Choose attribute</option>
                       {attributesFromDb.map((item, idx) => (
@@ -295,7 +328,9 @@ const EditProductPageComponent = ({
                         <td>{item.key}</td>
                         <td>{item.value}</td>
                         <td>
-                          <CloseButton onClick={() => deleteAttribute(item.key)} />
+                          <CloseButton
+                            onClick={() => deleteAttribute(item.key)}
+                          />
                         </td>
                       </tr>
                     ))}
@@ -309,7 +344,7 @@ const EditProductPageComponent = ({
                 <Form.Group className="mb-3" controlId="formBasicNewAttribute">
                   <Form.Label>Create new attribute</Form.Label>
                   <Form.Control
-                  ref={createNewAttrKey}
+                    ref={createNewAttrKey}
                     disabled={categoryChoosen === "Choose category"}
                     placeholder="first choose or create category"
                     name="newAttrKey"
@@ -326,7 +361,7 @@ const EditProductPageComponent = ({
                 >
                   <Form.Label>Attribute value</Form.Label>
                   <Form.Control
-                  ref={createNewAttrVal}
+                    ref={createNewAttrVal}
                     disabled={categoryChoosen === "Choose category"}
                     placeholder="first choose or create category"
                     required={newAttrKey}
@@ -354,29 +389,49 @@ const EditProductPageComponent = ({
                         src={image.path ?? null}
                         fluid
                       />
-                      <i style={onHover} onClick={() => imageDeleteHandler(image.path, id).then(data => setImageRemoved(!imageRemoved))} className="bi bi-x text-danger"></i>
+                      <i
+                        style={onHover}
+                        onClick={() =>
+                          imageDeleteHandler(image.path, id).then((data) =>
+                            setImageRemoved(!imageRemoved),
+                          )
+                        }
+                        className="bi bi-x text-danger"
+                      ></i>
                     </Col>
                   ))}
               </Row>
-              <Form.Control  type="file" multiple onChange={(e:any) => {
-                 setIsUploading("upload files in progress ...");
-                 if (process.env.NODE_ENV !== "production") {
-                     // to do: change to !==
-                     uploadImagesApiRequest(e.target.files, id)
-                     .then(data => {
-                         setIsUploading("upload file completed");
-                         setImageUploaded(!imageUploaded);
-                     })
-                      .catch((er) => setIsUploading(er.response.data.message ? er.response.data.message : er.response.data));
-                 } else {
-                     uploadImagesCloudinaryApiRequest(e.target.files, id);
-                      setIsUploading("upload file completed. wait for the result take effect, refresh also if neccassry");
-                      setTimeout(()=> {
-                          setImageUploaded(!imageUploaded);
-                      }, 5000)
-                 }
-              }} />
-               {isUploading}
+              <Form.Control
+                type="file"
+                multiple
+                onChange={(e: any) => {
+                  setIsUploading("upload files in progress ...");
+                  if (process.env.NODE_ENV !== "production") {
+                    // to do: change to !==
+                    uploadImagesApiRequest(e.target.files, id)
+                      .then((data) => {
+                        setIsUploading("upload file completed");
+                        setImageUploaded(!imageUploaded);
+                      })
+                      .catch((er) =>
+                        setIsUploading(
+                          er.response.data.message
+                            ? er.response.data.message
+                            : er.response.data,
+                        ),
+                      );
+                  } else {
+                    uploadImagesCloudinaryApiRequest(e.target.files, id);
+                    setIsUploading(
+                      "upload file completed. wait for the result take effect, refresh also if neccassry",
+                    );
+                    setTimeout(() => {
+                      setImageUploaded(!imageUploaded);
+                    }, 5000);
+                  }
+                }}
+              />
+              {isUploading}
             </Form.Group>
             <Button variant="primary" type="submit">
               UPDATE
@@ -390,4 +445,3 @@ const EditProductPageComponent = ({
 };
 
 export default EditProductPageComponent;
-

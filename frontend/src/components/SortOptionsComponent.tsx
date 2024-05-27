@@ -5,12 +5,15 @@ enum SortOption {
   PriceDesc = "price_desc",
   RatingDesc = "rating_desc",
   NameAsc = "name_asc",
-  NameDesc = "name_desc"
+  NameDesc = "name_desc",
 }
 
 const SortOptionsComponent = ({ setSortOption }) => {
   return (
-    <Form.Select onChange={(e)=>setSortOption(e.target.value)} aria-label="Default select example">
+    <Form.Select
+      onChange={(e) => setSortOption(e.target.value)}
+      aria-label="Default select example"
+    >
       <option>SORT BY</option>
       <option value={SortOption.PriceAsc}>Price: Low To High</option>
       <option value={SortOption.PriceDesc}>Price: High To Low</option>
@@ -22,4 +25,3 @@ const SortOptionsComponent = ({ setSortOption }) => {
 };
 
 export default SortOptionsComponent;
-

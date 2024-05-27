@@ -3,7 +3,6 @@ import { Form } from "react-bootstrap";
 import { Fragment } from "react";
 
 const RatingFilterComponent = ({ setRating, rating }) => {
-
   return (
     <>
       <span className="fw-bold">Minimum Rating</span>
@@ -18,7 +17,7 @@ const RatingFilterComponent = ({ setRating, rating }) => {
                 isValid
                 onChange={() =>
                   setRating((prev) =>
-                    prev == ratingIndex ? undefined : ratingIndex
+                    prev == ratingIndex ? undefined : ratingIndex,
                   )
                 }
                 checked={ratingIndex === rating}

@@ -13,10 +13,10 @@ const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
       const data = await googleLogin(token);
       if (data === undefined) {
         console.log(
-          "Error! Bad google log in.  Please make sure you are registered first."
+          "Error! Bad google log in.  Please make sure you are registered first.",
         );
         toastError(
-          "Error logging in with Google Oauth2.0.  Please Register manually first."
+          "Error logging in with Google Oauth2.0.  Please Register manually first.",
         );
         throw Error("Error with google login.");
       }
@@ -35,7 +35,7 @@ const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
 
   const onFailure = async () => {
     toastError(
-      "Error logging in with Google Oauth2.0.  Please Register manually first."
+      "Error logging in with Google Oauth2.0.  Please Register manually first.",
     );
   };
 

@@ -13,23 +13,21 @@ import {
   removeChatRoom,
 } from "../../redux/actions/chatActions";
 
-
 import { ReduxAppState } from "types";
 
 const HeaderNavLinks = () => {
   const dispatch = useDispatch();
 
   const { userInfo } = useSelector(
-    (state: ReduxAppState) => state.userRegisterLogin
+    (state: ReduxAppState) => state.userRegisterLogin,
   );
   const itemsCount = useSelector(
-    (state: ReduxAppState) => state.cart.itemsCount
+    (state: ReduxAppState) => state.cart.itemsCount,
   );
 
   const { messageReceived } = useSelector(
-    (state: ReduxAppState) => state.adminChat
+    (state: ReduxAppState) => state.adminChat,
   );
-
 
   // useEffect to manage admin socket notifications in header
   useEffect((): any => {
@@ -51,7 +49,7 @@ const HeaderNavLinks = () => {
       // this emits something when the admin is logged in
       socket.emit(
         "admin connected with server",
-        "Admin" + Math.floor(Math.random() * 1000000000000)
+        "Admin" + Math.floor(Math.random() * 1000000000000),
       );
 
       // this allows server to listen for server receiving client message to admin - also set in redux
@@ -62,7 +60,7 @@ const HeaderNavLinks = () => {
           dispatch(setChatRooms(user, message));
           dispatch(setMessageReceived(true));
           audio.play();
-        }
+        },
       );
 
       socket.on("disconnected", ({ reason, socketId }) => {

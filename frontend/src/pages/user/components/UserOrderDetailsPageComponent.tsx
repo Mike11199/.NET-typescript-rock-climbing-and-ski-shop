@@ -10,7 +10,12 @@ import {
 import CartItemComponent from "../../../components/CartItemComponent";
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { CartProduct, OrderProductItem, OrderWithProductItems, User } from "types";
+import {
+  CartProduct,
+  OrderProductItem,
+  OrderWithProductItems,
+  User,
+} from "types";
 
 const UserOrderDetailsPageComponent = ({
   userInfo,
@@ -18,15 +23,19 @@ const UserOrderDetailsPageComponent = ({
   getOrder,
   loadPayPalScript,
 }) => {
-
   const [user, setUser] = useState<User>();
   const [paymentMethod, setPaymentMethod] = useState<string>("");
   const [isPaid, setIsPaid] = useState<Date | boolean | undefined>(false);
-  const [isDelivered, setIsDelivered] = useState<Date | boolean | undefined>(false);
+  const [isDelivered, setIsDelivered] = useState<Date | boolean | undefined>(
+    false,
+  );
   const [cartSubtotal, setCartSubtotal] = useState<number>(0);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
-  const [orderButtonMessage, setOrderButtonMessage] = useState<string>("Mark as delivered");
-  const [orderProductItems, setOrderProductItems] = useState<OrderProductItem[]>([]);
+  const [orderButtonMessage, setOrderButtonMessage] =
+    useState<string>("Mark as delivered");
+  const [orderProductItems, setOrderProductItems] = useState<
+    OrderProductItem[]
+  >([]);
   const [cartProductItems, setCartProductItems] = useState<CartProduct[]>([]);
 
   const paypalContainer = useRef<any>();
@@ -48,26 +57,30 @@ const UserOrderDetailsPageComponent = ({
 
   // transform orderProductItems from API (large object from orders table -> joined to order-product --> joined to products) into cartProductItems objects whenever orderProductItems changes
   useEffect(() => {
-  const cartProducts: CartProduct[] = orderProductItems?.filter(item =>
-    item?.quantity !== undefined && item?.product?.productId !== undefined
-  ).map(item => {
-    const { product, quantity } = item;
-    return {
-      ...product,
-      quantity: quantity as number,
-      productId: product!.productId,
-    }
-  }) || [];
-  setCartProductItems(cartProducts)
+    const cartProducts: CartProduct[] =
+      orderProductItems
+        ?.filter(
+          (item) =>
+            item?.quantity !== undefined &&
+            item?.product?.productId !== undefined,
+        )
+        .map((item) => {
+          const { product, quantity } = item;
+          return {
+            ...product,
+            quantity: quantity as number,
+            productId: product!.productId,
+          };
+        }) || [];
+    setCartProductItems(cartProducts);
   }, [orderProductItems]);
 
   // on page load set order details to toggle buttons/payment method/ whether order is paid/delivered
   useEffect(() => {
     const updateStateWithOrderData = async () => {
       try {
-
         const data: OrderWithProductItems = await getOrder(id);
-        console.log(data)
+        console.log(data);
 
         setPaymentMethod(data?.paymentMethod ?? "");
         setOrderProductItems(data?.orderProductItems);
@@ -89,7 +102,9 @@ const UserOrderDetailsPageComponent = ({
             setOrderButtonMessage("Pay for your order");
           } else if (data?.paymentMethod === "Cash") {
             setButtonDisabled(true);
-            setOrderButtonMessage("Please pay for your order on the day of delivery.");
+            setOrderButtonMessage(
+              "Please pay for your order on the day of delivery.",
+            );
           }
         }
       } catch (error) {
@@ -106,14 +121,17 @@ const UserOrderDetailsPageComponent = ({
 
     //if payment method is PayPal
     if (paymentMethod === "PayPal") {
-      setOrderButtonMessage(
-        "hidden"
-      );
+      setOrderButtonMessage("hidden");
 
       // if the order is not already paid, send external request to the paypal API
       // https://github.com/paypal/paypal-js#usage
       if (!isPaid) {
-        loadPayPalScript(cartSubtotal, cartProductItems, id, updateStateAfterOrder);
+        loadPayPalScript(
+          cartSubtotal,
+          cartProductItems,
+          id,
+          updateStateAfterOrder,
+        );
       }
     } else {
       setOrderButtonMessage("Your order was placed. Thank you");
@@ -137,17 +155,15 @@ const UserOrderDetailsPageComponent = ({
             <Col md={6}>
               <h2>Shipping</h2>
               <b>Name</b>: {userInfo?.name} {userInfo?.lastName} <br />
-              <b>Address</b>: {user?.address} {user?.city}{" "}
-              {user?.state} {user?.zipCode} <br />
+              <b>Address</b>: {user?.address} {user?.city} {user?.state}{" "}
+              {user?.zipCode} <br />
               <b>Phone</b>: {user?.phoneNumber}
             </Col>
             <Col md={6}>
               <h2>Payment method</h2>
               <Form.Select value={paymentMethod} disabled={true}>
                 <option value="PayPal">PayPal</option>
-                <option value="Cash">
-                  Cash On Delivery
-                </option>
+                <option value="Cash">Cash On Delivery</option>
               </Form.Select>
             </Col>
             <Row>
@@ -174,9 +190,15 @@ const UserOrderDetailsPageComponent = ({
           <h2>Order items</h2>
           <ListGroup variant="flush">
             {cartProductItems?.map((item, idx) => {
-            return (
-              item && <CartItemComponent product={item} key={idx} orderCreated={true} />
-            )
+              return (
+                item && (
+                  <CartItemComponent
+                    product={item}
+                    key={idx}
+                    orderCreated={true}
+                  />
+                )
+              );
             })}
           </ListGroup>
         </Col>

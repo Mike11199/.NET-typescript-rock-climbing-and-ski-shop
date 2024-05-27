@@ -73,7 +73,6 @@
     margin: 0px;
   }
 
-  
   .navbar-black {
     padding-right: 5px;
     padding-left: 5px;
@@ -192,7 +191,9 @@
     width: 100%;
     padding: 1.5rem;
     background: rgba(0, 0, 0, 0.5);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.08);
+    box-shadow:
+      0 4px 6px rgba(0, 0, 0, 0.3),
+      0 1px 3px rgba(0, 0, 0, 0.08);
     margin: auto;
     margin-top: 2rem;
   }
@@ -212,7 +213,9 @@
     margin-bottom: 2rem;
     padding: 1.5rem;
     background: rgba(0, 0, 0, 0.5);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.08);
+    box-shadow:
+      0 4px 6px rgba(0, 0, 0, 0.3),
+      0 1px 3px rgba(0, 0, 0, 0.08);
   }
 
   .form-group {

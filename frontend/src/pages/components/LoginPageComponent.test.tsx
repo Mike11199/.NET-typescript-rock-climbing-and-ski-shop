@@ -90,7 +90,7 @@ test("if admin is logged in", async () => {
         reduxDispatch={() => {}}
         setReduxUserState={() => {}}
       />
-    </Router>
+    </Router>,
   );
   await screen.findByLabelText("Email address");
   expect(screen.getByLabelText("Email address")).toBeInTheDocument();
@@ -123,7 +123,7 @@ test("if wrong credentials toast notification modification", async () => {
         reduxDispatch={() => {}}
         setReduxUserState={() => {}}
       />
-    </Router>
+    </Router>,
   );
   await screen.findByLabelText("Email address");
   expect(screen.getByLabelText("Email address")).toBeInTheDocument();
@@ -162,7 +162,7 @@ test("create login snapshot", () => {
           reduxDispatch={() => {}}
           setReduxUserState={() => {}}
         />
-      </Router>
+      </Router>,
     )
     .toJSON();
 

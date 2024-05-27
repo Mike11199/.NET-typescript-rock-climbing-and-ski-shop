@@ -36,7 +36,6 @@ const ProductListPageComponent = ({
   const queryParamSortOption = query.get("sort") || "";
   const queryParamPriceOption = query.get("price") || "";
 
-
   useEffect(() => {
     setLoading(true);
     getProducts({
@@ -60,7 +59,14 @@ const ProductListPageComponent = ({
         setError(true);
         setLoading(false);
       });
-  }, [queryParamSearchQuery, queryParamPageNum, queryParamCategoryName, queryParamRating, queryParamSortOption, queryParamPriceOption]);
+  }, [
+    queryParamSearchQuery,
+    queryParamPageNum,
+    queryParamCategoryName,
+    queryParamRating,
+    queryParamSortOption,
+    queryParamPriceOption,
+  ]);
 
   useEffect(() => {
     if (products && products?.length > 0) {
@@ -104,7 +110,8 @@ const ProductListPageComponent = ({
                 );
               })}
 
-            {!loading && !error &&
+            {!loading &&
+              !error &&
               paginationLinksNumber > 1 &&
               products?.length !== 0 && (
                 <PaginationComponent

@@ -4,22 +4,20 @@ import AdminLinksComponent from "../../../components/admin/AdminLinksComponent";
 import { logout } from "../../../redux/actions/userActions";
 import { useDispatch } from "react-redux";
 
-
 import { useState, useEffect } from "react";
 
 const ProductsPageComponent = ({ fetchProducts, deleteProduct }) => {
-
   const [products, setProducts] = useState<any>([]);
   const [productDeleted, setProductDeleted] = useState(false);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const deleteHandler = async (productId) => {
     if (window.confirm("Are you sure?")) {
-        const data = await deleteProduct(productId)
-        if (data.message === "product removed") {
-            setProductDeleted(!productDeleted);
-        }
+      const data = await deleteProduct(productId);
+      if (data.message === "product removed") {
+        setProductDeleted(!productDeleted);
+      }
     }
   };
 
@@ -27,8 +25,8 @@ const ProductsPageComponent = ({ fetchProducts, deleteProduct }) => {
     const abctrl = new AbortController();
     fetchProducts(abctrl)
       .then((res) => setProducts(res))
-      .catch((er) =>
-        dispatch(logout())
+      .catch(
+        (er) => dispatch(logout()),
         // setProducts([
         //   {name: er.response.data.message ? er.response.data.message : er.response.data}
         // ])
@@ -92,4 +90,3 @@ const ProductsPageComponent = ({ fetchProducts, deleteProduct }) => {
 };
 
 export default ProductsPageComponent;
-

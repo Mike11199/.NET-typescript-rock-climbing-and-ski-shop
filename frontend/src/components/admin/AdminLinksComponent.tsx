@@ -4,8 +4,7 @@ import { logout } from "../../redux/actions/userActions";
 import { useDispatch } from "react-redux";
 
 const AdminLinksComponent = () => {
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   return (
     <Navbar id="adminLinksMenu">
@@ -25,11 +24,10 @@ const AdminLinksComponent = () => {
         <LinkContainer to="/admin/analytics">
           <Nav.Link>Analytics</Nav.Link>
         </LinkContainer>
-        <Nav.Link onClick={()=> dispatch(logout())}>Logout</Nav.Link>
+        <Nav.Link onClick={() => dispatch(logout())}>Logout</Nav.Link>
       </Nav>
     </Navbar>
   );
 };
 
 export default AdminLinksComponent;
-
