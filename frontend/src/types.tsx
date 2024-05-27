@@ -153,6 +153,7 @@ export interface GetProducts {
   categoryName?: string;
   pageNumParam?: string;
   searchQuery?: string;
-  filters?: any;
   sortOption?: string;
+  ratingFilter?: string;
+  priceFilter?: string;
 }

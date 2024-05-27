@@ -634,6 +634,25 @@ h1.counter > span {
   }
 }
 
+.results-count-container {
+  left: 0;
+  position: relative;
+  align-items: start;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+
+.full-width-div-product-list-page {
+  left: 0;
+  position: absolute;
+  align-items: center;
+  display: flex;
+  width: 100vw;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+
 .carousel_caption_text {
   color: white;
   background-color: rgba(52, 52, 52, 0.8);

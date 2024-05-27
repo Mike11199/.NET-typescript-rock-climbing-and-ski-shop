@@ -1,28 +1,20 @@
-import { Row, Col, Container, ListGroup, Button } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import PaginationComponent from "../../components/PaginationComponent";
-import SortOptionsComponent from "../../components/SortOptionsComponent";
-import PriceFilterComponent from "../../components/filterQueryResultOptions/PriceFilterComponent";
-import RatingFilterComponent from "../../components/filterQueryResultOptions/RatingFilterComponent";
-import CategoryFilterComponent from "../../components/filterQueryResultOptions/CategoryFilterComponent";
-import AttributesFilterComponent from "../../components/filterQueryResultOptions/AttributesFilterComponent";
-import { useSelector } from "react-redux";
-import { ReduxAppState } from "types";
 import { Spinner } from "react-bootstrap";
 
 import ProductForListComponent from "../../components/ProductForListComponent";
 
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Product, Category, GetProductsResponse, GetProducts } from "types";
+import { useLocation } from "react-router-dom";
+import { Product, GetProductsResponse, GetProducts } from "types";
+import ProductListPageFilterComponent from "./ProductListPageFilterComponent";
 
 interface ProductListPageComponentProps {
   getProducts: (params: GetProducts) => Promise<GetProductsResponse>;
-  categories: Category[];
 }
 
 const ProductListPageComponent = ({
   getProducts,
-  categories,
 }: ProductListPageComponentProps) => {
   function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -32,36 +24,28 @@ const ProductListPageComponent = ({
   const [totalProductsCount, setTotalProductsCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
-  const [attrsFilter, setAttrsFilter] = useState<any>([]); // collect category attributes from db and show on the webpage
-  const [attrsFromFilter, setAttrsFromFilter] = useState([]); // collect user filters for category attributes
-  const [showResetFiltersButton, setShowResetFiltersButton] = useState(false);
 
-  const [filters, setFilters] = useState({}); // collect all filters
-  const [priceFilter, setPriceFilter] = useState<number>(700);
-  const [maxRating, setMaxRating] = useState();
-  const [categoriesFromFilter, setCategoriesFromFilter] = useState({});
-  const [sortOption, setSortOption] = useState("");
   const [paginationLinksNumber, setPaginationLinksNumber] = useState<any>(null);
   const [pageNum, setPageNum] = useState<number | null>(null);
 
-  const navigate = useNavigate();
-  const location = useLocation();
-
   const query = useQuery();
-  const categoryName = query.get("category") || "";
-  const searchQuery = query.get("search") || "";
-  const pageNumParam = query.get("pageNum") || "1";
+  const queryParamSearchQuery = query.get("search") || "";
+  const queryParamPageNum = query.get("pageNum") || "1";
+  const queryParamCategoryName = query.get("category") || "All";
+  const queryParamRating = query.get("rating") || "";
+  const queryParamSortOption = query.get("sort") || "";
+  const queryParamPriceOption = query.get("price") || "";
 
-  const { mode } = useSelector((state: ReduxAppState) => state.DarkMode);
 
   useEffect(() => {
     setLoading(true);
     getProducts({
-      categoryName,
-      pageNumParam,
-      searchQuery,
-      filters,
-      sortOption,
+      pageNumParam: queryParamPageNum,
+      searchQuery: queryParamSearchQuery,
+      categoryName: queryParamCategoryName,
+      sortOption: queryParamSortOption,
+      priceFilter: queryParamPriceOption,
+      ratingFilter: queryParamRating,
     })
       .then((products) => {
         setProducts(products?.products);
@@ -76,35 +60,13 @@ const ProductListPageComponent = ({
         setError(true);
         setLoading(false);
       });
-  }, [categoryName, pageNumParam, searchQuery, filters, sortOption]);
+  }, [queryParamSearchQuery, queryParamPageNum, queryParamCategoryName, queryParamRating, queryParamSortOption, queryParamPriceOption]);
 
   useEffect(() => {
     if (products && products?.length > 0) {
       console.log(products);
     }
   }, [products]);
-
-  const handleFilters = () => {
-    navigate(location.pathname.replace(/\/[0-9]+$/, ""));
-    setShowResetFiltersButton(true);
-    setFilters({
-      price: priceFilter,
-      rating: maxRating,
-      category: categoriesFromFilter,
-      attrs: attrsFromFilter,
-    });
-  };
-
-  const resetFilters = () => {
-    setShowResetFiltersButton(false);
-    setFilters({});
-    window.location.href = "/product-list";
-  };
-
-  const listItemStyle = {
-    backgroundColor: mode === "dark" ? "rgb(45, 45, 45)" : "rgb(255, 255, 255)",
-    color: mode === "dark" ? "rgb(255, 255, 255)" : "rgb(0, 0, 0)",
-  };
 
   const getAverageRating = (reviews) => {
     if (!reviews || reviews.length === 0) return 0;
@@ -117,106 +79,14 @@ const ProductListPageComponent = ({
       <Container fluid>
         <Row>
           <Col md={3}>
-            <ListGroup variant="flush">
-              <ListGroup.Item className="mb-3 mt-3" style={listItemStyle}>
-                <SortOptionsComponent setSortOption={setSortOption} />
-              </ListGroup.Item>
-              <ListGroup.Item style={listItemStyle}>
-                FILTER: <br />
-                <PriceFilterComponent
-                  price={priceFilter}
-                  setPrice={setPriceFilter}
-                />
-              </ListGroup.Item>
-              <ListGroup.Item style={listItemStyle}>
-                <RatingFilterComponent
-                  setRating={setMaxRating}
-                  rating={maxRating}
-                />
-              </ListGroup.Item>
-              {!location.pathname.match(/\/category/) && (
-                <ListGroup.Item style={listItemStyle}>
-                  <CategoryFilterComponent
-                    setCategoriesFromFilter={setCategoriesFromFilter}
-                  />
-                </ListGroup.Item>
-              )}
-              <ListGroup.Item style={listItemStyle}>
-                <AttributesFilterComponent
-                  attrsFilter={attrsFilter}
-                  setAttrsFromFilter={setAttrsFromFilter}
-                />
-              </ListGroup.Item>
-              <ListGroup.Item style={listItemStyle}>
-                <Button type="button" variant="primary" onClick={handleFilters}>
-                  Filter
-                </Button>{" "}
-                {showResetFiltersButton && (
-                  <Button type="button" onClick={resetFilters} variant="danger">
-                    Reset filters
-                  </Button>
-                )}
-              </ListGroup.Item>
-            </ListGroup>
+            <ProductListPageFilterComponent />
           </Col>
           <Col md={9}>
-            {!loading && products?.length !== 0 && (
-              <div
-                style={{
-                  left: 0,
-                  position: "relative",
-                  alignItems: "start",
-                  display: "flex",
-                  flexDirection: "column",
-                  marginTop: "2rem",
-                }}
-              >
-                <div
-                  style={{
-                    marginBottom: "0rem",
-                  }}
-                >
-                  <h6>
-                    {totalProductsCount}{" "}
-                    {totalProductsCount === 1 ? "Result" : "Results"}
-                  </h6>
-                </div>
-              </div>
-            )}
-            {loading ? (
-              <div
-                style={{
-                  left: 0,
-                  position: "absolute",
-                  alignItems: "center",
-                  display: "flex",
-                  width: "100vw",
-                  flexDirection: "column",
-                  marginTop: "2rem",
-                }}
-              >
-                <div
-                  style={{
-                    marginBottom: "1rem",
-                  }}
-                >
-                  Loading products...
-                </div>
-                <Spinner
-                  as="span"
-                  animation="border"
-                  variant="primary"
-                  role="status"
-                  aria-hidden="true"
-                />
-              </div>
-            ) : error ? (
-              <>
-                <div>Error loading products.</div>
-              </>
-            ) : (
-              <></>
-            )}
+            <ResultsCountContainer
+              productCount={totalProductsCount}
+              loading={loading}
+              error={error}
+            />
             {!loading &&
               products?.map((product) => {
                 const productReviewScore = getAverageRating(product?.reviews);
@@ -234,33 +104,14 @@ const ProductListPageComponent = ({
                 );
               })}
 
-            {!loading && paginationLinksNumber > 1 ? (
-              <PaginationComponent
-                paginationLinksNumber={paginationLinksNumber}
-                pageNum={pageNum}
-              />
-            ) : null}
-            {!loading && products?.length === 0 && (
-              <div
-                style={{
-                  left: 0,
-                  position: "absolute",
-                  alignItems: "center",
-                  display: "flex",
-                  width: "100vw",
-                  flexDirection: "column",
-                  marginTop: "1rem",
-                }}
-              >
-                <div
-                  style={{
-                    marginBottom: "1rem",
-                  }}
-                >
-                  No products found.
-                </div>
-              </div>
-            )}
+            {!loading && !error &&
+              paginationLinksNumber > 1 &&
+              products?.length !== 0 && (
+                <PaginationComponent
+                  paginationLinksNumber={paginationLinksNumber}
+                  pageNum={pageNum}
+                />
+              )}
           </Col>
         </Row>
       </Container>
@@ -269,3 +120,69 @@ const ProductListPageComponent = ({
 };
 
 export default ProductListPageComponent;
+
+/**
+ * Container the following:
+ *   loading:  spinner
+ *   error:  error div
+ *   no products:  no products div
+ *   has products: result count
+ */
+const ResultsCountContainer = ({
+  productCount,
+  loading,
+  error,
+}: {
+  productCount: number;
+  loading: boolean;
+  error: boolean;
+}) => {
+  if (!loading && productCount !== 0) {
+    return (
+      <div className="results-count-container">
+        <div
+          style={{
+            marginBottom: "0rem",
+          }}
+        >
+          <h6>
+            {productCount} {productCount === 1 ? "Result" : "Results"}
+          </h6>
+        </div>
+      </div>
+    );
+  } else if (loading && !error) {
+    return (
+      <div className="full-width-div-product-list-page">
+        <div
+          style={{
+            marginBottom: "1rem",
+          }}
+        >
+          Loading products...
+        </div>
+        <Spinner
+          as="span"
+          animation="border"
+          variant="primary"
+          role="status"
+          aria-hidden="true"
+        />
+      </div>
+    );
+  } else if (error) {
+    <div>Error loading products.</div>;
+  } else if (!loading && productCount === 0) {
+    return (
+      <div className="full-width-div-product-list-page">
+        <div
+          style={{
+            marginBottom: "1rem",
+          }}
+        >
+          No products found.
+        </div>
+      </div>
+    );
+  }
+};

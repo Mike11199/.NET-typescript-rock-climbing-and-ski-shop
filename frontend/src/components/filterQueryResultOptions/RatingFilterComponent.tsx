@@ -6,7 +6,7 @@ const RatingFilterComponent = ({ setRating, rating }) => {
 
   return (
     <>
-      <span className="fw-bold">Rating</span>
+      <span className="fw-bold">Minimum Rating</span>
       {Array.from({ length: 4 }).map((_, idx) => {
         const ratingIndex = 4 - idx;
 
@@ -33,7 +33,6 @@ const RatingFilterComponent = ({ setRating, rating }) => {
                     size={20}
                     ratingValue={ratingIndex}
                   />
-                  <div>minimum</div>
                 </div>
               </Form.Check.Label>
             </Form.Check>
