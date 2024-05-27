@@ -181,15 +181,7 @@ const ResultsCountContainer = ({
     <div>Error loading products.</div>;
   } else if (!loading && productCount === 0) {
     return (
-      <div className="full-width-div-product-list-page">
-        <div
-          style={{
-            marginBottom: "1rem",
-          }}
-        >
-          No products found.
-        </div>
-      </div>
+      <div style={{width: "100%", textAlign: "center", marginTop: "3rem"}}>No products found.</div>
     );
   }
 };
