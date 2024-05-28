@@ -141,11 +141,10 @@ const UserCartDetailsPageComponent = ({
         }
       })
       .catch((er) =>
-        console.log(
-          er?.response?.data?.message
-            ? er?.response?.data?.message
-            : er?.response?.data,
-        ),
+        {
+        console.error(er?.response?.data?.message ?? er?.response?.data)
+        navigate('/login')
+      }
       );
   }, [userInfo?.userId]);
 

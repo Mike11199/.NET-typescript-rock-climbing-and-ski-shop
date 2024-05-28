@@ -3,6 +3,9 @@ import { LinkContainer } from "react-router-bootstrap";
 import CartItemComponent from "../../components/CartItemComponent";
 import toast, { Toaster } from "react-hot-toast";
 import ShoppingCartImage from "../../images/shopping_cart.png";
+import { useNavigate } from "react-router-dom";
+import { StoredUserInfo, ReduxAppState } from "types";
+import { useSelector } from "react-redux";
 
 const CartPageComponent = ({
   addToCart,
@@ -12,9 +15,12 @@ const CartPageComponent = ({
   reduxDispatch,
 }) => {
   const changeCount = (productId, count) => {
-    console.log(productId);
     reduxDispatch(addToCart(productId, count));
   };
+
+  const userState: StoredUserInfo = useSelector(
+    (state: ReduxAppState) => state?.userRegisterLogin?.userInfo
+  );
 
   const removeFromCartHandler = (productID, quantity, price) => {
     if (window.confirm("Are you sure?")) {
@@ -26,6 +32,17 @@ const CartPageComponent = ({
           color: "#fff",
         },
       });
+    }
+  };
+
+  const navigate = useNavigate();
+
+  // don't allow order if not logged in
+  const goToUserCartDetailsHandler = () => {
+    if (userState?.userId) {
+      navigate("/user/cart-details");
+    } else {
+      navigate("/login");
     }
   };
 
@@ -83,11 +100,13 @@ const CartPageComponent = ({
                 <span className="fw-bold">${cartSubtotal.toFixed(2)}</span>
               </ListGroup.Item>
               <ListGroup.Item>
-                <LinkContainer to="/user/cart-details">
-                  <Button disabled={cartSubtotal === 0} type="button">
-                    Proceed To Checkout
-                  </Button>
-                </LinkContainer>
+                <Button
+                  disabled={cartSubtotal === 0}
+                  type="button"
+                  onClick={() => goToUserCartDetailsHandler()}
+                >
+                  Proceed To Checkout
+                </Button>
               </ListGroup.Item>
             </ListGroup>
           </Col>
