@@ -89,7 +89,7 @@ const ProductListPageComponent = ({
           </Col>
           <Col md={9}>
             <ResultsCountContainer
-              productCount={totalProductsCount}
+              productCount={products?.length}
               loading={loading}
               error={error}
             />
@@ -140,7 +140,7 @@ const ResultsCountContainer = ({
   loading,
   error,
 }: {
-  productCount: number;
+  productCount?: number;
   loading: boolean;
   error: boolean;
 }) => {
