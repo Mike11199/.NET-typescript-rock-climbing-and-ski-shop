@@ -23,6 +23,17 @@
     display: none;
   }
 
+  .ski_image {
+    position: fixed;
+    bottom: 185px;
+    left: 350px;
+    width: 100vw;
+    scale: 4;
+    z-index: -1;
+    overflow: hidden;
+    object-fit: cover;
+  }
+
   .rock_inverted_photo {
     height: 200px;
     position: absolute;
@@ -35,36 +46,13 @@
   }
 }
 
-@media (max-width: 1575px) {
+@media (max-width: 600px) {
   .ice_cave_image {
     display: none;
     position: relative;
     bottom: -420px;
   }
 
-  .ski_image {
-    position: fixed;
-    bottom: 185px;
-    left: 350px;
-    width: 100vw;
-    scale: 4;
-    z-index: -1;
-    overflow: hidden;
-    object-fit: cover;
-  }
-
-  #log_in_page_form_1 {
-    padding-bottom: 150px;
-  }
-
-  #register_page_form {
-    padding-right: 0px;
-    padding-left: 0px;
-    padding-bottom: 200px;
-  }
-}
-
-@media (max-width: 600px) {
   #log_in_page_form_1 {
     padding-bottom: 0px;
   }
