@@ -105,7 +105,7 @@ const UserOrdersPageComponent = ({ getOrders }) => {
                   <td>{USDollar.format(order?.orderTotal ?? 999999)}</td>
                   <td>{order?.itemCount}</td>
                   <td>
-                    {order?.isPaid ? (
+                    {order?.isDelivered ? (
                       <i className="bi bi-check-lg text-success"></i>
                     ) : (
                       <i className="bi bi-x-lg text-danger"></i>

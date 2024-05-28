@@ -34,6 +34,48 @@
   margin-top: 3%;
 }
 
+.dark .success-alert{
+  background-color: #0cc52456;
+  border: 1px solid #1ad166;
+  color: #1ad166;
+  border-radius: 0.5rem;
+}
+
+.dark .error-alert{
+  border: 1px solid #ff0000;
+  background-color: #9e292979;
+  color: #ff0000;
+  border-radius: 0.5rem;
+}
+
+.dark .neutral-alert{
+  background-color: #494fe756;
+  border: 1px solid #1581bb;
+  color: #149fea;
+  border-radius: 0.5rem;
+}
+
+.light .success-alert{
+  background-color: #32cb44c0;
+  border: 1px solid #184e28;
+  color: #184e28;
+  border-radius: 0.5rem;
+}
+
+.light .error-alert{
+  border: 1px solid #7f1212;
+  background-color: #e77171f9;
+  color: #7f1212;
+  border-radius: 0.5rem;
+}
+
+.light .neutral-alert{
+  background-color: #494ee75f;
+  border: 1px solid #1581bb;
+  color: #034f78;
+  border-radius: 0.5rem;
+}
+
 /* dark mode - targets pagination component links*/
 .dark .page-item:not(.active) .page-link {
   background-color: #50505c;

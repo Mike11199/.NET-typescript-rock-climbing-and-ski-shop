@@ -19,7 +19,7 @@ import { Spinner } from "react-bootstrap";
 import {
   toastSuccess,
   toastError,
-  toastAddedToCart
+  toastAddedToCart,
 } from "../../../src/utils/ToastNotifications";
 import { Toaster } from "react-hot-toast";
 
@@ -34,12 +34,11 @@ const ProductDetailsPageComponent = ({
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
 
-
   const [product, setProduct] = useState<Product>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [productReviewed, setProductReviewed] = useState<boolean | string>(
-    false,
+    false
   );
   const [productReviewErrorMessage, setProductReviewErrorMessage] =
     useState<string>("");
@@ -48,7 +47,7 @@ const ProductDetailsPageComponent = ({
 
   const addToCartHandler = () => {
     reduxDispatch(addToCartReduxAction(id, quantity));
-    toastAddedToCart('Added to cart!', navigate)
+    toastAddedToCart("Added to cart!", navigate);
   };
 
   useEffect(() => {
@@ -90,8 +89,8 @@ const ProductDetailsPageComponent = ({
         setError(
           (er?.response?.data?.message
             ? er?.response?.data?.message
-            : er?.response?.data) ?? "Error",
-        ),
+            : er?.response?.data) ?? "Error"
+        )
       );
   }, [id, productReviewed]);
 
@@ -106,7 +105,7 @@ const ProductDetailsPageComponent = ({
       try {
         const data = await writeReviewApiRequest(
           product?.productId,
-          formInputs,
+          formInputs
         );
         if (data?.success === "New Review Created.") {
           toastSuccess("Successfully reviewed product.");
@@ -118,7 +117,7 @@ const ProductDetailsPageComponent = ({
         console.log(er?.response?.data), setProductReviewed(false);
         toastError(er?.response?.data);
         setProductReviewErrorMessage(
-          er?.response?.data?.message ?? er?.response?.data,
+          er?.response?.data?.message ?? er?.response?.data
         );
       }
     }
@@ -316,9 +315,9 @@ const ProductDetailsPageComponent = ({
                           <div style={{ marginBottom: "0.5rem" }}>
                             {new Intl.DateTimeFormat(
                               undefined,
-                              dateOptions,
+                              dateOptions
                             ).format(
-                              new Date(review?.createdAt?.toString() ?? ""),
+                              new Date(review?.createdAt?.toString() ?? "")
                             )}
                           </div>
                           <div>{review?.comment}</div>
@@ -330,7 +329,14 @@ const ProductDetailsPageComponent = ({
                 </Row>
                 <hr />
                 {!userInfo?.name && (
-                  <Alert variant="danger">Login first to write a review</Alert>
+                  <>
+                    <div
+                    style={{padding: "1.5rem", margin: "1.5rem 0rem"}}
+                    className="error-alert"
+                    >
+                      Login first to write a review
+                    </div>
+                  </>
                 )}
 
                 <Form onSubmit={sendReviewHandler}>

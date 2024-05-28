@@ -208,15 +208,15 @@ const UserCartDetailsPageComponent = ({
                 </Form.Select>
               </Col>
               <Row>
-                <Col>
-                  <Alert className="mt-3" variant="danger">
+              <Col>
+                  <div className="error-alert" style={{marginTop: "1rem", padding: "1rem"}}>
                     Not Delivered
-                  </Alert>
+                  </div>
                 </Col>
                 <Col>
-                  <Alert className="mt-3" variant="success">
+                  <div className="error-alert" style={{marginTop: "1rem", padding: "1rem"}}>
                     Not paid yet
-                  </Alert>
+                  </div>
                 </Col>
               </Row>
             </Row>

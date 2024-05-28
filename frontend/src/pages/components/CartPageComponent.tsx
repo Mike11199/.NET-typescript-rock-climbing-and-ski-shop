@@ -72,7 +72,9 @@ const CartPageComponent = ({
             </div>
             {cartItems?.length === 0 ? (
               <>
-                <Alert variant="info">Your cart is empty</Alert>
+                <div className="neutral-alert" style={{marginTop: "1rem", padding: "1rem"}}>
+                    Your cart is empty
+                </div>
               </>
             ) : (
               <ListGroup variant="flush">

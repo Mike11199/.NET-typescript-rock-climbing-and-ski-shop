@@ -46,10 +46,10 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
         setCartItems(order.cartItems);
       })
       .catch((er) =>
-        // console.log(
-        //   er.response.data.message ? er.response.data.message : er.response.data
-        // )
-        dispatch(logout()),
+        {
+        console.error(er.response.data.message ?? er.response.data);
+        dispatch(logout())
+      }
       );
   }, [isDelivered, id]);
   return (
@@ -75,21 +75,24 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
             </Col>
             <Row>
               <Col>
-                <Alert
-                  className="mt-3"
-                  variant={isDelivered ? "success" : "danger"}
+                <div
+                  style={{marginTop: "2rem", padding: "1rem"}}
+                  className={isDelivered ? "success-alert" : "error-alert"}
                 >
                   {isDelivered ? (
                     <>Delivered at {isDelivered}</>
                   ) : (
                     <>Not delivered</>
                   )}
-                </Alert>
+                </div>
               </Col>
               <Col>
-                <Alert className="mt-3" variant={isPaid ? "success" : "danger"}>
+                <div
+                  style={{marginTop: "2rem", padding: "1rem"}}
+                  className={isPaid ? "success-alert" : "error-alert"}
+                  >
                   {isPaid ? <>Paid on {isPaid}</> : <>Not paid yet</>}
-                </Alert>
+                </div>
               </Col>
             </Row>
           </Row>
