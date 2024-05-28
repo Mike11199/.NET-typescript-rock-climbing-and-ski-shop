@@ -65,7 +65,7 @@ const CartPageComponent = ({
             </div>
             {cartItems?.length === 0 ? (
               <>
-                <div className="neutral-alert" style={{marginTop: "1rem", padding: "1rem"}}>
+                <div className="neutral-alert" style={{marginTop: "1rem", padding: "1rem", marginBottom: "1rem"}}>
                     Your cart is empty
                 </div>
               </>
