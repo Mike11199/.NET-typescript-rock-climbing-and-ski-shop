@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/actions/cartActions"; //redux action
 import toast, { Toaster } from "react-hot-toast";
 import { ReduxAppState, Image } from "types";
+import { toastAddedToCart } from "../../src/utils/ToastNotifications";
+import { useNavigate } from "react-router-dom";
 
 const ProductForListComponent = ({
   productId,
@@ -18,18 +20,13 @@ const ProductForListComponent = ({
   const { mode } = useSelector((state: ReduxAppState) => state.DarkMode);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const addToCartHandler = async () => {
     try {
       await dispatch(addToCart(productId, 1));
 
-      toast.success("Added item to cart!", {
-        style: {
-          borderRadius: "10px",
-          background: "#333",
-          color: "#fff",
-        },
-      });
+      toastAddedToCart('Added to cart!', navigate)
     } catch (error) {
       toast.error("Error adding item to cart.", {
         style: { borderRadius: "10px", background: "#333", color: "#fff" },

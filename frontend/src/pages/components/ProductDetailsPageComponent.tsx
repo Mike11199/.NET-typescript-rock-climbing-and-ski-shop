@@ -9,16 +9,17 @@ import {
   Alert,
 } from "react-bootstrap";
 import { Rating } from "react-simple-star-rating";
-import AddedToCartMessageComponent from "../../components/AddedToCartMessageComponent";
+
 import { useDispatch, useSelector } from "react-redux";
 import ImageZoom from "js-image-zoom";
 import { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Product } from "types";
 import { Spinner } from "react-bootstrap";
 import {
   toastSuccess,
   toastError,
+  toastAddedToCart
 } from "../../../src/utils/ToastNotifications";
 import { Toaster } from "react-hot-toast";
 
@@ -31,7 +32,9 @@ const ProductDetailsPageComponent = ({
 }) => {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
-  const [showCartMessage, setShowCartMessage] = useState(false);
+  const navigate = useNavigate();
+
+
   const [product, setProduct] = useState<Product>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -45,7 +48,7 @@ const ProductDetailsPageComponent = ({
 
   const addToCartHandler = () => {
     reduxDispatch(addToCartReduxAction(id, quantity));
-    setShowCartMessage(true);
+    toastAddedToCart('Added to cart!', navigate)
   };
 
   useEffect(() => {
@@ -180,10 +183,6 @@ const ProductDetailsPageComponent = ({
       )}
       <Toaster />
       <Container>
-        <AddedToCartMessageComponent
-          showCartMessage={showCartMessage}
-          setShowCartMessage={setShowCartMessage}
-        />
         <Row className="mt-5">
           {!loading && (
             <>
