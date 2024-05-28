@@ -89,7 +89,8 @@ const ProductListPageComponent = ({
           </Col>
           <Col md={9}>
             <ResultsCountContainer
-              productCount={products?.length}
+              productCountVisible={products?.length}
+              productCount={totalProductsCount}
               loading={loading}
               error={error}
             />
@@ -137,14 +138,16 @@ export default ProductListPageComponent;
  */
 const ResultsCountContainer = ({
   productCount,
+  productCountVisible,
   loading,
   error,
 }: {
   productCount?: number;
+  productCountVisible?: number;
   loading: boolean;
   error: boolean;
 }) => {
-  if (!loading && productCount !== 0) {
+  if (!loading && !error && productCount !== 0 && productCountVisible !== 0) {
     return (
       <div className="results-count-container">
         <div
@@ -179,7 +182,7 @@ const ResultsCountContainer = ({
     );
   } else if (error) {
     <div>Error loading products.</div>;
-  } else if (!loading && productCount === 0) {
+  } else {
     return (
       <div style={{width: "100%", textAlign: "center", marginTop: "3rem"}}>No products found.</div>
     );
