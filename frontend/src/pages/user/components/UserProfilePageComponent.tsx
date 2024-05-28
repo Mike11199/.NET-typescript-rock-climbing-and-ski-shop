@@ -2,7 +2,6 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import CliffFacePhoto from "../../../images/cliff_3.png";
 import { StoredUserInfo } from "types";
-import { Toaster } from "react-hot-toast";
 import {
   toastSuccess,
   toastError,
@@ -118,7 +117,6 @@ const UserProfilePageComponent = ({
 
   return (
     <>
-      <Toaster />
       <img
         className="cliff_image"
         alt="ice_climbing_photo"

@@ -2,25 +2,27 @@ import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 
 export const toastError = (text: string) => {
-  const toastId = uuidv4();
-  toast.remove(toastId)
+  toast.dismiss();
+
   toast.error(text, {
     style: { borderRadius: "10px", background: "#333", color: "#fff" },
-    id: toastId,
+
+    duration: 3000,
   });
 };
 
 export const toastSuccess = (text: string) => {
-  const toastId = uuidv4();
-  toast.remove(toastId)
+  toast.dismiss();
+
   toast.success(text, {
     style: { borderRadius: "10px", background: "#333", color: "#fff" },
-    id: toastId,
+    duration: 3000,
   });
 };
 
 export const toastAddedToCart = (text, navigate) => {
   const toastId = uuidv4();
+  toast.dismiss();
 
   const CustomToast = ({ text, closeToast }) => (
     <div
@@ -46,7 +48,7 @@ export const toastAddedToCart = (text, navigate) => {
     </div>
   );
 
-  toast.remove(toastId)
+  toast.remove(toastId);
   toast.success(
     <CustomToast text={text} closeToast={() => toast.remove(toastId)} />,
     {

@@ -36,6 +36,8 @@ import AdminAnalyticsPage from "./pages/admin/AdminAnalyticsPage";
 import ScrollToTop from "./utils/ScrollToTop";
 import setupAxiosInterceptor from "./utils/AxiosSetup";
 
+import { Toaster } from "react-hot-toast";
+
 function App() {
   setupAxiosInterceptor();
 
@@ -43,6 +45,7 @@ function App() {
     <BrowserRouter>
       <ScrollToTop />
       <HeaderComponent />
+      <Toaster />
       <Routes>
         <Route element={<RoutesWithUserChatComponent />}>
           {/* publicly available routes: */}

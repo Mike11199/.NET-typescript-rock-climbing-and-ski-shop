@@ -6,7 +6,6 @@ import RockClimbingPhoto from "../../images/climbing_inverted_2.png";
 import RappelClimbingPhoto from "../../images/rappel_5.png";
 import { registerUserRequest } from "pages/RegisterPage";
 import { LoggedInOrRegisteredUserResponse } from "types";
-import { Toaster } from "react-hot-toast";
 import {
   toastSuccess,
   toastError,
@@ -127,7 +126,6 @@ const RegisterPageComponent = ({
 
   return (
     <>
-      <Toaster />
       <div style={{ display: "flex" }}>
         <div>
           <img

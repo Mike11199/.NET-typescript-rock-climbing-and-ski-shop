@@ -3,7 +3,6 @@ import {
   Row,
   Col,
   Form,
-  Alert,
   ListGroup,
   Button,
 } from "react-bootstrap";
@@ -13,7 +12,6 @@ import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import Confetti from "react-dom-confetti";
-import toast, { Toaster } from "react-hot-toast";
 import ShoppingCartImage from "../../../images/shopping_cart.png";
 import { ConfettiConfig } from "react-dom-confetti";
 import {
@@ -23,8 +21,10 @@ import {
   orderDataDTO,
   Order,
   UserAddress,
-  Product,
 } from "types";
+
+import { toastSuccess, toastError } from "../../../../src/utils/ToastNotifications";
+
 
 interface UserCartDetailsPageComponentProps {
   cartItems: CartProduct[];
@@ -79,13 +79,7 @@ const UserCartDetailsPageComponent = ({
       reduxDispatch(addToCart(productId, count));
     } catch (error) {
       console.error(error);
-      toast.error("Error changing cart quantity", {
-        style: {
-          borderRadius: "10px",
-          background: "#333",
-          color: "#fff",
-        },
-      });
+      toastError("Error changing cart quantity.");
     }
   };
 
@@ -93,23 +87,10 @@ const UserCartDetailsPageComponent = ({
     if (window.confirm("Are you sure?")) {
       try {
         reduxDispatch(removeFromCart(productID, quantity, price));
-
-        toast.success("Removed item from cart!", {
-          style: {
-            borderRadius: "10px",
-            background: "#333",
-            color: "#fff",
-          },
-        });
+        toastSuccess("Removed item from cart!");
       } catch (error) {
         console.error(error);
-        toast.error("Error removing item from cart.", {
-          style: {
-            borderRadius: "10px",
-            background: "#333",
-            color: "#fff",
-          },
-        });
+        toastError("Error removing item from cart.");
       }
     }
   };
@@ -175,7 +156,6 @@ const UserCartDetailsPageComponent = ({
 
   return (
     <>
-      <Toaster />
       <Container fluid>
         <Row className="mt-4">
           <div style={{ display: "flex", flexDirection: "row" }}>

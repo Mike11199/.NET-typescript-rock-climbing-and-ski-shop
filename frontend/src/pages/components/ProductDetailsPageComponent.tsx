@@ -21,7 +21,6 @@ import {
   toastError,
   toastAddedToCart,
 } from "../../../src/utils/ToastNotifications";
-import { Toaster } from "react-hot-toast";
 
 const ProductDetailsPageComponent = ({
   addToCartReduxAction,
@@ -180,7 +179,6 @@ const ProductDetailsPageComponent = ({
       ) : (
         <></>
       )}
-      <Toaster />
       <Container>
         <Row className="mt-5">
           {!loading && (

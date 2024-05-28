@@ -1,15 +1,23 @@
 import { Navbar } from "react-bootstrap";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 
 import HeaderNavLinks from "./HeaderNavLinks";
 import HeaderSearchContainer from "./HeaderSearchContainer";
 import { useDispatch } from "react-redux";
 import { updateSearchString } from "../../redux/actions/searchActions";
+import { useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const HeaderComponent = () => {
   const [searchCategoryToggle, setSearchCategoryToggle] =
     useState<string>("All");
+
+    const location = useLocation();
+
+    useEffect(() => {
+      toast.dismiss();
+    }, [location]);
 
   const dispatch = useDispatch();
 

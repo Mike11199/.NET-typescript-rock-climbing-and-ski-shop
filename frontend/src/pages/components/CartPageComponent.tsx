@@ -1,11 +1,11 @@
-import { Container, Row, Col, Alert, ListGroup, Button } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+import { Container, Row, Col, ListGroup, Button } from "react-bootstrap";
+
 import CartItemComponent from "../../components/CartItemComponent";
-import toast, { Toaster } from "react-hot-toast";
 import ShoppingCartImage from "../../images/shopping_cart.png";
 import { useNavigate } from "react-router-dom";
 import { StoredUserInfo, ReduxAppState } from "types";
 import { useSelector } from "react-redux";
+import { toastSuccess } from "../../../src/utils/ToastNotifications";
 
 const CartPageComponent = ({
   addToCart,
@@ -25,13 +25,7 @@ const CartPageComponent = ({
   const removeFromCartHandler = (productID, quantity, price) => {
     if (window.confirm("Are you sure?")) {
       reduxDispatch(removeFromCart(productID, quantity, price));
-      toast.success("Removed item from cart!", {
-        style: {
-          borderRadius: "10px",
-          background: "#333",
-          color: "#fff",
-        },
-      });
+      toastSuccess("Removed item from cart!");
     }
   };
 
@@ -48,7 +42,6 @@ const CartPageComponent = ({
 
   return (
     <>
-      <Toaster />
       <Container fluid className="subtotal_and_checkout_div_in_cart">
         <Row className="mt-4">
           <Col md={8}>

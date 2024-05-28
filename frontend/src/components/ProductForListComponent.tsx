@@ -3,9 +3,8 @@ import { Rating } from "react-simple-star-rating";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/actions/cartActions"; //redux action
-import toast, { Toaster } from "react-hot-toast";
 import { ReduxAppState, Image } from "types";
-import { toastAddedToCart } from "../../src/utils/ToastNotifications";
+import { toastAddedToCart, toastError } from "../../src/utils/ToastNotifications";
 import { useNavigate } from "react-router-dom";
 
 const ProductForListComponent = ({
@@ -25,12 +24,10 @@ const ProductForListComponent = ({
   const addToCartHandler = async () => {
     try {
       await dispatch(addToCart(productId, 1));
-
       toastAddedToCart('Added to cart!', navigate)
+
     } catch (error) {
-      toast.error("Error adding item to cart.", {
-        style: { borderRadius: "10px", background: "#333", color: "#fff" },
-      });
+      toastError("Error adding item to cart.");
     }
   };
 
@@ -53,7 +50,6 @@ const ProductForListComponent = ({
 
   return (
     <>
-      <Toaster />
       <Card style={productCardStyle}>
         <Row>
           <Col lg={5}>

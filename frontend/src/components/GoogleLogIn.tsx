@@ -1,9 +1,9 @@
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { setReduxUserState } from "../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import { useWindowWidth } from "@react-hook/window-size";
 import { useEffect, useState, useRef } from "react";
+import { toastError } from "../../src/utils/ToastNotifications";
 
 const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
   const navigate = useNavigate();
@@ -38,13 +38,6 @@ const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
       "Error logging in with Google Oauth2.0.  Please Register manually first.",
     );
   };
-
-  function toastError(text: string) {
-    toast.dismiss();
-    toast.error(text, {
-      style: { borderRadius: "10px", background: "#333", color: "#fff" },
-    });
-  }
 
   const windowWidth = useWindowWidth();
   const [divWidth, setDivWidth] = useState(0);

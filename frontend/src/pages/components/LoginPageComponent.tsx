@@ -7,12 +7,11 @@ import "../../../src/mobileStyles.css";
 import { AxiosResponse } from "axios";
 import GoogleLoginButton from "../../../src/components/GoogleLogIn";
 import { useWindowWidth } from "@react-hook/window-size";
-import { Toaster } from "react-hot-toast";
 import {
   toastSuccess,
   toastError,
 } from "../../../src/utils/ToastNotifications";
-import { Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { Row, Col, Form, Button } from "react-bootstrap";
 
 interface LoginPageComponentProps {
   loginUserApiRequest: (
@@ -134,7 +133,6 @@ const LoginPageComponent = ({
 
   return (
     <>
-      <Toaster />
       <img
         className="ski_image"
         alt="ice_climbing_photo"
