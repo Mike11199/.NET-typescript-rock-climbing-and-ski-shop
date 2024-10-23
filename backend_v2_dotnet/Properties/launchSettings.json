@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "http": {
+    "Ski Shop Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
@@ -8,26 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5001",
-    },
-    "https": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:5002",
-    },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-
-      }
+      "applicationUrl": "http://localhost:5001"
     },
     "Docker": {
       "commandName": "Docker",
@@ -37,7 +18,7 @@
 
       },
       "publishAllPorts": true,
-      "useSSL": true,      
+      "useSSL": true
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json",

@@ -65,8 +65,15 @@ const CartPageComponent = ({
             </div>
             {cartItems?.length === 0 ? (
               <>
-                <div className="neutral-alert" style={{marginTop: "1rem", padding: "1rem", marginBottom: "1rem"}}>
-                    Your cart is empty
+                <div
+                  className="neutral-alert"
+                  style={{
+                    marginTop: "1rem",
+                    padding: "1rem",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  Your cart is empty
                 </div>
               </>
             ) : (
@@ -86,8 +93,15 @@ const CartPageComponent = ({
             <ListGroup>
               <ListGroup.Item>
                 <h3>
-                  Subtotal ({cartItems?.length}{" "}
-                  {cartItems?.length === 1 ? "Product" : "Products"})
+                  Subtotal (
+                  {cartItems
+                    ? cartItems.reduce(
+                        (totalQuantity, item) => totalQuantity + item.quantity,
+                        0
+                      )
+                    : 0}{" "}
+                  {cartItems && cartItems.length === 1 ? "Item" : "Items"}
+                  )
                 </h3>
               </ListGroup.Item>
               <ListGroup.Item>

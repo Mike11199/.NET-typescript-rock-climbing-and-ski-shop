@@ -1,7 +1,11 @@
 import * as actionTypes from "../constants/cartConstants";
 import { CartProduct } from "../../types";
 
-const CART_INITIAL_STATE: any = {
+const CART_INITIAL_STATE: {
+  cartItems: CartProduct[];
+  itemsCount: number;
+  cartSubtotal: number;
+} = {
   cartItems: [],
   itemsCount: 0,
   cartSubtotal: 0,
@@ -16,40 +20,34 @@ export const cartReducer = (state = CART_INITIAL_STATE, action) => {
       const productBeingAddedToCart = action.payload;
 
       const productAlreadyExistsInState = state.cartItems.find(
-        (x: CartProduct) => x?.productId === productBeingAddedToCart?.productId,
+        (x: CartProduct) => x?.productId === productBeingAddedToCart?.productId
       );
 
       const currentState = { ...state };
 
       if (productAlreadyExistsInState) {
-        currentState.itemsCount = 0;
-        currentState.cartSubtotal = 0;
-        currentState.cartItems = state.cartItems.map((x: CartProduct) => {
-          if (x?.productId === productAlreadyExistsInState?.productId) {
-            currentState.itemsCount += Number(productBeingAddedToCart.quantity);
-            const sum =
-              Number(productBeingAddedToCart.quantity) *
-              Number(productBeingAddedToCart.price);
-            currentState.cartSubtotal += sum;
-          } else {
-            currentState.itemsCount += Number(x.quantity);
-            const sum = Number(x.quantity) * Number(x.price);
-            currentState.cartSubtotal += sum;
-          }
-          return x?.productId === productAlreadyExistsInState?.productId
-            ? productBeingAddedToCart
-            : x;
-        });
+        // Update the quantity of the existing product
+        currentState.cartItems = state.cartItems.map((x: CartProduct) =>
+          x?.productId === productAlreadyExistsInState?.productId
+            ? { ...x, quantity: x.quantity + productBeingAddedToCart.quantity }
+            : x
+        );
       } else {
-        currentState.itemsCount += Number(productBeingAddedToCart.quantity);
-        const sum =
-          Number(productBeingAddedToCart.quantity) *
-          Number(productBeingAddedToCart.price);
-        currentState.cartSubtotal += sum;
+        // Add new product to cart
         currentState.cartItems = [...state.cartItems, productBeingAddedToCart];
       }
 
+      // Increment only for the product being added
+      currentState.itemsCount =
+        state.itemsCount + productBeingAddedToCart.quantity;
+
+      // Increment subtotal for the product being added
+      currentState.cartSubtotal =
+        state.cartSubtotal +
+        productBeingAddedToCart.quantity * (productBeingAddedToCart.price ?? 0);
+
       return currentState;
+
     /**
      * REMOVE FROM CART
      */
@@ -57,7 +55,7 @@ export const cartReducer = (state = CART_INITIAL_STATE, action) => {
       return {
         ...state,
         cartItems: state.cartItems.filter(
-          (x: CartProduct) => x?.productId !== action.payload.productId,
+          (x: CartProduct) => x?.productId !== action.payload.productId
         ),
         itemsCount: state.itemsCount - action.payload.quantity,
         cartSubtotal:

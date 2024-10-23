@@ -27,7 +27,7 @@ const CartItemComponent = ({
               crossOrigin="anonymous"
               src={
                 product?.images?.find(
-                  (x: ProductImage) => x?.isMainImage === true,
+                  (x: ProductImage) => x?.isMainImage === true
                 )?.imageUrl ?? ""
               }
               fluid
@@ -43,7 +43,12 @@ const CartItemComponent = ({
             <Form.Select
               onChange={
                 changeCount
-                  ? (e) => changeCount(product?.productId, e.target.value)
+                  ? (e) => {
+                      const newCount = Number(e.target.value);
+                      const diff = newCount - (product?.quantity ?? 0);
+                      // Send negative diff if decreasing, positive diff if increasing (temporary till add new reducer)
+                      changeCount(product?.productId, diff);
+                    }
                   : undefined
               }
               disabled={orderCreated}
