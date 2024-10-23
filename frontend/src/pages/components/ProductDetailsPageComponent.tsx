@@ -265,7 +265,7 @@ const ProductDetailsPageComponent = ({
                         Quantity:
                         <Form.Select
                           value={quantity}
-                          onChange={(e) => setQuantity(e.target.value as any)}
+                          onChange={(e) => setQuantity(parseInt(e.target.value))}
                           size="lg"
                           aria-label="Default select example"
                         >
