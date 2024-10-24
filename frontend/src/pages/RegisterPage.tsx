@@ -22,7 +22,7 @@ export const registerUserApiRequest = async ({
     { name, lastName, email, password },
   );
 
-  localStorage.clear();
+  // localStorage.clear();
   sessionStorage.clear();
   if (data.userLoggedIn.doNotLogout) {
     localStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn));

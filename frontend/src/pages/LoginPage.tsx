@@ -14,8 +14,8 @@ const loginUserApiRequest = async (email, password, doNotLogout) => {
       doNotLogout,
     },
   );
-  localStorage.clear();
-  sessionStorage.clear();
+  // localStorage.clear();
+  // sessionStorage.clear();
   if (data.userLoggedIn.doNotLogout) {
     localStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn));
     localStorage.setItem("token", data.token);
@@ -32,8 +32,8 @@ const googleLogin = async (google_token) => {
     const response = await axios.post("/apiv2/signin-google", token_request);
     const data = response?.data;
 
-    localStorage.clear();
-    sessionStorage.clear();
+    // localStorage.clear();
+    // sessionStorage.clear();
     if (data.userLoggedIn.doNotLogout) {
       localStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn));
       localStorage.setItem("token", data.token);

@@ -14,7 +14,8 @@
         "terminal.background": "#181717",
         "activityBar.background": "#042772",
         "titleBar.activeBackground": "#05379F",
-        "titleBar.activeForeground": "#FAFBFF"
+        "titleBar.activeForeground": "#FAFBFF",
+        "editor.background": "#111111"
     },
     "workbench.colorTheme": "Dark Plus - Alt"
 }
