@@ -179,6 +179,7 @@ namespace backend_v2.Controllers
                     }
                     if (product.Count < orderItem.Quantity)
                     {
+                        // impossible from the UI as the dropdown won't go higher than count
                         return BadRequest("Not enough product quantity to fulfill order!");
                     }
 
@@ -201,6 +202,10 @@ namespace backend_v2.Controllers
                 newOrder.OrderTotal = orderTotal;
                 newOrder.PaymentMethod = createOrderRequest.PaymentMethod;
                 newOrder.ItemCount = orderCount;
+
+                // if out of stock restock to a random number b/w 15 and 37 (otherwise have to manually edit database)
+                if (product.Count <= 0) product.Count = new Random().Next(15, 37);
+
                 await _context.SaveChangesAsync();
                 return StatusCode(200, new { success = "Order created.", orderId = newOrder?.OrderId });
             }
