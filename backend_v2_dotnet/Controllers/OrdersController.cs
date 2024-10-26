@@ -57,7 +57,7 @@ namespace backend_v2.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error creating order!.", ex);
+                _logger.LogError("Error while paying for order. Exception: {Exception}", ex);
                 return BadRequest("User not found, please log in to create an order.");
             }
         }
@@ -89,7 +89,7 @@ namespace backend_v2.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error creating order!.", ex);
+                _logger.LogError("Error retrieving orders. Exception: {Exception}", ex);
                 return BadRequest("User not found, please log in to create an order.");
             }
         }
@@ -117,7 +117,7 @@ namespace backend_v2.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error creating order!.", ex);
+                _logger.LogError("Error retrieving order. Exception: {Exception}", ex);
                 return BadRequest("User not found, please log in to create an order.");
             }
         }
@@ -183,7 +183,10 @@ namespace backend_v2.Controllers
                         return BadRequest("Not enough product quantity to fulfill order!");
                     }
 
+                    // decrease product count on hand - and if out of stock restock to a random number
                     product.Count -= orderItem.Quantity;
+                    if (product.Count <= 0) product.Count = new Random().Next(15, 37);
+
                     orderTotal += product.Price * orderItem.Quantity ?? 0;
                     orderCount += orderItem.Quantity;
 
@@ -203,15 +206,14 @@ namespace backend_v2.Controllers
                 newOrder.PaymentMethod = createOrderRequest.PaymentMethod;
                 newOrder.ItemCount = orderCount;
 
-                // if out of stock restock to a random number b/w 15 and 37 (otherwise have to manually edit database)
-                if (product.Count <= 0) product.Count = new Random().Next(15, 37);
+
 
                 await _context.SaveChangesAsync();
                 return StatusCode(200, new { success = "Order created.", orderId = newOrder?.OrderId });
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error creating order!.", ex);
+                _logger.LogError("Error creating order! Exception: {Exception}", ex);
                 return BadRequest("User not found, please log in to create an order.");
             }
         }
