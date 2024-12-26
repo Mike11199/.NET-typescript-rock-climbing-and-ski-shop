@@ -13,11 +13,21 @@
 
 <br/>
 
-![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/a43e3526-8814-4c67-ae01-f37700468012)
+![image](https://github.com/user-attachments/assets/a6b70927-c525-4473-a70a-0d99c97bbe3f)
 
-![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/6ea92f24-d4a7-43d8-a305-ff517d31dace)
+<br/>
 
-![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/57850923-072d-42a9-a0be-49e360e40bcc)
+![image](https://github.com/user-attachments/assets/073702d1-e077-4620-8ba2-4f82ee743b03)
+
+<br/>
+
+![image](https://github.com/user-attachments/assets/dcc27d85-676c-46fd-b498-a24670f40a69)
+
+<br/>
+
+![image](https://github.com/user-attachments/assets/0b20fd62-6942-462f-9623-6a2e21a5ce84)
+
+<br/>
 
 - Use the following user and password to test the fake PayPal sandbox account to pay for an order (fake account with bank/credit cards):
   - Username: sb-fh43v4330869755@personal.example.com
