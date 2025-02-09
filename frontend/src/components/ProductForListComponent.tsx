@@ -4,7 +4,10 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/actions/cartActions"; //redux action
 import { ReduxAppState, Image } from "types";
-import { toastAddedToCart, toastError } from "../../src/utils/ToastNotifications";
+import {
+  toastAddedToCart,
+  toastError,
+} from "../../src/utils/ToastNotifications";
 import { useNavigate } from "react-router-dom";
 
 const ProductForListComponent = ({
@@ -24,8 +27,7 @@ const ProductForListComponent = ({
   const addToCartHandler = async () => {
     try {
       await dispatch(addToCart(productId, 1));
-      toastAddedToCart('Added to cart!', navigate)
-
+      toastAddedToCart("Added to cart!", navigate);
     } catch (error) {
       toastError("Error adding item to cart.");
     }
@@ -52,13 +54,14 @@ const ProductForListComponent = ({
     <>
       <Card style={productCardStyle}>
         <Row>
-          <Col lg={5}>
+          <Col lg={5} style={{ padding: "3rem" }}>
             <Card.Img
               crossOrigin="anonymous"
               variant="top"
               src={mainThumbnailImage?.imageUrl}
             />
           </Col>
+
           <Col lg={7}>
             <Card.Body>
               <Card.Title>{name}</Card.Title>

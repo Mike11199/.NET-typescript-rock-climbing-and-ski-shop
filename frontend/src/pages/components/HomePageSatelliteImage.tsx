@@ -85,6 +85,9 @@ const HomePageSatelliteImage = () => {
               mode="single"
               selected={startDate}
               onSelect={setStartDate as any}
+              style={{boxShadow: "10px 10px 10px rgba(0, 0, 0, 0.6)",
+                border: "1px solid black"
+              }}
             />
             <div className="sat_text">
               <ul>
