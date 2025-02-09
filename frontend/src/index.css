@@ -567,6 +567,7 @@ footer {
   flex-direction: row;
   margin-bottom: 150px;
   gap: 100px;
+  filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 1));
 }
 
 .nasa_sat_image {
@@ -668,6 +669,12 @@ h1.counter > span {
   width: 100vw;
   flex-direction: column;
   margin-top: 2rem;
+}
+
+.rdp-caption
+{
+  background-color: black !important;
+  color: rgb(255, 255, 255);
 }
 
 .carousel_caption_text {
