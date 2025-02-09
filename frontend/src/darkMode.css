@@ -182,9 +182,9 @@
 }
 
 .dark .list-group-item {
-  /* background-color: #333; */
-  background-color: #000000;
+  background-color: #000000ab;
   color: #ffffff;
+  padding: 1rem;
 }
 
 .dark table {

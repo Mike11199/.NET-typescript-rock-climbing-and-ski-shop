@@ -137,7 +137,7 @@ const LoginPageComponent = ({
         className="ski_image"
         alt="ice_climbing_photo"
         src={IceClimbingPhoto}
-      ></img>
+        />
       <div style={{ display: "flex", height: "100%" }}>
         <img
           className="ice_cave_image"

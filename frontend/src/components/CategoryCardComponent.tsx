@@ -20,7 +20,7 @@ const stylesDark = {
     boxShadow: "5px 0px 15px black",
     border: "5px black",
     color: "white",
-    backgroundColor: "black",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
     touchAction: "manipulation",
     userSelect: "none",
   },

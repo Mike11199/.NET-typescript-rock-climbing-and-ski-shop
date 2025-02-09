@@ -123,9 +123,10 @@ footer {
   position: absolute;
   max-width: 90%;
   margin-left: 0%;
-  margin-bottom: 0% !important; /* Adding !important to ensure it takes precedence */
+  margin-bottom: 0% !important;
   bottom: 0;
   z-index: -1;
+  filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 1));
 }
 
 .ice_cave_image {
@@ -134,20 +135,22 @@ footer {
   height: 100%;
   margin-left: 0%;
   margin-right: 0%;
-  margin-bottom: 0% !important; /* Adding !important to ensure it takes precedence */
+  margin-bottom: 0% !important;
   bottom: 0;
   right: 0;
   z-index: -1;
-}
+  filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 1));
+  }
 
 .cliff_image {
   position: fixed;
   max-width: 90%;
   height: 100%;
   margin-left: 0%;
-  margin-bottom: 0% !important; /* Adding !important to ensure it takes precedence */
+  margin-bottom: 0% !important;
   bottom: 0;
   z-index: -1;
+  filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.7));
 }
 
 .rappel_image {
@@ -158,12 +161,14 @@ footer {
   bottom: 0;
   right: 0;
   z-index: -1;
+  filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 1));
 }
 
 .rock_inverted_photo {
   height: 40%;
   position: absolute;
   z-index: -1;
+  filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.7));
 }
 
 .subtotal_and_checkout_div_in_cart {
@@ -667,7 +672,7 @@ h1.counter > span {
 
 .carousel_caption_text {
   color: white;
-  background-color: rgba(52, 52, 52, 0.8);
+  background-color: rgba(0, 0, 0, 0.5);
   max-height: 5em; /* Adjust the height as needed */
   display: -webkit-box;
   -webkit-box-orient: vertical;

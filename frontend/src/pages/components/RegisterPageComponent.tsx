@@ -133,7 +133,7 @@ const RegisterPageComponent = ({
             style={{ flexShrink: "0" }}
             alt="rock_climbing_photo"
             src={RockClimbingPhoto}
-          ></img>
+          />
         </div>
         <div className="register-container">
           <Form

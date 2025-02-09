@@ -12,7 +12,7 @@ const ProductCarouselComponent = ({
   const cursorPointerStyle = {
     cursor: "pointer",
     color: "white",
-    backgroundColor: "rgba(52, 52, 52, 0.8)",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   };
 
   return Array.isArray(bestSellers) && bestSellers?.length > 0 ? (
@@ -23,7 +23,11 @@ const ProductCarouselComponent = ({
             <img
               crossOrigin="anonymous"
               className="d-block w-100"
-              style={{ height: "300px", objectFit: "contain" }}
+              style={{
+                height: "300px",
+                objectFit: "contain",
+                filter: "drop-shadow(10px 10px 20px rgba(0, 0, 0, 1))",
+              }}
               src={
                 item?.images?.find((x: Image) => x?.isMainImage === true)
                   ?.imageUrl ?? ""

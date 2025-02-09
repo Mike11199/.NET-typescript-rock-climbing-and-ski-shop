@@ -6,11 +6,9 @@ import {
   ListGroup,
   Form,
   Button,
-  Alert,
 } from "react-bootstrap";
 import { Rating } from "react-simple-star-rating";
 
-import { useDispatch, useSelector } from "react-redux";
 import ImageZoom from "js-image-zoom";
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -190,6 +188,7 @@ const ProductDetailsPageComponent = ({
                       crossOrigin="anonymous"
                       fluid
                       src={image?.imageUrl ?? ""}
+                      style={{  filter: "drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.7))"}}
                     />
                     <br />
                   </div>
