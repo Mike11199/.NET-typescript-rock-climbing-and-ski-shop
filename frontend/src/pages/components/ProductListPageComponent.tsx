@@ -1,4 +1,3 @@
-import { Row, Col, Container } from "react-bootstrap";
 import PaginationComponent from "../../components/PaginationComponent";
 import { Spinner } from "react-bootstrap";
 
@@ -81,21 +80,27 @@ const ProductListPageComponent = ({
   };
 
   return (
-    <>
-      <Container fluid>
-        <Row>
-          <Col md={3}>
-            <ProductListPageFilterComponent />
-          </Col>
-          <Col md={9}>
-            <ResultsCountContainer
-              productCountVisible={products?.length}
-              productCount={totalProductsCount}
-              loading={loading}
-              error={error}
-            />
-            {!loading &&
-              products?.map((product) => {
+    <div >
+      <div className="productListContainer">
+        <div className="productListFiltersContainer">
+          <ProductListPageFilterComponent
+            products={products}
+            totalProductsCount={totalProductsCount}
+            loading={loading}
+            error={error}
+          />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            gap: "2rem",
+            flexDirection: "column",
+            width: "100%",
+          }}
+        >
+          {!loading && (
+            <div className="productListProductCardsContainer">
+              {products?.map((product) => {
                 const productReviewScore = getAverageRating(product?.reviews);
                 return (
                   <ProductForListComponent
@@ -110,81 +115,22 @@ const ProductListPageComponent = ({
                   />
                 );
               })}
+            </div>
+          )}
 
-            {!loading &&
-              !error &&
-              paginationLinksNumber > 1 &&
-              products?.length !== 0 && (
-                <PaginationComponent
-                  paginationLinksNumber={paginationLinksNumber}
-                  pageNum={pageNum}
-                />
-              )}
-          </Col>
-        </Row>
-      </Container>
-    </>
+          {!loading &&
+            !error &&
+            paginationLinksNumber > 1 &&
+            products?.length !== 0 && (
+              <PaginationComponent
+                paginationLinksNumber={paginationLinksNumber}
+                pageNum={pageNum}
+              />
+            )}
+        </div>
+      </div>
+    </div>
   );
 };
 
 export default ProductListPageComponent;
-
-/**
- * Container the following:
- *   loading:  spinner
- *   error:  error div
- *   no products:  no products div
- *   has products: result count
- */
-const ResultsCountContainer = ({
-  productCount,
-  productCountVisible,
-  loading,
-  error,
-}: {
-  productCount?: number;
-  productCountVisible?: number;
-  loading: boolean;
-  error: boolean;
-}) => {
-  if (!loading && !error && productCount !== 0 && productCountVisible !== 0) {
-    return (
-      <div className="results-count-container">
-        <div
-          style={{
-            marginBottom: "0rem",
-          }}
-        >
-          <h6>
-            {productCount} {productCount === 1 ? "Result" : "Results"}
-          </h6>
-        </div>
-      </div>
-    );
-  } else if (loading && !error) {
-    return (
-      <div className="full-width-div-product-list-page">
-        <div
-          style={{
-            marginBottom: "1rem",
-          }}
-        >
-          Loading products...
-        </div>
-        <Spinner
-          as="span"
-          animation="border"
-          variant="primary"
-          role="status"
-          aria-hidden="true"
-        />
-      </div>
-    );
-  } else if (error) {
-    <div>Error loading products.</div>;
-  } else {
-    return (
-      <div style={{width: "100%", textAlign: "center", marginTop: "3rem"}}>No products found.</div>
-    );
-  }
-};

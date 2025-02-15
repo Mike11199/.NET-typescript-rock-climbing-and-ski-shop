@@ -53,6 +53,24 @@
     bottom: -420px;
   }
 
+  .productListContainer {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .results-count-container {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .productListProductCardsContainer {
+    gap: 1rem;
+  }
+
+  .productListFiltersContainer {
+    width: 100%;
+  }
+
   #log_in_page_form_1 {
     padding-bottom: 0px;
   }

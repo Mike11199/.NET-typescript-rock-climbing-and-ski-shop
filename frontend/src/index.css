@@ -4,7 +4,7 @@ html {
 }
 
 body {
-  margin-bottom: 185px;
+  margin-bottom: 100px;
   background: #000000;
 }
 
@@ -14,6 +14,24 @@ footer {
   width: 100%;
   background-color: black;
 }
+
+.productListContainer {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem 2rem 1rem 2rem;
+  width: 100%;
+}
+
+.productListProductCardsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.productListFiltersContainer {
+  width: 30%;
+}
+
 
 .search-input-group {
   width: 100%;
@@ -140,7 +158,7 @@ footer {
   right: 0;
   z-index: -1;
   filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 1));
-  }
+}
 
 .cliff_image {
   position: fixed;
@@ -658,7 +676,19 @@ h1.counter > span {
   align-items: start;
   display: flex;
   flex-direction: column;
-  margin-top: 2rem;
+  padding: 1rem;
+  background: rgb(255, 255, 255);
+}
+
+.dark .results-count-container {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.dark .form-range::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
 }
 
 .full-width-div-product-list-page {
@@ -671,8 +701,7 @@ h1.counter > span {
   margin-top: 2rem;
 }
 
-.rdp-caption
-{
+.rdp-caption {
   background-color: black !important;
   color: rgb(255, 255, 255);
 }

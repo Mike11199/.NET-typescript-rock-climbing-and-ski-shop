@@ -36,15 +36,11 @@ const ProductForListComponent = ({
   const styles = {
     color: "black",
     backgroundColor: "white",
-    marginTop: "30px",
-    marginBottom: "50px",
   };
 
   const darkStyles = {
     color: "white",
     backgroundColor: "rgba(0, 0, 0, 0.6)",
-    marginTop: "30px",
-    marginBottom: "50px",
   };
 
   const productCardStyle = mode === "light" ? styles : darkStyles;
@@ -54,10 +50,13 @@ const ProductForListComponent = ({
     <>
       <Card style={productCardStyle}>
         <Row>
-          <Col lg={5} style={{ 
-            padding: "3rem",
-            filter: "drop-shadow(10px 10px 20px rgb(0, 0, 0))",
-            }}>
+          <Col
+            lg={5}
+            style={{
+              padding: "4rem",
+              filter: "drop-shadow(10px 10px 20px rgb(0, 0, 0))",
+            }}
+          >
             <Card.Img
               crossOrigin="anonymous"
               variant="top"

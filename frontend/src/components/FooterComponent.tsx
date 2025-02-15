@@ -7,7 +7,7 @@ const FooterComponent = () => {
     <footer>
       <Container fluid>
         <Row>
-          <Col className="text-white text-center py-5">
+          <Col className="text-white text-center py-3">
             {/*  https://getbootstrap.com/docs/5.1/utilities/colors/  */}
             Copyright &copy; {currentYear} Rock Climbing & Ski Shop - Michael Iwanek
           </Col>

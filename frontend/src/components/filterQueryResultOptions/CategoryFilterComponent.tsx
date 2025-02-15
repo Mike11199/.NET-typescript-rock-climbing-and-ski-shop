@@ -24,7 +24,7 @@ const CategoryFilterComponent = ({
                 checked={category?.name === categoryFromFilter}
                 onChange={() => setCategoryFromFilter(category?.name)}
               />
-              <Form.Check.Label style={{ cursor: "pointer", color: "#137b28" }}>
+              <Form.Check.Label style={{ cursor: "pointer" }}>
                 {category.name}
               </Form.Check.Label>
             </Form.Check>
