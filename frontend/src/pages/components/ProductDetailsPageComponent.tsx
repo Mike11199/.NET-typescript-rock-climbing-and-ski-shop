@@ -188,7 +188,13 @@ const ProductDetailsPageComponent = ({
                       crossOrigin="anonymous"
                       fluid
                       src={image?.imageUrl ?? ""}
-                      style={{  filter: "drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.7))"}}
+                      style={{
+                        filter: "drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.7))",
+                        padding: "4rem",
+                        background: "rgba(0, 0, 0, 0.082)",
+                        borderRadius: "1rem",
+                        border: "1px solid rgba(255, 255, 255, 0.103)",
+                      }}
                     />
                     <br />
                   </div>
