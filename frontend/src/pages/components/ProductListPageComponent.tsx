@@ -79,8 +79,41 @@ const ProductListPageComponent = ({
     return total / reviews.length;
   };
 
+  if (loading && !error) {
+    return (
+      <div className="full-width-div-product-list-page">
+        <div
+          style={{
+            marginBottom: "1rem",
+          }}
+        >
+          Loading products...
+        </div>
+        <Spinner
+          as="span"
+          animation="border"
+          variant="primary"
+          role="status"
+          aria-hidden="true"
+        />
+      </div>
+    );
+  } else if (error) {
+    return (
+      <div style={{ width: "100%", textAlign: "center", marginTop: "3rem" }}>
+        Error loading products.
+      </div>
+    );
+  } else if (!products?.length) {
+    return (
+      <div style={{ width: "100%", textAlign: "center", marginTop: "3rem" }}>
+        No products found.
+      </div>
+    );
+  }
+
   return (
-    <div >
+    <div>
       <div className="productListContainer">
         <div className="productListFiltersContainer">
           <ProductListPageFilterComponent
