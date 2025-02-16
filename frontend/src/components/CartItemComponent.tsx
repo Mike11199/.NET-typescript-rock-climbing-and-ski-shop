@@ -1,5 +1,6 @@
 import RemoveFromCartComponent from "./RemoveFromCartComponent";
 import { CartProduct, Image as ProductImage } from "types";
+import { Link } from "react-router-dom";
 
 interface CartItemProps {
   product: CartProduct;
@@ -32,7 +33,9 @@ const CartItemComponent = ({
 
       {/* Product Name */}
       <div className="cart-item-name">
-        <a href={productUrl}>{product?.name}</a>
+        <Link to={productUrl} className="details-link">
+          {product?.name}
+        </Link>
       </div>
 
       {/* Product Price */}

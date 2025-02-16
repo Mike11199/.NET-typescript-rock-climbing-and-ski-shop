@@ -14,7 +14,7 @@
     text-align: center;
   }
 
-  .cart-selector-and-delete-button-container{
+  .cart-selector-and-delete-button-container {
     display: flex;
     gap: 1rem;
     justify-content: center;

@@ -117,7 +117,7 @@ const ShoppingCartHeader = () => {
         gap: "1rem",
         alignItems: "center",
         width: "100%",
-        marginBottom: "1rem" // temp
+        marginBottom: "1rem", // temp
       }}
     >
       <h1>Shopping Cart</h1>
