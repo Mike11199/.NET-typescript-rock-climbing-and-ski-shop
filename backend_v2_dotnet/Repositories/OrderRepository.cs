@@ -33,6 +33,7 @@ public class OrderRepository : IOrderRepository
     public async Task<IEnumerable<Order>> GetAllOrdersbyUserId(Guid userId)
     {
         var userOrders = await _context.Orders
+            .AsNoTracking() // prevent EF from tracking and expanding objects else 60MB response
             .OrderByDescending(o => o.CreatedAt)
             .Where(o => o.UserId == userId)
             .Include(o => o.OrderProductItems)
