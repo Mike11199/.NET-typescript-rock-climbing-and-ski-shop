@@ -603,6 +603,26 @@ footer {
   animation-direction: alternate;
 }
 
+.trash_button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #c0c0c0;
+  padding: 0.5rem;
+  transition: color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.trash_button:hover {
+  color: #ff4d4d;
+  transform: scale(1.1);
+}
+
+.trash_button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  color: #666;
+}
+
 .tree {
   position: absolute;
   height: 100px;

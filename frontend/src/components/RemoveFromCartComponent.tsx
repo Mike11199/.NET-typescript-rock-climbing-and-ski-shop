@@ -1,4 +1,5 @@
-import { Button } from "react-bootstrap";
+import { useState } from "react";
+import { Trash, Trash2 } from "lucide-react"; // Import both icons
 
 interface RemoveFromCartComponentProps {
   orderCreated: boolean;
@@ -15,19 +16,25 @@ const RemoveFromCartComponent = ({
   price,
   removeFromCartHandler = false,
 }: RemoveFromCartComponentProps) => {
+  const [hovered, setHovered] = useState(false);
+
+  if (orderCreated) return <></>;
+
   return (
-    <Button
+    <button
       disabled={orderCreated}
       type="button"
-      variant="secondary"
+      className="trash_button"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       onClick={
         removeFromCartHandler
           ? () => removeFromCartHandler(productId, quantity, price)
           : undefined
       }
     >
-      <i className="bi bi-trash"></i>
-    </Button>
+      {hovered ? <Trash2 size={18} /> : <Trash size={18} />}
+    </button>
   );
 };
 
