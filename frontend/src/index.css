@@ -202,7 +202,7 @@ footer {
 }
 
 .navbar-brand {
-  margin: 0px;
+  text-wrap: nowrap;
 }
 
 .nav-item.show .dropdown-menu {
@@ -217,8 +217,7 @@ footer {
   display: flex;
   justify-content: space-between;
   gap: 5vw;
-  margin-right: 2vw;
-  margin-left: 2vw;
+  padding: 0rem 2rem 0rem 2rem;
 }
 
 .nav-links-container {
@@ -233,9 +232,6 @@ footer {
 .transparent-button {
   background-color: transparent;
   border-color: transparent;
-  height: auto;
-  padding: 0px;
-  margin: 0px !important;
 }
 
 .transparent-button:hover {

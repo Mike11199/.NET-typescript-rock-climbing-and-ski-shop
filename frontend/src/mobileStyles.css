@@ -111,7 +111,7 @@
   }
 
   .navbar-brand {
-    margin: 0px;
+    text-wrap: wrap;
   }
 
   .navbar-black {
@@ -121,13 +121,16 @@
     padding-bottom: 20px;
   }
 
+  .banner_box_container {
+    padding: 0rem 1rem 0rem 1rem;
+  }
+
   .navbar-items-container {
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
     width: 100%;
-    margin-right: 0px;
-    margin-left: 0px;
     justify-content: center;
+    padding: 0rem 1rem 0rem 1rem;
   }
 
   .nav-links-container {
