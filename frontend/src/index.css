@@ -189,13 +189,16 @@ footer {
 }
 
 .toast-button {
-  margin-left: 10px;
-  background: #444;
+  background: #323233;
   color: #fff;
   border: none;
   border-radius: 5px;
   padding: 5px 10px;
   cursor: pointer;
+}
+
+.toast-button:hover {
+  background: #464647;
 }
 
 .navbar-brand {
@@ -273,7 +276,6 @@ footer {
 }
 
 .btn {
-  z-index: 9999 !important;
   color: rgb(0, 0, 0) !important;
 }
 

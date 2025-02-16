@@ -1,60 +1,103 @@
+import { useState } from "react";
 import toast from "react-hot-toast";
-import { v4 as uuidv4 } from "uuid";
 
 export const toastError = (text: string) => {
-  toast.dismiss();
+  toast.dismiss(text);
 
-  toast.error(text, {
-    style: { borderRadius: "10px", background: "#333", color: "#fff" },
-
-    duration: 3000,
-  });
+  setTimeout(() => {
+    toast.error(text, {
+      id: text,
+      duration: 2000,
+      style: {
+        borderRadius: "10px",
+        background: "linear-gradient(#131212, #131212)",
+        color: "#fff",
+      },
+    });
+  }, 100);
 };
 
 export const toastSuccess = (text: string) => {
-  toast.dismiss();
+  toast.dismiss(text);
 
-  toast.success(text, {
-    style: { borderRadius: "10px", background: "#333", color: "#fff" },
-    duration: 3000,
-  });
+  setTimeout(() => {
+    toast.success(text, {
+      id: text,
+      duration: 2000,
+      style: {
+        borderRadius: "10px",
+        background: "linear-gradient(#131212, #131212)",
+        color: "#fff",
+      },
+    });
+  }, 100);
+};
+
+const ToastCloseButton = ({ closeToast }) => {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <button
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onClick={() => closeToast()}
+      style={{
+        backgroundColor: hovered ? "#bb2323" : "#a11e1e",
+        color: "#c0bcbc",
+        borderRadius: "2px",
+        cursor: "pointer",
+        fontWeight: "bold",
+        boxShadow: "1px 1px 5px 0px #000000",
+        outline: "none",
+        border: "none",
+        height: "100%",
+        width: "2rem",
+      }}
+    >
+      ✕
+    </button>
+  );
 };
 
 export const toastAddedToCart = (text, navigate) => {
-  const toastId = uuidv4();
-  toast.dismiss();
+  toast.dismiss(text);
 
-  const CustomToast = ({ text, closeToast }) => (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <span>{text}</span>
-      <button onClick={closeToast} className="toast-button">
-        Close
-      </button>
-      <button
-        className="toast-button"
-        onClick={() => {
-          closeToast();
-          navigate("/cart");
+  setTimeout(() => {
+    const CustomToast = ({ text, closeToast }) => (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "1rem",
         }}
       >
-        Go to Cart
-      </button>
-    </div>
-  );
+        <span>{text}</span>
+        <button
+          className="toast-button"
+          onClick={() => {
+            closeToast();
+            navigate("/cart");
+          }}
+        >
+          Go to Cart
+        </button>
+        <ToastCloseButton closeToast={closeToast} />
+      </div>
+    );
 
-  toast.remove(toastId);
-  toast.success(
-    <CustomToast text={text} closeToast={() => toast.remove(toastId)} />,
-    {
-      style: { borderRadius: "10px", background: "#333", color: "#fff" },
-      duration: Infinity,
-      id: toastId,
-    }
-  );
+    toast.success(
+      <CustomToast text={text} closeToast={() => toast.dismiss(text)} />,
+      {
+        id: text,
+        duration: 4000,
+        style: {
+          background: "linear-gradient(#131212, #131212)",
+          color: "#f0f0f0",
+          borderRadius: "8px",
+          boxShadow: "5px 5px 15px 0px #000000",
+        },
+      }
+    );
+  }, 100);
 };
