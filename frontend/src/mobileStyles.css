@@ -53,9 +53,34 @@
     bottom: -420px;
   }
 
+  .order-card {
+    width: 90%;
+  }
+
   .productListContainer {
     flex-direction: column;
     padding: 1rem;
+    gap: 1rem;
+  }
+
+  .order-items {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .order-items-grid {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+    margin: 0;
+  }
+
+  .order-header {
+    flex-direction: column;
     gap: 1rem;
   }
 

@@ -1,34 +1,34 @@
 import { Row, Col, Image, ListGroup } from "react-bootstrap";
 import { Product, Image as ProductImage } from "../types";
+import "../index.css"
 
 interface CartItemProps {
   item: Product;
 }
 
-const CartItemComponent = ({ item }: CartItemProps) => {
+const CartItemComponentSimple = ({ item }: CartItemProps) => {
   return (
     <>
-      <ListGroup.Item>
-        <Row>
-          <Col>
-            <Image
-              crossOrigin="anonymous"
-              src={
-                item?.images?.find((x: ProductImage) => x?.isMainImage === true)
-                  ?.imageUrl ?? ""
-              }
-              fluid
-            />
-          </Col>
-          <Col>{item?.name}</Col>
-          <Col>
-            <b>${item?.price?.toFixed(2)}</b>
-          </Col>
-        </Row>
-      </ListGroup.Item>
-      <br />
+      <div
+        className="orderGridProductItem"
+      >
+        <div style={{ width: "100%" }}>
+          <Image
+            crossOrigin="anonymous"
+            src={
+              item?.images?.find((x: ProductImage) => x?.isMainImage === true)
+                ?.imageUrl ?? ""
+            }
+            fluid
+          />
+        </div>
+        <Col>{item?.name}</Col>
+        <Col>
+          <b>${item?.price?.toFixed(2)}</b>
+        </Col>
+      </div>
     </>
   );
 };
 
-export default CartItemComponent;
+export default CartItemComponentSimple;

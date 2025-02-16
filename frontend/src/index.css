@@ -15,6 +15,124 @@ footer {
   background-color: black;
 }
 
+
+h1 {
+  text-align: center;
+}
+
+.orders-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.order-card {
+  background: rgb(250, 249, 249);
+  border-radius: 8px;
+  padding: 20px;
+  width: 70%;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  color: #000000;
+}
+
+.orderGridProductItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 10rem;
+  background: #dddbdb;
+  padding: 1rem;
+  text-align: center;
+  gap: 1rem;
+  border: 1px solid #292828;
+}
+
+.dark .orderGridProductItem {
+  border: 1px solid #292828;
+  background: #131212;
+}
+
+
+.dark .order-card {
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+
+.order-items-grid {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5rem;
+  color: black;
+}
+
+.dark .order-items-grid {
+  color: white;
+}
+
+.status {
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+
+.status.success {
+  color: rgb(10, 192, 65);
+  font-weight: 400;
+  border: 1px solid rgb(10, 192, 65);
+  background-color: rgba(10, 192, 65, 0.25);
+}
+
+.status.error {
+  color: rgb(255, 0, 0);
+  font-weight: 400;
+  border: 1px solid rgb(255, 0, 0);
+  background-color: rgba(255, 0, 0, 0.25);
+}
+
+.details-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.details-link:hover {
+  text-decoration: underline;
+}
+
+.order-items {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-top: 1px solid #636161;
+}
+
+.orders-container {
+  color: white;
+}
+
+.dark .order-title {
+  color: white;
+}
+
+.order-title {
+  color: black;
+}
+
+
+.no-orders {
+  text-align: center;
+  font-size: 18px;
+  color: #888;
+}
+
 .productListContainer {
   display: flex;
   gap: 2rem;
@@ -31,7 +149,6 @@ footer {
 .productListFiltersContainer {
   width: 30%;
 }
-
 
 .search-input-group {
   width: 100%;
