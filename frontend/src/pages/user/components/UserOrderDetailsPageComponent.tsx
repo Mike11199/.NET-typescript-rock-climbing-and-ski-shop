@@ -2,8 +2,6 @@ import {
   Container,
   Row,
   Col,
-  Form,
-  Alert,
   ListGroup,
   Button,
 } from "react-bootstrap";
@@ -16,6 +14,7 @@ import {
   OrderWithProductItems,
   User,
 } from "types";
+import { OrderDetailsHeaderContainer } from "./OrderDetailsHeaderContainer";
 
 const UserOrderDetailsPageComponent = ({
   userInfo,
@@ -150,46 +149,15 @@ const UserOrderDetailsPageComponent = ({
       <Row className="mt-4">
         <h1>Order Details</h1>
         <Col md={8}>
-          <br />
-          <Row>
-            <Col md={6}>
-              <h2>Shipping</h2>
-              <b>Name</b>: {userInfo?.name} {userInfo?.lastName} <br />
-              <b>Address</b>: {user?.address} {user?.city} {user?.state}{" "}
-              {user?.zipCode} <br />
-              <b>Phone</b>: {user?.phoneNumber}
-            </Col>
-            <Col md={6}>
-              <h2>Payment method</h2>
-              <Form.Select value={paymentMethod} disabled={true}>
-                <option value="PayPal">PayPal</option>
-                <option value="Cash">Cash On Delivery</option>
-              </Form.Select>
-            </Col>
-            <Row>
-            <Col>
-                <div
-                  style={{marginTop: "1rem", padding: "1rem"}}
-                  className={isDelivered ? "success-alert" : "error-alert"}
-                >
-                  {isDelivered ? (
-                    <>Delivered at {isDelivered}</>
-                  ) : (
-                    <>Not delivered</>
-                  )}
-                </div>
-              </Col>
-              <Col>
-                <div
-                  style={{marginTop: "1rem", padding: "1rem"}}
-                  className={isPaid ? "success-alert" : "error-alert"}
-                  >
-                  {isPaid ? <>Paid on {isPaid}</> : <>Not paid yet</>}
-                </div>
-              </Col>
-            </Row>
-          </Row>
-          <br />
+          
+          <OrderDetailsHeaderContainer
+            userInfo={userInfo}
+            user={user}
+            paymentMethod={paymentMethod}
+            isDelivered={isDelivered}
+            isPaid={isPaid}
+          />
+
           <h2>Order items</h2>
           <ListGroup variant="flush">
             {cartProductItems?.map((item, idx) => {

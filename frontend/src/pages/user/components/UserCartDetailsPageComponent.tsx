@@ -1,11 +1,4 @@
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  ListGroup,
-  Button,
-} from "react-bootstrap";
+import { Container, Row, Col, ListGroup, Button } from "react-bootstrap";
 import CartItemComponent from "../../../components/CartItemComponent";
 
 import { useEffect, useState } from "react";
@@ -23,8 +16,11 @@ import {
   UserAddress,
 } from "types";
 
-import { toastSuccess, toastError } from "../../../../src/utils/ToastNotifications";
-
+import {
+  toastSuccess,
+  toastError,
+} from "../../../../src/utils/ToastNotifications";
+import { CartDetailsHeaderContainer } from "./CartDetailsHeaderContainer";
 
 interface UserCartDetailsPageComponentProps {
   cartItems: CartProduct[];
@@ -53,7 +49,7 @@ const UserCartDetailsPageComponent = ({
 }: UserCartDetailsPageComponentProps) => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [userAddress, setUserAddress] = useState<UserAddress | undefined>(
-    undefined,
+    undefined
   );
   const [missingAddress, setMissingAddress] = useState<boolean>(false);
   const [paymentMethod, setPaymentMethod] = useState<string>("PayPal");
@@ -121,12 +117,10 @@ const UserCartDetailsPageComponent = ({
           setMissingAddress(false);
         }
       })
-      .catch((er) =>
-        {
-        console.error(er?.response?.data?.message ?? er?.response?.data)
-        navigate('/login')
-      }
-      );
+      .catch((er) => {
+        console.error(er?.response?.data?.message ?? er?.response?.data);
+        navigate("/login");
+      });
   }, [userInfo?.userId]);
 
   const orderHandler = () => {
@@ -155,52 +149,22 @@ const UserCartDetailsPageComponent = ({
   };
 
   return (
-    <>
+    <div style={{overflow: "hidden"}}>
       <Container fluid>
         <Row className="mt-4">
           <div style={{ display: "flex", flexDirection: "row" }}>
-            <h1 style={{ marginRight: "20px", marginLeft: "10px" }}>
-              Cart Details
-            </h1>
+            <h1>Cart Details</h1>
             <img
-              style={{ marginTop: "0px" }}
               height="60px"
               className="shopping_cart_image"
               alt="shopping_cart_image"
               src={ShoppingCartImage}
-            ></img>
+            />
           </div>
           <Col md={8}>
-            <br />
-            <Row>
-              <Col md={6}>
-                <h2>Shipping</h2>
-                <b>Name</b>: {userInfo?.name} {userInfo?.lastName} <br />
-                <b>Address</b>: {userAddress?.address} {userAddress?.city}{" "}
-                {userAddress?.state} {userAddress?.zipCode} <br />
-                <b>Phone</b>: {userAddress?.phoneNumber}
-              </Col>
-              <Col md={6}>
-                <h2>Payment method</h2>
-                <Form.Select onChange={choosePayment}>
-                  <option value="PayPal">PayPal</option>
-                  <option value="Cash">Cash On Delivery</option>
-                </Form.Select>
-              </Col>
-              <Row>
-              <Col>
-                  <div className="error-alert" style={{marginTop: "1rem", padding: "1rem"}}>
-                    Not Delivered
-                  </div>
-                </Col>
-                <Col>
-                  <div className="error-alert" style={{marginTop: "1rem", padding: "1rem"}}>
-                    Not paid yet
-                  </div>
-                </Col>
-              </Row>
-            </Row>
-            <br />
+            <CartDetailsHeaderContainer
+              {...{ userInfo, userAddress, choosePayment }}
+            />
             <h2>Order items</h2>
             <ListGroup variant="flush">
               {cartItems?.map((item, idx) => (
@@ -213,53 +177,80 @@ const UserCartDetailsPageComponent = ({
               ))}
             </ListGroup>
           </Col>
-          <Col md={4}>
-            <ListGroup>
-              <ListGroup.Item>
-                <h3>Order summary</h3>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                Items price (after tax):{" "}
-                <span className="fw-bold">
-                  ${(cartSubtotal ?? 0).toFixed(2)}
-                </span>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                Shipping: <span className="fw-bold">included</span>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                Tax: <span className="fw-bold">included</span>
-              </ListGroup.Item>
-              <ListGroup.Item className="text-danger">
-                Total price:{" "}
-                <span className="fw-bold">
-                  ${(cartSubtotal ?? 0).toFixed(2)}
-                </span>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <div className="d-grid gap-2">
-                  <Confetti active={confetti} config={config} />
-                  <Button
-                    size="lg"
-                    onClick={orderHandler}
-                    variant="danger"
-                    type="button"
-                    disabled={buttonDisabled}
-                  >
-                    Place order
-                  </Button>
-                  <p style={{ color: "red", fontWeight: "500" }}>
-                    {missingAddress &&
-                      "In order to make an order, fill out your profile with correct address, city etc."}
-                  </p>
-                </div>
-              </ListGroup.Item>
-            </ListGroup>
-          </Col>
+          <CartDetailsOrderSummaryContainer
+            cartSubtotal={cartSubtotal}
+            confetti={confetti}
+            config={config}
+            orderHandler={orderHandler}
+            buttonDisabled={buttonDisabled}
+            missingAddress={missingAddress}
+          />
         </Row>
       </Container>
-    </>
+    </div>
   );
 };
 
 export default UserCartDetailsPageComponent;
+
+export const CartDetailsOrderSummaryContainer = ({
+  cartSubtotal,
+  confetti,
+  config,
+  orderHandler,
+  buttonDisabled,
+  missingAddress,
+}: {
+  cartSubtotal: number;
+  confetti: boolean;
+  config: any;
+  orderHandler: () => void;
+  buttonDisabled: boolean;
+  missingAddress: boolean;
+}) => {
+  return (
+
+    <Col md={4}>
+          
+      <ListGroup>
+        <ListGroup.Item>
+          <h3>Order summary</h3>
+        </ListGroup.Item>
+        <ListGroup.Item>
+          Items price (after tax):{" "}
+          <span className="fw-bold">${(cartSubtotal ?? 0).toFixed(2)}</span>
+        </ListGroup.Item>
+        <ListGroup.Item>
+          Shipping: <span className="fw-bold">included</span>
+        </ListGroup.Item>
+        <ListGroup.Item>
+          Tax: <span className="fw-bold">included</span>
+        </ListGroup.Item>
+        <ListGroup.Item className="text-danger">
+          Total price:{" "}
+          <span className="fw-bold">${(cartSubtotal ?? 0).toFixed(2)}</span>
+        </ListGroup.Item>
+        <ListGroup.Item>
+          <div className="d-grid gap-2">
+            <Confetti active={confetti} config={config} />
+            <Button
+              size="lg"
+              onClick={orderHandler}
+              variant="danger"
+              type="button"
+              disabled={buttonDisabled}
+            >
+              Place order
+            </Button>
+            <p style={{ color: "red", fontWeight: "500" }}>
+              {missingAddress &&
+                "In order to make an order, fill out your profile with correct address, city etc."}
+            </p>
+          </div>
+        </ListGroup.Item>
+      </ListGroup>
+    
+    </Col>
+    
+  );
+};

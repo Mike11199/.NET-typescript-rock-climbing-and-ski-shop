@@ -79,6 +79,16 @@
     margin: 0;
   }
 
+  .infoContainer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .shippingContainer,
+  .paymentContainer {
+    width: 100%;
+  }
+
   .productDetailsHeaderName {
     text-align: center;
   }
