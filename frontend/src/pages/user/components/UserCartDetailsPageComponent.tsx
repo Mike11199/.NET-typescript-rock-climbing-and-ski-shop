@@ -149,7 +149,7 @@ const UserCartDetailsPageComponent = ({
   };
 
   return (
-    <div style={{overflow: "hidden"}}>
+    <div style={{ overflow: "hidden" }}>
       <Container fluid>
         <Row className="mt-4">
           <div style={{ display: "flex", flexDirection: "row" }}>
@@ -209,9 +209,7 @@ export const CartDetailsOrderSummaryContainer = ({
   missingAddress: boolean;
 }) => {
   return (
-
     <Col md={4}>
-          
       <ListGroup>
         <ListGroup.Item>
           <h3>Order summary</h3>
@@ -249,8 +247,6 @@ export const CartDetailsOrderSummaryContainer = ({
           </div>
         </ListGroup.Item>
       </ListGroup>
-    
     </Col>
-    
   );
 };
