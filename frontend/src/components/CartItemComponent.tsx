@@ -1,4 +1,3 @@
-import { Row, Col, Image, ListGroup, Form } from "react-bootstrap";
 import RemoveFromCartComponent from "./RemoveFromCartComponent";
 import { CartProduct, Image as ProductImage } from "types";
 
@@ -19,63 +18,63 @@ const CartItemComponent = ({
   const productUrl = `/product-details/${productId}`;
 
   return (
-    <>
-      <ListGroup.Item>
-        <Row>
-          <Col md={2}>
-            <Image
-              crossOrigin="anonymous"
-              src={
-                product?.images?.find(
-                  (x: ProductImage) => x?.isMainImage === true
-                )?.imageUrl ?? ""
-              }
-              fluid
-            />
-          </Col>
-          <Col md={2}>
-            <a href={productUrl}>{product?.name}</a>
-          </Col>
-          <Col md={2}>
-            <b>${(product?.price ?? 0).toFixed(2)}</b>
-          </Col>
-          <Col md={3}>
-            <Form.Select
-              onChange={
-                changeCount
-                  ? (e) => {
-                      const newCount = Number(e.target.value);
-                      const diff = newCount - (product?.quantity ?? 0);
-                      // Send negative diff if decreasing, positive diff if increasing (temporary till add new reducer)
-                      changeCount(product?.productId, diff);
-                    }
-                  : undefined
-              }
-              disabled={orderCreated}
-              value={product?.quantity}
-            >
-              {[...Array(product?.count).keys()].map((x) => (
-                <option key={x + 1} value={x + 1}>
-                  {x + 1}
-                </option>
-              ))}
-            </Form.Select>
-          </Col>
-          <Col md={3}>
-            <RemoveFromCartComponent
-              orderCreated={orderCreated}
-              productId={product?.productId}
-              quantity={product?.quantity}
-              price={product?.price}
-              removeFromCartHandler={
-                removeFromCartHandler ? removeFromCartHandler : undefined
-              }
-            />
-          </Col>
-        </Row>
-      </ListGroup.Item>
-      <br />
-    </>
+    <div className="cart-item">
+      {/* Product Image */}
+      <div className="cart-item-image">
+        <img
+          src={
+            product?.images?.find((x: ProductImage) => x?.isMainImage === true)
+              ?.imageUrl ?? ""
+          }
+          alt={product?.name ?? ""}
+        />
+      </div>
+
+      {/* Product Name */}
+      <div className="cart-item-name">
+        <a href={productUrl}>{product?.name}</a>
+      </div>
+
+      {/* Product Price */}
+      <div className="cart-item-price">
+        <div>${(product?.price ?? 0).toFixed(2)}</div>
+      </div>
+
+      {/* Quantity Selector + Remove Button */}
+      <div className="cart-selector-and-delete-button-container">
+        <div>
+          <select
+            className="cart-item-select"
+            onChange={
+              changeCount
+                ? (e) => {
+                    const newCount = Number(e.target.value);
+                    const diff = newCount - (product?.quantity ?? 0);
+                    changeCount(product?.productId, diff);
+                  }
+                : undefined
+            }
+            disabled={orderCreated}
+            value={product?.quantity}
+          >
+            {[...Array(Math.min(10, product?.count ?? 1)).keys()].map((x) => (
+              <option key={x + 1} value={x + 1}>
+                {x + 1}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <RemoveFromCartComponent
+            orderCreated={orderCreated}
+            productId={product?.productId}
+            quantity={product?.quantity}
+            price={product?.price}
+            removeFromCartHandler={removeFromCartHandler || undefined}
+          />
+        </div>
+      </div>
+    </div>
   );
 };
 

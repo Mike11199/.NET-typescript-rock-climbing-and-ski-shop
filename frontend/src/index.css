@@ -603,14 +603,63 @@ footer {
   animation-direction: alternate;
 }
 
+.cart-item {
+  display: grid;
+  grid-template-columns: 12rem 1fr 2fr 1fr;
+  gap: 1rem;
+  padding: 2rem;
+  background: #ffffff;
+}
+
+.dark .cart-item {
+  background: #000000b2;
+}
+
+.cart-item-image img {
+  width: 10rem;
+  height: auto;
+  padding: 0rem;
+}
+
+.cart-selector-and-delete-button-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: end;
+}
+
+.cart-item-price {
+  font-weight: 500;
+}
+
+.cart-item-select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  width: 5rem;
+}
+
+.cart-items-container {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
 .trash_button {
   background: none;
   border: none;
   cursor: pointer;
-  color: #c0c0c0;
-  padding: 0.5rem;
-  transition: color 0.2s ease-in-out, transform 0.1s ease-in-out;
+  padding: 0.25rem;
+  transition:
+    color 0.2s ease-in-out,
+    transform 0.1s ease-in-out;
 }
+
+.dark .trash_button {
+  color: #c0c0c0;
+}
+
 
 .trash_button:hover {
   color: #ff4d4d;

@@ -279,11 +279,11 @@ const ProductDetailsPageComponent = ({
                           size="lg"
                           aria-label="Default select example"
                         >
-                          {[...Array(product?.count).keys()].map((x) => (
-                            <option key={x + 1} value={x + 1}>
-                              {x + 1}
-                            </option>
-                          ))}
+                        {[...Array(Math.min(10, product?.count ?? 1)).keys()].map((x) => (
+                          <option key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </option>
+                        ))}
                         </Form.Select>
                       </ListGroup.Item>
                       <ListGroup.Item>

@@ -4,6 +4,22 @@
     object-position: 5% 50%;
   }
 
+  .cart-item-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cart-item {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .cart-selector-and-delete-button-container{
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+
   .category_card_image_front_page_ropes {
     object-fit: cover;
     object-position: 73% 50%;

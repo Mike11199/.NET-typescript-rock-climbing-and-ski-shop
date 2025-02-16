@@ -45,24 +45,7 @@ const CartPageComponent = ({
       <Container fluid className="subtotal_and_checkout_div_in_cart">
         <Row className="mt-4">
           <Col md={8}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                marginBottom: "20px",
-              }}
-            >
-              <h1 style={{ marginRight: "20px", marginLeft: "10px" }}>
-                Shopping Cart
-              </h1>
-              <img
-                style={{ marginTop: "0px" }}
-                height="60px"
-                className="shopping_cart_image"
-                alt="shopping_cart_image"
-                src={ShoppingCartImage}
-              ></img>
-            </div>
+            <ShoppingCartHeader />
             {cartItems?.length === 0 ? (
               <>
                 <div
@@ -77,7 +60,7 @@ const CartPageComponent = ({
                 </div>
               </>
             ) : (
-              <ListGroup variant="flush">
+              <div className="cart-items-container">
                 {cartItems?.map((item, idx) => (
                   <CartItemComponent
                     product={item}
@@ -86,7 +69,7 @@ const CartPageComponent = ({
                     removeFromCartHandler={removeFromCartHandler}
                   />
                 ))}
-              </ListGroup>
+              </div>
             )}
           </Col>
           <Col md={4}>
@@ -100,8 +83,7 @@ const CartPageComponent = ({
                         0
                       )
                     : 0}{" "}
-                  {cartItems && cartItems.length === 1 ? "Item" : "Items"}
-                  )
+                  {cartItems && cartItems.length === 1 ? "Item" : "Items"})
                 </h3>
               </ListGroup.Item>
               <ListGroup.Item>
@@ -126,3 +108,26 @@ const CartPageComponent = ({
 };
 
 export default CartPageComponent;
+
+const ShoppingCartHeader = () => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: "1rem",
+        alignItems: "center",
+        width: "100%",
+        marginBottom: "1rem" // temp
+      }}
+    >
+      <h1>Shopping Cart</h1>
+      <img
+        style={{ marginTop: "0px" }}
+        height="60px"
+        className="shopping_cart_image"
+        alt="shopping_cart_image"
+        src={ShoppingCartImage}
+      />
+    </div>
+  );
+};
