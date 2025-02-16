@@ -189,7 +189,8 @@ const ProductDetailsPageComponent = ({
                       fluid
                       src={image?.imageUrl ?? ""}
                       style={{
-                        filter: "drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.7))",
+                        filter:
+                          "drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.7))",
                         padding: "4rem",
                         background: "rgba(0, 0, 0, 0.082)",
                         borderRadius: "1rem",
@@ -205,7 +206,9 @@ const ProductDetailsPageComponent = ({
                   <Col md={8}>
                     <ListGroup variant="flush">
                       <ListGroup.Item>
-                        <h1>{product?.name}</h1>
+                        <h1 className="productDetailsHeaderName">
+                          {product?.name}
+                        </h1>
                       </ListGroup.Item>
                       <ListGroup.Item>
                         <div
@@ -270,7 +273,9 @@ const ProductDetailsPageComponent = ({
                         Quantity:
                         <Form.Select
                           value={quantity}
-                          onChange={(e) => setQuantity(parseInt(e.target.value))}
+                          onChange={(e) =>
+                            setQuantity(parseInt(e.target.value))
+                          }
                           size="lg"
                           aria-label="Default select example"
                         >
@@ -334,8 +339,8 @@ const ProductDetailsPageComponent = ({
                 {!userInfo?.name && (
                   <>
                     <div
-                    style={{padding: "1.5rem", margin: "1.5rem 0rem"}}
-                    className="error-alert"
+                      style={{ padding: "1.5rem", margin: "1.5rem 0rem" }}
+                      className="error-alert"
                     >
                       Login first to write a review
                     </div>

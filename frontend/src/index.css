@@ -15,7 +15,6 @@ footer {
   background-color: black;
 }
 
-
 h1 {
   text-align: center;
 }
@@ -36,6 +35,10 @@ h1 {
   color: #000000;
 }
 
+.productDetailsHeaderName {
+  text-align: left;
+}
+
 .orderGridProductItem {
   display: flex;
   flex-direction: column;
@@ -53,7 +56,6 @@ h1 {
   border: 1px solid #292828;
   background: #131212;
 }
-
 
 .dark .order-card {
   background: rgba(0, 0, 0, 0.7);
@@ -125,7 +127,6 @@ h1 {
 .order-title {
   color: black;
 }
-
 
 .no-orders {
   text-align: center;

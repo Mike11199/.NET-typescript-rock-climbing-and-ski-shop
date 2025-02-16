@@ -79,6 +79,10 @@
     margin: 0;
   }
 
+  .productDetailsHeaderName {
+    text-align: center;
+  }
+
   .order-header {
     flex-direction: column;
     gap: 1rem;
