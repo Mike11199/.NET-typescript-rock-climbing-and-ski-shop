@@ -15,10 +15,6 @@ footer {
   background-color: black;
 }
 
-h1 {
-  text-align: center;
-}
-
 .orders-grid {
   display: flex;
   flex-wrap: wrap;
