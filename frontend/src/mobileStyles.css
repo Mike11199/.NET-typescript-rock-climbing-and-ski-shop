@@ -20,6 +20,10 @@
     justify-content: center;
   }
 
+  .climate_text_paragraph {
+    text-align: center;
+  }
+
   .category_card_image_front_page_ropes {
     object-fit: cover;
     object-position: 73% 50%;

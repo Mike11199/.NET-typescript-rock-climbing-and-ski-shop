@@ -789,13 +789,14 @@ footer {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
 }
 
 .climate_text_paragraph {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1rem;
 }
 
 .nasa_snow_cover {

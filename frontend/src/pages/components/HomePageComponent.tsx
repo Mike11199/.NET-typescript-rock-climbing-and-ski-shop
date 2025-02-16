@@ -57,7 +57,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
         />
         <div className="climate_text_div">
           <p className="climate_text_paragraph">
-            <span style={{ fontWeight: "bold" }}>Giving Back: &nbsp;</span>
+            <span style={{ fontWeight: "bold" }}>Giving Back &nbsp;</span>
             Actions speak louder than words. To offset our carbon footprint and
             protect the environment, we pledge to plant one tree for every
             dollar our store sells. The average tree offsets 48 pounds of CO2 a
@@ -74,7 +74,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
   const ProductCategoryCardsContainer = () => (
     <Container>
       <Row xs={1} md={2} className="g-4 mt-4">
-        {mainCategories.map((category, idx) => (
+        {mainCategories?.map((category, idx) => (
           <div
             key={`category_div_container_${category?.categoryId}`}
             className="cardComponentGrid"
