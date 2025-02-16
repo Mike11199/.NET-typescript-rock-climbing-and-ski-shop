@@ -1,4 +1,4 @@
-import { Row, Col, Image, ListGroup } from "react-bootstrap";
+import { Image } from "react-bootstrap";
 import { Product, Image as ProductImage } from "../types";
 import "../index.css"
 
@@ -6,7 +6,13 @@ interface CartItemProps {
   item: Product;
 }
 
-const CartItemComponentSimple = ({ item }: CartItemProps) => {
+
+
+const OrderItemComponent = ({ item }: CartItemProps) => {
+
+  const productId = item?.productId;
+  const productUrl = `/product-details/${productId}`;
+
   return (
     <>
       <div
@@ -22,13 +28,10 @@ const CartItemComponentSimple = ({ item }: CartItemProps) => {
             fluid
           />
         </div>
-        <Col>{item?.name}</Col>
-        <Col>
-          <b>${item?.price?.toFixed(2)}</b>
-        </Col>
+       <a href={productUrl}>{item?.name}</a>
       </div>
     </>
   );
 };
 
-export default CartItemComponentSimple;
+export default OrderItemComponent;

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import CartItemComponentSimple from "../../../components/CartItemComponentSimple";
 import { OrderWithProductItems } from "types";
+import OrderItemComponent from "../../../components/OrderItemComponent";
 
 const UserOrdersPageComponent = ({ getOrders }) => {
   const [orders, setOrders] = useState<OrderWithProductItems[]>([]);
@@ -21,12 +21,6 @@ const UserOrdersPageComponent = ({ getOrders }) => {
     currency: "USD",
   });
 
-  useEffect(() => {
-    {
-      console.log(orders);
-    }
-  }, [orders]);
-
   return (
     <div className="orders-container">
       <div style={{ textAlign: "left", display: "flex", padding: "2rem" }}>
@@ -37,8 +31,10 @@ const UserOrdersPageComponent = ({ getOrders }) => {
         {orders.map((order, idx) => (
           <div className="order-card" key={idx}>
             <div className="order-header">
-              <strong>Order #{order?.orderId?.split("-")[0]}</strong>
-
+              <div>
+                <strong>Order #</strong>
+                <span>{order?.orderId?.split("-")[0]}</span>
+              </div>
               <div>
                 <strong>Date</strong>{" "}
                 {order?.createdAt
@@ -56,7 +52,7 @@ const UserOrdersPageComponent = ({ getOrders }) => {
                 <strong>Payment</strong> {order?.paymentMethod}
               </div>
               <div>
-                <strong>Delivered</strong>{" "}
+                <strong>Delivered </strong>{" "}
                 {order?.isDelivered ? (
                   <span className="status success">Yes</span>
                 ) : (
@@ -87,7 +83,7 @@ const UserOrdersPageComponent = ({ getOrders }) => {
                 {order?.orderProductItems?.map(
                   (item, idx) =>
                     item?.product && (
-                      <CartItemComponentSimple item={item.product} key={idx} />
+                      <OrderItemComponent item={item.product} key={idx} />
                     )
                 )}
               </div>
