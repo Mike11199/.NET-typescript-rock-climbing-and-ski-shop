@@ -166,7 +166,7 @@ const UserCartDetailsPageComponent = ({
               {...{ userInfo, userAddress, choosePayment }}
             />
             <h2>Order items</h2>
-            <ListGroup variant="flush">
+            <div className="product-items-container">
               {cartItems?.map((item, idx) => (
                 <CartItemComponent
                   product={item}
@@ -175,7 +175,7 @@ const UserCartDetailsPageComponent = ({
                   changeCount={changeCount}
                 />
               ))}
-            </ListGroup>
+            </div>
           </Col>
           <CartDetailsOrderSummaryContainer
             cartSubtotal={cartSubtotal}

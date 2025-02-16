@@ -149,7 +149,6 @@ const UserOrderDetailsPageComponent = ({
       <Row className="mt-4">
         <h1>Order Details</h1>
         <Col md={8}>
-          
           <OrderDetailsHeaderContainer
             userInfo={userInfo}
             user={user}
@@ -159,7 +158,7 @@ const UserOrderDetailsPageComponent = ({
           />
 
           <h2>Order items</h2>
-          <ListGroup variant="flush">
+          <div className="product-items-container">
             {cartProductItems?.map((item, idx) => {
               return (
                 item && (
@@ -171,7 +170,7 @@ const UserOrderDetailsPageComponent = ({
                 )
               );
             })}
-          </ListGroup>
+          </div>
         </Col>
         <Col md={4}>
           <ListGroup>

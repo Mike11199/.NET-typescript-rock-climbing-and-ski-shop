@@ -609,6 +609,7 @@ footer {
   gap: 1rem;
   padding: 2rem;
   background: #ffffff;
+  min-height: 15rem;
 }
 
 .dark .cart-item {
@@ -619,6 +620,7 @@ footer {
   width: 10rem;
   height: auto;
   padding: 0rem;
+  overflow: hidden;
 }
 
 .cart-selector-and-delete-button-container {
@@ -639,13 +641,6 @@ footer {
   width: 5rem;
 }
 
-.cart-items-container {
-  display: flex;
-  gap: 1rem;
-  flex-direction: column;
-  margin-bottom: 2rem;
-}
-
 .trash_button {
   background: none;
   border: none;
@@ -658,6 +653,13 @@ footer {
 
 .dark .trash_button {
   color: #c0c0c0;
+}
+
+.product-items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 

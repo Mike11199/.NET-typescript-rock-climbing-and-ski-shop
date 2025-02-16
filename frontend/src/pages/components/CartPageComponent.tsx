@@ -60,7 +60,7 @@ const CartPageComponent = ({
                 </div>
               </>
             ) : (
-              <div className="cart-items-container">
+              <div className="product-items-container">
                 {cartItems?.map((item, idx) => (
                   <CartItemComponent
                     product={item}

@@ -98,11 +98,11 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
           </Row>
           <br />
           <h2>Order items</h2>
-          <ListGroup variant="flush">
+          <div className="product-items-container">
             {cartItems.map((item, idx) => (
               <CartItemComponent key={idx} product={item} orderCreated={true} />
             ))}
-          </ListGroup>
+          </div>
         </Col>
         <Col md={4}>
           <ListGroup>
