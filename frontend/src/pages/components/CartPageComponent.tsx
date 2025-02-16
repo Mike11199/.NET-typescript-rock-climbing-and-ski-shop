@@ -5,7 +5,10 @@ import ShoppingCartImage from "../../images/shopping_cart.png";
 import { useNavigate } from "react-router-dom";
 import { StoredUserInfo, ReduxAppState } from "types";
 import { useSelector } from "react-redux";
-import { toastSuccess } from "../../../src/utils/ToastNotifications";
+import {
+  toastConfirm,
+  toastSuccess,
+} from "../../../src/utils/ToastNotifications";
 
 const CartPageComponent = ({
   addToCart,
@@ -23,10 +26,10 @@ const CartPageComponent = ({
   );
 
   const removeFromCartHandler = (productID, quantity, price) => {
-    if (window.confirm("Are you sure?")) {
+    toastConfirm("Remove item from cart?", () => {
       reduxDispatch(removeFromCart(productID, quantity, price));
       toastSuccess("Removed item from cart!");
-    }
+    });
   };
 
   const navigate = useNavigate();

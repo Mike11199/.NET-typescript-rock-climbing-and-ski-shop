@@ -101,3 +101,71 @@ export const toastAddedToCart = (text, navigate) => {
     );
   }, 100);
 };
+
+export const toastConfirm = (message, onConfirm) => {
+  const toastId = message;
+
+  const ConfirmToast = ({ closeToast }) => (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "1rem",
+        textAlign: "center",
+        padding: "0.5rem",
+        minWidth: "250px",
+      }}
+    >
+      <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        ⚠️ {message}
+      </span>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "0.75rem",
+          width: "100%",
+        }}
+      >
+        <button
+          className="toast-button"
+          style={{width: "100%"}}
+          onClick={() => {
+            toast.dismiss(toastId);
+            onConfirm();
+          }}
+        >
+          Yes
+        </button>
+        <button
+        style={{width: "100%"}}
+          className="toast-button"
+          onClick={() => {
+            toast.dismiss(toastId);
+          }}
+        >
+          No
+        </button>
+      </div>
+    </div>
+  );
+
+  toast.dismiss(toastId);
+  setTimeout(() => {
+    toast(<ConfirmToast closeToast={() => toast.dismiss(toastId)} />, {
+      id: toastId,
+      duration: Infinity,
+      style: {
+        background: "linear-gradient(#131212, #131212)",
+        color: "#f0f0f0",
+        borderRadius: "8px",
+        boxShadow: "5px 5px 15px 0px #000000",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      },
+    });
+  }, 100);
+};
