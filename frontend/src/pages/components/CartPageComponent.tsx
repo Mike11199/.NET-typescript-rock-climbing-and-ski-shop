@@ -50,7 +50,7 @@ const CartPageComponent = ({
           <ShoppingCartHeader />
         </Row>
         <Row className="mt-4">
-          <Col md={8}>
+          <Col md={8} className="order-2 order-md-1">
             {cartItems?.length === 0 ? (
               <>
                 <div
@@ -75,8 +75,8 @@ const CartPageComponent = ({
               </div>
             )}
           </Col>
-          <Col md={4}>
-            <ListGroup>
+          <Col md={4} className="order-1 order-md-2 mb-3 mb-md-0">
+          <ListGroup className="text-center text-md-start">
               <ListGroup.Item>
                 <h3>
                   Subtotal (
