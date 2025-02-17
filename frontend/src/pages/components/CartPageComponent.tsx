@@ -47,16 +47,16 @@ const CartPageComponent = ({
     <>
       <Container fluid className="subtotal_and_checkout_div_in_cart">
         <Row className="mt-4">
+          <ShoppingCartHeader />
+        </Row>
+        <Row className="mt-4">
           <Col md={8}>
-            <ShoppingCartHeader />
             {cartItems?.length === 0 ? (
               <>
                 <div
                   className="neutral-alert"
                   style={{
-                    marginTop: "1rem",
                     padding: "1rem",
-                    marginBottom: "1rem",
                   }}
                 >
                   Your cart is empty
@@ -114,15 +114,7 @@ export default CartPageComponent;
 
 const ShoppingCartHeader = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: "1rem",
-        alignItems: "center",
-        width: "100%",
-        marginBottom: "1rem", // temp
-      }}
-    >
+    <div className="shopping-cart-header">
       <h1>Shopping Cart</h1>
       <img
         style={{ marginTop: "0px" }}

@@ -43,6 +43,10 @@
     display: none;
   }
 
+  .neutral-alert {
+    margin-bottom: 2rem;
+  }
+
   .ski_image {
     position: fixed;
     bottom: 185px;

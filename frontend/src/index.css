@@ -22,6 +22,13 @@ footer {
   justify-content: center;
 }
 
+.shopping-cart-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+}
+
 .cartDetailsContainer {
   display: flex;
   flex-direction: column;
@@ -661,7 +668,6 @@ footer {
   gap: 1rem;
   margin-bottom: 2rem;
 }
-
 
 .trash_button:hover {
   color: #ff4d4d;
