@@ -59,30 +59,52 @@ const ToastCloseButton = ({ closeToast }) => {
   );
 };
 
-export const toastAddedToCart = (text, navigate) => {
+export const toastAddedToCart = (text, navigate, cartItems, cartSubtotal) => {
   toast.dismiss(text);
 
   setTimeout(() => {
     const CustomToast = ({ text, closeToast }) => (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: "1rem",
-        }}
-      >
-        <span>{text}</span>
-        <button
-          className="toast-button"
-          onClick={() => {
-            closeToast();
-            navigate("/cart");
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: "1rem",
           }}
         >
-          Go to Cart
-        </button>
-        <ToastCloseButton closeToast={closeToast} />
+          <span>{text}</span>
+          <button
+            className="toast-button"
+            onClick={() => {
+              closeToast();
+              navigate("/cart");
+            }}
+          >
+            Go to Cart
+          </button>
+          <ToastCloseButton closeToast={closeToast} />
+        </div>
+        {/* <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: "1rem",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              textAlign: "center",
+            }}
+          >
+            Cart Total - ${cartSubtotal}
+          </div>
+        </div> */}
       </div>
     );
 
@@ -131,7 +153,7 @@ export const toastConfirm = (message, onConfirm) => {
       >
         <button
           className="toast-button"
-          style={{width: "100%"}}
+          style={{ width: "100%" }}
           onClick={() => {
             toast.dismiss(toastId);
             onConfirm();
@@ -140,7 +162,7 @@ export const toastConfirm = (message, onConfirm) => {
           Yes
         </button>
         <button
-        style={{width: "100%"}}
+          style={{ width: "100%" }}
           className="toast-button"
           onClick={() => {
             toast.dismiss(toastId);

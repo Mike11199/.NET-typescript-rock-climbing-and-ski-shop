@@ -12,13 +12,14 @@ import { Rating } from "react-simple-star-rating";
 import ImageZoom from "js-image-zoom";
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Product } from "types";
+import { Product, ReduxAppState } from "types";
 import { Spinner } from "react-bootstrap";
 import {
   toastSuccess,
   toastError,
   toastAddedToCart,
 } from "../../../src/utils/ToastNotifications";
+import { useSelector } from "react-redux";
 
 const ProductDetailsPageComponent = ({
   addToCartReduxAction,
@@ -42,9 +43,14 @@ const ProductDetailsPageComponent = ({
 
   const messagesEndRef = useRef<any>(null);
 
+    const cartItems = useSelector((state: ReduxAppState) => state.cart.cartItems);
+    const cartSubtotal = useSelector(
+      (state: ReduxAppState) => state.cart.cartSubtotal,
+    );
+
   const addToCartHandler = () => {
     reduxDispatch(addToCartReduxAction(id, quantity));
-    toastAddedToCart("Added to cart!", navigate);
+    toastAddedToCart("Added to cart!", navigate, cartItems, cartSubtotal);
   };
 
   useEffect(() => {
@@ -279,7 +285,7 @@ const ProductDetailsPageComponent = ({
                           size="lg"
                           aria-label="Default select example"
                         >
-                        {[...Array(Math.min(10, product?.count ?? 1)).keys()].map((x) => (
+                        {[...Array(product?.count ?? 1).keys()].map((x) => (
                           <option key={x + 1} value={x + 1}>
                             {x + 1}
                           </option>

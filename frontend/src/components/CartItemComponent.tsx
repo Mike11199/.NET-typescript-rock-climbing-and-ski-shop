@@ -60,7 +60,7 @@ const CartItemComponent = ({
             disabled={orderCreated}
             value={product?.quantity}
           >
-            {[...Array(Math.min(10, product?.count ?? 1)).keys()].map((x) => (
+            {[...Array(product?.count ?? 1).keys()].map((x) => (
               <option key={x + 1} value={x + 1}>
                 {x + 1}
               </option>
