@@ -6,9 +6,8 @@ import { Product } from "../../types";
 export const addToCart =
   (productId, quantity) => async (dispatch, getState) => {
     const { data } = await axios.get<Product>(
-      `/apiv2/products/get-one/${productId}`,
+      `/apiv2/products/get-one/${productId}`
     );
-
     dispatch({
       type: actionTypes.ADD_TO_CART,
       payload: {

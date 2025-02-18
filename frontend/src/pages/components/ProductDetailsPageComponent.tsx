@@ -43,14 +43,18 @@ const ProductDetailsPageComponent = ({
 
   const messagesEndRef = useRef<any>(null);
 
-    const cartItems = useSelector((state: ReduxAppState) => state.cart.cartItems);
-    const cartSubtotal = useSelector(
-      (state: ReduxAppState) => state.cart.cartSubtotal,
-    );
+  const cartItems = useSelector((state: ReduxAppState) => state.cart.cartItems);
+  const cartSubtotal = useSelector(
+    (state: ReduxAppState) => state.cart.cartSubtotal
+  );
 
-  const addToCartHandler = () => {
-    reduxDispatch(addToCartReduxAction(id, quantity));
-    toastAddedToCart("Added to cart!", navigate, cartItems, cartSubtotal);
+  const addToCartHandler = async () => {
+    try {
+      await reduxDispatch(addToCartReduxAction(id, quantity));
+      toastAddedToCart("Added to cart!", navigate, cartItems, cartSubtotal);
+    } catch (error: any) {
+      toastError(error?.toString());
+    }
   };
 
   useEffect(() => {
@@ -285,11 +289,11 @@ const ProductDetailsPageComponent = ({
                           size="lg"
                           aria-label="Default select example"
                         >
-                        {[...Array(product?.count ?? 1).keys()].map((x) => (
-                          <option key={x + 1} value={x + 1}>
-                            {x + 1}
-                          </option>
-                        ))}
+                          {[...Array(product?.count ?? 1).keys()].map((x) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
                         </Form.Select>
                       </ListGroup.Item>
                       <ListGroup.Item>

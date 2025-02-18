@@ -26,16 +26,15 @@ const ProductForListComponent = ({
 
   const cartItems = useSelector((state: ReduxAppState) => state.cart.cartItems);
   const cartSubtotal = useSelector(
-    (state: ReduxAppState) => state.cart.cartSubtotal,
+    (state: ReduxAppState) => state.cart.cartSubtotal
   );
-
 
   const addToCartHandler = async () => {
     try {
       await dispatch(addToCart(productId, 1));
       toastAddedToCart("Added to cart!", navigate, cartItems, cartSubtotal);
-    } catch (error) {
-      toastError("Error adding item to cart.");
+    } catch (error: any) {
+      toastError(error?.toString());
     }
   };
 

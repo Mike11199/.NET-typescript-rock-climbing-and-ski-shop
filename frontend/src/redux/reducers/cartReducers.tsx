@@ -15,9 +15,20 @@ export const cartReducer = (state = CART_INITIAL_STATE, action) => {
   switch (action.type) {
     /**
      * ADD TO CART
+     *  CartProduct:
+     *    count = number of items in stock
+     *    quantity = number of items in cart or being added
      */
     case actionTypes.ADD_TO_CART:
-      const productBeingAddedToCart = action.payload;
+      const productBeingAddedToCart: CartProduct = action.payload;
+
+      // check ui is not immediately adding count greater than in stock somehow
+      const maxItemsAvailable = productBeingAddedToCart?.count!;
+      if (productBeingAddedToCart.quantity > maxItemsAvailable) {
+        throw new Error(
+          "Not enough items in stock to add this quantity to the cart."
+        );
+      }
 
       const productAlreadyExistsInState = state.cartItems.find(
         (x: CartProduct) => x?.productId === productBeingAddedToCart?.productId
@@ -26,6 +37,17 @@ export const cartReducer = (state = CART_INITIAL_STATE, action) => {
       const currentState = { ...state };
 
       if (productAlreadyExistsInState) {
+        // throw error if new quantity will exceed what's in stock for that item
+        const newProductQuantityDesired =
+          productAlreadyExistsInState.quantity! +
+          productBeingAddedToCart.quantity;
+
+        if (newProductQuantityDesired > maxItemsAvailable) {
+          throw new Error(
+            "Not enough items in stock to add this quantity to the cart."
+          );
+        }
+
         // Update the quantity of the existing product
         currentState.cartItems = state.cartItems.map((x: CartProduct) =>
           x?.productId === productAlreadyExistsInState?.productId
