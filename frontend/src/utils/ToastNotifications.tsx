@@ -2,6 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 export const toastError = (text: string) => {
+  toast.dismiss("Added to cart!");
   toast.dismiss(text);
 
   setTimeout(() => {
