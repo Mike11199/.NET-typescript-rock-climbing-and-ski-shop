@@ -358,6 +358,22 @@ footer {
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
 }
 
+.rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
+  background-color: rgb(46, 44, 44) !important;
+}
+
+.rdp-cell {
+  background-color: #363a3f !important;
+}
+
+.rdp-cell {
+  color: white !important;
+}
+
+.rdp-day_selected {
+  background-color: rgb(8, 17, 105) !important;
+}
+
 .ski_slope {
   position: absolute;
   bottom: 0;
