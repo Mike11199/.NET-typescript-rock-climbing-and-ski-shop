@@ -19,6 +19,7 @@ import {
 import {
   toastSuccess,
   toastError,
+  toastConfirm,
 } from "../../../../src/utils/ToastNotifications";
 import { CartDetailsHeaderContainer } from "./CartDetailsHeaderContainer";
 
@@ -79,16 +80,21 @@ const UserCartDetailsPageComponent = ({
     }
   };
 
+  useEffect(() => {
+    if (cartItems.length === 0) setButtonDisabled(true);
+  }, [cartItems]);
+
   const removeFromCartHandler = (productID, quantity, price) => {
-    if (window.confirm("Are you sure?")) {
+    toastConfirm("Remove item from cart?", async () => {
       try {
-        reduxDispatch(removeFromCart(productID, quantity, price));
+        await reduxDispatch(removeFromCart(productID, quantity, price));
         toastSuccess("Removed item from cart!");
+        if (cartItems.length <= 0) setButtonDisabled(true);
       } catch (error) {
         console.error(error);
         toastError("Error removing item from cart.");
       }
-    }
+    });
   };
 
   useEffect(() => {
@@ -165,17 +171,26 @@ const UserCartDetailsPageComponent = ({
             <CartDetailsHeaderContainer
               {...{ userInfo, userAddress, choosePayment }}
             />
-            <h2>Order items</h2>
-            <div className="product-items-container">
-              {cartItems?.map((item, idx) => (
-                <CartItemComponent
-                  product={item}
-                  key={idx}
-                  removeFromCartHandler={removeFromCartHandler}
-                  changeCount={changeCount}
-                />
-              ))}
-            </div>
+            {cartItems.length > 0 ? (
+              <>
+                <h2>Order items</h2>
+                <div className="product-items-container">
+                  {cartItems?.map((item, idx) => (
+                    <CartItemComponent
+                      product={item}
+                      key={idx}
+                      removeFromCartHandler={removeFromCartHandler}
+                      changeCount={changeCount}
+                    />
+                  ))}
+                </div>
+              </>
+            ) : (
+              <div style={{ padding: "1rem", textAlign: "center" }}>
+                {" "}
+                Please add items to your cart to place an order.
+              </div>
+            )}
           </Col>
           <CartDetailsOrderSummaryContainer
             cartSubtotal={cartSubtotal}
