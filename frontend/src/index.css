@@ -283,7 +283,7 @@ footer {
 }
 
 .btn:active {
-  transform: scale(0.9);
+  transform: scale(0.95);
 }
 
 .product_list_buttons {
@@ -623,6 +623,10 @@ footer {
   height: auto;
   padding: 0rem;
   overflow: hidden;
+}
+
+.btn:not(.no-shadow):not(#dropdown-basic-button) {
+  box-shadow: 2px 2px 6px rgb(0, 0, 0) !important;
 }
 
 .cart-selector-and-delete-button-container {

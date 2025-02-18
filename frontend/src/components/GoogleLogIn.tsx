@@ -61,7 +61,7 @@ const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
       <GoogleOAuthProvider clientId="421793135719-tbnlgi65j46cc3oo2j74eot1ou5tg06n.apps.googleusercontent.com">
         <div
           ref={divRef}
-          style={{ width: "100%", display: "flex", justifyContent: "center" }}
+          style={{ width: "100%", display: "flex", justifyContent: "center", boxShadow: "2px 2px 6px rgb(0, 0, 0)" }}
         >
           <GoogleLogin
             width={`${divWidth?.toString()}`}

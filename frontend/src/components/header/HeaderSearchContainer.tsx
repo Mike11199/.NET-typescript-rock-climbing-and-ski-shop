@@ -128,6 +128,7 @@ const HeaderSearchContainer = ({
           id="dropdown-basic-button"
           title={CategoryButtonText()}
           ref={dropdownButtonRef}
+          className="no-shadow"
         >
           <Dropdown.Item
             onClick={() => {
@@ -162,10 +163,11 @@ const HeaderSearchContainer = ({
           onClick={searchButtonSubmitHandler}
           variant="warning"
           ref={searchButtonRef}
+          className="no-shadow"
         >
           <i className="bi bi-search text-dark"></i>
         </Button>
-        <Button onClick={toggleTheme} variant="danger" ref={toggleThemeRef}>
+        <Button onClick={toggleTheme} variant="danger" ref={toggleThemeRef} className="no-shadow">
           <i
             className={
               mode === "dark"
