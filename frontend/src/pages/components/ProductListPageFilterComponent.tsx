@@ -123,13 +123,32 @@ const ProductListPageFilterComponent = ({
         categoryFromFilter={categoryFromFilter}
         setCategoryFromFilter={setCategoryFromFilter}
       />
-      <div style={{ display: "flex", flexDirection: "row", gap: "1rem", width: "100%" }}>
-        <Button type="button" variant="primary" onClick={handleFilters} style={{  width: "100%" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          width: "100%",
+        }}
+      >
+        <Button
+          type="button"
+          variant="primary"
+          onClick={handleFilters}
+          style={{ width: "100%" }}
+        >
           Filter
         </Button>{" "}
-        <Button type="button" onClick={resetFilters} variant="danger"  style={{  width: "100%" }}>
-          Reset filters
-        </Button>
+        {showFiltersResetButton && (
+          <Button
+            type="button"
+            onClick={resetFilters}
+            variant="danger"
+            style={{ width: "100%" }}
+          >
+            Reset filters
+          </Button>
+        )}
       </div>
     </div>
   );
