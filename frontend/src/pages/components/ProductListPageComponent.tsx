@@ -104,13 +104,10 @@ const ProductListPageComponent = ({
         Error loading products.
       </div>
     );
-  } else if (!products?.length) {
-    return (
-      <div style={{ width: "100%", textAlign: "center", marginTop: "3rem" }}>
-        No products found.
-      </div>
-    );
   }
+
+  console.log(products)
+  console.log(products?.length)
 
   return (
     <div>
@@ -131,6 +128,11 @@ const ProductListPageComponent = ({
             width: "100%",
           }}
         >
+          {products && products.length === 0 && (
+                  <div style={{ width: "100%", textAlign: "center", marginTop: "3rem" }}>
+                  No products found.
+                </div>
+          )}
           {!loading && (
             <div className="productListProductCardsContainer">
               {products?.map((product) => {

@@ -1,4 +1,4 @@
-import { ListGroup, Button, Spinner } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import SortOptionsComponent from "../../components/SortOptionsComponent";
 import PriceFilterComponent from "../../components/filterQueryResultOptions/PriceFilterComponent";
 import RatingFilterComponent from "../../components/filterQueryResultOptions/RatingFilterComponent";
@@ -104,51 +104,33 @@ const ProductListPageFilterComponent = ({
     navigate(`/product-list?pageNum=1`);
   };
 
-  const listItemStyle = {
-    backgroundColor:
-      mode === "dark" ? "rgba(0, 0, 0, 0.6)" : "rgb(255, 255, 255)",
-    color: mode === "dark" ? "rgb(255, 255, 255)" : "rgb(0, 0, 0)",
-  };
-
   return (
-    <div style={{ width: "100%" }}>
-      <ListGroup variant="flush">
-        <ResultsCountContainer
-          productCountVisible={products?.length}
-          productCount={totalProductsCount}
-          loading={loading}
-          error={error}
-        />
-        <ListGroup.Item style={listItemStyle}>
-          <SortOptionsComponent setSortOption={setSortOption} />
-        </ListGroup.Item>
-        <ListGroup.Item style={listItemStyle}>
-          <PriceFilterComponent price={priceFilter} setPrice={setPriceFilter} />
-        </ListGroup.Item>
-        <ListGroup.Item style={listItemStyle}>
-          <RatingFilterComponent
-            setRating={setRatingFilter}
-            rating={ratingFilter}
-          />
-        </ListGroup.Item>
-        <ListGroup.Item style={listItemStyle}>
-          <CategoryFilterComponent
-            queryParamCategoryName={queryParamCategoryName}
-            categoryFromFilter={categoryFromFilter}
-            setCategoryFromFilter={setCategoryFromFilter}
-          />
-        </ListGroup.Item>
-        <ListGroup.Item style={listItemStyle}>
-          <Button type="button" variant="primary" onClick={handleFilters}>
-            Filter
-          </Button>{" "}
-          {showResetFiltersButton && (
-            <Button type="button" onClick={resetFilters} variant="danger">
-              Reset filters
-            </Button>
-          )}
-        </ListGroup.Item>
-      </ListGroup>
+    <div className="filters-container">
+      <ResultsCountContainer
+        productCountVisible={products?.length}
+        productCount={totalProductsCount}
+        loading={loading}
+        error={error}
+      />
+      <SortOptionsComponent setSortOption={setSortOption} />
+      <PriceFilterComponent price={priceFilter} setPrice={setPriceFilter} />
+      <RatingFilterComponent
+        setRating={setRatingFilter}
+        rating={ratingFilter}
+      />
+      <CategoryFilterComponent
+        queryParamCategoryName={queryParamCategoryName}
+        categoryFromFilter={categoryFromFilter}
+        setCategoryFromFilter={setCategoryFromFilter}
+      />
+      <div style={{ display: "flex", flexDirection: "row", gap: "1rem", width: "100%" }}>
+        <Button type="button" variant="primary" onClick={handleFilters} style={{  width: "100%" }}>
+          Filter
+        </Button>{" "}
+        <Button type="button" onClick={resetFilters} variant="danger"  style={{  width: "100%" }}>
+          Reset filters
+        </Button>
+      </div>
     </div>
   );
 };
@@ -157,24 +139,19 @@ export default ProductListPageFilterComponent;
 
 const ResultsCountContainer = ({
   productCount,
-  productCountVisible,
-  loading,
-  error,
 }: {
   productCount?: number;
   productCountVisible?: number;
   loading: boolean;
   error: boolean;
 }) => {
-  if (!loading && !error && productCount !== 0 && productCountVisible !== 0) {
-    return (
-      <div className="results-count-container">
-        <div>
-          <h6>
-            {productCount} {productCount === 1 ? "Result" : "Results"}
-          </h6>
-        </div>
+  return (
+    <div className="results-count-container">
+      <div>
+        <h6>
+          {productCount} {productCount === 1 ? "Result" : "Results"}
+        </h6>
       </div>
-    );
-  }
+    </div>
+  );
 };

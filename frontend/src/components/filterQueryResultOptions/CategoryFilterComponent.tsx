@@ -1,6 +1,4 @@
-import { Form } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useRef, useState, useEffect } from "react";
 import { ReduxAppState } from "types";
 
 const CategoryFilterComponent = ({
@@ -13,25 +11,27 @@ const CategoryFilterComponent = ({
   );
 
   return (
-    <>
-      <span className="fw-bold">Category</span>
-      <Form>
+    <div>
+      <strong>Category</strong>
+      <div>
         {categories.map((category, idx) => (
-          <div key={idx}>
-            <Form.Check type="checkbox" id={`check-api2-${idx}`}>
-              <Form.Check.Input
-                type="checkbox"
-                checked={category?.name === categoryFromFilter}
-                onChange={() => setCategoryFromFilter(category?.name)}
-              />
-              <Form.Check.Label style={{ cursor: "pointer" }}>
-                {category.name}
-              </Form.Check.Label>
-            </Form.Check>
+          <div key={idx} style={{display:"flex", gap: "0.5rem"}}>
+            <input
+              type="checkbox"
+              id={`check-api2-${idx}`}
+              checked={category?.name === categoryFromFilter}
+              onChange={() => setCategoryFromFilter(category?.name)}
+            />
+            <label
+              htmlFor={`check-api2-${idx}`}
+              style={{ cursor: "pointer" }}
+            >
+              {category.name}
+            </label>
           </div>
         ))}
-      </Form>
-    </>
+      </div>
+    </div>
   );
 };
 
