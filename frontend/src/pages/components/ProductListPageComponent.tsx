@@ -79,36 +79,6 @@ const ProductListPageComponent = ({
     return total / reviews.length;
   };
 
-  if (loading && !error) {
-    return (
-      <div className="full-width-div-product-list-page">
-        <div
-          style={{
-            marginBottom: "1rem",
-          }}
-        >
-          Loading products...
-        </div>
-        <Spinner
-          as="span"
-          animation="border"
-          variant="primary"
-          role="status"
-          aria-hidden="true"
-        />
-      </div>
-    );
-  } else if (error) {
-    return (
-      <div style={{ width: "100%", textAlign: "center", marginTop: "3rem" }}>
-        Error loading products.
-      </div>
-    );
-  }
-
-  console.log(products)
-  console.log(products?.length)
-
   return (
     <div>
       <div className="productListContainer">
@@ -128,10 +98,31 @@ const ProductListPageComponent = ({
             width: "100%",
           }}
         >
-          {products && products.length === 0 && (
-                  <div style={{ width: "100%", textAlign: "center", marginTop: "3rem" }}>
-                  No products found.
-                </div>
+          {products && products.length === 0 && !loading &&(
+            <div
+              style={{ width: "100%", textAlign: "center", marginTop: "3rem" }}
+            >
+              No products found.
+            </div>
+          )}
+          {loading && !error && (
+            <div className="full-width-div-product-list-page">
+              <div style={{ marginBottom: "1rem" }}>Loading products...</div>
+              <Spinner
+                as="span"
+                animation="border"
+                variant="primary"
+                role="status"
+                aria-hidden="true"
+              />
+            </div>
+          )}
+          {error && (
+            <div
+              style={{ width: "100%", textAlign: "center", marginTop: "3rem" }}
+            >
+              Error loading products.
+            </div>
           )}
           {!loading && (
             <div className="productListProductCardsContainer">

@@ -951,10 +951,10 @@ h1.counter > span {
 
 .full-width-div-product-list-page {
   left: 0;
-  position: absolute;
+  
   align-items: center;
   display: flex;
-  width: 100vw;
+  
   flex-direction: column;
   margin-top: 2rem;
 }
