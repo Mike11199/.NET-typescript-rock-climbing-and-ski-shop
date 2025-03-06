@@ -1,13 +1,6 @@
-import {
-  Row,
-  Col,
-  Container,
-  Image,
-  ListGroup,
-  Form,
-  Button,
-} from "react-bootstrap";
+import { Row, Col, Container, Image, ListGroup } from "react-bootstrap";
 import { Rating } from "react-simple-star-rating";
+import ProductDetailsQuantityPriceContainer from "./ProductDetailsQuantityPriceContainer";
 
 import ImageZoom from "js-image-zoom";
 import { useEffect, useState, useRef } from "react";
@@ -20,6 +13,7 @@ import {
   toastAddedToCart,
 } from "../../../src/utils/ToastNotifications";
 import { useSelector } from "react-redux";
+import ProductDetailsUserReviews from "./ProductDetailsUserReviews";
 
 const ProductDetailsPageComponent = ({
   addToCartReduxAction,
@@ -138,16 +132,6 @@ const ProductDetailsPageComponent = ({
 
   const productReviewScore = getAverageRating(product?.reviews);
 
-  const dateOptions: Intl.DateTimeFormatOptions = {
-    weekday: "short", // Valid values: "narrow", "short", "long"
-    year: "numeric", // Valid values: "numeric", "2-digit"
-    month: "long", // Valid values: "numeric", "2-digit", "narrow", "short", "long"
-    day: "numeric", // Valid values: "numeric", "2-digit"
-    hour: "2-digit", // Valid values: "numeric", "2-digit"
-    minute: "2-digit", // Valid values: "numeric", "2-digit"
-    timeZoneName: "short", // Valid values: "short", "long"
-  };
-
   useEffect(() => {
     if (product) console.log(product);
   }, [product]);
@@ -155,35 +139,9 @@ const ProductDetailsPageComponent = ({
   return (
     <>
       {loading ? (
-        <div
-          style={{
-            display: "flex",
-            width: "100%",
-            flexDirection: "column",
-            alignItems: "center",
-            marginTop: "4rem",
-          }}
-        >
-          <div
-            style={{
-              marginBottom: "1rem",
-            }}
-          >
-            Loading product details...
-          </div>
-          <Spinner
-            as="span"
-            animation="border"
-            variant="primary"
-            role="status"
-            aria-hidden="true"
-          />
-        </div>
+        <ProductDetailsLoadingSpinner />
       ) : error ? (
-        <>
-          <div>Error loading product details:</div>
-          <h2>{error}</h2>)
-        </>
+        <ProductDetailsErrorMessage {...{ error }} />
       ) : (
         <></>
       )}
@@ -254,154 +212,20 @@ const ProductDetailsPageComponent = ({
                       <ListGroup.Item>{product?.description}</ListGroup.Item>
                     </ListGroup>
                   </Col>
-                  <Col md={4}>
-                    <ListGroup>
-                      <ListGroup.Item>
-                        {/* show product count remaining - or red text low stock if less than 10 */}
-                        <span>Status: &nbsp;</span>
-                        {(product?.count ?? 0) > 0 ? (
-                          (product?.count ?? 0) < 10 ? (
-                            <span style={{ color: "red", fontWeight: "500" }}>
-                              Low stock - {product?.count} remaining
-                            </span>
-                          ) : (
-                            <span style={{ color: "green", fontWeight: "500" }}>
-                              Many available - {product?.count} remaining
-                            </span>
-                          )
-                        ) : (
-                          <span style={{ color: "red" }}>Out of stock!</span>
-                        )}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        Price:{" "}
-                        <span className="fw-bold">
-                          ${(product?.price ?? 0).toFixed(2)}
-                        </span>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        Quantity:
-                        <Form.Select
-                          value={quantity}
-                          onChange={(e) =>
-                            setQuantity(parseInt(e.target.value))
-                          }
-                          size="lg"
-                          aria-label="Default select example"
-                        >
-                          {[...Array(product?.count ?? 1).keys()].map((x) => (
-                            <option key={x + 1} value={x + 1}>
-                              {x + 1}
-                            </option>
-                          ))}
-                        </Form.Select>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <Button
-                          type="button"
-                          onClick={addToCartHandler}
-                          variant="danger"
-                        >
-                          Add to cart
-                        </Button>
-                      </ListGroup.Item>
-                    </ListGroup>
-                  </Col>
+                  <ProductDetailsQuantityPriceContainer
+                    {...{ product, quantity, setQuantity, addToCartHandler }}
+                  />
                 </Row>
-                <Row>
-                  <Col className="mt-5">
-                    <h5>REVIEWS</h5>
-                    <ListGroup variant="flush">
-                      {product?.reviews?.map((review, idx) => (
-                        <ListGroup.Item
-                          key={idx}
-                          style={{ marginBottom: "1rem" }}
-                        >
-                          <div>
-                            {review?.user?.name} {review?.user?.lastName} -{" "}
-                            {review?.rating?.toFixed(1)}
-                          </div>
-                          <div style={{ marginBottom: "0.5rem" }}>
-                            <Rating
-                              readonly
-                              size={20}
-                              ratingValue={review?.rating ?? 0}
-                              onClick={() => null}
-                            />
-                          </div>
-
-                          <div style={{ marginBottom: "0.5rem" }}>
-                            {new Intl.DateTimeFormat(
-                              undefined,
-                              dateOptions
-                            ).format(
-                              new Date(review?.createdAt?.toString() ?? "")
-                            )}
-                          </div>
-                          <div>{review?.comment}</div>
-                        </ListGroup.Item>
-                      ))}
-                      <div ref={messagesEndRef} />
-                    </ListGroup>
-                  </Col>
-                </Row>
-                <hr />
-                {!userInfo?.name && (
-                  <>
-                    <div
-                      style={{ padding: "1.5rem", margin: "1.5rem 0rem" }}
-                      className="error-alert"
-                    >
-                      Login first to write a review
-                    </div>
-                  </>
-                )}
-
-                <Form onSubmit={sendReviewHandler}>
-                  <Form.Group
-                    className="mb-3"
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label>Write a review</Form.Label>
-                    <Form.Control
-                      className="custom-input-group-field"
-                      name="comment"
-                      required
-                      as="textarea"
-                      disabled={!userInfo.name}
-                      rows={3}
-                    />
-                  </Form.Group>
-                  <Form.Select
-                    name="rating"
-                    required
-                    disabled={!userInfo.name}
-                    aria-label="Default select example"
-                  >
-                    <option value="">Your rating</option>
-                    <option value="5">5 (very good)</option>
-                    <option value="4">4 (good)</option>
-                    <option value="3">3 (average)</option>
-                    <option value="2">2 (bad)</option>
-                    <option value="1">1 (awful)</option>
-                  </Form.Select>
-                  <Button
-                    disabled={!userInfo.name}
-                    type="submit"
-                    className="mb-3 mt-3"
-                    variant="primary"
-                  >
-                    Submit
-                  </Button>{" "}
-                  {productReviewed && (
-                    <div style={{ color: "green" }}>{productReviewed}</div>
-                  )}
-                  {productReviewErrorMessage !== "" && (
-                    <div style={{ color: "red" }}>
-                      {productReviewErrorMessage}
-                    </div>
-                  )}
-                </Form>
+                <ProductDetailsUserReviews
+                  {...{
+                    product,
+                    messagesEndRef,
+                    userInfo,
+                    sendReviewHandler,
+                    productReviewed,
+                    productReviewErrorMessage,
+                  }}
+                />
               </Col>
             </>
           )}
@@ -412,3 +236,41 @@ const ProductDetailsPageComponent = ({
 };
 
 export default ProductDetailsPageComponent;
+
+const ProductDetailsLoadingSpinner = () => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        width: "100%",
+        flexDirection: "column",
+        alignItems: "center",
+        marginTop: "4rem",
+      }}
+    >
+      <div
+        style={{
+          marginBottom: "1rem",
+        }}
+      >
+        Loading product details...
+      </div>
+      <Spinner
+        as="span"
+        animation="border"
+        variant="primary"
+        role="status"
+        aria-hidden="true"
+      />
+    </div>
+  );
+};
+
+const ProductDetailsErrorMessage = (error: any) => {
+  return (
+    <div>
+      <div>Error loading product details:</div>
+      <h2>{error}</h2>
+    </div>
+  );
+};
