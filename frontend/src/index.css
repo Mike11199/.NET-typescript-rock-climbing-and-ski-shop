@@ -958,14 +958,14 @@ h1.counter > span {
   gap: 2rem;
 }
 
-.userReviewsContainer{
+.userReviewsContainer {
   background: white;
-}
-
-.dark .userReviewsContainer{
-  background: rgba(0, 0, 0, 0.6);
   border-radius: 0.25rem;
   padding: 2rem;
+}
+
+.dark .userReviewsContainer {
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .productDetailsQuantitySelectContainer {
@@ -973,7 +973,6 @@ h1.counter > span {
   flex-direction: row;
   gap: 1rem;
 }
-
 
 .dark .productDetailsSummaryWrapper {
   display: flex;

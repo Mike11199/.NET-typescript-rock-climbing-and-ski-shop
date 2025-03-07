@@ -59,7 +59,7 @@ const ProductDetailsUserReviews: React.FC<ProductDetailsUserReviewsProps> = ({
         <div ref={messagesEndRef} />
       </div>
 
-      <hr />
+      <hr style={{marginTop: "2rem"}}/>
       {!userInfo?.name && (
         <div
           style={{ padding: "1.5rem", margin: "1.5rem 0rem" }}

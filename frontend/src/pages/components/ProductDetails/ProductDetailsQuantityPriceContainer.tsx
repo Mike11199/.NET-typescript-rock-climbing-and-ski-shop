@@ -19,7 +19,10 @@ const ProductDetailsQuantityPriceContainer = ({
 }: ProductDetailsQuantityPriceContainerProps) => {
   return (
     <div className="productDetailsSummaryWrapper">
+      <div>
       <h1 className="productDetailsHeaderName">{product?.name}</h1>
+      <hr/>
+      </div>
       <div className="productDetailsSummaryBodyWrapper">
         <ProductDetailsPriceAndStockInfoContainer {...{ product }} />
 
