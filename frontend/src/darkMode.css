@@ -197,49 +197,6 @@
   color: #ffffff;
 }
 
-.dark table {
-  background-color: #343a40;
-  border-color: #010101;
-}
-
-
-.dark .table-dark tbody td {
-  color: white;
-}
-
-.dark table thead th {
-  border-color: #010101;
-  background-color: #170c58;
-  color: white;
-  font-weight: 500;
-  font-size: 15px;
-}
-
-.light table {
-  border-color: #010101;
-}
-
-.light table thead th {
-  border-color: #010101;
-  background-color: #170c58;
-  color: white;
-  font-weight: 500;
-  font-size: 15px;
-}
-
-.dark table.table-striped tbody tr:nth-of-type(odd) {
-  background-color: rgba(122, 118, 118, 0.386);
-  color: white;
-}
-
-.dark table.table-hover tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.075);
-}
-
-.dark table.table-striped tbody td {
-  color: white;
-}
-
 .light select:disabled {
   background-color: #ccc;
   color: #000;

@@ -20,6 +20,12 @@
     justify-content: center;
   }
 
+  .productDetailsQuantitySelectContainer {
+    flex-direction: column;
+    width: 100%;
+  }
+
+
   .climate_text_paragraph {
     text-align: center;
   }

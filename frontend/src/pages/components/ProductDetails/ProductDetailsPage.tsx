@@ -1,9 +1,16 @@
-import ProductDetailsPageComponent from "./components/ProductDetailsPageComponent";
+/**
+ * ProductDetailsPage Component
+ *
+ * Description
+ *     - Defines functions for API requests, so these can be mocked for testing if needed.
+ */
+
+import ProductDetailsPageComponent from "./ProductDetailsPageComponent";
 import { ReduxAppState } from "types";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { addToCart } from "../redux/actions/cartActions";
+import { addToCart } from "../../../redux/actions/cartActions";
 import axios from "axios";
 
 const getProductDetails = async (id) => {

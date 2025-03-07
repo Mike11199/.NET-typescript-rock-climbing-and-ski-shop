@@ -1,19 +1,20 @@
-import { Row, Col, Container, Image, ListGroup } from "react-bootstrap";
-import { Rating } from "react-simple-star-rating";
+import { Row, Col, Container } from "react-bootstrap";
 import ProductDetailsQuantityPriceContainer from "./ProductDetailsQuantityPriceContainer";
 
 import ImageZoom from "js-image-zoom";
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Product, ReduxAppState } from "types";
-import { Spinner } from "react-bootstrap";
+
 import {
   toastSuccess,
   toastError,
   toastAddedToCart,
-} from "../../../src/utils/ToastNotifications";
+} from "../../../utils/ToastNotifications";
 import { useSelector } from "react-redux";
 import ProductDetailsUserReviews from "./ProductDetailsUserReviews";
+import ProductDetailsImagesContainer from "./ProductDetailsImagesContainer";
+import { ProductDetailsLoadingSpinner } from "./ProductDetailsLoadingSpinner";
 
 const ProductDetailsPageComponent = ({
   addToCartReduxAction,
@@ -150,82 +151,32 @@ const ProductDetailsPageComponent = ({
           {!loading && (
             <>
               <Col style={{ zIndex: 1 }} md={4}>
-                {product?.images?.map((image, id) => (
-                  <div style={{ marginBottom: "2rem" }} key={id}>
-                    <Image
-                      crossOrigin="anonymous"
-                      fluid
-                      src={image?.imageUrl ?? ""}
-                      style={{
-                        filter:
-                          "drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.7))",
-                        padding: "4rem",
-                        background: "rgba(0, 0, 0, 0.082)",
-                        borderRadius: "1rem",
-                        border: "1px solid rgba(255, 255, 255, 0.103)",
-                      }}
-                    />
-                    <br />
-                  </div>
-                ))}
+                <ProductDetailsImagesContainer {...{ product }} />
               </Col>
               <Col md={8}>
                 <Row>
-                  <Col md={8}>
-                    <ListGroup variant="flush">
-                      <ListGroup.Item>
-                        <h1 className="productDetailsHeaderName">
-                          {product?.name}
-                        </h1>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "1rem",
-                            alignItems: "end",
-                          }}
-                        >
-                          <Rating
-                            onClick={() => null}
-                            readonly
-                            size={20}
-                            ratingValue={productReviewScore}
-                          />
-                        </div>
-                        <div style={{ marginTop: "1rem" }}>
-                          {productReviewScore.toFixed(2)} Average Rating
-                        </div>
-                        <div>
-                          {product?.reviews?.length ?? 0}{" "}
-                          {product?.reviews?.length === 1
-                            ? "review"
-                            : "reviews"}
-                        </div>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        Price{" "}
-                        <span className="fw-bold">
-                          ${(product?.price ?? 0).toFixed(2)}
-                        </span>
-                      </ListGroup.Item>
-                      <ListGroup.Item>{product?.description}</ListGroup.Item>
-                    </ListGroup>
-                  </Col>
                   <ProductDetailsQuantityPriceContainer
-                    {...{ product, quantity, setQuantity, addToCartHandler }}
+                    {...{
+                      product,
+                      quantity,
+                      setQuantity,
+                      addToCartHandler,
+                      productReviewScore,
+                    }}
                   />
                 </Row>
-                <ProductDetailsUserReviews
-                  {...{
-                    product,
-                    messagesEndRef,
-                    userInfo,
-                    sendReviewHandler,
-                    productReviewed,
-                    productReviewErrorMessage,
-                  }}
-                />
+                <Row className="mt-4">
+                  <ProductDetailsUserReviews
+                    {...{
+                      product,
+                      messagesEndRef,
+                      userInfo,
+                      sendReviewHandler,
+                      productReviewed,
+                      productReviewErrorMessage,
+                    }}
+                  />
+                </Row>
               </Col>
             </>
           )}
@@ -236,35 +187,6 @@ const ProductDetailsPageComponent = ({
 };
 
 export default ProductDetailsPageComponent;
-
-const ProductDetailsLoadingSpinner = () => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        width: "100%",
-        flexDirection: "column",
-        alignItems: "center",
-        marginTop: "4rem",
-      }}
-    >
-      <div
-        style={{
-          marginBottom: "1rem",
-        }}
-      >
-        Loading product details...
-      </div>
-      <Spinner
-        as="span"
-        animation="border"
-        variant="primary"
-        role="status"
-        aria-hidden="true"
-      />
-    </div>
-  );
-};
 
 const ProductDetailsErrorMessage = (error: any) => {
   return (

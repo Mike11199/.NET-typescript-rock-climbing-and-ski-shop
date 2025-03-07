@@ -949,12 +949,49 @@ h1.counter > span {
   border-radius: 3px;
 }
 
+.productDetailsSummaryWrapper {
+  display: flex;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.25rem;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.userReviewsContainer{
+  background: white;
+}
+
+.dark .userReviewsContainer{
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 0.25rem;
+  padding: 2rem;
+}
+
+.productDetailsQuantitySelectContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+
+.dark .productDetailsSummaryWrapper {
+  display: flex;
+  background-color: rgb(0, 0, 0, 0.6);
+}
+
+.productDetailsSummaryBodyWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
 .full-width-div-product-list-page {
   left: 0;
-  
+
   align-items: center;
   display: flex;
-  
+
   flex-direction: column;
   margin-top: 2rem;
 }

@@ -32,36 +32,33 @@ const ProductDetailsUserReviews: React.FC<ProductDetailsUserReviewsProps> = ({
 }) => {
   return (
     <>
-      <Row>
-        <Col className="mt-5">
-          <h5>REVIEWS</h5>
-          <ListGroup variant="flush">
-            {product?.reviews?.map((review, idx) => (
-              <ListGroup.Item key={idx} style={{ marginBottom: "1rem" }}>
-                <div>
-                  {review.user?.name} {review.user?.lastName} -{" "}
-                  {review?.rating?.toFixed(1)}
-                </div>
-                <div style={{ marginBottom: "0.5rem" }}>
-                  <Rating
-                    readonly
-                    size={20}
-                    ratingValue={review.rating ?? 0}
-                    onClick={() => null}
-                  />
-                </div>
-                <div style={{ marginBottom: "0.5rem" }}>
-                  {new Intl.DateTimeFormat(undefined, dateOptions).format(
-                    new Date(review?.createdAt ?? 0)
-                  )}
-                </div>
-                <div>{review.comment}</div>
-              </ListGroup.Item>
-            ))}
-            <div ref={messagesEndRef} />
-          </ListGroup>
-        </Col>
-      </Row>
+      <div className="userReviewsContainer">
+        {product?.reviews?.map((review, idx) => (
+          <div key={idx} style={{ marginBottom: "1rem" }}>
+            <h5>REVIEWS</h5>
+            <div>
+              {review.user?.name} {review.user?.lastName} -{" "}
+              {review?.rating?.toFixed(1)}
+            </div>
+            <div style={{ marginBottom: "0.5rem" }}>
+              <Rating
+                readonly
+                size={20}
+                ratingValue={review.rating ?? 0}
+                onClick={() => null}
+              />
+            </div>
+            <div style={{ marginBottom: "0.5rem" }}>
+              {new Intl.DateTimeFormat(undefined, dateOptions).format(
+                new Date(review?.createdAt ?? 0)
+              )}
+            </div>
+            <div>{review.comment}</div>
+          </div>
+        ))}
+        <div ref={messagesEndRef} />
+      </div>
+
       <hr />
       {!userInfo?.name && (
         <div
