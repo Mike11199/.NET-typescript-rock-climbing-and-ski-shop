@@ -8,8 +8,9 @@
   - An EC2 Application Load Balancer reroutes traffic to the ECS cluster even when the IP address of it changes due to the CI/CD pipeline.
   - EC2 Load balancer automatically redirects HTTP port 80 to HTTPS port 443 which has an AWS SSL Certificate.
 
-- Backup Link (Older Version) - Heroku (CI/CD with Main Branch)
-  - https://recreational-equipment-shop.herokuapp.com/
+<br/>
+
+![image](https://github.com/user-attachments/assets/9e7d7178-e7cb-4188-9e47-c06bc10143a2)
 
 <br/>
 
@@ -25,9 +26,6 @@
 
 <br/>
 
-![image](https://github.com/user-attachments/assets/0b20fd62-6942-462f-9623-6a2e21a5ce84)
-
-<br/>
 
 - Use the following user and password to test the fake PayPal sandbox account to pay for an order (fake account with bank/credit cards):
   - Username: sb-fh43v4330869755@personal.example.com
