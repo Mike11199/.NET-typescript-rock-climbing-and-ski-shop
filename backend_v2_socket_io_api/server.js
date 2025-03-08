@@ -3,9 +3,6 @@ require("dotenv").config();
 
 // Imports
 const express = require("express");
-const fileUpload = require("express-fileupload");
-const cookieParser = require("cookie-parser");
-
 const app = express();
 
 // Conditionally set up CORS for dev environment (allow requests from front end docker container on port 3000)
@@ -46,30 +43,6 @@ io = setupSocketEventListeners(io);
 // app.use(apiLimiter)
 
 app.use(express.json());
-app.use(cookieParser());
-app.use(fileUpload());
-
-// Mongodb connection setup.
-// *********DISABLED MONGODB CONNECTION FOR API V2 - DATABASE NOW IS POSTGRESQL HANDLED BY .NET API*******
-// const connectDB = require("./config/db");
-// connectDB();
-
-// Route setup.
-const apiRoutes = require("./routes/apiRoutes");
-app.use("/api", apiRoutes);
-
-// Serves React frontend in prod (for Heroku only). Not used in ECS for docker container as NGINX does this.
-const path = require("path");
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/build")));
-  app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"))
-  );
-} else {
-  app.get("/", (req, res) => {
-    res.json({ message: "API running..." });
-  });
-}
 
 /*
  * Error Middleware - Log errors/stack trace to console and send error response to client
