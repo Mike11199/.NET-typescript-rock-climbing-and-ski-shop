@@ -2,7 +2,7 @@ import { Outlet, Navigate } from "react-router-dom";
 import UserChatComponent from "../pages/user/UserChatComponent";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import LoginPage from "../pages/LoginPage";
+import LoginPage from "../pages/LoginPage/LoginPage";
 import apiURL from "../../src/utils/ToggleAPI";
 
 interface AxiosGetTokenResponse {

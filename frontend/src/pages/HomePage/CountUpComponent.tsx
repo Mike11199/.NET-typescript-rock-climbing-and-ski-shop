@@ -14,9 +14,6 @@ const CountUpComponent = () => {
           duration={10}
           decimals={0}
           decimal=","
-          // prefix="EUR "
-          // onEnd={() => console.log('Ended! 👏')}
-          // onStart={() => console.log('Started! 💨')}
         />
       )}
       🌲 Trees Planted

@@ -1,8 +1,9 @@
-import RegisterPageComponent from "./components/RegisterPageComponent";
+import RegisterPageComponent from "./RegisterPageComponent";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setReduxUserState } from "../redux/actions/userActions";
-import { LoggedInOrRegisteredUserResponse } from "../types";
+import { setReduxUserState } from "../../redux/actions/userActions";
+import { LoggedInOrRegisteredUserResponse } from "types";
+
 
 export interface registerUserRequest {
   email: string;

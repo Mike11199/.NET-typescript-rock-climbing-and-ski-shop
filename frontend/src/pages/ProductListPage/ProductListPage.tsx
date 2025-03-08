@@ -1,6 +1,6 @@
-import ProductListPageComponent from "./components/ProductListPageComponent";
+import ProductListPageComponent from "./ProductListPageComponent";
 import axios from "axios";
-import apiURL from "../utils/ToggleAPI";
+import apiURL from "../../utils/ToggleAPI";
 import { GetProductsResponse } from "types";
 import { GetProducts } from "types";
 

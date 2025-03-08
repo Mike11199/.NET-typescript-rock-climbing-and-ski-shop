@@ -4,12 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 import RockClimbingPhoto from "../../images/climbing_inverted_2.png";
 import RappelClimbingPhoto from "../../images/rappel_5.png";
-import { registerUserRequest } from "pages/RegisterPage";
+import { registerUserRequest } from "./RegisterPage";
 import { LoggedInOrRegisteredUserResponse } from "types";
 import {
   toastSuccess,
   toastError,
-} from "../../../src/utils/ToastNotifications";
+} from "../../utils/ToastNotifications";
 
 const RegisterPageComponent = ({
   registerUserApiRequest,

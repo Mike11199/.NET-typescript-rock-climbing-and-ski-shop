@@ -1,7 +1,7 @@
-import HomePageComponent from "./components/HomePageComponent";
+import HomePageComponent from "./HomePageComponent";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import apiURL from "../utils/ToggleAPI";
+import apiURL from "../../utils/ToggleAPI";
 import { ReduxAppState } from "types";
 
 // API call functions (e.g- getBestselllers) are kept outside of components to make components testable.

@@ -1,8 +1,8 @@
-import LoginPageComponent from "./components/LoginPageComponent";
+import LoginPageComponent from "./LoginPageComponent";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setReduxUserState } from "../redux/actions/userActions";
-import apiURL from "../utils/ToggleAPI";
+import { setReduxUserState } from "../../redux/actions/userActions";
+import apiURL from "../../utils/ToggleAPI";
 import { LoggedInOrRegisteredUserResponse } from "types";
 
 const loginUserApiRequest = async (email, password, doNotLogout) => {

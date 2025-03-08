@@ -4,7 +4,7 @@
 
 import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import HomePageComponent from "./HomePageComponent";
+import HomePageComponent from "../components/HomePageComponent";
 import { MemoryRouter as Router } from "react-router-dom"; //as useNavigate called in other components in home page (MemoryRouter faster than BrowserRouter)
 
 //*******************************MOCK DATA*********************************************//

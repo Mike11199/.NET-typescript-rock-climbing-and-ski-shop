@@ -1,7 +1,7 @@
-import CartPageComponent from "./components/CartPageComponent";
+import CartPageComponent from "../CartPage/CartPageComponent";
 
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart, removeFromCart } from "../redux/actions/cartActions";
+import { addToCart, removeFromCart } from "../../redux/actions/cartActions";
 import { ReduxAppState } from "types";
 
 const CartPage = () => {

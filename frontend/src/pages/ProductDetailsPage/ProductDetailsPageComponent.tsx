@@ -10,7 +10,7 @@ import {
   toastSuccess,
   toastError,
   toastAddedToCart,
-} from "../../../utils/ToastNotifications";
+} from "../../utils/ToastNotifications";
 import { useSelector } from "react-redux";
 import ProductDetailsUserReviews from "./ProductDetailsUserReviews";
 import ProductDetailsImagesContainer from "./ProductDetailsImagesContainer";

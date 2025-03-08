@@ -8,12 +8,12 @@ import FooterComponent from "./components/FooterComponent";
 import RoutesWithUserChatComponent from "./pages/user/RoutesWithUserChatComponent";
 
 // publicly available pages:
-import HomePage from "./pages/HomePage";
-import ProductDetailsPage from "./pages/components/ProductDetails/ProductDetailsPage";
-import ProductListPage from "./pages/ProductListPage";
-import CartPage from "./pages/CartPage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
+import CartPage from "./pages/CartPage/CartPage";
+import HomePage from "./pages/HomePage/HomePage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import ProductDetailsPage from "./pages/ProductDetailsPage/ProductDetailsPage";
+import ProductListPage from "./pages/ProductListPage/ProductListPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
 
 import ProtectedRoutesComponent from "./components/ProtectedRoutesComponent";
 
@@ -37,6 +37,7 @@ import ScrollToTop from "./utils/ScrollToTop";
 import setupAxiosInterceptor from "./utils/AxiosSetup";
 
 import { Toaster } from "react-hot-toast";
+
 
 function App() {
   setupAxiosInterceptor();

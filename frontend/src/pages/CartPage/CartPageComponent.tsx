@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import {
   toastConfirm,
   toastSuccess,
-} from "../../../src/utils/ToastNotifications";
+} from "../../utils/ToastNotifications";
 
 const CartPageComponent = ({
   addToCart,
