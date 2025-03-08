@@ -4,6 +4,11 @@
     object-position: 5% 50%;
   }
 
+  .productListProductCardsContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
   .cart-item-controls {
     flex-direction: column;
     align-items: flex-start;

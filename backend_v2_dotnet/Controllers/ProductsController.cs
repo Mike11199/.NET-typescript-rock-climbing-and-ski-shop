@@ -29,7 +29,7 @@ namespace backend_v2.Controllers
         {
             try
             {
-                var recordsPerPage = 3;
+                var recordsPerPage = 8;
 
                 int pageNum = int.TryParse(HttpContext.Request.Query["pageNum"].FirstOrDefault(), out var tempPageNum) ? tempPageNum : 1;
                 int? priceFilter = int.TryParse(HttpContext.Request.Query["price"].FirstOrDefault(), out var tempPrice) ? tempPrice : null;

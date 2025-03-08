@@ -1,14 +1,14 @@
-import { Card, Button, Row, Col } from "react-bootstrap";
+import React from "react";
 import { Rating } from "react-simple-star-rating";
-import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../redux/actions/cartActions"; //redux action
+import { useNavigate, Link } from "react-router-dom";
+
+import { addToCart } from "../redux/actions/cartActions";
 import { ReduxAppState, Image } from "types";
 import {
   toastAddedToCart,
   toastError,
 } from "../../src/utils/ToastNotifications";
-import { useNavigate } from "react-router-dom";
 
 const ProductForListComponent = ({
   productId,
@@ -38,76 +38,54 @@ const ProductForListComponent = ({
     }
   };
 
-  const styles = {
-    color: "black",
-    backgroundColor: "white",
-  };
-
-  const darkStyles = {
-    color: "white",
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-  };
-
-  const productCardStyle = mode === "light" ? styles : darkStyles;
   const mainThumbnailImage = images.find((x: Image) => x?.isMainImage === true);
 
   return (
-    <>
-      <Card style={productCardStyle}>
-        <Row>
-          <Col
-            lg={5}
-            style={{
-              padding: "4rem",
-              filter: "drop-shadow(10px 10px 20px rgb(0, 0, 0))",
-            }}
-          >
-            <Card.Img
-              crossOrigin="anonymous"
-              variant="top"
-              src={mainThumbnailImage?.imageUrl}
+    <div className="product-card">
+      <div className="product-image-container">
+        <img
+          className="product-card-image"
+          crossOrigin="anonymous"
+          src={mainThumbnailImage?.imageUrl}
+          alt={name}
+        />
+      </div>
+      <div className="product-description-container">
+        <div className="product-card-body">
+          <Link to={`/product-details/${productId}`} className="product-card-title-link">
+              <h5 >{name}</h5>
+          </Link>
+
+          <p className="product-card-text">{description}</p>
+
+          <div className="product-price">
+            Price <span className="bold-text">${price.toFixed(2)}</span>
+          </div>
+
+          <div>
+            <Rating
+              readonly
+              onClick={() => null}
+              ratingValue={rating}
+              size={20}
             />
-          </Col>
+          </div>
 
-          <Col lg={7}>
-            <Card.Body>
-              <Card.Title>{name}</Card.Title>
-              <Card.Text>{description}</Card.Text>
-              <div style={{ marginBottom: "0.5rem", marginTop: "0.5rem" }}>
-                Price <span className="fw-bold">${price.toFixed(2)}</span>
-              </div>
-              <div>
-                <Rating
-                  readonly
-                  onClick={() => null}
-                  ratingValue={rating}
-                  size={20}
-                />{" "}
-              </div>
+          <div className="product-review-count">{reviewsNumber} Reviews</div>
+          <div>{rating} Average Rating</div>
 
-              <div style={{ marginTop: "0.5rem" }}>{reviewsNumber} Reviews</div>
-              <div>{rating} Average Rating</div>
-              <div style={{ marginTop: "0.5rem" }}>
-                <div className="product_list_buttons">
-                  <LinkContainer to={`/product-details/${productId}`}>
-                    <Button type="button" variant="danger">
-                      See product
-                    </Button>
-                  </LinkContainer>
-                  <Button
-                    type="button"
-                    variant="success"
-                    onClick={() => addToCartHandler()}
-                  >
-                    Add to cart
-                  </Button>
-                </div>
-              </div>
-            </Card.Body>
-          </Col>
-        </Row>
-      </Card>
-    </>
+          </div>
+          <div className="product-buttons-container">
+            <button
+              type="button"
+              className="product-list-card-add-to-cart-button"
+              onClick={addToCartHandler}
+            >
+              Add to cart
+            </button>
+        </div>
+      </div>
+    </div>
   );
 };
 

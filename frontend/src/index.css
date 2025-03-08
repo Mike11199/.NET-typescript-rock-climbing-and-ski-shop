@@ -15,6 +15,98 @@ footer {
   background-color: black;
 }
 
+.productListProductCardsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.product-card-image {
+  width: 250px;
+  height: 250px;
+  padding: 0.5rem;
+}
+
+.product-card {
+  overflow: hidden;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  box-shadow: 2px 2px 5px rgb(0, 0, 0);
+  background-color: white;
+}
+
+.product-card-title-link {
+  text-decoration: none;
+}
+
+.product-card-title-link:hover {
+  text-decoration: underline;
+}
+
+.dark .product-card {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.product-buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end;
+  justify-content: center;
+  width: 100%;
+}
+
+.product-image-container {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: 50%;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 1));
+}
+
+.dark .product-image-container {
+  filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 1));
+}
+
+.product-description-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 50%;
+  width: 100%;
+  gap: 2rem;
+}
+
+.product-card-text {
+  overflow: hidden;
+  max-height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-list-card-add-to-cart-button {
+  background: linear-gradient(135deg, #3b0a47, #3c0b4d);
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease;
+}
+
+.product-list-card-add-to-cart-button:hover {
+  background: linear-gradient(135deg, #4c0d5c, #531069);
+  transform: scale(1.03);
+}
+
+.product-list-card-add-to-cart-button:active {
+  transform: scale(0.97);
+}
+
 .orders-grid {
   display: flex;
   flex-wrap: wrap;
@@ -179,12 +271,6 @@ footer {
   gap: 2rem;
   padding: 1rem 2rem 1rem 2rem;
   width: 100%;
-}
-
-.productListProductCardsContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
 }
 
 .productListFiltersContainer {
@@ -940,6 +1026,7 @@ h1.counter > span {
 
 .dark .filters-container {
   background: rgba(0, 0, 0, 0.6);
+  box-shadow: 2px 2px 5px rgb(0, 0, 0);
 }
 
 .dark .form-range::-webkit-slider-runnable-track {
