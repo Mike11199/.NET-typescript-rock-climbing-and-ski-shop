@@ -54,7 +54,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG_BACK_END: back-github-actions
         run: |
-          cd backend
+          cd backend_v2_socket_io_api
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END" >> $GITHUB_OUTPUT

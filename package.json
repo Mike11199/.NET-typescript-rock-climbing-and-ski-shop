@@ -7,8 +7,8 @@
     "dev": "concurrently --kill-others-on-fail \"npm run server-dev\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "server-prod": "node server.js",
-    "server-dev": "cd backend && npx nodemon server.js --ignore ../frontend",
-    "server": "cd backend && npx nodemon server.js --ignore ../frontend",
+    "server-dev": "cd backend_v2_socket_io_api && npx nodemon server.js --ignore ../frontend",
+    "server": "cd backend_v2_socket_io_api && npx nodemon server.js --ignore ../frontend",
     "client": "cd frontend && npm start",
     "seed:data": "node seeder/seeder",
     "seed:data-d": "node seeder/seeder -d"
