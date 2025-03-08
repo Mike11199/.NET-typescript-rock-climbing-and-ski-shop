@@ -1,4 +1,3 @@
-import { Form, Button } from "react-bootstrap";
 import { Rating } from "react-simple-star-rating";
 import { Product } from "types";
 
@@ -20,8 +19,8 @@ const ProductDetailsQuantityPriceContainer = ({
   return (
     <div className="productDetailsSummaryWrapper">
       <div>
-      <h1 className="productDetailsHeaderName">{product?.name}</h1>
-      <hr/>
+        <h1 className="productDetailsHeaderName">{product?.name}</h1>
+        <hr />
       </div>
       <div className="productDetailsSummaryBodyWrapper">
         <ProductDetailsPriceAndStockInfoContainer {...{ product }} />
@@ -48,10 +47,10 @@ const ProductDetailsQuantityContainer = ({
   return (
     <div className="productDetailsQuantitySelectContainer">
       <div>
-        <Form.Select
+        <select
+          className="custom-select"
           value={quantity}
           onChange={(e) => setQuantity(parseInt(e.target.value))}
-          size="lg"
           aria-label="Default select example"
         >
           {[...Array(product?.count ?? 1).keys()].map((x) => (
@@ -59,11 +58,15 @@ const ProductDetailsQuantityContainer = ({
               {x + 1}
             </option>
           ))}
-        </Form.Select>
+        </select>
       </div>
-      <Button type="button" onClick={addToCartHandler} variant="danger">
+      <button
+        className="product-list-card-add-to-cart-button"
+        type="button"
+        onClick={addToCartHandler}
+      >
         Add to cart
-      </Button>
+      </button>
     </div>
   );
 };

@@ -113,7 +113,7 @@ export const toastAddedToCart = (text, navigate, cartItems, cartSubtotal) => {
       <CustomToast text={text} closeToast={() => toast.dismiss(text)} />,
       {
         id: text,
-        duration: 4000,
+        duration: 3000,
         style: {
           background: "linear-gradient(#131212, #131212)",
           color: "#f0f0f0",

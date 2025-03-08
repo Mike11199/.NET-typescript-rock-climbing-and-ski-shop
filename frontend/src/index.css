@@ -85,6 +85,27 @@ footer {
   text-overflow: ellipsis;
 }
 
+.custom-select {
+  display: flex;
+  width: 5rem;
+  height: 100%;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 0.25rem;
+  align-items: center;
+  border: 1px solid black !important;
+  outline: none !important;
+}
+
+.custom-select:focus {
+  border: 1px solid #192fad !important;
+  box-shadow: 2px 2px 3px #00398d;
+}
+
+.custom-select:active {
+  border: 1px solid black !important;
+  box-shadow: 2px 2px 3px #00398d;
+}
+
 .product-list-card-add-to-cart-button {
   background: linear-gradient(135deg, #3b0a47, #3c0b4d);
   color: rgb(255, 255, 255);
