@@ -137,10 +137,6 @@
   box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
 }
 
-.light #dropdown-basic-button {
-  border: none;
-  background-color: #315ed9;
-}
 
 .light #header-search-input {
   background-color: #f5f5f5;
@@ -150,8 +146,8 @@
 }
 
 .light #header-search-input::placeholder {
-  color: #8c8d8e;
-  opacity: 0.5;
+  color: #1b1b1b;
+  opacity: 0.6;
 }
 
 .light .dropdown-menu {
