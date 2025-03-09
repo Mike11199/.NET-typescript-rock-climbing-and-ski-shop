@@ -70,7 +70,24 @@ footer {
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
 }
 
-.site_logo_image{
+.light .profile-update-form-container {
+color: white;
+background: rgba(0, 0, 0, 0.5);
+}
+
+
+.profile-update-form-container {
+  padding: 3rem;
+}
+
+.dark .profile-update-form-container {
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.site_logo_image {
   height: 30px;
   display: block;
 }
@@ -89,7 +106,7 @@ footer {
   background-color: rgb(31, 37, 109);
 }
 
-.header_logo_container{
+.header_logo_container {
   display: flex;
   align-items: center;
   justify-content: center;

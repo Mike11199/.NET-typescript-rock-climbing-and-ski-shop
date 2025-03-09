@@ -4,6 +4,10 @@
     margin: 0px;
   }
 
+ .profile-update-form-container{
+      padding: 2rem;
+  }
+
   .category_card_image_front_page_boots {
     object-fit: cover;
     object-position: 5% 50%;
