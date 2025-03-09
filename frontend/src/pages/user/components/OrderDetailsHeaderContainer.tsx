@@ -32,10 +32,7 @@ export const OrderDetailsHeaderContainer = ({
       {/* Payment Section */}
       <div className="paymentContainer">
         <h2>Payment Method</h2>
-        <select value={paymentMethod} disabled>
-          <option value="PayPal">PayPal</option>
-          <option value="Cash">Cash On Delivery</option>
-        </select>
+        <span>{paymentMethod}</span>
       </div>
     </div>
 
