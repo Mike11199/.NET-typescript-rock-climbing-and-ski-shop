@@ -94,13 +94,14 @@ const CartPageComponent = ({
                 <span className="fw-bold">${cartSubtotal.toFixed(2)}</span>
               </ListGroup.Item>
               <ListGroup.Item>
-                <Button
+                <button
                   disabled={cartSubtotal === 0}
                   type="button"
+                  className="add-to-cart-button"
                   onClick={() => goToUserCartDetailsHandler()}
                 >
                   Proceed To Checkout
-                </Button>
+                </button>
               </ListGroup.Item>
             </ListGroup>
           </Col>

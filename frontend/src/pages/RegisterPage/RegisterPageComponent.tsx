@@ -245,7 +245,7 @@ const RegisterPageComponent = ({
             </Row>
 
             {/* SUBMIT BUTTON */}
-            <Button type="submit" style={{ marginTop: "1rem" }}>
+            <button className="add-to-cart-button " type="submit" style={{ marginTop: "1rem" }}>
               {/* CONDITIONALLY DISPLAY THE SPINNER IF LOADING */}
               <div
                 style={{
@@ -258,7 +258,7 @@ const RegisterPageComponent = ({
                 Submit
                 <LoadingSpinner />
               </div>
-            </Button>
+            </button>
 
             {/* ALERT IF EMAIL ALREADY EXISTS IN DATABASE */}
             <Alert

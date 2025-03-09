@@ -1,4 +1,4 @@
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import CliffFacePhoto from "../../../images/cliff_3.png";
 import { StoredUserInfo } from "types";
@@ -250,9 +250,9 @@ const UserProfilePageComponent = ({
                 </Form.Text>
               </Form.Group>
 
-              <Button variant="primary" type="submit">
+              <button className="add-to-cart-button" type="submit">
                 Update
-              </Button>
+              </button>
             </Form>
           </Col>
         </Row>

@@ -311,15 +311,6 @@
   color: rgb(0, 0, 0);
 }
 
-.btn-close {
-  color: white;
-  background-color: rgb(179, 185, 245);
-}
-
-.btn-close:hover {
-  background-color: rgb(158, 161, 211);
-}
-
 .chat-box-admin {
   background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
   border-color: rgb(87, 85, 85);

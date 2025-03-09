@@ -246,15 +246,14 @@ export const CartDetailsOrderSummaryContainer = ({
         <ListGroup.Item>
           <div className="d-grid gap-2">
             <Confetti active={confetti} config={config} />
-            <Button
-              size="lg"
+            <button
               onClick={orderHandler}
-              variant="danger"
+              className="place-order-button"
               type="button"
               disabled={buttonDisabled}
             >
               Place order
-            </Button>
+            </button>
             <p style={{ color: "red", fontWeight: "500" }}>
               {missingAddress &&
                 "In order to make an order, fill out your profile with correct address, city etc."}

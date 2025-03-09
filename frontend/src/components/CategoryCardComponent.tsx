@@ -62,11 +62,11 @@ const CategoryCardComponent = ({ category, idx }) => {
           </Card.Text>
           <button
             type="button"
-            className="btn btn-primary"
+            className="primary-button-blue"
             style={{ touchAction: "manipulation", userSelect: "none" }}
             onClick={() => handleClick(category.name)}
           >
-            Shop Now
+            Shop
           </button>
         </Card.Body>
       </Card>

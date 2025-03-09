@@ -1,10 +1,4 @@
-import {
-  Container,
-  Row,
-  Col,
-  ListGroup,
-  Button,
-} from "react-bootstrap";
+import { Container, Row, Col, ListGroup } from "react-bootstrap";
 import CartItemComponent from "../../../components/CartItemComponent";
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
@@ -26,7 +20,7 @@ const UserOrderDetailsPageComponent = ({
   const [paymentMethod, setPaymentMethod] = useState<string>("");
   const [isPaid, setIsPaid] = useState<Date | boolean | undefined>(false);
   const [isDelivered, setIsDelivered] = useState<Date | boolean | undefined>(
-    false,
+    false
   );
   const [cartSubtotal, setCartSubtotal] = useState<number>(0);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
@@ -61,7 +55,7 @@ const UserOrderDetailsPageComponent = ({
         ?.filter(
           (item) =>
             item?.quantity !== undefined &&
-            item?.product?.productId !== undefined,
+            item?.product?.productId !== undefined
         )
         .map((item) => {
           const { product, quantity } = item;
@@ -102,7 +96,7 @@ const UserOrderDetailsPageComponent = ({
           } else if (data?.paymentMethod === "Cash") {
             setButtonDisabled(true);
             setOrderButtonMessage(
-              "Please pay for your order on the day of delivery.",
+              "Please pay for your order on the day of delivery."
             );
           }
         }
@@ -129,7 +123,7 @@ const UserOrderDetailsPageComponent = ({
           cartSubtotal,
           cartProductItems,
           id,
-          updateStateAfterOrder,
+          updateStateAfterOrder
         );
       }
     } else {
@@ -193,16 +187,15 @@ const UserOrderDetailsPageComponent = ({
             </ListGroup.Item>
             <ListGroup.Item>
               <div className="d-grid gap-2">
-                <Button
-                  size="lg"
+                <button
                   onClick={orderHandler}
-                  variant="danger"
+                  className="place-order-button"
                   type="button"
                   disabled={buttonDisabled}
                   hidden={orderButtonMessage === "hidden"}
                 >
                   {orderButtonMessage}
-                </Button>
+                </button>
               </div>
               {/* To Render Paypal Buttons - rendered by orderHandler() function dynamically in below div  */}
               <div style={{ position: "relative", zIndex: "1" }}>

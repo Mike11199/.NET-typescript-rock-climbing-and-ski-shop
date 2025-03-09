@@ -15,6 +15,136 @@ footer {
   background-color: black;
 }
 
+.btn.dropdown-toggle {
+  font-family: "Segoe UI";
+  width: 100px;
+  height: 40px;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 16px;
+  border: none;
+  color: #fff !important;
+  background-color: rgb(24, 29, 85);
+}
+
+.product-list-card-add-to-cart-button {
+  font-family: "Segoe UI";
+  font-weight: 500;
+  height: 100%;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0.5rem 1rem;
+  border: none;
+  color: #fff;
+  background-color: rgb(51, 11, 88);
+  transition:
+    background-color 0.17s ease,
+    color 0.17s ease;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
+}
+
+.product-list-card-add-to-cart-button:hover {
+  background-color: rgb(69, 14, 121);
+}
+
+.add-to-cart-button {
+  font-family: "Segoe UI";
+  font-weight: 500;
+  width: 100%;
+  height: 40px;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 16px;
+  border: none;
+  color: #fff;
+  background-color: rgb(24, 29, 85);
+  transition:
+    background-color 0.17s ease,
+    color 0.17s ease;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
+}
+
+.add-to-cart-button:hover {
+  background-color: rgb(31, 37, 109);
+}
+
+.primary-button-blue {
+  font-family: "Segoe UI";
+  font-weight: 500;
+  width: 100px;
+  height: 40px;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 16px;
+  border: none;
+  color: #fff;
+  background-color: rgb(24, 29, 85);
+  transition:
+    background-color 0.17s ease,
+    color 0.17s ease;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
+}
+
+.primary-button-blue:hover {
+  background-color: rgb(31, 37, 109);
+}
+
+.secondary-button-red {
+  font-family: "Segoe UI";
+  font-weight: 500;
+  width: 100px;
+  height: 40px;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 16px;
+  padding: 2px 16px;
+  border: none;
+  color: #fff;
+  background-color: rgb(77, 13, 13);
+  transition:
+    background-color 0.17s ease,
+    color 0.17s ease;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
+}
+
+.secondary-button-red:hover {
+  background-color: rgb(104, 18, 18);
+}
+
+.place-order-button {
+  font-family: "Segoe UI";
+  font-weight: 500;
+  width: 100%;
+  height: 40px;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 16px;
+  padding: 2px 16px;
+  border: none;
+  color: #fff;
+  background-color: rgb(77, 13, 13);
+  transition:
+    background-color 0.17s ease,
+    color 0.17s ease;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
+}
+
+.place-order-button:hover {
+  background-color: rgb(104, 18, 18);
+}
+
 .productListProductCardsContainer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -112,28 +242,6 @@ footer {
 .custom-select:active {
   border: 1px solid black !important;
   box-shadow: 2px 2px 3px #00398d;
-}
-
-.product-list-card-add-to-cart-button {
-  background: linear-gradient(135deg, #3b0a47, #3c0b4d);
-  color: rgb(255, 255, 255);
-  font-weight: 600;
-  border: none;
-  border-radius: 4px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition:
-    background 0.3s ease,
-    transform 0.2s ease;
-}
-
-.product-list-card-add-to-cart-button:hover {
-  background: linear-gradient(135deg, #4c0d5c, #531069);
-  transform: scale(1.03);
-}
-
-.product-list-card-add-to-cart-button:active {
-  transform: scale(0.97);
 }
 
 .orders-grid {
@@ -391,14 +499,6 @@ footer {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-}
-
-.btn {
-  color: rgb(0, 0, 0) !important;
-}
-
-.btn:active {
-  transform: scale(0.95);
 }
 
 .product_list_buttons {
@@ -754,10 +854,6 @@ footer {
   height: auto;
   padding: 0rem;
   overflow: hidden;
-}
-
-.btn:not(.no-shadow):not(#dropdown-basic-button) {
-  box-shadow: 2px 2px 6px rgb(0, 0, 0) !important;
 }
 
 .cart-selector-and-delete-button-container {

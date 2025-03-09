@@ -128,7 +128,7 @@ const HeaderSearchContainer = ({
           id="dropdown-basic-button"
           title={CategoryButtonText()}
           ref={dropdownButtonRef}
-          className="no-shadow"
+          className="primary-button-blue"
         >
           <Dropdown.Item
             onClick={() => {

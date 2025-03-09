@@ -212,7 +212,7 @@ const LoginPageComponent = ({
           </Row>
 
           <div className="button-group">
-            <Button variant="primary" type="submit" style={{ width: "100%" }}>
+            <button className="primary-button-blue"  type="submit" style={{ width: "100%" }}>
               <div
                 style={{
                   display: "flex",
@@ -224,10 +224,10 @@ const LoginPageComponent = ({
                 Login
                 <LoadingSpinner />
               </div>
-            </Button>
-            <Button
+            </button>
+            <button
+              className="secondary-button-red"
               style={{ width: "100%" }}
-              variant="danger"
               type="submit"
               onClick={(e) => {
                 setLoginWithDefaultUser(true);
@@ -244,7 +244,7 @@ const LoginPageComponent = ({
                 Demo Login
                 <LoadingSpinner />
               </div>
-            </Button>
+            </button>
             <GoogleLoginButton
               googleLogin={googleLogin}
               reduxDispatch={reduxDispatch}

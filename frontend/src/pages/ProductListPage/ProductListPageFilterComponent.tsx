@@ -1,4 +1,3 @@
-import { Button } from "react-bootstrap";
 import SortOptionsComponent from "../../components/SortOptionsComponent";
 import PriceFilterComponent from "../../components/filterQueryResultOptions/PriceFilterComponent";
 import RatingFilterComponent from "../../components/filterQueryResultOptions/RatingFilterComponent";
@@ -131,23 +130,23 @@ const ProductListPageFilterComponent = ({
           width: "100%",
         }}
       >
-        <Button
+        <button
           type="button"
-          variant="primary"
+          className="primary-button-blue"
           onClick={handleFilters}
           style={{ width: "100%" }}
         >
           Filter
-        </Button>{" "}
+        </button>{" "}
         {showFiltersResetButton && (
-          <Button
+          <button
             type="button"
+            className="secondary-button-red"
             onClick={resetFilters}
-            variant="danger"
             style={{ width: "100%" }}
           >
             Reset filters
-          </Button>
+          </button>
         )}
       </div>
     </div>
