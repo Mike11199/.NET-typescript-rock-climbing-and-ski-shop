@@ -46,26 +46,31 @@ const CartItemComponent = ({
       {/* Quantity Selector + Remove Button */}
       <div className="cart-selector-and-delete-button-container">
         <div>
-          <select
-            className="cart-item-select"
-            onChange={
-              changeCount
-                ? (e) => {
-                    const newCount = Number(e.target.value);
-                    const diff = newCount - (product?.quantity ?? 0);
-                    changeCount(product?.productId, diff);
-                  }
-                : undefined
-            }
-            disabled={orderCreated}
-            value={product?.quantity}
-          >
-            {[...Array(product?.count ?? 1).keys()].map((x) => (
-              <option key={x + 1} value={x + 1}>
-                {x + 1}
-              </option>
-            ))}
-          </select>
+          {orderCreated ? (
+            // If the order is created, just show the quantity as text
+            <span>{product?.quantity}</span>
+          ) : (
+            // Else, show the <select>
+            <select
+              className="cart-item-select"
+              onChange={
+                changeCount
+                  ? (e) => {
+                      const newCount = Number(e.target.value);
+                      const diff = newCount - (product?.quantity ?? 0);
+                      changeCount(product?.productId, diff);
+                    }
+                  : undefined
+              }
+              value={product?.quantity}
+            >
+              {[...Array(product?.count ?? 1).keys()].map((x) => (
+                <option key={x + 1} value={x + 1}>
+                  {x + 1}
+                </option>
+              ))}
+            </select>
+          )}
         </div>
         <div>
           <RemoveFromCartComponent
