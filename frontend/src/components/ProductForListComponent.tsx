@@ -42,18 +42,26 @@ const ProductForListComponent = ({
 
   return (
     <div className="product-card">
-      <div className="product-image-container">
-        <img
-          className="product-card-image"
-          crossOrigin="anonymous"
-          src={mainThumbnailImage?.imageUrl}
-          alt={name}
-        />
-      </div>
+      <Link
+        to={`/product-details/${productId}`}
+        className="product-card-title-link"
+      >
+        <div className="product-image-container">
+          <img
+            className="product-card-image"
+            crossOrigin="anonymous"
+            src={mainThumbnailImage?.imageUrl}
+            alt={name}
+          />
+        </div>
+      </Link>
       <div className="product-description-container">
         <div className="product-card-body">
-          <Link to={`/product-details/${productId}`} className="product-card-title-link">
-              <h5 >{name}</h5>
+          <Link
+            to={`/product-details/${productId}`}
+            className="product-card-title-link"
+          >
+            <h5>{name}</h5>
           </Link>
 
           <p className="product-card-text">{description}</p>
@@ -73,16 +81,15 @@ const ProductForListComponent = ({
 
           <div className="product-review-count">{reviewsNumber} Reviews</div>
           <div>{rating} Average Rating</div>
-
-          </div>
-          <div className="product-buttons-container">
-            <button
-              type="button"
-              className="product-list-card-add-to-cart-button"
-              onClick={addToCartHandler}
-            >
-              Add to cart
-            </button>
+        </div>
+        <div className="product-buttons-container">
+          <button
+            type="button"
+            className="product-list-card-add-to-cart-button"
+            onClick={addToCartHandler}
+          >
+            Add to cart
+          </button>
         </div>
       </div>
     </div>
