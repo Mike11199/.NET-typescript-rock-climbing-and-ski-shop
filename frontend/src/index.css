@@ -1212,6 +1212,10 @@ h1.counter > span {
   color: rgb(255, 255, 255);
 }
 
+.rdp-head_cell {
+  background-color: rgb(10, 6, 68) !important;
+}
+
 .carousel_caption_text {
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
