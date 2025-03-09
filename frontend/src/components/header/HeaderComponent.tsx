@@ -8,16 +8,17 @@ import { useDispatch } from "react-redux";
 import { updateSearchString } from "../../redux/actions/searchActions";
 import { useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
+import SkiShopLogo from "../../images/new_ski_shop_logo.png";
 
 const HeaderComponent = () => {
   const [searchCategoryToggle, setSearchCategoryToggle] =
     useState<string>("All");
 
-    const location = useLocation();
+  const location = useLocation();
 
-    useEffect(() => {
-      toast.dismiss();
-    }, [location]);
+  useEffect(() => {
+    toast.dismiss();
+  }, [location]);
 
   const dispatch = useDispatch();
 
@@ -25,7 +26,7 @@ const HeaderComponent = () => {
     (search: string) => {
       dispatch(updateSearchString(search));
     },
-    [dispatch],
+    [dispatch]
   );
 
   const handleClickingTitle = useCallback(() => {
@@ -64,13 +65,16 @@ export default HeaderComponent;
 const MainTitleContainer = React.memo(
   ({ handleClickingTitle }: { handleClickingTitle: () => void }) => {
     return (
-      <button className="transparent-button">
-        <LinkContainer to="/">
-          <Navbar.Brand onClick={handleClickingTitle} href="/">
-            🏔 Alpine Peak Climbing and Ski Gear
-          </Navbar.Brand>
-        </LinkContainer>
-      </button>
+      <LinkContainer to="/">
+        <Navbar.Brand onClick={handleClickingTitle} className="scalable-brand">
+          <div className="header_logo_container">
+            <img src={SkiShopLogo} className="site_logo_image" />
+            <span className="site-header-text">
+              Alpine Peak Climbing and Ski Gear
+            </span>
+          </div>
+        </Navbar.Brand>
+      </LinkContainer>
     );
-  },
+  }
 );

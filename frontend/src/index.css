@@ -70,8 +70,32 @@ footer {
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
 }
 
+.site_logo_image{
+  height: 30px;
+  display: block;
+}
+
+.scalable-brand {
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.025s ease-in-out;
+}
+
+.scalable-brand:active {
+  transform: scale(0.95);
+}
+
 .add-to-cart-button:hover {
   background-color: rgb(31, 37, 109);
+}
+
+.header_logo_container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
 }
 
 .primary-button-blue {

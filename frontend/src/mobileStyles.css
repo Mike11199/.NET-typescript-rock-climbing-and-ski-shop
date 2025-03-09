@@ -1,4 +1,9 @@
 @media (max-width: 400px) {
+  .scalable-brand {
+    text-align: center;
+    margin: 0px;
+  }
+
   .category_card_image_front_page_boots {
     object-fit: cover;
     object-position: 5% 50%;
@@ -9,7 +14,17 @@
     grid-template-columns: 1fr;
   }
 
-  .back-arrow{
+  .site_logo_image {
+    height: 40px;
+    display: block;
+  }
+
+  .header_logo_container {
+    gap: 0.5rem;
+    flex-direction: column;
+  }
+
+  .back-arrow {
     display: none;
   }
 
@@ -33,7 +48,6 @@
     flex-direction: column;
     width: 100%;
   }
-
 
   .climate_text_paragraph {
     text-align: center;
