@@ -85,6 +85,15 @@ footer {
   text-overflow: ellipsis;
 }
 
+.back-arrow {
+  display: inline-block;
+  cursor: pointer;
+  background: none;
+  color: rgb(97, 95, 95);
+  outline: none;
+  border: none;
+}
+
 .custom-select {
   display: flex;
   width: 5rem;

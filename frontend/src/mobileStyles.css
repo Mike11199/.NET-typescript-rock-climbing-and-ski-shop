@@ -9,6 +9,10 @@
     grid-template-columns: 1fr;
   }
 
+  .back-arrow{
+    display: none;
+  }
+
   .cart-item-controls {
     flex-direction: column;
     align-items: flex-start;

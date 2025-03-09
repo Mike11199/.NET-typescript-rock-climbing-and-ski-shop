@@ -1,5 +1,6 @@
 import { Rating } from "react-simple-star-rating";
 import { Product } from "types";
+import { useNavigate } from "react-router-dom";
 
 interface ProductDetailsQuantityPriceContainerProps {
   product?: Product;
@@ -16,10 +17,17 @@ const ProductDetailsQuantityPriceContainer = ({
   addToCartHandler,
   productReviewScore,
 }: ProductDetailsQuantityPriceContainerProps) => {
+  const navigate = useNavigate();
+
   return (
     <div className="productDetailsSummaryWrapper">
       <div>
-        <h1 className="productDetailsHeaderName">{product?.name}</h1>
+        <div style={{ display: "flex", gap: "2rem" }}>
+          <button onClick={() => navigate(-1)} className="back-arrow">
+            <i className="bi-arrow-left-square-fill" style={{ fontSize: "1.5rem" }} />
+          </button>
+          <h1 className="productDetailsHeaderName">{product?.name}</h1>
+        </div>
         <hr />
       </div>
       <div className="productDetailsSummaryBodyWrapper">
