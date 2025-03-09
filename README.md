@@ -10,7 +10,7 @@
 
 <br/>
 
-![products_screen_new](https://github.com/user-attachments/assets/4361c28c-e10b-43e3-956d-b88fd704bca8)
+![products_search_screen](https://github.com/user-attachments/assets/1002ce4e-d01a-465c-9836-7561d7b61921)
 
 <br/>
 
