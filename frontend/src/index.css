@@ -226,6 +226,7 @@ background: rgba(0, 0, 0, 0.5);
   align-self: flex-end;
   justify-content: center;
   width: 100%;
+  gap: 1rem;
 }
 
 .product-image-container {

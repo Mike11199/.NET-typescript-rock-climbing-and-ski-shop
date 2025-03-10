@@ -1,6 +1,7 @@
 import { Rating } from "react-simple-star-rating";
 import { Product } from "types";
 import { useNavigate } from "react-router-dom";
+import { ProductCountRemainingContainer } from "../../components/ProductForListComponent";
 
 interface ProductDetailsQuantityPriceContainerProps {
   product?: Product;
@@ -125,19 +126,7 @@ const ProductDetailsPriceAndStockInfoContainer = ({ product }) => {
             <strong>Status</strong>
           </td>
           <td>
-            {(product?.count ?? 0) > 0 ? (
-              (product?.count ?? 0) < 10 ? (
-                <span style={{ color: "red" }}>
-                  Low stock - {product?.count} remaining
-                </span>
-              ) : (
-                <span style={{ color: "green" }}>
-                  Many available - {product?.count} remaining
-                </span>
-              )
-            ) : (
-              <span style={{ color: "red" }}>Out of stock!</span>
-            )}
+          <ProductCountRemainingContainer {...{ product }} />
           </td>
         </tr>
       </tbody>

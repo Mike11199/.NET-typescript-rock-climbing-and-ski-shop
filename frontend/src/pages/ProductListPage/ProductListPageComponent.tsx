@@ -73,12 +73,6 @@ const ProductListPageComponent = ({
     }
   }, [products]);
 
-  const getAverageRating = (reviews) => {
-    if (!reviews || reviews.length === 0) return 0;
-    const total = reviews.reduce((acc, review) => acc + review.rating, 0);
-    return total / reviews.length;
-  };
-
   return (
     <div>
       <div className="productListContainer">
@@ -127,17 +121,10 @@ const ProductListPageComponent = ({
           {!loading && (
             <div className="productListProductCardsContainer">
               {products?.map((product) => {
-                const productReviewScore = getAverageRating(product?.reviews);
                 return (
                   <ProductForListComponent
                     key={product.productId}
-                    images={product.images}
-                    name={product.name}
-                    description={product.description}
-                    price={product.price}
-                    rating={productReviewScore.toFixed(2)}
-                    reviewsNumber={product.reviews?.length ?? 0}
-                    productId={product.productId}
+                    product={product}
                   />
                 );
               })}
