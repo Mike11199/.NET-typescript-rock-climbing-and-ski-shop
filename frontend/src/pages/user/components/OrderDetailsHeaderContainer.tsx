@@ -18,21 +18,45 @@ export const OrderDetailsHeaderContainer = ({
     <div className="infoContainer">
       {/* Shipping Section */}
       <div className="shippingContainer">
-        <h2>Shipping</h2>
-        <p>
-          <b>Name:</b> {userInfo?.name} {userInfo?.lastName}
-          <br />
-          <b>Address:</b> {user?.address} {user?.city} {user?.state}{" "}
-          {user?.zipCode}
-          <br />
-          <b>Phone:</b> {user?.phoneNumber}
-        </p>
+        <div>
+        <h4 style={{ fontWeight: "400" }}>Shipping</h4>
+        <hr />
+        </div>
+        <table className="shippingTable">
+          <tbody>
+            <tr>
+              <td>
+                <div>Name</div>
+              </td>
+              <td>
+                {userInfo?.name} {userInfo?.lastName}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div>Address</div>
+              </td>
+              <td>
+                {user?.address} {user?.city} {user?.state} {user?.zipCode}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div>Phone</div>
+              </td>
+              <td>{user?.phoneNumber}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       {/* Payment Section */}
       <div className="paymentContainer">
-        <h2>Payment Method</h2>
-        <span>{paymentMethod}</span>
+        <div>
+        <h4 style={{ fontWeight: "400" }}>Payment Method</h4>
+        <hr />
+        </div>
+        <span style={{ paddingLeft: "1rem" }}>{paymentMethod}</span>
       </div>
     </div>
 

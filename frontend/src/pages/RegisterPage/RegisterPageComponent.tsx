@@ -143,7 +143,7 @@ const RegisterPageComponent = ({
             onSubmit={handleSubmit}
             style={{ display: "flex", flexDirection: "column" }}
           >
-            <h1>Register</h1>
+            <h2 style={{fontWeight: "400"}}>Register</h2>
             {/* NAME - FIRST NAME */}
             <Form.Group className="mb-3 mt-4" controlId="validationCustom01">
               <Form.Label>First Name</Form.Label>

@@ -5,10 +5,7 @@ import ShoppingCartImage from "../../images/shopping_cart.png";
 import { useNavigate } from "react-router-dom";
 import { StoredUserInfo, ReduxAppState } from "types";
 import { useSelector } from "react-redux";
-import {
-  toastConfirm,
-  toastSuccess,
-} from "../../utils/ToastNotifications";
+import { toastConfirm, toastSuccess } from "../../utils/ToastNotifications";
 
 const CartPageComponent = ({
   addToCart,
@@ -76,9 +73,9 @@ const CartPageComponent = ({
             )}
           </Col>
           <Col md={4} className="order-1 order-md-2 mb-3 mb-md-0">
-          <ListGroup className="text-center text-md-start">
+            <ListGroup className="text-center text-md-start">
               <ListGroup.Item>
-                <h3>
+                <h3 style={{ fontWeight: "400" }}>
                   Subtotal (
                   {cartItems
                     ? cartItems.reduce(
@@ -116,7 +113,7 @@ export default CartPageComponent;
 const ShoppingCartHeader = () => {
   return (
     <div className="shopping-cart-header">
-      <h1>Shopping Cart</h1>
+      <h2 style={{ fontWeight: "400" }}>Shopping Cart</h2>
       <img
         style={{ marginTop: "0px" }}
         height="60px"

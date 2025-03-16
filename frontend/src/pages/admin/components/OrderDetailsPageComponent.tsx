@@ -55,7 +55,7 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
   return (
     <Container fluid>
       <Row className="mt-4">
-        <h1>Order Details</h1>
+        <h2 style={{fontWeight: "400"}}>Order Details</h2>
         <Col md={8}>
           <br />
           <Row>
@@ -97,7 +97,7 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
             </Row>
           </Row>
           <br />
-          <h2>Order items</h2>
+          <h2 style={{fontWeight: "400", marginTop: "2rem"}}>Order Items</h2>
           <div className="product-items-container">
             {cartItems.map((item, idx) => (
               <CartItemComponent key={idx} product={item} orderCreated={true} />
@@ -107,7 +107,8 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
         <Col md={4}>
           <ListGroup>
             <ListGroup.Item>
-              <h3>Order summary</h3>
+            <h4 style={{fontWeight: "400"}}>Order summary</h4>
+            <hr />
             </ListGroup.Item>
             <ListGroup.Item>
               Items price (after tax):{" "}

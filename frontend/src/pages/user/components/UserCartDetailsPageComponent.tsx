@@ -159,7 +159,7 @@ const UserCartDetailsPageComponent = ({
       <Container fluid>
         <Row className="mt-4">
           <div style={{ display: "flex", flexDirection: "row" }}>
-            <h1>Cart Details</h1>
+            <h2 style={{fontWeight: "400"}}>Cart Details</h2>
             <img
               height="60px"
               className="shopping_cart_image"
@@ -173,7 +173,7 @@ const UserCartDetailsPageComponent = ({
             />
             {cartItems.length > 0 ? (
               <>
-                <h2>Order items</h2>
+                <h2 style={{fontWeight: "400", marginTop: "2rem"}}>Order Items</h2>
                 <div className="product-items-container">
                   {cartItems?.map((item, idx) => (
                     <CartItemComponent
@@ -227,7 +227,8 @@ export const CartDetailsOrderSummaryContainer = ({
     <Col md={4}>
       <ListGroup>
         <ListGroup.Item>
-          <h3>Order summary</h3>
+        <h4 style={{fontWeight: "400"}}>Order summary</h4>
+        <hr />
         </ListGroup.Item>
         <ListGroup.Item>
           Items price (after tax):{" "}

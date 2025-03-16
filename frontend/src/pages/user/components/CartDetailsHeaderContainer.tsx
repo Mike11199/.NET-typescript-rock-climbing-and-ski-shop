@@ -14,31 +14,62 @@ export const CartDetailsHeaderContainer = ({
     <div className="infoContainer">
       {/* Shipping Section */}
       <div className="shippingContainer">
-        <h2>Shipping</h2>
-        <p>
-          <b>Name:</b> {userInfo?.name} {userInfo?.lastName}
-          <br />
-          <b>Address:</b> {userAddress?.address} {userAddress?.city}{" "}
-          {userAddress?.state} {userAddress?.zipCode}
-          <br />
-          <b>Phone:</b> {userAddress?.phoneNumber}
-        </p>
+        <div>
+          <h4 style={{ fontWeight: "400" }}>Shipping</h4>
+          <hr />
+        </div>
+        <table className="shippingTable">
+          <tbody>
+            <tr>
+              <td>
+                <div>Name</div>
+              </td>
+              <td>
+                {userInfo?.name} {userInfo?.lastName}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div>Address</div>
+              </td>
+              <td>
+                {userAddress?.address} {userAddress?.city} {userAddress?.state}{" "}
+                {userAddress?.zipCode}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div>Phone</div>
+              </td>
+              <td>{userAddress?.phoneNumber}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       {/* Payment Section */}
       <div className="paymentContainer">
-        <h2>Payment Method</h2>
-        <select onChange={choosePayment}>
-          <option value="PayPal">PayPal</option>
-          <option value="Cash">Cash On Delivery</option>
-        </select>
+        <div>
+          <h4 style={{ fontWeight: "400" }}>Payment Method</h4>
+          <hr />
+        </div>
+        <div style={{ paddingLeft: "1rem", width: "100%" }}>
+          <select onChange={choosePayment} style={{ width: "100%" }}>
+            <option value="PayPal">PayPal</option>
+            <option value="Cash">Cash On Delivery</option>
+          </select>
+        </div>
       </div>
     </div>
 
     {/* Status Messages */}
     <div className="statusContainer">
-      <div style={{width: "50%", padding: "1rem"}} className="error-alert">Not Delivered</div>
-      <div style={{width: "50%", padding: "1rem"}}  className="error-alert">Not Paid Yet</div>
+      <div style={{ width: "50%", padding: "1rem" }} className="error-alert">
+        Not Delivered
+      </div>
+      <div style={{ width: "50%", padding: "1rem" }} className="error-alert">
+        Not Paid Yet
+      </div>
     </div>
   </div>
 );

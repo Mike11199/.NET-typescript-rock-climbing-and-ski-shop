@@ -141,7 +141,7 @@ const UserOrderDetailsPageComponent = ({
   return (
     <Container fluid>
       <Row className="mt-4">
-        <h1>Order Details</h1>
+      <h2 style={{fontWeight: "400"}}>Order Details</h2>
         <Col md={8}>
           <OrderDetailsHeaderContainer
             userInfo={userInfo}
@@ -151,7 +151,7 @@ const UserOrderDetailsPageComponent = ({
             isPaid={isPaid}
           />
 
-          <h2>Order items</h2>
+<h2 style={{fontWeight: "400", marginTop: "2rem"}}>Order Items</h2>
           <div className="product-items-container">
             {cartProductItems?.map((item, idx) => {
               return (
@@ -169,7 +169,8 @@ const UserOrderDetailsPageComponent = ({
         <Col md={4}>
           <ListGroup>
             <ListGroup.Item>
-              <h3>Order summary</h3>
+              <h4 style={{fontWeight: "400"}}>Order summary</h4>
+              <hr />
             </ListGroup.Item>
             <ListGroup.Item>
               Items price (after tax):{" "}

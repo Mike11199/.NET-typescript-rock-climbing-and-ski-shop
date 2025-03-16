@@ -126,7 +126,7 @@ const UserProfilePageComponent = ({
         <Row className="mt-5 justify-content-md-center">
           <Col md={6}></Col>
           <Col md={6} className="profile-update-form-container">
-            <h1>Change your profile</h1>
+            <h2 style={{ fontWeight: "400" }}>Change your profile</h2>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="validationCustom01">
                 <Form.Label>Your name</Form.Label>

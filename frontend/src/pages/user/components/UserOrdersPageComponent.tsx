@@ -31,7 +31,7 @@ const UserOrdersPageComponent = ({ getOrders }) => {
   return (
     <div className="orders-container">
       <div style={{ textAlign: "left", display: "flex", padding: "2rem" }}>
-        <h1 className="order-title">My Orders</h1>
+        <h2 className="order-title">My Orders</h2>
       </div>
 
       {/* Show Spinner when loading */}

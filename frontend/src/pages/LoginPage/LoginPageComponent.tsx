@@ -17,7 +17,7 @@ interface LoginPageComponentProps {
   loginUserApiRequest: (
     email: string,
     password: string,
-    doNotLogout: boolean,
+    doNotLogout: boolean
   ) => Promise<any>;
   reduxDispatch?: Function;
   setReduxUserState: Function;
@@ -137,7 +137,7 @@ const LoginPageComponent = ({
         className="ski_image"
         alt="ice_climbing_photo"
         src={IceClimbingPhoto}
-        />
+      />
       <div style={{ display: "flex", height: "100%" }}>
         <img
           className="ice_cave_image"
@@ -154,7 +154,7 @@ const LoginPageComponent = ({
           onSubmit={handleSubmit}
           style={{ display: "flex", flexDirection: "column" }}
         >
-          <h1>Login</h1>
+          <h2 style={{ fontWeight: "400" }}>Login</h2>
 
           {/* EMAIL ADDRESS */}
           <Form.Group className="mb-3 mt-4" controlId="formBasicEmail">
@@ -212,7 +212,11 @@ const LoginPageComponent = ({
           </Row>
 
           <div className="button-group">
-            <button className="primary-button-blue"  type="submit" style={{ width: "100%" }}>
+            <button
+              className="primary-button-blue"
+              type="submit"
+              style={{ width: "100%" }}
+            >
               <div
                 style={{
                   display: "flex",
