@@ -10,7 +10,7 @@
 
 <br/>
 
-![products_search_screen](https://github.com/user-attachments/assets/1002ce4e-d01a-465c-9836-7561d7b61921)
+![products_search_grid](https://github.com/user-attachments/assets/d9b1dbc8-9168-4e35-a46e-4c16e7aa0280)
 
 <br/>
 
@@ -30,6 +30,19 @@
 - Use the following user and password to test the fake PayPal sandbox account to pay for an order (fake account with bank/credit cards):
   - Username: sb-fh43v4330869755@personal.example.com
   - Password: testtest
+
+
+ <h2>Old Site - Heroku</h2>
+ 
+- https://recreational-equipment-shop.herokuapp.com
+
+- I followed a Udemy tutorial to initially start this project as a generic e-commerce site, to learn Cloudinary, Paypal Integration, Admin Panels, Unit Testing components, and other concepts.
+
+- Likey 10% of the time I've spent on this project or less was that portion.  Since then about 300-500+ hours have been spent overhauling and rebuilding the site, which I've done on and off in my free time.
+
+- That includes rebuilding the entire API as .NET, converting the front end to TypeScript, AWS hosting + CI/CD pipelines, and mobile responsiveness, etc.
+
+- Although it only shows the front end - this older link is a good example of how I've improved pages over time.  Though you can also look at the commit history.
 
 <h1>Summary</h1>
 
