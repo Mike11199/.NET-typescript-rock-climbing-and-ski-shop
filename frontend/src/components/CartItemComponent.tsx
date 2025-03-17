@@ -40,7 +40,7 @@ const CartItemComponent = ({
 
       {/* Product Price */}
       <div className="cart-item-price">
-        <div>${(product?.price ?? 0).toFixed(2)}</div>
+        <div>${(product?.price ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
       </div>
 
       {/* Quantity Selector + Remove Button */}

@@ -17,14 +17,25 @@ const CartSummaryContainer = ({
   return (
     <div className="orderSummaryDetailsContainer">
     <div style={{width: "100%"}}>
-      <h3 className="order-title">
+      <h4 className="order-title">
         Subtotal ({totalQuantity} {cartItems.length === 1 ? "Item" : "Items"})
-      </h3>
+      </h4>
       <hr />
       </div>
-      <p>
-        Price: <span className="fw-bold">${cartSubtotal.toFixed(2)}</span>
-      </p>
+
+      <table className="order-summary-table">
+        <tbody>
+          <tr>
+            <td>Price</td>
+            <td className="price">${(cartSubtotal ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+          </tr>
+          <tr>
+            <td colSpan={2} className="total-divider"></td> {/* Divider Row */}
+          </tr>
+
+        </tbody>
+      </table>
+
       <button
         disabled={cartSubtotal === 0}
         type="button"

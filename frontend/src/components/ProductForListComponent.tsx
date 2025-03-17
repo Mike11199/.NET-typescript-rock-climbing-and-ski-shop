@@ -64,7 +64,7 @@ const ProductForListComponent = ({ product }: { product: Product }) => {
 
           <div className="product-price">
             Price{" "}
-            <span className="bold-text">${product?.price?.toFixed(2)}</span>
+            <span className="bold-text">${product?.price?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
           </div>
 
           <div>
@@ -81,7 +81,6 @@ const ProductForListComponent = ({ product }: { product: Product }) => {
           </div>
           <div>{productReviewScore.toFixed(2)} Average Rating</div>
         </div>
-        
         <div className="product-buttons-container">
         <ProductCountRemainingContainer {...{ product }} />
           <button

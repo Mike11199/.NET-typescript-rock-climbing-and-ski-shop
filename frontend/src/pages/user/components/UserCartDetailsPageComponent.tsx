@@ -230,7 +230,7 @@ export const CartDetailsOrderSummaryContainer = ({
         <tbody>
           <tr>
             <td>Items price (after tax)</td>
-            <td className="price">${(cartSubtotal ?? 0).toFixed(2)}</td>
+            <td className="price">${(cartSubtotal ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
           </tr>
           <tr>
             <td>Shipping</td>
@@ -246,7 +246,7 @@ export const CartDetailsOrderSummaryContainer = ({
           <tr className="total-row">
             <td>Total price</td>
             <td className="price total-price">
-              ${(cartSubtotal ?? 0).toFixed(2)}
+              ${(cartSubtotal ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </td>
           </tr>
         </tbody>

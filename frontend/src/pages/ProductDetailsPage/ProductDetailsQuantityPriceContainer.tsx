@@ -118,7 +118,7 @@ const ProductDetailsPriceAndStockInfoContainer = ({ product }) => {
             <strong>Price</strong>
           </td>
           <td>
-            <span>${(product?.price ?? 0).toFixed(2)}</span>
+            <span>${(product?.price ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
           </td>
         </tr>
         <tr>

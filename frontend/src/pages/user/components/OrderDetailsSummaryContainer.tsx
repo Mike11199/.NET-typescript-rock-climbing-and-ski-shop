@@ -26,7 +26,7 @@ const OrderDetailsSummaryContainer = ({
         <tbody>
           <tr>
             <td>Items price (after tax)</td>
-            <td className="price">${cartSubtotal?.toFixed(2)}</td>
+            <td className="price">${cartSubtotal?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
           </tr>
           <tr>
             <td>Shipping</td>
@@ -38,7 +38,7 @@ const OrderDetailsSummaryContainer = ({
           </tr>
           <tr className="total-row">
             <td>Total price</td>
-            <td className="price total-price">${cartSubtotal?.toFixed(2)}</td>
+            <td className="price total-price">${cartSubtotal?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
           </tr>
         </tbody>
       </table>
