@@ -165,7 +165,7 @@ const UserCartDetailsPageComponent = ({
             />
             {cartItems.length > 0 ? (
               <>
-                <h2 style={{ fontWeight: "400", marginTop: "2rem" }}>
+                <h2 className="order-header" style={{ fontWeight: "400", marginTop: "2rem" }}>
                   Order Items
                 </h2>
                 <div className="product-items-container">

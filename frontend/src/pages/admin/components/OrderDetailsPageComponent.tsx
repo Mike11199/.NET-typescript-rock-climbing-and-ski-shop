@@ -45,17 +45,15 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
         }
         setCartItems(order.cartItems);
       })
-      .catch((er) =>
-        {
+      .catch((er) => {
         console.error(er.response.data.message ?? er.response.data);
-        dispatch(logout())
-      }
-      );
+        dispatch(logout());
+      });
   }, [isDelivered, id]);
   return (
     <Container fluid>
       <Row className="mt-4">
-        <h2 style={{fontWeight: "400"}}>Order Details</h2>
+        <h2 style={{ fontWeight: "400" }}>Order Details</h2>
         <Col md={8}>
           <br />
           <Row>
@@ -76,7 +74,7 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
             <Row>
               <Col>
                 <div
-                  style={{marginTop: "2rem", padding: "1rem"}}
+                  style={{ marginTop: "2rem", padding: "1rem" }}
                   className={isDelivered ? "success-alert" : "error-alert"}
                 >
                   {isDelivered ? (
@@ -88,16 +86,21 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
               </Col>
               <Col>
                 <div
-                  style={{marginTop: "2rem", padding: "1rem"}}
+                  style={{ marginTop: "2rem", padding: "1rem" }}
                   className={isPaid ? "success-alert" : "error-alert"}
-                  >
+                >
                   {isPaid ? <>Paid on {isPaid}</> : <>Not paid yet</>}
                 </div>
               </Col>
             </Row>
           </Row>
           <br />
-          <h2 style={{fontWeight: "400", marginTop: "2rem"}}>Order Items</h2>
+          <h2
+            className="order-header"
+            style={{ fontWeight: "400", marginTop: "2rem" }}
+          >
+            Order Items
+          </h2>
           <div className="product-items-container">
             {cartItems.map((item, idx) => (
               <CartItemComponent key={idx} product={item} orderCreated={true} />
@@ -107,8 +110,8 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
         <Col md={4}>
           <ListGroup>
             <ListGroup.Item>
-            <h4 style={{fontWeight: "400"}}>Order Summary</h4>
-            <hr />
+              <h4 style={{ fontWeight: "400" }}>Order Summary</h4>
+              <hr />
             </ListGroup.Item>
             <ListGroup.Item>
               Items price (after tax):{" "}
@@ -138,8 +141,8 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
                         console.log(
                           er.response.data.message
                             ? er.response.data.message
-                            : er.response.data,
-                        ),
+                            : er.response.data
+                        )
                       )
                   }
                   disabled={buttonDisabled}
