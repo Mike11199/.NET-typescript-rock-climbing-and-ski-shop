@@ -290,39 +290,18 @@
     padding-right: 0px;
   }
 
-  .register-container {
-    align-self: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 1.5rem;
-    background: rgba(0, 0, 0, 0.5);
-    box-shadow:
-      0 4px 6px rgba(0, 0, 0, 0.3),
-      0 1px 3px rgba(0, 0, 0, 0.08);
-    margin: auto;
-    margin-top: 2rem;
-  }
-
   .register-form {
     width: 100%;
   }
 
+  .register-container,
   .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    width: 100%;
-    height: auto;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background: rgba(0, 0, 0, 0.5);
-    box-shadow:
-      0 4px 6px rgba(0, 0, 0, 0.3),
-      0 1px 3px rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .dark .register-container,
+  .dark .login-container {
+    background: rgba(0, 0, 0, 0.6);
   }
 
   .form-group {
