@@ -8,10 +8,7 @@
     padding: 2rem;
   }
 
-  .orderSummaryDetailsContainer {
-    align-items: center;
-    justify-content: center;
-  }
+
 
   .cartDetailsContainer {
     align-items: center;
@@ -176,6 +173,10 @@
   .orderSummaryDetailsContainer {
     width: 100%;
     gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    gap: 1rem;
   }
 
   .productDetailsHeaderName {
