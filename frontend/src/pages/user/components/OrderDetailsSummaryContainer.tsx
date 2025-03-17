@@ -59,7 +59,7 @@ const OrderDetailsSummaryContainer = ({
       </div>
 
       {showPayPal && (
-        <div style={{ position: "relative", zIndex: "1" }}>
+        <div style={{ position: "relative", zIndex: "1", width: "100%" }}>
           <div ref={paypalContainer} id="paypal-container-element"></div>
         </div>
       )}
