@@ -107,7 +107,7 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
         <Col md={4}>
           <ListGroup>
             <ListGroup.Item>
-            <h4 style={{fontWeight: "400"}}>Order summary</h4>
+            <h4 style={{fontWeight: "400"}}>Order Summary</h4>
             <hr />
             </ListGroup.Item>
             <ListGroup.Item>

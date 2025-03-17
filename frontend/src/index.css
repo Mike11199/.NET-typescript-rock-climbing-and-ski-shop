@@ -76,10 +76,9 @@ footer {
 }
 
 .light .profile-update-form-container {
-color: white;
-background: rgba(0, 0, 0, 0.5);
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
 }
-
 
 .profile-update-form-container {
   padding: 3rem;
@@ -326,7 +325,6 @@ background: rgba(0, 0, 0, 0.5);
   width: 80px;
 }
 
-
 .cartDetailsContainer {
   display: flex;
   flex-direction: column;
@@ -336,7 +334,42 @@ background: rgba(0, 0, 0, 0.5);
 }
 
 .dark .cartDetailsContainer {
-  background: rgba(0, 0, 0, 0.637);
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.orderSummaryDetailsContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background: rgba(255, 255, 255);
+  gap: 1rem;
+}
+
+.dark .orderSummaryDetailsContainer {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.order-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order-summary-table td {
+  padding: 0;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.total-row {
+  color: red;
+}
+
+.total-price {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.button-container {
+  margin-top: 10px;
 }
 
 .infoContainer {
@@ -397,7 +430,7 @@ background: rgba(0, 0, 0, 0.5);
 }
 
 .dark .order-card {
-  background: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.6);
   color: white;
 }
 
@@ -917,7 +950,7 @@ background: rgba(0, 0, 0, 0.5);
 }
 
 .dark .cart-item {
-  background: #000000b2;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .cart-item-image img {

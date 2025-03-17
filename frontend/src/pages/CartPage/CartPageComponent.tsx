@@ -1,4 +1,4 @@
-import { Container, Row, Col, ListGroup, Button } from "react-bootstrap";
+import { Container, Row, Col, ListGroup } from "react-bootstrap";
 
 import CartItemComponent from "../../components/CartItemComponent";
 import ShoppingCartImage from "../../images/shopping_cart.png";

@@ -1,4 +1,4 @@
-import { Container, Row, Col, ListGroup } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import CartItemComponent from "../../../components/CartItemComponent";
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
@@ -9,6 +9,7 @@ import {
   User,
 } from "types";
 import { OrderDetailsHeaderContainer } from "./OrderDetailsHeaderContainer";
+import OrderDetailsSummaryContainer from "./OrderDetailsSummaryContainer";
 
 const UserOrderDetailsPageComponent = ({
   userInfo,
@@ -141,8 +142,8 @@ const UserOrderDetailsPageComponent = ({
   return (
     <Container fluid>
       <Row className="mt-4">
-      <h2 style={{fontWeight: "400"}}>Order Details</h2>
-        <Col md={8}>
+        <h2 style={{ fontWeight: "400" }}>Order Details</h2>
+        <Col md={8} className="order-2 order-md-1">
           <OrderDetailsHeaderContainer
             userInfo={userInfo}
             user={user}
@@ -151,7 +152,7 @@ const UserOrderDetailsPageComponent = ({
             isPaid={isPaid}
           />
 
-<h2 style={{fontWeight: "400", marginTop: "2rem"}}>Order Items</h2>
+          <h2 style={{ fontWeight: "400", marginTop: "2rem" }}>Order Items</h2>
           <div className="product-items-container">
             {cartProductItems?.map((item, idx) => {
               return (
@@ -166,44 +167,16 @@ const UserOrderDetailsPageComponent = ({
             })}
           </div>
         </Col>
-        <Col md={4}>
-          <ListGroup>
-            <ListGroup.Item>
-              <h4 style={{fontWeight: "400"}}>Order summary</h4>
-              <hr />
-            </ListGroup.Item>
-            <ListGroup.Item>
-              Items price (after tax):{" "}
-              <span className="fw-bold">${cartSubtotal?.toFixed(2)}</span>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              Shipping: <span className="fw-bold">included</span>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              Tax: <span className="fw-bold">included</span>
-            </ListGroup.Item>
-            <ListGroup.Item className="text-danger">
-              Total price:{" "}
-              <span className="fw-bold">${cartSubtotal?.toFixed(2)}</span>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <div className="d-grid gap-2">
-                <button
-                  onClick={orderHandler}
-                  className="place-order-button"
-                  type="button"
-                  disabled={buttonDisabled}
-                  hidden={orderButtonMessage === "hidden"}
-                >
-                  {orderButtonMessage}
-                </button>
-              </div>
-              {/* To Render Paypal Buttons - rendered by orderHandler() function dynamically in below div  */}
-              <div style={{ position: "relative", zIndex: "1" }}>
-                <div ref={paypalContainer} id="paypal-container-element"></div>
-              </div>
-            </ListGroup.Item>
-          </ListGroup>
+        <Col md={4}  className="order-1 order-md-2 mb-2">
+          <OrderDetailsSummaryContainer
+            {...{
+              cartSubtotal,
+              orderHandler,
+              buttonDisabled,
+              orderButtonMessage,
+              paypalContainer,
+            }}
+          />
         </Col>
       </Row>
     </Container>

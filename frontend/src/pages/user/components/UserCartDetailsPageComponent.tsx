@@ -1,4 +1,4 @@
-import { Container, Row, Col, ListGroup, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import CartItemComponent from "../../../components/CartItemComponent";
 
 import { useEffect, useState } from "react";
@@ -159,7 +159,7 @@ const UserCartDetailsPageComponent = ({
       <Container fluid>
         <Row className="mt-4">
           <div style={{ display: "flex", flexDirection: "row" }}>
-            <h2 style={{fontWeight: "400"}}>Cart Details</h2>
+            <h2 style={{ fontWeight: "400" }}>Cart Details</h2>
             <img
               height="60px"
               className="shopping_cart_image"
@@ -167,13 +167,15 @@ const UserCartDetailsPageComponent = ({
               src={ShoppingCartImage}
             />
           </div>
-          <Col md={8}>
+          <Col md={8} className="order-2 order-md-2">
             <CartDetailsHeaderContainer
               {...{ userInfo, userAddress, choosePayment }}
             />
             {cartItems.length > 0 ? (
               <>
-                <h2 style={{fontWeight: "400", marginTop: "2rem"}}>Order Items</h2>
+                <h2 style={{ fontWeight: "400", marginTop: "2rem" }}>
+                  Order Items
+                </h2>
                 <div className="product-items-container">
                   {cartItems?.map((item, idx) => (
                     <CartItemComponent
@@ -192,14 +194,16 @@ const UserCartDetailsPageComponent = ({
               </div>
             )}
           </Col>
-          <CartDetailsOrderSummaryContainer
-            cartSubtotal={cartSubtotal}
-            confetti={confetti}
-            config={config}
-            orderHandler={orderHandler}
-            buttonDisabled={buttonDisabled}
-            missingAddress={missingAddress}
-          />
+          <Col md={4} className="order-1 order-md-2 mb-2">
+            <CartDetailsOrderSummaryContainer
+              cartSubtotal={cartSubtotal}
+              confetti={confetti}
+              config={config}
+              orderHandler={orderHandler}
+              buttonDisabled={buttonDisabled}
+              missingAddress={missingAddress}
+            />
+          </Col>
         </Row>
       </Container>
     </div>
@@ -224,44 +228,55 @@ export const CartDetailsOrderSummaryContainer = ({
   missingAddress: boolean;
 }) => {
   return (
-    <Col md={4}>
-      <ListGroup>
-        <ListGroup.Item>
-        <h4 style={{fontWeight: "400"}}>Order summary</h4>
+    <div className="orderSummaryDetailsContainer">
+      <div>
+        <h4 style={{ fontWeight: "400" }}>Order Summary</h4>
         <hr />
-        </ListGroup.Item>
-        <ListGroup.Item>
-          Items price (after tax):{" "}
-          <span className="fw-bold">${(cartSubtotal ?? 0).toFixed(2)}</span>
-        </ListGroup.Item>
-        <ListGroup.Item>
-          Shipping: <span className="fw-bold">included</span>
-        </ListGroup.Item>
-        <ListGroup.Item>
-          Tax: <span className="fw-bold">included</span>
-        </ListGroup.Item>
-        <ListGroup.Item className="text-danger">
-          Total price:{" "}
-          <span className="fw-bold">${(cartSubtotal ?? 0).toFixed(2)}</span>
-        </ListGroup.Item>
-        <ListGroup.Item>
-          <div className="d-grid gap-2">
-            <Confetti active={confetti} config={config} />
-            <button
-              onClick={orderHandler}
-              className="place-order-button"
-              type="button"
-              disabled={buttonDisabled}
-            >
-              Place order
-            </button>
-            <p style={{ color: "red", fontWeight: "500" }}>
-              {missingAddress &&
-                "In order to make an order, fill out your profile with correct address, city etc."}
-            </p>
-          </div>
-        </ListGroup.Item>
-      </ListGroup>
-    </Col>
+      </div>
+
+      <table className="order-summary-table">
+        <tbody>
+          <tr>
+            <td>Items price (after tax)</td>
+            <td className="price">${(cartSubtotal ?? 0).toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td>Shipping</td>
+            <td className="price">Included</td>
+          </tr>
+          <tr>
+            <td>Tax</td>
+            <td className="price">Included</td>
+          </tr>
+          <tr>
+            <td colSpan={2} className="total-divider"></td> {/* Divider Row */}
+          </tr>
+          <tr className="total-row">
+            <td>Total price</td>
+            <td className="price total-price">
+              ${(cartSubtotal ?? 0).toFixed(2)}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div className="button-container">
+        <Confetti active={confetti} config={config} />
+        <button
+          onClick={orderHandler}
+          className="place-order-button"
+          type="button"
+          disabled={buttonDisabled}
+        >
+          Place Order
+        </button>
+        {missingAddress && (
+          <p className="missing-address-warning">
+            In order to place an order, please complete your profile with the
+            correct address, city, etc.
+          </p>
+        )}
+      </div>
+    </div>
   );
 };

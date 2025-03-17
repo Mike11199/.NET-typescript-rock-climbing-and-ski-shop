@@ -4,8 +4,8 @@
     margin: 0px;
   }
 
- .profile-update-form-container{
-      padding: 2rem;
+  .profile-update-form-container {
+    padding: 2rem;
   }
 
   .category_card_image_front_page_boots {
@@ -144,6 +144,12 @@
   .shippingContainer,
   .paymentContainer {
     width: 100%;
+    gap: 0rem;
+  }
+
+  .orderSummaryDetailsContainer {
+    width: 100%;
+    gap: 0.5rem;
   }
 
   .productDetailsHeaderName {
