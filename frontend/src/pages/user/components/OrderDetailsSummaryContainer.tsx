@@ -17,8 +17,8 @@ const OrderDetailsSummaryContainer = ({
 
   return (
     <div className="orderSummaryDetailsContainer">
-      <div>
-        <h4 style={{ fontWeight: "400" }}>Order Summary</h4>
+      <div style={{width: "100%"}}>
+        <h4 className="orderDetailsHeader">Order Summary</h4>
         <hr />
       </div>
 

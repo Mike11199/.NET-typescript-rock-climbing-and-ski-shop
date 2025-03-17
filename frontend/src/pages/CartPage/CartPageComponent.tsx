@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { StoredUserInfo, ReduxAppState } from "types";
 import { useSelector } from "react-redux";
 import { toastConfirm, toastSuccess } from "../../utils/ToastNotifications";
+import CartSummaryContainer from "./CartSummaryContainer";
 
 const CartPageComponent = ({
   addToCart,
@@ -73,34 +74,11 @@ const CartPageComponent = ({
             )}
           </Col>
           <Col md={4} className="order-1 order-md-2 mb-3 mb-md-0">
-            <ListGroup className="text-center text-md-start">
-              <ListGroup.Item>
-                <h3 style={{ fontWeight: "400" }}>
-                  Subtotal (
-                  {cartItems
-                    ? cartItems.reduce(
-                        (totalQuantity, item) => totalQuantity + item.quantity,
-                        0
-                      )
-                    : 0}{" "}
-                  {cartItems && cartItems.length === 1 ? "Item" : "Items"})
-                </h3>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                Price:{" "}
-                <span className="fw-bold">${cartSubtotal.toFixed(2)}</span>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <button
-                  disabled={cartSubtotal === 0}
-                  type="button"
-                  className="add-to-cart-button"
-                  onClick={() => goToUserCartDetailsHandler()}
-                >
-                  Proceed To Checkout
-                </button>
-              </ListGroup.Item>
-            </ListGroup>
+            <CartSummaryContainer
+              cartItems={cartItems}
+              cartSubtotal={cartSubtotal}
+              goToUserCartDetailsHandler={goToUserCartDetailsHandler}
+            />
           </Col>
         </Row>
       </Container>

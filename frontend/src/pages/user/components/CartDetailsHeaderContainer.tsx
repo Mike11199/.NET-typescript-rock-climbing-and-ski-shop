@@ -15,7 +15,7 @@ export const CartDetailsHeaderContainer = ({
       {/* Shipping Section */}
       <div className="shippingContainer">
         <div>
-          <h4 style={{ fontWeight: "400" }}>Shipping</h4>
+          <h4  className="orderDetailsHeader">Shipping</h4>
           <hr />
         </div>
         <table className="shippingTable">
@@ -50,7 +50,7 @@ export const CartDetailsHeaderContainer = ({
       {/* Payment Section */}
       <div className="paymentContainer">
         <div>
-          <h4 style={{ fontWeight: "400" }}>Payment Method</h4>
+          <h4  className="orderDetailsHeader">Payment Method</h4>
           <hr />
         </div>
         <div style={{ paddingLeft: "1rem", width: "100%" }}>

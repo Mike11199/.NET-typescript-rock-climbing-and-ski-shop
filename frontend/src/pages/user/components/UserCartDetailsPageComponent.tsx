@@ -158,15 +158,7 @@ const UserCartDetailsPageComponent = ({
     <div style={{ overflow: "hidden" }}>
       <Container fluid>
         <Row className="mt-4">
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <h2 style={{ fontWeight: "400" }}>Cart Details</h2>
-            <img
-              height="60px"
-              className="shopping_cart_image"
-              alt="shopping_cart_image"
-              src={ShoppingCartImage}
-            />
-          </div>
+          < CartDetailsHeader />
           <Col md={8} className="order-2 order-md-2">
             <CartDetailsHeaderContainer
               {...{ userInfo, userAddress, choosePayment }}
@@ -229,8 +221,8 @@ export const CartDetailsOrderSummaryContainer = ({
 }) => {
   return (
     <div className="orderSummaryDetailsContainer">
-      <div>
-        <h4 style={{ fontWeight: "400" }}>Order Summary</h4>
+      <div style={{ width: "100%" }}>
+        <h4 className="orderDetailsHeader">Order Summary</h4>
         <hr />
       </div>
 
@@ -277,6 +269,23 @@ export const CartDetailsOrderSummaryContainer = ({
           </p>
         )}
       </div>
+    </div>
+  );
+};
+
+
+
+const CartDetailsHeader = () => {
+  return (
+    <div className="shopping-cart-header">
+      <h2 style={{ fontWeight: "400" }}>Cart Details</h2>
+      <img
+        style={{ marginTop: "0px" }}
+        height="60px"
+        className="shopping_cart_image"
+        alt="shopping_cart_image"
+        src={ShoppingCartImage}
+      />
     </div>
   );
 };

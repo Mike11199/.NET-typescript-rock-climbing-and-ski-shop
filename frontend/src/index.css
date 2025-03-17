@@ -325,6 +325,10 @@ footer {
   width: 80px;
 }
 
+.orderDetailsHeader {
+  font-weight: 400;
+}
+
 .cartDetailsContainer {
   display: flex;
   flex-direction: column;
@@ -370,6 +374,7 @@ footer {
 
 .button-container {
   margin-top: 10px;
+  width: 100%;
 }
 
 .infoContainer {

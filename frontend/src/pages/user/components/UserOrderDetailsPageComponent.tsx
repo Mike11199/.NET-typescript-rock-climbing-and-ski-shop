@@ -142,7 +142,7 @@ const UserOrderDetailsPageComponent = ({
   return (
     <Container fluid>
       <Row className="mt-4">
-        <h2 style={{ fontWeight: "400" }}>Order Details</h2>
+        <h2 className="order-title">Order Details</h2>
         <Col md={8} className="order-2 order-md-1">
           <OrderDetailsHeaderContainer
             userInfo={userInfo}

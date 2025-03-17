@@ -8,6 +8,32 @@
     padding: 2rem;
   }
 
+  .orderSummaryDetailsContainer {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cartDetailsContainer {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .order-title {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .shopping-cart-header {
+    justify-content: center;
+  }
+
+  .orderDetailsHeader {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+  }
+
   .category_card_image_front_page_boots {
     object-fit: cover;
     object-position: 5% 50%;
