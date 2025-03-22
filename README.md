@@ -88,7 +88,7 @@
 
 <br/>
 
-<h1> Screenshots & GIFs </h1>
+<h1> Screenshots & GIFs - Old </h1>
 
 - Dark Mode (NEW)
 
