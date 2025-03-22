@@ -42,11 +42,27 @@ const HomePageSkiBanner = () => {
         <img className="tree" alt="tree" src={AnimationTree} />
         {skiChairs}
         {cloudVectors}
-        <img
-          className="skier_banner_vector"
-          alt="skier_vector"
-          src={AnimationSkierVectorImage}
-        />
+        <div
+          className="skier_wrapper"
+          onClick={(e) => {
+            const img = e.currentTarget.querySelector(".skier_banner_vector");
+            if (!img) return;
+
+            img.classList.add("jump");
+
+            img.addEventListener(
+              "animationend",
+              () => img.classList.remove("jump"),
+              { once: true }
+            );
+          }}
+        >
+          <img
+            className="skier_banner_vector"
+            alt="skier_vector"
+            src={AnimationSkierVectorImage}
+          />
+        </div>
       </div>
     </div>
   );

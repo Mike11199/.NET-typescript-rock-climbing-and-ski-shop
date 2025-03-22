@@ -655,7 +655,7 @@ footer {
   position: absolute;
   height: 100%;
   margin-right: 0%;
-  margin-bottom: 0% !important; /* Adding !important to ensure it takes precedence */
+  margin-bottom: 0% !important;
   bottom: 0;
   right: 0;
   z-index: -1;
@@ -711,17 +711,26 @@ footer {
   z-index: 2;
 }
 
-.skier_banner_vector {
+/* Outer wrapper: skiing animation */
+.skier_wrapper {
   position: relative;
-  z-index: 223;
-  height: 60px;
   top: 50px;
+  height: 60px;
   animation-name: ski;
-  z-index: -12;
-  animation-duration: 6s;
+  animation-duration: 8s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
   animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
+  display: inline-block;
+  z-index: -12;
+}
+
+/* Inner image: jumping animation */
+.skier_banner_vector {
+  cursor: pointer;
+  display: block;
+  height: 60px;
+  z-index: 5;
 }
 
 @keyframes ski {
@@ -731,6 +740,25 @@ footer {
   to {
     transform: translateX(800px) translateY(250px);
   }
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-60px);
+  }
+  60% {
+    transform: translateY(-30px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.jump {
+  animation: jump 0.6s ease-out;
 }
 
 @keyframes cloud {
@@ -1021,6 +1049,8 @@ footer {
   top: 160px;
   right: 950px;
   z-index: -1;
+  pointer-events: none;
+  filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.5));
 }
 
 .banner_box_container {
@@ -1040,6 +1070,7 @@ footer {
   animation-iteration-count: infinite;
   animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   z-index: -2;
+  pointer-events: none;
 }
 
 .ski_chair2 {
@@ -1054,6 +1085,7 @@ footer {
   animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-delay: 2s;
   z-index: -2;
+  pointer-events: none;
 }
 
 .ski_chair3 {
@@ -1068,6 +1100,7 @@ footer {
   animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-delay: 4s;
   z-index: -2;
+  pointer-events: none;
 }
 
 .ski_chair4 {
@@ -1082,6 +1115,7 @@ footer {
   animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-delay: 6s;
   z-index: -2;
+  pointer-events: none;
 }
 
 .ski_chair5 {
@@ -1096,6 +1130,7 @@ footer {
   animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-delay: 8s;
   z-index: -2;
+  pointer-events: none;
 }
 
 @keyframes chair_lift {
