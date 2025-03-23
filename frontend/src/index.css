@@ -1043,6 +1043,10 @@ footer {
   color: #666;
 }
 
+.ski_banner_box img {
+  filter: brightness(85%) contrast(110%);
+}
+
 .tree {
   position: absolute;
   height: 100px;
