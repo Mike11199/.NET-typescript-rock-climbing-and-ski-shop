@@ -24,7 +24,7 @@ namespace backend_v2.Controllers
         {
             try
             {
-                var categories = await _dbContext.Categories.OrderBy(c => c.Name).ToListAsync();
+                var categories = await _dbContext.Categories.OrderBy(c => c.DisplayOrder).ToListAsync();
 
                 return Ok(categories);
             }

@@ -56,6 +56,9 @@ public partial class AlpinePeakDbContext : DbContext
             entity.Property(e => e.Description)
                 .HasColumnType("character varying")
                 .HasColumnName("description");
+            entity.Property(e => e.DisplayOrder)
+                .HasColumnType("int")
+                .HasColumnName("display_order");
             entity.Property(e => e.Image)
                 .HasColumnType("character varying")
                 .HasColumnName("image");
