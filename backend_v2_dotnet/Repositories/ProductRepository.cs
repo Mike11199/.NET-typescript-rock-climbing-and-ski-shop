@@ -58,6 +58,12 @@ public class ProductRepository : IProductRepository
                 case "name_desc":
                     query = query.OrderByDescending(p => p.Name);
                     break;
+                case "rating_desc":
+                    query = query.OrderByDescending(p => p.Reviews.Average(r => r.Rating));
+                    break;
+                case "rating_asc":
+                    query = query.OrderBy(p => p.Reviews.Average(r => r.Rating));
+                    break;
                 default:
                     query = query.OrderByDescending(p => p.DateReleased);
                     break;

@@ -136,7 +136,7 @@ const ProductListPageFilterComponent = ({
           onClick={handleFilters}
           style={{ width: "100%" }}
         >
-          Filter
+          Filter / Sort
         </button>{" "}
         {showFiltersResetButton && (
           <button
@@ -145,7 +145,7 @@ const ProductListPageFilterComponent = ({
             onClick={resetFilters}
             style={{ width: "100%" }}
           >
-            Reset filters
+            Reset All
           </button>
         )}
       </div>
