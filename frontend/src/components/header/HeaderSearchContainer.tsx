@@ -106,7 +106,7 @@ const HeaderSearchContainer = ({
           <Spinner
             as="span"
             animation="border"
-            variant="dark"
+            variant="light"
             role="status"
             aria-hidden="true"
             size="sm"
