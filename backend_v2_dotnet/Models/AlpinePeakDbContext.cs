@@ -154,6 +154,9 @@ public partial class AlpinePeakDbContext : DbContext
                 .HasColumnName("price");
             entity.Property(e => e.Sales).HasColumnName("sales");
 
+            entity.Property(e => e.DateReleased)
+                .HasColumnName("date_released");
+
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade)

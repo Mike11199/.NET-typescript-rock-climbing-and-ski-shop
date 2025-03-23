@@ -59,8 +59,14 @@ public class ProductRepository : IProductRepository
                     query = query.OrderByDescending(p => p.Name);
                     break;
                 default:
+                    query = query.OrderByDescending(p => p.DateReleased);
                     break;
             }
+        }
+        // if no sort options - sort by date product is released (can use this column to manually change the order)
+        else
+        {
+            query = query.OrderByDescending(p => p.DateReleased);
         }
 
         var products = await query
