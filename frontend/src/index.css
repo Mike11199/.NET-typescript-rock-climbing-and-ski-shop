@@ -705,14 +705,20 @@ footer {
 .ski_banner_box {
   position: relative;
   width: 1280px;
-  height: 250px;
+  height: 260px;
   background-image: linear-gradient(120deg, #a1c4fd 0%, #91b2c2 100%);
-  margin-top: 50px;
-  margin-bottom: 50px;
   overflow: hidden;
   z-index: 1;
-  border-radius: 0.5rem;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.ski_banner_box_container {
+  padding: 1rem;
+  margin: 3rem;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 0.25rem;
 }
 
 .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
@@ -1083,7 +1089,7 @@ footer {
 .tree {
   position: absolute;
   height: 100px;
-  top: 160px;
+  top: 180px;
   right: 950px;
   z-index: -1;
   pointer-events: none;
@@ -1091,6 +1097,7 @@ footer {
 }
 
 .banner_box_container {
+  margin-top: 0.5rem;
   width: 100%;
   display: flex;
   justify-content: center;

@@ -32,36 +32,38 @@ const HomePageSkiBanner = () => {
 
   return (
     <div className="banner_box_container">
-      <div className="ski_banner_box">
-        <Snowfall />
-        <img
-          className="skier_banner_slope"
-          alt="skier_slope"
-          src={AnimationSlopeBackgroundImage}
-        />
-        <img className="tree" alt="tree" src={AnimationTree} />
-        {skiChairs}
-        {cloudVectors}
-        <div
-          className="skier_wrapper"
-          onClick={(e) => {
-            const img = e.currentTarget.querySelector(".skier_banner_vector");
-            if (!img) return;
-
-            img.classList.add("jump");
-
-            img.addEventListener(
-              "animationend",
-              () => img.classList.remove("jump"),
-              { once: true }
-            );
-          }}
-        >
+      <div className="ski_banner_box_container">
+        <div className="ski_banner_box">
+          <Snowfall />
           <img
-            className="skier_banner_vector"
-            alt="skier_vector"
-            src={AnimationSkierVectorImage}
+            className="skier_banner_slope"
+            alt="skier_slope"
+            src={AnimationSlopeBackgroundImage}
           />
+          <img className="tree" alt="tree" src={AnimationTree} />
+          {skiChairs}
+          {cloudVectors}
+          <div
+            className="skier_wrapper"
+            onClick={(e) => {
+              const img = e.currentTarget.querySelector(".skier_banner_vector");
+              if (!img) return;
+
+              img.classList.add("jump");
+
+              img.addEventListener(
+                "animationend",
+                () => img.classList.remove("jump"),
+                { once: true }
+              );
+            }}
+          >
+            <img
+              className="skier_banner_vector"
+              alt="skier_vector"
+              src={AnimationSkierVectorImage}
+            />
+          </div>
         </div>
       </div>
     </div>
