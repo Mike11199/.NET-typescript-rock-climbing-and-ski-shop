@@ -20,7 +20,7 @@ const SnowMap = () => {
   const [mapCenter, setMapCenter] = useState<LatLngExpression>([54, -30]);
 
   const [selectedLayer, setSelectedLayer] = useState(
-    "MODIS_Terra_CorrectedReflectance_TrueColor"
+    "MODIS_Terra_CorrectedReflectance_Bands367"
   );
 
   const modisLayers = [
