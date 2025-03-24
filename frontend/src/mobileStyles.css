@@ -281,7 +281,34 @@
   }
 
   .label_container {
-    justify-content: space-around;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .modis_layer_dropdown option {
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .modis_layer_dropdown {
+    max-width: 250px;
+    width: 100%;
+    flex: 1 1 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .label_container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
   }
 
   .snow_section_title {
@@ -302,7 +329,7 @@
   }
 
   .sat_map_container {
-    height: 35vh !important;
+    height: 40vh !important;
   }
 
   .land_sat {

@@ -8,6 +8,8 @@ import { Container } from "react-bootstrap";
 import { LatLngExpression } from "leaflet";
 import NASALogoImage from "../../images/nasa.png";
 import NASALandSatImage from "../../images/landsat.png";
+import Select from "react-select";
+
 
 const SnowMap = () => {
   const today = new Date();
@@ -18,18 +20,35 @@ const SnowMap = () => {
   const [mapZoom, setMapZoom] = useState(5);
   const [mapCenter, setMapCenter] = useState<LatLngExpression>([54, -30]);
 
+  const [selectedLayer, setSelectedLayer] = useState(
+    "MODIS_Terra_CorrectedReflectance_TrueColor"
+  );
+
+  const modisLayers = [
+    {
+      label: "Natural Color (True Color - Bands 1,4,3)",
+      value: "MODIS_Terra_CorrectedReflectance_TrueColor",
+    },
+    {
+      label: "False Color (Vegetation & Burn Scars - Bands 3,6,7)",
+      value: "MODIS_Terra_CorrectedReflectance_Bands367",
+    },
+    {
+      label: "False Color (Moisture & Surface - Bands 7,2,1)",
+      value: "MODIS_Terra_CorrectedReflectance_Bands721",
+    },
+  ];
+
   const baseMonthDate = startOfMonth(new Date(year, month));
   const lastDayOfMonth = endOfMonth(baseMonthDate).getDate();
   const selectedDate = addDays(baseMonthDate, sliderValue);
-
-  console.log(year);
 
   useEffect(() => {
     setFormattedDate(format(selectedDate, "yyyy-MM-dd"));
   }, [selectedDate]);
 
   const baseLayer = formattedDate
-    ? `https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/${formattedDate}/250m/{z}/{y}/{x}.jpg`
+    ? `https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/${selectedLayer}/default/${formattedDate}/250m/{z}/{y}/{x}.jpg`
     : "";
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,6 +66,15 @@ const SnowMap = () => {
     setYear(newYear);
     setSliderValue(0);
   };
+
+  const handleLayerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedLayer(e.target.value);
+  };
+
+  const modisOptions = modisLayers.map((layer) => ({
+    value: layer.value,
+    label: layer.label,
+  }));
 
   return (
     <Container>
@@ -83,8 +111,14 @@ const SnowMap = () => {
 
         <div
           className="label_container"
-          style={{ display: "flex", gap: "10px", alignItems: "center" }}
+          style={{
+            display: "flex",
+            gap: "10px",
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
         >
+          {/* Month */}
           <label>
             <select
               value={month}
@@ -104,6 +138,7 @@ const SnowMap = () => {
             </select>
           </label>
 
+          {/* Year */}
           <label>
             <select
               value={year}
@@ -129,9 +164,50 @@ const SnowMap = () => {
             </select>
           </label>
 
-          <span style={{ marginLeft: "1rem", color: "#ddd" }}>
+          {/* MODIS Layer */}
+          <label>
+            <Select
+              options={modisOptions}
+              value={modisOptions.find((o) => o.value === selectedLayer)}
+              onChange={(option) => {
+                if (option) setSelectedLayer(option.value);
+              }}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  backgroundColor: "#222",
+                  borderColor: "#555",
+                  color: "#fff",
+                }),
+                menu: (base) => ({
+                  ...base,
+                  backgroundColor: "#222",
+                  zIndex: 10000,
+                }),
+                menuPortal: (base) => ({
+                  ...base,
+                  zIndex: 10000,
+                }),
+                option: (base, state) => ({
+                  ...base,
+                  whiteSpace: "normal",
+                  wordBreak: "break-word",
+                  backgroundColor: state.isFocused ? "#444" : "#222",
+                  color: "#fff",
+                }),
+                singleValue: (base) => ({
+                  ...base,
+                  color: "#fff",
+                }),
+              }}
+              menuPortalTarget={document.body} 
+              menuPosition="absolute"
+            />
+          </label>
+
+          <b >
             {formattedDate}
-          </span>
+          </b>
         </div>
 
         <input
@@ -155,8 +231,9 @@ const SnowMap = () => {
           <span>{format(addDays(baseMonthDate, lastDayOfMonth), "MMM d")}</span>
         </div>
 
-        <div className="sat_map_container">
+        
           <MapContainer
+          className="sat_map_container"
             center={mapCenter}
             zoom={mapZoom}
             minZoom={2}
@@ -181,9 +258,9 @@ const SnowMap = () => {
             }}
           >
             <TileLayer
-              key={formattedDate}
+              key={`${formattedDate}-${selectedLayer}`}
               url={baseLayer}
-              attribution="NASA GIBS - MODIS True Color"
+              attribution="NASA GIBS - MODIS Reflectance"
               tileSize={512}
               opacity={1}
               zIndex={1}
@@ -193,7 +270,7 @@ const SnowMap = () => {
             />
           </MapContainer>
         </div>
-      </div>
+      
     </Container>
   );
 };
