@@ -208,19 +208,12 @@
   }
 
   .climate_pledge_div {
-    margin-top: 30px;
     flex-direction: column;
-    margin-right: 40px;
-    margin-left: 40px;
-    margin-bottom: 30px;
+    gap: 1rem;
   }
 
   .plant_tree {
-    width: 300px;
-    margin-top: 100px;
-    margin-right: 0px;
-    margin-left: 0px;
-    margin-bottom: 50px;
+    width: 100%;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
   }
 

@@ -1,7 +1,6 @@
 import ProductCarouselComponent from "../../components/ProductCarouselComponent";
 import CategoryCardComponent from "../../components/CategoryCardComponent";
 import { Row, Container } from "react-bootstrap";
-import PlantSmallTreeImage from "../../images/plant_tree.jpg";
 import { useEffect, useState } from "react";
 import CountUpComponent from "./CountUpComponent";
 import HomePageSkiBanner from "./HomePageSkiBanner";
@@ -53,11 +52,11 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
         <img
           className="plant_tree"
           alt="skier_vector"
-          src={PlantSmallTreeImage}
+          src={"https://res.cloudinary.com/dwgvi9vwb/image/upload/v1742797678/redwood_forest_adjusted_rzjhfx.jpg"}
         />
         <div className="climate_text_div">
           <p className="climate_text_paragraph">
-            <span style={{ fontWeight: "bold" }}>Giving Back &nbsp;</span>
+            <span style={{ fontWeight: "bold", width: "100%", textAlign: "center" }}>Giving Back</span>
             Actions speak louder than words. To offset our carbon footprint and
             protect the environment, we pledge to plant one tree for every
             dollar our store sells. The average tree offsets 48 pounds of CO2 a
@@ -120,9 +119,11 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
       <HomePageSkiBanner />
       <ProductCarouselComponent bestSellers={bestSellers} />
       <ProductCategoryCardsLoadingSpinner />
-      <ProductCategoryCardsContainer />
-      <EnvironmentPledgeContainer />
-      <HomePageSatelliteImage />
+      <div className="home-page-container-wrapper">
+        <ProductCategoryCardsContainer />
+        <EnvironmentPledgeContainer />
+        <HomePageSatelliteImage />
+      </div>
     </>
   );
 };

@@ -16,7 +16,7 @@ const CountUpComponent = () => {
           decimal=","
         />
       )}
-      🌲 Trees Planted
+       Trees Planted
     </h1>
   );
 };

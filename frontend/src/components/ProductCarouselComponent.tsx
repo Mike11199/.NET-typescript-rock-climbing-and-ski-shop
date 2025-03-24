@@ -39,7 +39,7 @@ const ProductCarouselComponent = ({
                 style={cursorPointerStyle}
                 to={`/product-details/${item?.productId}`}
               >
-                <h3>Bestseller in {item?.category?.name} Category</h3>
+                <h3 className="orderDetailsHeader">Bestseller in {item?.category?.name} Category</h3>
               </LinkContainer>
               <p className="carousel_caption_text">{item?.description}</p>
             </Carousel.Caption>
