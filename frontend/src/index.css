@@ -11,18 +11,35 @@ body {
 .category_card {
   height: 100%;
   color: #000000;
-padding: 1rem;
+  padding: 1rem;
+  box-shadow: 5px 5px 15px rgb(0, 0, 0);
 }
 
-.category_card_image_front_page{
- height: 100%;
+.leaflet-control-zoom-in {
+  background: rgba(0, 0, 0, 0.685) !important;
+  color: rgba(255, 255, 255, 0.616) !important;
+  border: 1px solid rgba(255, 255, 255, 0.295) !important;
+}
+
+.leaflet-control-zoom-out {
+  background: rgba(0, 0, 0, 0.685) !important;
+  color: rgba(255, 255, 255, 0.616) !important;
+  border: 1px solid rgba(255, 255, 255, 0.295) !important;
+}
+
+.leaflet-control-attribution {
+  background: rgba(0, 0, 0, 0.685) !important;
+  color: rgba(255, 255, 255, 0.616) !important;
+}
+
+.category_card_image_front_page {
+  height: 100%;
 }
 
 .dark .category_card {
   height: 100%;
   color: white;
   background-color: rgba(0, 0, 0, 0.6);
-  box-shadow: 5px 5px 15px rgb(0, 0, 0)
 }
 
 footer {
@@ -1195,7 +1212,7 @@ footer {
   gap: 1rem;
 }
 
-.label_container{
+.label_container {
   display: flex;
   align-items: center;
   gap: 2rem;
@@ -1203,8 +1220,8 @@ footer {
   margin-bottom: 2rem;
 }
 
-.nasa_snow_cover_container{
-  background: rgba(0, 0, 0, 0.6);
+.nasa_snow_cover_container {
+  background: white;
   padding: 3rem;
   margin-bottom: 150px;
   box-shadow: 5px 5px 15px rgb(0, 0, 0);
@@ -1213,10 +1230,14 @@ footer {
   gap: 0.5rem;
 }
 
-.nasa_snow_cover_header{
-display: flex;
-justify-content: space-between;
-align-items: center;
+.dark .nasa_snow_cover_container {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.nasa_snow_cover_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .sat_images {
@@ -1225,7 +1246,6 @@ align-items: center;
   justify-content: center;
   align-items: center;
 }
-
 
 .nasa_snow_cover {
   display: flex;
@@ -1290,7 +1310,6 @@ h1.counter > span {
 
 .land_sat {
   width: 80px;
-
 }
 
 @keyframes floating {
