@@ -301,6 +301,10 @@
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
   }
 
+  .sat_map_container {
+    height: 35vh !important;
+  }
+
   .land_sat {
     width: 100px;
   }

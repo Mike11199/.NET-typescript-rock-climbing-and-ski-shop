@@ -114,6 +114,7 @@ const SnowMap = () => {
           <span>{format(addDays(baseMonthDate, lastDayOfMonth), "MMM d")}</span>
         </div>
 
+        <div className="sat_map_container">
         <MapContainer
           center={mapCenter}
           zoom={mapZoom}
@@ -150,6 +151,7 @@ const SnowMap = () => {
             updateWhenIdle={true}
           />
         </MapContainer>
+        </div>
       </div>
     </Container>
   );
