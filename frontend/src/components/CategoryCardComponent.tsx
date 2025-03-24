@@ -1,36 +1,8 @@
 import { Card } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "../../src/mobileStyles.css";
-import { ReduxAppState } from "types";
-
-const styles = {
-  card: {
-    boxShadow: "5px 0px 15px black",
-    border: "5px black",
-    touchAction: "manipulation",
-    userSelect: "none",
-  },
-  cardImage: {},
-};
-
-const stylesDark = {
-  card: {
-    boxShadow: "5px 0px 15px black",
-    border: "5px black",
-    color: "white",
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
-    touchAction: "manipulation",
-    userSelect: "none",
-  },
-  cardImage: {},
-};
 
 const CategoryCardComponent = ({ category, idx }) => {
-  const { mode } = useSelector((state: ReduxAppState) => state.DarkMode);
-  const cardStyle = mode === "dark" ? stylesDark.card : styles.card;
-
   const navigate = useNavigate();
 
   const handleClick = (categoryName) => {
@@ -41,12 +13,11 @@ const CategoryCardComponent = ({ category, idx }) => {
 
   return (
     <>
-      <Card style={cardStyle as any}>
+      <Card className="category_card">
         <img
           src={category.image ?? ""}
-          height="365px"
           alt="category"
-          className={`category_card_image_front_page_${category.name.toLowerCase()}`}
+          className={`category_card_image_front_page`}
           style={{ cursor: "pointer" }}
           onClick={() =>
             navigate(

@@ -31,10 +31,7 @@
     display: flex;
   }
 
-  .category_card_image_front_page_boots {
-    object-fit: cover;
-    object-position: 5% 50%;
-  }
+
 
   .productListProductCardsContainer {
     display: grid;
@@ -78,21 +75,6 @@
 
   .climate_text_paragraph {
     text-align: center;
-  }
-
-  .category_card_image_front_page_ropes {
-    object-fit: cover;
-    object-position: 73% 50%;
-  }
-
-  .category_card_image_front_page_skis {
-    object-fit: cover;
-    object-position: 73% 50%;
-  }
-
-  .category_card_image_front_page_harnesses {
-    object-fit: cover;
-    object-position: 23% 50%;
   }
 
   .rappel_image {

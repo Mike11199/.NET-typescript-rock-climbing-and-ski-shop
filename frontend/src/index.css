@@ -8,6 +8,23 @@ body {
   background: #000000;
 }
 
+.category_card {
+  height: 100%;
+  color: #000000;
+padding: 1rem;
+}
+
+.category_card_image_front_page{
+ height: 100%;
+}
+
+.dark .category_card {
+  height: 100%;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.6);
+  box-shadow: 5px 5px 15px rgb(0, 0, 0)
+}
+
 footer {
   position: absolute;
   bottom: 0;
