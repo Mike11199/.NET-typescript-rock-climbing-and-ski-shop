@@ -10,7 +10,6 @@ import NASALogoImage from "../../images/nasa.png";
 import NASALandSatImage from "../../images/landsat.png";
 import Select from "react-select";
 
-
 const SnowMap = () => {
   const today = new Date();
   const [month, setMonth] = useState(today.getMonth());
@@ -168,6 +167,7 @@ const SnowMap = () => {
           <label>
             <Select
               options={modisOptions}
+              isSearchable={false}
               value={modisOptions.find((o) => o.value === selectedLayer)}
               onChange={(option) => {
                 if (option) setSelectedLayer(option.value);
@@ -200,14 +200,12 @@ const SnowMap = () => {
                   color: "#fff",
                 }),
               }}
-              menuPortalTarget={document.body} 
+              menuPortalTarget={document.body}
               menuPosition="absolute"
             />
           </label>
 
-          <b >
-            {formattedDate}
-          </b>
+          <b>{formattedDate}</b>
         </div>
 
         <input
@@ -231,46 +229,44 @@ const SnowMap = () => {
           <span>{format(addDays(baseMonthDate, lastDayOfMonth), "MMM d")}</span>
         </div>
 
-        
-          <MapContainer
+        <MapContainer
           className="sat_map_container"
-            center={mapCenter}
-            zoom={mapZoom}
-            minZoom={2}
-            maxZoom={8}
-            scrollWheelZoom
-            style={{ height: "600px", width: "100%" }}
-            bounds={[
-              [-90, -180],
-              [90, 180],
-            ]}
-            maxBounds={[
-              [-90, -180],
-              [90, 180],
-            ]}
-            preferCanvas={true}
-            fadeAnimation={false}
-            whenCreated={(map) => {
-              map.on("moveend", () =>
-                setMapCenter([map.getCenter().lat, map.getCenter().lng])
-              );
-              map.on("zoomend", () => setMapZoom(map.getZoom()));
-            }}
-          >
-            <TileLayer
-              key={`${formattedDate}-${selectedLayer}`}
-              url={baseLayer}
-              attribution="NASA GIBS - MODIS Reflectance"
-              tileSize={512}
-              opacity={1}
-              zIndex={1}
-              noWrap
-              updateWhenZooming={false}
-              updateWhenIdle={true}
-            />
-          </MapContainer>
-        </div>
-      
+          center={mapCenter}
+          zoom={mapZoom}
+          minZoom={2}
+          maxZoom={8}
+          scrollWheelZoom
+          style={{ height: "600px", width: "100%" }}
+          bounds={[
+            [-90, -180],
+            [90, 180],
+          ]}
+          maxBounds={[
+            [-90, -180],
+            [90, 180],
+          ]}
+          preferCanvas={true}
+          fadeAnimation={false}
+          whenCreated={(map) => {
+            map.on("moveend", () =>
+              setMapCenter([map.getCenter().lat, map.getCenter().lng])
+            );
+            map.on("zoomend", () => setMapZoom(map.getZoom()));
+          }}
+        >
+          <TileLayer
+            key={`${formattedDate}-${selectedLayer}`}
+            url={baseLayer}
+            attribution="NASA GIBS - MODIS Reflectance"
+            tileSize={512}
+            opacity={1}
+            zIndex={1}
+            noWrap
+            updateWhenZooming={false}
+            updateWhenIdle={true}
+          />
+        </MapContainer>
+      </div>
     </Container>
   );
 };
