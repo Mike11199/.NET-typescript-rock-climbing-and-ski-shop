@@ -1195,13 +1195,43 @@ footer {
   gap: 1rem;
 }
 
-.nasa_snow_cover {
+.label_container{
   display: flex;
+  align-items: center;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.nasa_snow_cover_container{
+  background: rgba(0, 0, 0, 0.6);
+  padding: 3rem;
+  margin-bottom: 150px;
+  box-shadow: 5px 5px 15px rgb(0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nasa_snow_cover_header{
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.sat_images {
+  display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+
+.nasa_snow_cover {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   flex-direction: row;
-  margin-bottom: 150px;
-  gap: 100px;
   filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 1));
 }
 
@@ -1214,18 +1244,10 @@ footer {
 }
 
 .nasa_logo {
-  width: 150px;
-}
-
-.sat_images {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  width: 100px;
 }
 
 .date_and_text_nasa {
-  width: 500px;
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -1233,9 +1255,9 @@ footer {
 }
 
 .sat_text {
-  width: 500px;
   margin-top: 20px;
   align-self: center;
+  width: 100%;
 }
 
 .snow_section_title {
@@ -1267,12 +1289,8 @@ h1.counter > span {
 } */
 
 .land_sat {
-  width: 150px;
-  animation-name: floating;
-  animation-duration: 5s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-  margin-top: 50px;
+  width: 80px;
+
 }
 
 @keyframes floating {
