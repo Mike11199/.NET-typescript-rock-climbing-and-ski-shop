@@ -12,14 +12,17 @@ import NASALandSatImage from "../../images/landsat.png";
 const SnowMap = () => {
   const today = new Date();
   const [month, setMonth] = useState(today.getMonth());
+  const [year, setYear] = useState(today.getFullYear());
   const [sliderValue, setSliderValue] = useState(15);
   const [formattedDate, setFormattedDate] = useState("");
   const [mapZoom, setMapZoom] = useState(5);
   const [mapCenter, setMapCenter] = useState<LatLngExpression>([54, -30]);
 
-  const baseMonthDate = startOfMonth(new Date(today.getFullYear(), month));
+  const baseMonthDate = startOfMonth(new Date(year, month));
   const lastDayOfMonth = endOfMonth(baseMonthDate).getDate();
   const selectedDate = addDays(baseMonthDate, sliderValue);
+
+  console.log(year);
 
   useEffect(() => {
     setFormattedDate(format(selectedDate, "yyyy-MM-dd"));
@@ -36,6 +39,12 @@ const SnowMap = () => {
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newMonth = parseInt(e.target.value);
     setMonth(newMonth);
+    setSliderValue(0);
+  };
+
+  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newYear = parseInt(e.target.value);
+    setYear(newYear);
     setSliderValue(0);
   };
 
@@ -71,7 +80,11 @@ const SnowMap = () => {
             </ul>
           </div>
         </div>
-        <div className="label_container">
+
+        <div
+          className="label_container"
+          style={{ display: "flex", gap: "10px", alignItems: "center" }}
+        >
           <label>
             <select
               value={month}
@@ -90,7 +103,35 @@ const SnowMap = () => {
               ))}
             </select>
           </label>
-          {formattedDate}
+
+          <label>
+            <select
+              value={year}
+              onChange={handleYearChange}
+              style={{
+                padding: "0.3rem",
+                backgroundColor: "#222",
+                color: "#fff",
+                border: "1px solid #555",
+              }}
+            >
+              {Array.from(
+                { length: today.getFullYear() - 2002 + 1 },
+                (_, i) => {
+                  const yr = today.getFullYear() - i;
+                  return (
+                    <option key={yr} value={yr}>
+                      {yr}
+                    </option>
+                  );
+                }
+              )}
+            </select>
+          </label>
+
+          <span style={{ marginLeft: "1rem", color: "#ddd" }}>
+            {formattedDate}
+          </span>
         </div>
 
         <input
@@ -115,42 +156,42 @@ const SnowMap = () => {
         </div>
 
         <div className="sat_map_container">
-        <MapContainer
-          center={mapCenter}
-          zoom={mapZoom}
-          minZoom={2}
-          maxZoom={8}
-          scrollWheelZoom
-          style={{ height: "600px", width: "100%" }}
-          bounds={[
-            [-90, -180],
-            [90, 180],
-          ]}
-          maxBounds={[
-            [-90, -180],
-            [90, 180],
-          ]}
-          preferCanvas={true}
-          fadeAnimation={false}
-          whenCreated={(map) => {
-            map.on("moveend", () =>
-              setMapCenter([map.getCenter().lat, map.getCenter().lng])
-            );
-            map.on("zoomend", () => setMapZoom(map.getZoom()));
-          }}
-        >
-          <TileLayer
-            key={formattedDate}
-            url={baseLayer}
-            attribution="NASA GIBS - MODIS True Color"
-            tileSize={512}
-            opacity={1}
-            zIndex={1}
-            noWrap
-            updateWhenZooming={false}
-            updateWhenIdle={true}
-          />
-        </MapContainer>
+          <MapContainer
+            center={mapCenter}
+            zoom={mapZoom}
+            minZoom={2}
+            maxZoom={8}
+            scrollWheelZoom
+            style={{ height: "600px", width: "100%" }}
+            bounds={[
+              [-90, -180],
+              [90, 180],
+            ]}
+            maxBounds={[
+              [-90, -180],
+              [90, 180],
+            ]}
+            preferCanvas={true}
+            fadeAnimation={false}
+            whenCreated={(map) => {
+              map.on("moveend", () =>
+                setMapCenter([map.getCenter().lat, map.getCenter().lng])
+              );
+              map.on("zoomend", () => setMapZoom(map.getZoom()));
+            }}
+          >
+            <TileLayer
+              key={formattedDate}
+              url={baseLayer}
+              attribution="NASA GIBS - MODIS True Color"
+              tileSize={512}
+              opacity={1}
+              zIndex={1}
+              noWrap
+              updateWhenZooming={false}
+              updateWhenIdle={true}
+            />
+          </MapContainer>
         </div>
       </div>
     </Container>
