@@ -194,14 +194,24 @@
     width: 100%;
   }
 
-  .ski_banner_box {
-    width: 100%;
+  .ski_banner_box_container{
+   margin: 0rem;
+   padding: 0rem;
   }
 
-  .ski_banner_box_container {
+  .banner_box_container {
+   margin: 0rem;
+   margin-top: 2rem;
+   margin-bottom: 2rem;
+   padding: 0rem;
+  }
+
+  .ski_video_wrapper{
+    padding: 0.5rem;
+  }
+
+  .ski_banner_box {
     width: 100%;
-    margin: 1.5rem;
-    padding: 0.75rem;
   }
 
   .navbar-items-container {

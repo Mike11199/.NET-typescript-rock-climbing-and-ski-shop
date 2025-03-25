@@ -1,70 +1,20 @@
 import React from "react";
-import AnimationSkierVectorImage from "../../images/skier_vector.png";
-import AnimationSlopeBackgroundImage from "../../images/ski_slope_6.png";
-import Snowfall from "react-snowfall";
-import CloudVector from "../../images/cloud_vector3.png";
-import AnimationTree from "../../images/tree.png";
-import AnimationSkiChairImage from "../../images/ski_chair.png";
+import AnimationSkierVectorImage from "../../images/ski_banner_video.mp4";
 
 const HomePageSkiBanner = () => {
-  const numberOfChairs = 5;
-  const numberOfClouds = 13;
-
-  // chair images array
-  const skiChairs = Array.from({ length: numberOfChairs }, (_, index) => (
-    <img
-      key={index}
-      className={`ski_chair${index + 1}`}
-      alt={`ski_chair${index + 1}`}
-      src={AnimationSkiChairImage}
-    />
-  ));
-
-  // cloud images array
-  const cloudVectors = Array.from({ length: numberOfClouds }, (_, index) => (
-    <img
-      key={index}
-      className={`cloud_banner_vector${index + 1}`}
-      alt={`cloud_vector${index + 1}`}
-      src={CloudVector}
-    />
-  ));
-
   return (
     <div className="banner_box_container">
       <div className="ski_banner_box_container">
-        <div className="ski_banner_box">
-          <Snowfall />
-          <img
-            className="skier_banner_slope"
-            alt="skier_slope"
-            src={AnimationSlopeBackgroundImage}
+      <div className="ski_video_wrapper">
+          <video
+          style={{width: "100%",  objectFit: "cover", height: "100%"}}
+            src={AnimationSkierVectorImage}
+            autoPlay
+            muted
+            loop
+            playsInline
           />
-          <img className="tree" alt="tree" src={AnimationTree} />
-          {skiChairs}
-          {cloudVectors}
-          <div
-            className="skier_wrapper"
-            onClick={(e) => {
-              const img = e.currentTarget.querySelector(".skier_banner_vector");
-              if (!img) return;
-
-              img.classList.add("jump");
-
-              img.addEventListener(
-                "animationend",
-                () => img.classList.remove("jump"),
-                { once: true }
-              );
-            }}
-          >
-            <img
-              className="skier_banner_vector"
-              alt="skier_vector"
-              src={AnimationSkierVectorImage}
-            />
-          </div>
-        </div>
+      </div>
       </div>
     </div>
   );
