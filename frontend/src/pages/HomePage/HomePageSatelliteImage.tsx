@@ -95,7 +95,7 @@ const SnowMap = () => {
                 See the latest image for snow cover from the MODIS (Moderate
                 Resolution Imaging Spectroradiometer) sensor, on the NASA Terra
                 (EOS AM-1) satellite, which captures data in the visible light
-                spectrum as well as other wavelengths such as infared.
+                spectrum as well as other wavelengths such as infrared.
               </li>
               <li style={{ marginTop: "20px" }}>
                 Terra was launched in 1999 and orbits in a sun-synchronous
