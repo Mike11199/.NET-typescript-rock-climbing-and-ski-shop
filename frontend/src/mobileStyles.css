@@ -199,6 +199,10 @@
    padding: 0rem;
   }
 
+  .nasa_read_more_button{
+    justify-content: center;
+  }
+
   .banner_box_container {
    margin: 0rem;
    margin-top: 2rem;

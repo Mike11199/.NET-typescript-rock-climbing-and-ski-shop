@@ -16,6 +16,8 @@ const SnowMap = () => {
   const [month, setMonth] = useState(today.getMonth());
   const [year, setYear] = useState(today.getFullYear());
   const baseMonthDate = startOfMonth(new Date(year, month));
+  const [showMore, setShowMore] = useState(false);
+
   const initialSliderValue = Math.max(
     0,
     Math.floor(
@@ -108,7 +110,7 @@ const SnowMap = () => {
       <div className="nasa_snow_cover_container">
         <div>
           <div className="nasa_snow_cover_header">
-            <h2 style={{fontWeight: "400"}}> Snow Tracker - NASA MODIS</h2>
+            <h2 style={{ fontWeight: "400" }}> Snow Tracker - NASA MODIS</h2>
             <div>
               <img className="nasa_logo" alt="nasa_logo" src={NASALogoImage} />
               <img className="land_sat" alt="land_sat" src={NASALandSatImage} />
@@ -125,14 +127,35 @@ const SnowMap = () => {
                 (EOS AM-1) satellite, which captures data in the visible light
                 spectrum as well as other wavelengths such as infrared.
               </li>
-              <li style={{ marginTop: "20px" }}>
-                Terra was launched in 1999 and orbits in a sun-synchronous
-                orbit, meaning it passes over any given point on the earth at
-                the same local solar time. At 250m spatial resolution, each
-                pixel represents an area of 250 x 250 meters on the ground - or
-                about 14 suburban sized houses wide.
-              </li>
+
+              {showMore && (
+                <li style={{ marginTop: "20px" }}>
+                  Terra was launched in 1999 and orbits in a sun-synchronous
+                  orbit, meaning it passes over any given point on the earth at
+                  the same local solar time. At 250m spatial resolution, each
+                  pixel represents an area of 250 x 250 meters on the ground -
+                  or about 14 suburban sized houses wide.
+                </li>
+              )}
             </ul>
+
+            <div className="nasa_read_more_button">
+              <button
+                className="read-more-btn"
+                onClick={() => setShowMore(!showMore)}
+                style={{
+                  background: "none",
+                  color: "#007bff",
+                  border: "none",
+                  padding: 0,
+                  cursor: "pointer",
+                  fontSize: "0.95rem",
+                  marginTop: "10px",
+                }}
+              >
+                {showMore ? "Read less" : "Read more"}
+              </button>
+            </div>
           </div>
         </div>
 
