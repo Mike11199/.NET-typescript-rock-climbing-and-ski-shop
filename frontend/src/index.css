@@ -8,6 +8,43 @@ body {
   background: #000000;
 }
 
+.satellite-slider {
+  width: 100%;
+  margin-bottom: 1rem;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 5px;
+  background: linear-gradient(
+    to right,
+    #122850 0%,
+    #142a53 var(--progress),
+    #333 var(--progress),
+    #333 100%
+  );
+  outline: none;
+  cursor: pointer;
+}
+
+.satellite-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 16px;
+  width: 16px;
+  background: linear-gradient(to right, #0a2041 0%, #20539e);
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.satellite-slider::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  background: #0b0746;
+  cursor: pointer;
+  border-radius: 1rem;
+  border: 2px solid white;
+}
+
 .category_card {
   height: 100%;
   color: #000000;
@@ -702,7 +739,6 @@ footer {
   filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.7));
 }
 
-
 .ski_banner_box_container {
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
   width: 1280px;
@@ -711,7 +747,6 @@ footer {
   align-items: center;
   display: flex;
 }
-
 
 .banner_box_container {
   display: flex;
@@ -722,7 +757,7 @@ footer {
   margin-top: 2rem;
 }
 
-.ski_video_wrapper{
+.ski_video_wrapper {
   width: 100%;
   height: 100%;
   padding: 1rem;

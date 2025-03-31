@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
-import { addDays, format, startOfMonth, endOfMonth } from "date-fns";
+import { format, startOfMonth, endOfMonth } from "date-fns";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
@@ -9,13 +9,22 @@ import { LatLngExpression } from "leaflet";
 import NASALogoImage from "../../images/nasa.png";
 import NASALandSatImage from "../../images/landsat.png";
 import Select from "react-select";
+import HomePageNasaSatelliteSlider from "./HomePageNasaSatelliteSlider";
 
 const SnowMap = () => {
   const today = new Date();
   const [month, setMonth] = useState(today.getMonth());
   const [year, setYear] = useState(today.getFullYear());
-  const [sliderValue, setSliderValue] = useState(15);
-  const [formattedDate, setFormattedDate] = useState("");
+  const baseMonthDate = startOfMonth(new Date(year, month));
+  const initialSliderValue = Math.max(
+    0,
+    Math.floor(
+      (today.getTime() - baseMonthDate.getTime()) / (1000 * 60 * 60 * 24)
+    )
+  );
+  const [sliderValue, setSliderValue] = useState<number>(initialSliderValue);
+
+  const [formattedDate, setFormattedDate] = useState<string>("");
   const [mapZoom, setMapZoom] = useState(5);
   const [mapCenter, setMapCenter] = useState<LatLngExpression>([54, -30]);
 
@@ -38,21 +47,9 @@ const SnowMap = () => {
     },
   ];
 
-  const baseMonthDate = startOfMonth(new Date(year, month));
-  const lastDayOfMonth = endOfMonth(baseMonthDate).getDate();
-  const selectedDate = addDays(baseMonthDate, sliderValue);
-
-  useEffect(() => {
-    setFormattedDate(format(selectedDate, "yyyy-MM-dd"));
-  }, [selectedDate]);
-
   const baseLayer = formattedDate
     ? `https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/${selectedLayer}/default/${formattedDate}/250m/{z}/{y}/{x}.jpg`
     : "";
-
-  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSliderValue(parseInt(e.target.value));
-  };
 
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newMonth = parseInt(e.target.value);
@@ -64,10 +61,6 @@ const SnowMap = () => {
     const newYear = parseInt(e.target.value);
     setYear(newYear);
     setSliderValue(0);
-  };
-
-  const handleLayerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedLayer(e.target.value);
   };
 
   const modisOptions = modisLayers.map((layer) => ({
@@ -117,7 +110,6 @@ const SnowMap = () => {
             flexWrap: "wrap",
           }}
         >
-          {/* Month */}
           <label>
             <select
               value={month}
@@ -137,7 +129,6 @@ const SnowMap = () => {
             </select>
           </label>
 
-          {/* Year */}
           <label>
             <select
               value={year}
@@ -163,15 +154,12 @@ const SnowMap = () => {
             </select>
           </label>
 
-          {/* MODIS Layer */}
           <label>
             <Select
               options={modisOptions}
               isSearchable={false}
               value={modisOptions.find((o) => o.value === selectedLayer)}
-              onChange={(option) => {
-                if (option) setSelectedLayer(option.value);
-              }}
+              onChange={(option) => option && setSelectedLayer(option.value)}
               styles={{
                 control: (base) => ({
                   ...base,
@@ -184,10 +172,7 @@ const SnowMap = () => {
                   backgroundColor: "#222",
                   zIndex: 10000,
                 }),
-                menuPortal: (base) => ({
-                  ...base,
-                  zIndex: 10000,
-                }),
+                menuPortal: (base) => ({ ...base, zIndex: 10000 }),
                 option: (base, state) => ({
                   ...base,
                   whiteSpace: "normal",
@@ -195,10 +180,7 @@ const SnowMap = () => {
                   backgroundColor: state.isFocused ? "#444" : "#222",
                   color: "#fff",
                 }),
-                singleValue: (base) => ({
-                  ...base,
-                  color: "#fff",
-                }),
+                singleValue: (base) => ({ ...base, color: "#fff" }),
               }}
               menuPortalTarget={document.body}
               menuPosition="absolute"
@@ -208,25 +190,13 @@ const SnowMap = () => {
           <b>{formattedDate}</b>
         </div>
 
-        <input
-          type="range"
-          min={0}
-          max={lastDayOfMonth}
-          value={sliderValue}
-          onChange={handleSliderChange}
-          style={{
-            width: "100%",
-            marginBottom: "1rem",
-            WebkitAppearance: "none",
-            height: "6px",
-            borderRadius: "5px",
-            background: "#444",
-            outline: "none",
-          }}
+        <HomePageNasaSatelliteSlider
+          {...{ sliderValue, setSliderValue, setFormattedDate, baseMonthDate }}
         />
+
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <span>{format(baseMonthDate, "MMM d")}</span>
-          <span>{format(addDays(baseMonthDate, lastDayOfMonth), "MMM d")}</span>
+          <span>{format(endOfMonth(baseMonthDate), "MMM d")}</span>
         </div>
 
         <MapContainer
