@@ -108,7 +108,7 @@ const SnowMap = () => {
       <div className="nasa_snow_cover_container">
         <div>
           <div className="nasa_snow_cover_header">
-            <h2> Snow Tracker - NASA MODIS</h2>
+            <h2 style={{fontWeight: "400"}}> Snow Tracker - NASA MODIS</h2>
             <div>
               <img className="nasa_logo" alt="nasa_logo" src={NASALogoImage} />
               <img className="land_sat" alt="land_sat" src={NASALandSatImage} />
