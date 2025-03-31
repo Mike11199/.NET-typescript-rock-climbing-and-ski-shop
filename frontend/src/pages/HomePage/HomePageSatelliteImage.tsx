@@ -52,31 +52,50 @@ const SnowMap = () => {
     : "";
 
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  const newMonth = parseInt(e.target.value);
-  setMonth(newMonth);
+    const newMonth = parseInt(e.target.value);
+    setMonth(newMonth);
 
-  if (year === today.getFullYear() && newMonth === today.getMonth()) {
-    const daysFromStart = Math.floor(
-      (today.getTime() - new Date(year, newMonth, 1).getTime()) / (1000 * 60 * 60 * 24)
-    );
-    setSliderValue(daysFromStart);
-  } else {
-    setSliderValue(14); // 15th day (0-indexed)
-  }
+    if (year === today.getFullYear() && newMonth === today.getMonth()) {
+      const daysFromStart = Math.floor(
+        (today.getTime() - new Date(year, newMonth, 1).getTime()) /
+          (1000 * 60 * 60 * 24)
+      );
+      setSliderValue(daysFromStart);
+    } else {
+      setSliderValue(14); // 15th day (0-indexed)
+    }
   };
 
   const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  const newYear = parseInt(e.target.value);
-  setYear(newYear);
+    const newYear = parseInt(e.target.value);
 
-  if (newYear === today.getFullYear() && month === today.getMonth()) {
-    const daysFromStart = Math.floor(
-      (today.getTime() - new Date(newYear, month, 1).getTime()) / (1000 * 60 * 60 * 24)
-    );
-    setSliderValue(daysFromStart);
-  } else {
-    setSliderValue(14);
-  }
+    // Clamp future year or invalid month combo
+    if (
+      newYear > today.getFullYear() ||
+      (newYear === today.getFullYear() && month > today.getMonth())
+    ) {
+      setYear(today.getFullYear());
+      setMonth(today.getMonth());
+      const daysFromStart = Math.floor(
+        (today.getTime() -
+          new Date(today.getFullYear(), today.getMonth(), 1).getTime()) /
+          (1000 * 60 * 60 * 24)
+      );
+      setSliderValue(daysFromStart);
+      return;
+    }
+
+    setYear(newYear);
+
+    if (newYear === today.getFullYear() && month === today.getMonth()) {
+      const daysFromStart = Math.floor(
+        (today.getTime() - new Date(newYear, month, 1).getTime()) /
+          (1000 * 60 * 60 * 24)
+      );
+      setSliderValue(daysFromStart);
+    } else {
+      setSliderValue(14);
+    }
   };
 
   const modisOptions = modisLayers.map((layer) => ({
