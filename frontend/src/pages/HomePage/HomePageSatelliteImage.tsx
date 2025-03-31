@@ -114,18 +114,24 @@ const SnowMap = () => {
             <select
               value={month}
               onChange={handleMonthChange}
-              style={{
-                padding: "0.3rem",
-                backgroundColor: "#222",
-                color: "#fff",
-                border: "1px solid #555",
-              }}
+              className="nasa-select-dropdown"
             >
-              {[...Array(12).keys()].map((m) => (
-                <option key={m} value={m}>
-                  {format(new Date(2023, m), "MMMM")}
-                </option>
-              ))}
+              {[...Array(12).keys()].map((m) => {
+                const isFutureMonth =
+                  year === today.getFullYear() && m > today.getMonth();
+                return (
+                  <option
+                    key={m}
+                    value={m}
+                    disabled={isFutureMonth}
+                    title={
+                      isFutureMonth ? "Cannot select a future month" : undefined
+                    }
+                  >
+                    {format(new Date(2023, m), "MMMM")}
+                  </option>
+                );
+              })}
             </select>
           </label>
 
@@ -133,12 +139,7 @@ const SnowMap = () => {
             <select
               value={year}
               onChange={handleYearChange}
-              style={{
-                padding: "0.3rem",
-                backgroundColor: "#222",
-                color: "#fff",
-                border: "1px solid #555",
-              }}
+              className="nasa-select-dropdown"
             >
               {Array.from(
                 { length: today.getFullYear() - 2002 + 1 },
@@ -156,32 +157,12 @@ const SnowMap = () => {
 
           <label>
             <Select
+              classNamePrefix="nasa-select"
+              className="nasa-select-wrapper"
               options={modisOptions}
               isSearchable={false}
               value={modisOptions.find((o) => o.value === selectedLayer)}
               onChange={(option) => option && setSelectedLayer(option.value)}
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  backgroundColor: "#222",
-                  borderColor: "#555",
-                  color: "#fff",
-                }),
-                menu: (base) => ({
-                  ...base,
-                  backgroundColor: "#222",
-                  zIndex: 10000,
-                }),
-                menuPortal: (base) => ({ ...base, zIndex: 10000 }),
-                option: (base, state) => ({
-                  ...base,
-                  whiteSpace: "normal",
-                  wordBreak: "break-word",
-                  backgroundColor: state.isFocused ? "#444" : "#222",
-                  color: "#fff",
-                }),
-                singleValue: (base) => ({ ...base, color: "#fff" }),
-              }}
               menuPortalTarget={document.body}
               menuPosition="absolute"
             />

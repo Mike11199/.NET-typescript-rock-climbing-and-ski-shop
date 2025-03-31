@@ -17,13 +17,90 @@ body {
   border-radius: 5px;
   background: linear-gradient(
     to right,
+    #315fb6 0%,
+    #263f6c var(--progress),
+    #696969 var(--progress),
+    #8b8a8a 100%
+  );
+  outline: none;
+  cursor: pointer;
+}
+
+.dark .satellite-slider {
+  background: linear-gradient(
+    to right,
     #122850 0%,
     #142a53 var(--progress),
     #333 var(--progress),
     #333 100%
   );
-  outline: none;
-  cursor: pointer;
+}
+
+/* ======= LIGHT MODE ======= */
+.nasa-select__control {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: #000;
+}
+
+.nasa-select__menu {
+  background-color: #fff;
+  color: #000;
+}
+
+.nasa-select-dropdown {
+  padding: 0.4rem;
+}
+
+.dark .nasa-select-dropdown {
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.nasa-select__option {
+  background-color: #fff;
+  color: #000;
+}
+
+.nasa-select__control,
+.nasa-select__menu,
+.nasa-select__menu-list,
+.nasa-select__option {
+  border-radius: 0 !important;
+}
+
+.nasa-select__option--is-focused {
+  background-color: #eee;
+}
+
+.dark .nasa-select__control {
+  background-color: #222;
+  border: 1px solid #555;
+}
+
+.dark .nasa-select__menu {
+  background-color: #222;
+  color: #fff;
+}
+
+.dark .nasa-select__option {
+  background-color: #222;
+  color: #fff;
+}
+
+.dark .nasa-select__option--is-focused {
+  background-color: #444;
+}
+
+.nasa-select__menu-portal {
+  z-index: 2147483647 !important;
+  position: absolute !important;
+}
+
+.dark .nasa-select__single-value {
+  color: #fff !important;
+  border-radius: none;
 }
 
 .satellite-slider::-webkit-slider-thumb {
@@ -31,7 +108,7 @@ body {
   appearance: none;
   height: 16px;
   width: 16px;
-  background: linear-gradient(to right, #0a2041 0%, #20539e);
+  background: linear-gradient(to right, #2b043d 0%, #20539e);
   border-radius: 1rem;
   cursor: pointer;
 }
@@ -39,7 +116,7 @@ body {
 .satellite-slider::-moz-range-thumb {
   height: 16px;
   width: 16px;
-  background: #0b0746;
+  background: linear-gradient(to right, #2b043d 0%, #20539e);
   cursor: pointer;
   border-radius: 1rem;
   border: 2px solid white;
