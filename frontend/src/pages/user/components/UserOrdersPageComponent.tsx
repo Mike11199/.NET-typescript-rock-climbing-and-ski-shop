@@ -51,62 +51,55 @@ const UserOrdersPageComponent = ({ getOrders }) => {
           {orders.map((order, idx) => (
             <div className="order-card" key={idx}>
               <div className="order-header">
-                <div className="order-label-pair">
-                  <div className="order-label-pair-label">Order #</div>
-                  <span className="order-label-pair-value">{order?.orderId?.split("-")[0]}</span>
-                </div>
-                <div className="order-label-pair">
-                  <div className="order-label-pair-label">Date</div>{" "}
-                  <div className="order-label-pair-value">
-                  {order?.createdAt
-                    ? new Date(order.createdAt).toDateString()
-                    : "N/A"}
-                    </div>
-                </div>
-                <div className="order-label-pair">
-                  <div className="order-label-pair-label">Total</div>
-                  <div className="order-label-pair-value"> {USDollar.format(order?.orderTotal ?? 0)}</div>
-                </div>
-                <div className="order-label-pair">
-                  <div className="order-label-pair-label">Items</div> 
-                  <div className="order-label-pair-value">
-                  {order?.itemCount}
-                  </div>
-                </div>
-                <div className="order-label-pair">
-                  <div className="order-label-pair-label">Payment</div> 
-                  <div className="order-label-pair-value">
-                  {order?.paymentMethod}
-                  </div>
-                </div>
-                <div className="order-label-pair">
-                  <div className="order-label-pair-label">Delivered</div>{" "}
-                  <div className="order-label-pair-value">
-                  {order?.isDelivered ? (
-                    <span className="status success">Yes</span>
-                  ) : (
-                    <span className="status error">No</span>
-                  )}
-                  </div>
-                </div>
-                <div className="order-label-pair">
-                  <div className="order-label-pair-label">Paid</div>{" "}
-                  <div className="order-label-pair-value">
-                  {order?.isPaid ? (
-                    <span className="status success">Yes</span>
-                  ) : (
-                    <span className="status error">No</span>
-                  )}
-                </div>
-                </div>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <Link
-                    to={`/user/order-details/${order?.orderId}`}
-                    className="details-link"
-                  >
-                    View Order Details
-                  </Link>
-                </div>
+                <LabelValuePair
+                  label="Order #"
+                  value={order?.orderId?.split("-")[0]}
+                />
+                <LabelValuePair
+                  label="Date"
+                  value={
+                    order?.createdAt
+                      ? new Date(order.createdAt).toDateString()
+                      : "N/A"
+                  }
+                />
+                <LabelValuePair
+                  label="Total"
+                  value={USDollar.format(order?.orderTotal ?? 0)}
+                />
+                <LabelValuePair label="Items" value={order?.itemCount} />
+                <LabelValuePair label="Payment" value={order?.paymentMethod} />
+                <LabelValuePair
+                  label="Delivered"
+                  value={
+                    order?.isDelivered ? (
+                      <span className="status success">Yes</span>
+                    ) : (
+                      <span className="status error">No</span>
+                    )
+                  }
+                />
+                <LabelValuePair
+                  label="Paid"
+                  value={
+                    order?.isPaid ? (
+                      <span className="status success">Yes</span>
+                    ) : (
+                      <span className="status error">No</span>
+                    )
+                  }
+                />
+                <LabelValuePair
+                  label="Details"
+                  value={
+                    <Link
+                      to={`/user/order-details/${order?.orderId}`}
+                      className="details-link"
+                    >
+                      View Order Details
+                    </Link>
+                  }
+                />
               </div>
 
               <div className="order-items">
@@ -140,8 +133,31 @@ const UserOrdersLoadingSpinner = () => (
     }}
   >
     <span>Fetching orders...</span>
-    <Spinner animation="border" variant="primary" role="status" aria-label="Loading orders" />
+    <Spinner
+      animation="border"
+      variant="primary"
+      role="status"
+      aria-label="Loading orders"
+    />
   </div>
 );
 
 export default UserOrdersPageComponent;
+
+interface LabelValuePairProps {
+  label: string;
+  value: React.ReactNode;
+  className?: string;
+}
+
+const LabelValuePair: React.FC<LabelValuePairProps> = ({
+  label,
+  value,
+}) => {
+  return (
+    <div className={`order-label-pair`}>
+      <div className="order-label-pair-label">{label}</div>
+      <div className="order-label-pair-value">{value}</div>
+    </div>
+  );
+};
