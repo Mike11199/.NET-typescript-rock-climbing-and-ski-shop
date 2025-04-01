@@ -148,6 +148,18 @@
     gap: 0rem;
   }
 
+  .order-label-pair-value {
+    padding-left: 0rem;
+  }
+
+  .order-label-pair {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0rem 3rem 0rem 3rem
+  }
+
   .orderSummaryDetailsContainer {
     width: 100%;
     gap: 0.5rem;
@@ -157,6 +169,10 @@
     gap: 1rem;
   }
 
+  .success-alert {
+    word-break: break-word;
+  }
+
   .productDetailsHeaderName {
     text-align: center;
   }
@@ -164,6 +180,7 @@
   .order-header {
     flex-direction: column;
     gap: 1rem;
+    padding: 1rem 0rem 1rem 0rem;
   }
 
   .productListProductCardsContainer {

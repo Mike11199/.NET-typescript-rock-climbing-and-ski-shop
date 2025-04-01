@@ -834,7 +834,25 @@ footer {
   margin-top: 2rem;
 }
 
-.nasa_read_more_button{
+.order-label-pair-label {
+  font-weight: 400;
+  font-size: 0.95rem;
+  color: white;
+}
+
+.order-label-pair-value {
+  padding-left: 0.25rem;
+  color: rgba(255, 255, 255, 0.555);
+  font-weight: 300;
+}
+
+.order-label-pair {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nasa_read_more_button {
   display: flex;
   width: 100%;
   justify-content: flex-end;

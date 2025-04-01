@@ -51,40 +51,53 @@ const UserOrdersPageComponent = ({ getOrders }) => {
           {orders.map((order, idx) => (
             <div className="order-card" key={idx}>
               <div className="order-header">
-                <div>
-                  <strong>Order #</strong>
-                  <span>{order?.orderId?.split("-")[0]}</span>
+                <div className="order-label-pair">
+                  <div className="order-label-pair-label">Order #</div>
+                  <span className="order-label-pair-value">{order?.orderId?.split("-")[0]}</span>
                 </div>
-                <div>
-                  <strong>Date</strong>{" "}
+                <div className="order-label-pair">
+                  <div className="order-label-pair-label">Date</div>{" "}
+                  <div className="order-label-pair-value">
                   {order?.createdAt
                     ? new Date(order.createdAt).toDateString()
                     : "N/A"}
+                    </div>
                 </div>
-                <div>
-                  <strong>Total</strong> {USDollar.format(order?.orderTotal ?? 0)}
+                <div className="order-label-pair">
+                  <div className="order-label-pair-label">Total</div>
+                  <div className="order-label-pair-value"> {USDollar.format(order?.orderTotal ?? 0)}</div>
                 </div>
-                <div>
-                  <strong>Items</strong> {order?.itemCount}
+                <div className="order-label-pair">
+                  <div className="order-label-pair-label">Items</div> 
+                  <div className="order-label-pair-value">
+                  {order?.itemCount}
+                  </div>
                 </div>
-                <div>
-                  <strong>Payment</strong> {order?.paymentMethod}
+                <div className="order-label-pair">
+                  <div className="order-label-pair-label">Payment</div> 
+                  <div className="order-label-pair-value">
+                  {order?.paymentMethod}
+                  </div>
                 </div>
-                <div>
-                  <strong>Delivered</strong>{" "}
+                <div className="order-label-pair">
+                  <div className="order-label-pair-label">Delivered</div>{" "}
+                  <div className="order-label-pair-value">
                   {order?.isDelivered ? (
                     <span className="status success">Yes</span>
                   ) : (
                     <span className="status error">No</span>
                   )}
+                  </div>
                 </div>
-                <div>
-                  <strong>Paid</strong>{" "}
+                <div className="order-label-pair">
+                  <div className="order-label-pair-label">Paid</div>{" "}
+                  <div className="order-label-pair-value">
                   {order?.isPaid ? (
                     <span className="status success">Yes</span>
                   ) : (
                     <span className="status error">No</span>
                   )}
+                </div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <Link

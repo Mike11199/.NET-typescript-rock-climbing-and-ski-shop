@@ -87,7 +87,7 @@ const UserOrderDetailsPageComponent = ({
 
         //  if it's paid update the button saying it's paid and disable the button
         if (data?.isPaid) {
-          setOrderButtonMessage("Order complete.");
+          setOrderButtonMessage("Order Complete");
           setButtonDisabled(true);
         }
         //  if not paid, show different button based on if paypal or cash on delivery (disable option to pay if cash)
