@@ -169,6 +169,16 @@
     gap: 1rem;
   }
 
+  .banner_box_container_old{
+    padding: 0rem;
+    margin-bottom: 2rem;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .ski_banner_box_container_old {
+    border: 0.5rem solid rgba(0, 0, 0, 0);
+  }
+
   .success-alert {
     word-break: break-word;
   }
@@ -258,6 +268,16 @@
     width: 100%;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
   }
+
+.tree {
+  position: absolute;
+  height: 100px;
+  bottom: -20px;
+  right: 20px;
+  z-index: 7;
+  pointer-events: none;
+  filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.5));
+}
 
   .counter {
     align-self: center;

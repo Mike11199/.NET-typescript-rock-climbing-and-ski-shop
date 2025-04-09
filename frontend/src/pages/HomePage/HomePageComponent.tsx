@@ -3,7 +3,7 @@ import CategoryCardComponent from "../../components/CategoryCardComponent";
 import { Row, Container } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import CountUpComponent from "./CountUpComponent";
-import HomePageSkiBanner from "./HomePageSkiBanner";
+import HomePageSkiBannerWrapper from "./HomePageSkiBannerWrapper";
 import HomePageSatelliteImage from "./HomePageSatelliteImage";
 
 import { BestsellerItem, Category } from "types";
@@ -116,7 +116,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
 
   return (
     <>
-      <HomePageSkiBanner />
+      <HomePageSkiBannerWrapper />
       <ProductCarouselComponent bestSellers={bestSellers} />
       <ProductCategoryCardsLoadingSpinner />
       <div className="home-page-container-wrapper">

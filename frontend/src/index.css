@@ -825,6 +825,54 @@ footer {
   display: flex;
 }
 
+.banner-box-container-wrapper {
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.ski_banner_box_old {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.ski_banner_box_container_old {
+  width: 1280px;
+  height: 300px;
+  justify-content: center;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
+  background-color: white;
+  overflow: hidden;
+  position: relative;
+  overflow: hidden;
+  z-index: 33333;
+  align-items: center;
+  border: 1rem solid rgba(0, 0, 0, 0);
+}
+
+.dark .ski_banner_box_container_old {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.banner_box_container_old {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  overflow: hidden;
+  z-index: 343333;
+  padding: 1.25rem;
+}
+
+.skier_banner_slope {
+  display: flex;
+  object-position: bottom 180px right 0px;
+}
+
 .banner_box_container {
   display: flex;
   justify-content: center;
@@ -837,6 +885,259 @@ footer {
 .order-label-pair-label {
   font-weight: 400;
   color: white;
+}
+
+.skier_wrapper {
+  position: relative;
+  top: 50px;
+  height: 60px;
+  animation-name: ski;
+  animation-duration: 12s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
+  display: inline-block;
+  z-index: 4;
+  position: absolute;
+}
+
+.skier_banner_vector {
+  cursor: pointer;
+  display: block;
+  height: 60px;
+  z-index: 4;
+}
+
+@keyframes ski {
+  from {
+    transform: translateX(-1250px) translateY(-170px);
+  }
+  to {
+    transform: translateX(800px) translateY(250px);
+  }
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-60px);
+  }
+  60% {
+    transform: translateY(-30px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.jump {
+  animation: jump 0.6s ease-out;
+}
+
+@keyframes cloud {
+  from {
+    transform: translateX(0px);
+  }
+  to {
+    transform: translateX(600px);
+  }
+}
+
+.cloud_banner_vector1 {
+  position: absolute;
+  object-fit: none;
+  scale: 20%;
+  z-index: 6;
+  top: -250px;
+  right: 50px;
+  animation-name: cloud;
+  animation-duration: 7s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
+  animation-direction: alternate;
+}
+
+.cloud_banner_vector2 {
+  position: absolute;
+  object-fit: none;
+  scale: 20%;
+  z-index: 6;
+  top: -250px;
+  right: 220px;
+  animation-name: cloud;
+  animation-duration: 4s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
+  animation-direction: alternate;
+}
+
+.cloud_banner_vector3 {
+  position: absolute;
+  object-fit: none;
+  scale: 20%;
+  z-index: 6;
+  top: -250px;
+  right: 390px;
+  animation-name: cloud;
+  animation-duration: 8s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
+  animation-direction: alternate;
+}
+
+.cloud_banner_vector4 {
+  position: absolute;
+  object-fit: none;
+  scale: 20%;
+  z-index: 6;
+  top: -250px;
+  right: 510px;
+  animation-name: cloud;
+  animation-duration: 5s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
+  animation-direction: alternate;
+}
+
+.cloud_banner_vector5 {
+  position: absolute;
+  object-fit: none;
+  scale: 20%;
+  z-index: 6;
+  top: -250px;
+  right: -320px;
+  animation-name: cloud;
+  animation-duration: 5s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
+  animation-direction: alternate;
+}
+
+.cloud_banner_vector6 {
+  position: absolute;
+  object-fit: none;
+  scale: 20%;
+  z-index: 6;
+  top: -250px;
+  right: -140px;
+  animation-name: cloud;
+  animation-duration: 13s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
+  animation-direction: alternate;
+}
+
+.cloud_banner_vector7 {
+  position: absolute;
+  object-fit: none;
+  scale: 20%;
+  z-index: 6;
+  top: -250px;
+  right: 620px;
+  animation-name: cloud;
+  animation-duration: 6s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
+  animation-direction: alternate;
+}
+
+.cloud_banner_vector8 {
+  position: absolute;
+  object-fit: none;
+  scale: 20%;
+  z-index: 6;
+  top: -250px;
+  right: -320px;
+  animation-name: cloud;
+  animation-duration: 8s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
+  animation-direction: alternate;
+}
+
+.cloud_banner_vector9 {
+  position: absolute;
+  object-fit: none;
+  scale: 20%;
+  z-index: 6;
+  top: -250px;
+  right: -520px;
+  animation-name: cloud;
+  animation-duration: 3s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
+  animation-direction: alternate;
+}
+
+.cloud_banner_vector10 {
+  position: absolute;
+  object-fit: none;
+  scale: 20%;
+  z-index: 6;
+  top: -250px;
+  right: 30px;
+  animation-name: cloud;
+  animation-duration: 5s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
+  animation-direction: alternate;
+}
+
+.cloud_banner_vector11 {
+  position: absolute;
+  object-fit: none;
+  scale: 20%;
+  z-index: 6;
+  top: -250px;
+  right: 140px;
+  animation-name: cloud;
+  animation-duration: 3s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
+  animation-direction: alternate;
+}
+
+.cloud_banner_vector12 {
+  position: absolute;
+  object-fit: none;
+  scale: 20%;
+  z-index: 6;
+  top: -250px;
+  right: -440px;
+  animation-name: cloud;
+  animation-duration: 2s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
+  animation-direction: alternate;
+}
+
+.cloud_banner_vector13 {
+  position: absolute;
+  object-fit: none;
+  scale: 20%;
+  z-index: 6;
+  top: -250px;
+  right: -240px;
+  animation-name: cloud;
+  animation-duration: 2s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
+  animation-direction: alternate;
 }
 
 .order-label-pair-value {
@@ -951,9 +1252,9 @@ footer {
 .tree {
   position: absolute;
   height: 100px;
-  top: 180px;
-  right: 950px;
-  z-index: -1;
+  bottom: -20px;
+  right: 900px;
+  z-index: 7;
   pointer-events: none;
   filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.5));
 }
@@ -968,7 +1269,7 @@ footer {
   animation-fill-mode: both;
   animation-iteration-count: infinite;
   animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
-  z-index: -2;
+  z-index: 5;
   pointer-events: none;
 }
 
@@ -983,7 +1284,7 @@ footer {
   animation-iteration-count: infinite;
   animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-delay: 2s;
-  z-index: -2;
+  z-index: 5;
   pointer-events: none;
 }
 
@@ -998,7 +1299,7 @@ footer {
   animation-iteration-count: infinite;
   animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-delay: 4s;
-  z-index: -2;
+  z-index: 5;
   pointer-events: none;
 }
 
@@ -1013,7 +1314,7 @@ footer {
   animation-iteration-count: infinite;
   animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-delay: 6s;
-  z-index: -2;
+  z-index: 5;
   pointer-events: none;
 }
 
@@ -1028,7 +1329,7 @@ footer {
   animation-iteration-count: infinite;
   animation-timing-function: cubic-bezier(0.5, 0.77, 1, 1);
   animation-delay: 8s;
-  z-index: -2;
+  z-index: 5;
   pointer-events: none;
 }
 
