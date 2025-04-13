@@ -70,7 +70,7 @@ const MainTitleContainer = React.memo(
           <div className="header_logo_container">
             <img src={SkiShopLogo} className="site_logo_image" />
             <span className="site-header-text">
-              Alpine Peak Climbing and Ski Gear
+              Alpine Peak Climbing and Ski Gear2
             </span>
           </div>
         </Navbar.Brand>
