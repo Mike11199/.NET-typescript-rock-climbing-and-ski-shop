@@ -146,15 +146,18 @@
   opacity: 0.6;
 }
 
-.light .dropdown-menu {
-  background-color: #fff;
-  color: #333;
+.dropdown-menu {
+  background-color: #181717;
+  color: #f5f5f5;
+  z-index: 99999999;
 }
+
 
 .dark .dropdown-menu {
   background-color: #181717;
   color: #f5f5f5;
 }
+
 
 .dark .dropdown-item {
   background-color: #181717;
