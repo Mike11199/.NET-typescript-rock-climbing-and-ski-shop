@@ -30,4 +30,14 @@ yarn-error.log*
 *.ppk
 .vs
 
-./vscode*
+# Local AWS CDK reconstruction plan
+/CDK_PLAN.md
+
+# Editor-local settings
+/.vscode/
+
+# Python CDK local build/dependency artifacts
+/cdk/.venv/
+/cdk/cdk.out/
+/cdk/**/__pycache__/
+/cdk/.pytest_cache/

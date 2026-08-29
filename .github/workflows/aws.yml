@@ -1,79 +1,191 @@
-name: Deploy to Amazon ECS
+name: Deploy Alpine Peak legacy and preview services
 
 on:
   push:
     branches:
       - api-v2-dotnet-conversion
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One release at a time. A newer push waits rather than cancelling a deployment
+# that is already replacing a healthy ECS task.
+concurrency:
+  group: alpine-peak-release
+  cancel-in-progress: false
 
 env:
   AWS_REGION: us-west-1
+  # Exact CLI version; do not float to the newest CDK v2 on each workflow run.
+  CDK_CLI_VERSION: 2.1139.0
   ECR_REPOSITORY: ski-rock-climbing-shop
-
-  # NOTES - you need to create the service first for this to work - this yml doesn't create if it doesn't exist.
   ECS_SERVICE: rock-ski-shop-github-actions-v1
   ECS_CLUSTER: rock-climbing-ski-shop
-  ECS_TASK_DEFINITION: .aws/task-definition.json
 
 jobs:
-  deploy:
-    name: Deploy
+  validate-cdk:
+    name: Test and synthesize preview CDK
     runs-on: ubuntu-latest
-    environment: production
-    if: ${{ !contains(github.event.head_commit.message, 'Update README.md') }}
-
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Configure AWS credentials from GitHub secret variables.
-        uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: cdk/uv.lock
+
+      - name: Install pinned CDK CLI
+        run: npm install --global "aws-cdk@$CDK_CLI_VERSION"
+
+      - name: Run CDK tests and local synthesis
+        working-directory: cdk
+        run: |
+          uv sync --frozen --group dev
+          uv run pytest
+          cdk synth AlpinePeakPreviewStack
+
+  build-images:
+    name: Build and push immutable commit images
+    needs: validate-cdk
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          # Temporary credential path. Move to GitHub OIDC after a narrowly
+          # scoped AWS deploy role is created and separately audited.
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push immutable frontend image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: front-${{ github.sha }}
+        working-directory: frontend
+        run: |
+          docker build --tag "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" .
+          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Build and push immutable Express API image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: api-v1-${{ github.sha }}
+        working-directory: backend_v2_socket_io_api
+        run: |
+          docker build --tag "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" .
+          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Build and push immutable .NET API image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: api-v2-${{ github.sha }}
+        working-directory: backend_v2_dotnet
+        run: |
+          docker build --tag "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" .
+          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+  deploy-legacy-task-definition:
+    name: Deploy the current production ECS service
+    needs: build-images
+    runs-on: ubuntu-latest
+    environment: production
+
+    # This remains the live production deployment until you deliberately retire
+    # the ECS Console stack after preview verification and traffic promotion.
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login to Amazon ECR with secret variables.
+      - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@62f4f872db3836360b72999f4b87f1ff13310f3a
+        uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build, tag, and push the front end image to Amazon ECR.
-        id: build-image-front-end
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG_FRONT_END: front-github-actions
-        run: |
-          cd frontend
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_FRONT_END .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_FRONT_END
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_FRONT_END" >> $GITHUB_OUTPUT
-
-      - name: Build, tag, and push the back end image to Amazon ECR.
-        id: build-image-back-end
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG_BACK_END: back-github-actions
-        run: |
-          cd backend_v2_socket_io_api
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END" >> $GITHUB_OUTPUT
-
-      - name: Build, tag, and push the back end image v2 dotnet image to Amazon ECR.
-        id: build-image-back-end-v2
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG_BACK_END_v2: back-github-actions-v2
-        run: |
-          cd backend_v2_dotnet
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END_v2 .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END_v2
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_BACK_END_v2" >> $GITHUB_OUTPUT
-
-      - name: Deploy Amazon ECS task definition.
-        uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
+      - name: Render frontend image into the legacy task definition
+        id: render-frontend
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          task-definition: .aws/task-definition.json
+          container-name: front-end-react-ski-shop-GH
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:front-${{ github.sha }}
+
+      - name: Render Express API image into the legacy task definition
+        id: render-express
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ steps.render-frontend.outputs.task-definition }}
+          container-name: back-end-react-ski-shop-GH
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:api-v1-${{ github.sha }}
+
+      - name: Render .NET API image into the legacy task definition
+        id: render-dotnet
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ steps.render-express.outputs.task-definition }}
+          container-name: back-end-v2-react-ski-shop-GH-dotnet
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:api-v2-${{ github.sha }}
+
+      - name: Deploy the rendered task definition to the current ECS service
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.render-dotnet.outputs.task-definition }}
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
+
+  deploy-preview-cdk:
+    name: Deploy the isolated CDK preview ECS service
+    needs: build-images
+    runs-on: ubuntu-latest
+    environment: production
+
+    # This creates/updates only AlpinePeakPreviewStack. It does not change the
+    # shared ALB, listener, Route 53 record, ACM certificate, or production
+    # service/target group. The first successful run requires prior CDK bootstrap.
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: cdk/uv.lock
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Install pinned CDK CLI
+        run: npm install --global "aws-cdk@$CDK_CLI_VERSION"
+
+      - name: Deploy preview service with this commit's image tag
+        working-directory: cdk
+        run: |
+          uv sync --frozen --group dev
+          cdk deploy AlpinePeakPreviewStack \
+            --require-approval never \
+            --parameters ImageTag=${{ github.sha }}
