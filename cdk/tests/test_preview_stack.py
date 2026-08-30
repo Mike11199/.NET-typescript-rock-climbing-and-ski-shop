@@ -24,7 +24,10 @@ def test_counts_and_names():
     t.has_resource_properties("AWS::ECS::Service", {
         "ServiceName": existing.PREVIEW_ECS_SERVICE_NAME,
         "DesiredCount": 1,
-        "LoadBalancers": [Match.object_like({"ContainerPort": 5173})],
+        "LoadBalancers": [Match.object_like({
+            "ContainerPort": 80,
+            "ContainerName": "front-end-react-ski-shop-GH",
+        })],
     })
 
     t.has_resource_properties("AWS::ElasticLoadBalancingV2::TargetGroup", {
@@ -52,17 +55,15 @@ def test_three_containers_with_immutable_images():
 
 
 def test_no_production_edge_resources():
-    """Never creates new ALB/VPC/DNS/certs and never references production."""
+    """Never creates new ALB/VPC/certs and never references production."""
     t = _template()
     rendered = json.dumps(t.to_json())
 
-    # We import the existing ALB but don't create any new ones.
-    for r in (
-        "AWS::ElasticLoadBalancingV2::LoadBalancer",
-        "AWS::Route53::RecordSet",
-        "AWS::EC2::VPC",
-    ):
-        t.resource_count_is(r, 0)
+    # We import the existing ALB and VPC; we create one Route53 Alias but no new ALBs or VPCs.
+    t.resource_count_is("AWS::ElasticLoadBalancingV2::LoadBalancer", 0)
+    t.resource_count_is("AWS::EC2::VPC", 0)
+    # Exactly one Route53 record: the preview alias to our shared ALB.
+    t.resource_count_is("AWS::Route53::RecordSet", 1)
 
     assert existing.PRODUCTION_TARGET_GROUP_ARN not in rendered
     assert existing.PRODUCTION_ECS_SERVICE_NAME not in rendered

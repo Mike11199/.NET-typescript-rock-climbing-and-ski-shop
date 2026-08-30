@@ -11,12 +11,14 @@ route to this target group. Production routing remains untouched until an
 explicit, separately approved promotion.
 """
 
-from aws_cdk import CfnParameter, Duration, Stack
+from aws_cdk import CfnParameter, Stack
 from aws_cdk import aws_ec2 as ec2
 from aws_cdk import aws_ecs as ecs
 from aws_cdk import aws_elasticloadbalancingv2 as elbv2
 from aws_cdk import aws_iam as iam
 from aws_cdk import aws_logs as logs
+from aws_cdk import aws_route53 as route53
+from aws_cdk import aws_route53_targets as route53_targets
 from aws_cdk import aws_ssm as ssm
 from constructs import Construct
 
@@ -208,12 +210,13 @@ class AlpinePeakPreviewStack(Stack):
             },
             load_balancers=[{
                 "targetGroupArn": preview_target_group.ref,
-                "containerName": "frontend",
-                "containerPort": 5173,
+                "containerName": "front-end-react-ski-shop-GH",
+                "containerPort": 80,
             }],
         )
 
         # Add one host-header rule on the shared ALB HTTPS listener via CFN ListenerRule.
+        # Priority 4 sits after existing rules (1-3) and before default action.
         elbv2.CfnListenerRule(
             self, "PreviewListenerRule",
             listener_arn="arn:aws:elasticloadbalancing:us-west-1:456461478565:listener/app/consolidated-load-balancer/cebd4e468e9c8526/119a0202f44da309",
@@ -221,9 +224,24 @@ class AlpinePeakPreviewStack(Stack):
                 "field": "host-header",
                 "hostHeaderConfig": {"values": [existing.PREVIEW_HOST_HEADER]},
             }],
-            priority=1,  # lowest runs before default action; adjust if more rules are added
+            priority=4,  # after existing rules (1-3); our host-header match doesn't affect other hosts
             actions=[{
                 "type": "forward",
                 "targetGroupArn": preview_target_group.ref,
             }],
         )
+
+        # DNS: one new Alias record for preview subdomain.
+        # Using L1 CFN so we can reference external ALB attributes directly without needing full import.
+        route53.CfnRecordSet(
+            self, "PreviewAliasRecord",
+            hosted_zone_id=existing.ROUTE53_HOSTED_ZONE_ID,
+            name=f"{existing.PREVIEW_HOST_HEADER}.",
+            type="A",
+            alias_target={
+                "dnsName": f"{existing.SHARED_ALB_DNS_NAME}.",
+                "hostedZoneId": existing.SHARED_ALB_CANONICAL_HOSTED_ZONE_ID,
+            },
+        )
+
+

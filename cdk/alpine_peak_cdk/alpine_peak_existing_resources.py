@@ -46,15 +46,16 @@ VPC_ID = "vpc-031a34e2307900372"
 
 # Shared ALB (read-only import only; never created or modified).
 SHARED_ALB_ARN = "arn:aws:elasticloadbalancing:us-west-1:456461478565:loadbalancer/app/consolidated-load-balancer/cebd4e468e9c8526"
+# Canonical hosted zone ID for Route 53 Alias (required when creating an Alias to this ALB).
+SHARED_ALB_CANONICAL_HOSTED_ZONE_ID = "Z368ELLRRE2KJ0"
+SHARED_ALB_DNS_NAME = "consolidated-load-balancer-1342855394.us-west-1.elb.amazonaws.com"
 
-# Preview routing (placeholder host header; replace DNS when ready).
-PREVIEW_HOST_HEADER = "preview.alpinepeak.example.com"
+# Preview hostname routed by the shared ALB (host-header rule).
+PREVIEW_HOST_HEADER = "preview.alpine-peak-climbing-ski-gear.com"
 
-# Shared ALB (read-only import only; never created or modified).
-SHARED_ALB_ARN = "arn:aws:elasticloadbalancing:us-west-1:456461478565:loadbalancer/app/consolidated-load-balancer/cebd4e468e9c8526"
-
-# Preview routing (placeholder host header; replace DNS when ready).
-PREVIEW_HOST_HEADER = "preview.alpinepeak.example.com"
+# Route 53 hosted zone for domain routing (imported read-only; one new Alias record created/deleted with stack).
+ROUTE53_HOSTED_ZONE_ID = "Z040844618MP488RZ84GN"
+DOMAIN_NAME = "alpine-peak-climbing-ski-gear.com"
 
 AVAILABILITY_ZONES = ("us-west-1b", "us-west-1c")
 PUBLIC_SUBNET_IDS = (
