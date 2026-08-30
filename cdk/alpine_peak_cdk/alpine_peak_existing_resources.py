@@ -1,17 +1,11 @@
 """Existing Alpine Peak inputs used by the CDK stack.
 
-These identifiers are live AWS resources that the Alpine Peak application uses
-but does not create during the first CDK deployment. They are inputs to the
-application stack:
+These are live AWS resources shared across services — imported read-only,
+never created or modified by this stack. The ECR repository is managed externally
+by GitHub Actions (auto-created on first push). Everything else (ECS service, task definition, target group) is owned/created by AlpinePeakStack.
 
-- the existing ECS cluster and networking remain external/shared;
-- the existing target group belongs to the shared ALB edge and remains external;
-- the ECS execution role, CloudWatch log groups, and SSM parameters are
-  referenced by ARN/name, never recreated or read for their secret values.
-
-The `AlpinePeakStack` declares the ECS service, its task definition, and a new
-target group behind the shared ALB. No value in this file is a credential or a
-secret.
+No value in this file is a credential or secret; SSM parameters are referenced
+by ARN only so tasks can resolve them at runtime.
 """
 
 AWS_ACCOUNT_ID = "456461478565"
@@ -50,8 +44,3 @@ POSTGRES_PARAMETER_ARN = "arn:aws:ssm:us-west-1:456461478565:parameter/POSTGRES_
 GOOGLE_OAUTH_CLIENT_ID_PARAMETER_ARN = (
     "arn:aws:ssm:us-west-1:456461478565:parameter/GOOGLE_OAUTH_CLIENT_ID"
 )
-
-# Task-definition shape captured from live revision 321.
-TASK_FAMILY = "deploy-ski-shop-full-stack-github-actions-v3"
-TASK_CPU = 512
-TASK_MEMORY_MIB = 1024

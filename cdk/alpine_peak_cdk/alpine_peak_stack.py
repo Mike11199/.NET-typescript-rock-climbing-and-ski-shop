@@ -7,7 +7,6 @@ infrastructure (ALB, VPC, subnets, security groups) is imported read-only.
 
 from aws_cdk import CfnParameter, Stack
 from aws_cdk import aws_ec2 as ec2
-from aws_cdk import aws_ecr as ecr
 from aws_cdk import aws_ecs as ecs
 from aws_cdk import aws_elasticloadbalancingv2 as elbv2
 from aws_cdk import aws_iam as iam
@@ -31,14 +30,6 @@ class AlpinePeakStack(Stack):
             "ImageTag",
             type="String",
             description="Immutable Git commit SHA applied to all Alpine Peak container images.",
-        )
-
-        # ECR repository created/owned by this stack.
-        repo = ecr.Repository(
-            self,
-            "ProductionRepository",
-            repository_name="alpine-peak-ski-shop",
-            removal_policy=None,  # keep on delete; explicit destroy only when you decide
         )
 
         vpc = ec2.Vpc.from_vpc_attributes(
@@ -88,9 +79,9 @@ class AlpinePeakStack(Stack):
         task_definition = ecs.FargateTaskDefinition(
             self,
             "ProductionTaskDefinition",
-            family=f"{existing.TASK_FAMILY}-cdk",
-            cpu=existing.TASK_CPU,
-            memory_limit_mib=existing.TASK_MEMORY_MIB,
+            family="alpine-peak-production",
+            cpu=512,
+            memory_limit_mib=1024,
             execution_role=execution_role,
         )
 
@@ -101,10 +92,9 @@ class AlpinePeakStack(Stack):
             self, "ExistingDotnetLogGroup", existing.DOTNET_LOG_GROUP_NAME
         )
 
-        # Use direct SSM ARNs from existing config wrapped securely (no CfnParameter tokens)
-
-        # Use the stack-created ECR repository.
-        repository_uri = repo.repository_uri
+        # Use the external ECR repository created by GitHub Actions on push.
+        registry = f"{existing.AWS_ACCOUNT_ID}.dkr.ecr.{self.region}.amazonaws.com"
+        repository_uri = f"{registry}/ski-rock-climbing-shop"
 
         # Frontend container (no secrets needed)
         frontend = task_definition.add_container(

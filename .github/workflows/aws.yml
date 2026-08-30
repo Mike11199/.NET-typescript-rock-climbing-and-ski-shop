@@ -18,7 +18,7 @@ concurrency:
 env:
   AWS_REGION: us-west-1
   CDK_CLI_VERSION: 2.1139.0
-  ECR_REPOSITORY: alpine-peak-ski-shop
+  ECR_REPOSITORY: ski-rock-climbing-shop
 
 jobs:
   validate-cdk:
@@ -67,6 +67,10 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Ensure ECR repository exists
+        run: |
+          aws ecr create-repository --repository-name "$ECR_REPOSITORY" || true
 
       - name: Build and push immutable frontend image
         env:
