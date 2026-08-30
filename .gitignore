@@ -41,3 +41,6 @@ yarn-error.log*
 /cdk/cdk.out/
 /cdk/**/__pycache__/
 /cdk/.pytest_cache/
+
+# Local deployment notes (not committed)
+/.DEPLOYMENT_NOTES.md

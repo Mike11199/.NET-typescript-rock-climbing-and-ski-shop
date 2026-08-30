@@ -19,6 +19,8 @@ def test_counts_and_names():
     t.resource_count_is("AWS::ECS::Service", 1)
     t.resource_count_is("AWS::ElasticLoadBalancingV2::TargetGroup", 1)
     t.resource_count_is("AWS::ECS::TaskDefinition", 1)
+    # One listener rule (production root domain only).
+    t.resource_count_is("AWS::ElasticLoadBalancingV2::ListenerRule", 1)
 
     # Preview-only names (ContainerPort matches real frontend container).
     t.has_resource_properties("AWS::ECS::Service", {
@@ -34,6 +36,27 @@ def test_counts_and_names():
         "Name": existing.PREVIEW_TARGET_GROUP_NAME,
         "HealthCheckPath": "/",
     })
+
+
+def test_root_domain_listener_rule():
+    """Stack creates one listener rule at priority=1 for root domain."""
+    t = _template()
+
+    # Listener rule: priority 1, matches root domain host header.
+    t.has_resource_properties("AWS::ElasticLoadBalancingV2::ListenerRule", {
+        "Priority": 1,
+        "Conditions": [Match.object_like({
+            "HostHeaderConfig": {"Values": ["alpine-peak-climbing-ski-gear.com"]},
+        })],
+    })
+
+
+def test_no_preview_subdomain_resources():
+    """No preview subdomain listener rule or Route53 records remain."""
+    t = _template()
+
+    # No more Route53 records (removed when we dropped preview subdomain).
+    t.resource_count_is("AWS::Route53::RecordSet", 0)
 
 
 def test_three_containers_with_immutable_images():
@@ -59,11 +82,9 @@ def test_no_production_edge_resources():
     t = _template()
     rendered = json.dumps(t.to_json())
 
-    # We import the existing ALB and VPC; we create one Route53 Alias but no new ALBs or VPCs.
+    # We import the existing ALB; we create no Route53 records or VPCs.
     t.resource_count_is("AWS::ElasticLoadBalancingV2::LoadBalancer", 0)
     t.resource_count_is("AWS::EC2::VPC", 0)
-    # Exactly one Route53 record: the preview alias to our shared ALB.
-    t.resource_count_is("AWS::Route53::RecordSet", 1)
 
     assert existing.PRODUCTION_TARGET_GROUP_ARN not in rendered
     assert existing.PRODUCTION_ECS_SERVICE_NAME not in rendered

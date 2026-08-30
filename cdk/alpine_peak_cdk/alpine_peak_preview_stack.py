@@ -215,33 +215,24 @@ class AlpinePeakPreviewStack(Stack):
             }],
         )
 
-        # Add one host-header rule on the shared ALB HTTPS listener via CFN ListenerRule.
-        # Priority 4 sits after existing rules (1-3) and before default action.
+        # Add one host-header rule on the shared ALB HTTPS listener for root domain.
+        # Requires deleting old manually-created priority=1 rule first before deploying this stack update:
+        #   aws elbv2 delete-rule --rule-arn arn:aws:elasticloadbalancing:us-west-1:456461478565:listener-rule/app/consolidated-load-balancer/cebd4e468e9c8526/119a0202f44da309/8e90fdfeee7db009 --profile michael-projects
+        # Once deleted, CDK creates its own at priority=1 pointing to this ECS service.
+        production_host = "alpine-peak-climbing-ski-gear.com"  # root domain
+
         elbv2.CfnListenerRule(
-            self, "PreviewListenerRule",
+            self, "ProductionListenerRule",
             listener_arn="arn:aws:elasticloadbalancing:us-west-1:456461478565:listener/app/consolidated-load-balancer/cebd4e468e9c8526/119a0202f44da309",
             conditions=[{
                 "field": "host-header",
-                "hostHeaderConfig": {"values": [existing.PREVIEW_HOST_HEADER]},
+                "hostHeaderConfig": {"values": [production_host]},
             }],
-            priority=4,  # after existing rules (1-3); our host-header match doesn't affect other hosts
+            priority=1,  # highest priority for root domain traffic; requires deleting old manual rule first
             actions=[{
                 "type": "forward",
                 "targetGroupArn": preview_target_group.ref,
             }],
-        )
-
-        # DNS: one new Alias record for preview subdomain.
-        # Using L1 CFN so we can reference external ALB attributes directly without needing full import.
-        route53.CfnRecordSet(
-            self, "PreviewAliasRecord",
-            hosted_zone_id=existing.ROUTE53_HOSTED_ZONE_ID,
-            name=f"{existing.PREVIEW_HOST_HEADER}.",
-            type="A",
-            alias_target={
-                "dnsName": f"{existing.SHARED_ALB_DNS_NAME}.",
-                "hostedZoneId": existing.SHARED_ALB_CANONICAL_HOSTED_ZONE_ID,
-            },
         )
 
 
