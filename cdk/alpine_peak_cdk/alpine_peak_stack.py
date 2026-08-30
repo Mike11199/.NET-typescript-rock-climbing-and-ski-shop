@@ -1,8 +1,8 @@
 """Alpine Peak production stack.
 
-This stack owns the Alpine Peak ECS service: a Fargate task, its task definition,
-target group, and ALB listener rule for alpine-peak-climbing-ski-gear.com. Shared
-infrastructure (ALB, VPC, subnets, security groups) is imported read-only.
+This stack owns the Alpine Peak ECS service: its own ECS cluster, Fargate task,
+task definition, target group, and ALB listener rule for alpine-peak-climbing-ski-gear.com.
+Shared infrastructure (ALB, VPC, subnets, security groups) is imported read-only.
 """
 
 from aws_cdk import CfnParameter, Stack
@@ -81,7 +81,7 @@ class AlpinePeakStack(Stack):
         task_definition = ecs.FargateTaskDefinition(
             self,
             "ProductionTaskDefinition",
-            family="alpine-peak-production",
+            family="alpine-peak-ski-shop",
             cpu=512,
             memory_limit_mib=1024,
             execution_role=execution_role,
@@ -101,7 +101,7 @@ class AlpinePeakStack(Stack):
         # Frontend container (no secrets needed)
         frontend = task_definition.add_container(
             "FrontendContainer",
-            container_name="front-end-react-ski-shop-GH",
+            container_name="front-end",
             image=ecs.ContainerImage.from_registry(
                 f"{repository_uri}:front-{image_tag.value_as_string}"
             ),
@@ -114,7 +114,7 @@ class AlpinePeakStack(Stack):
         # Express API container (uses JWT and MongoDB secrets)
         express_api = task_definition.add_container(
             "ExpressApiContainer",
-            container_name="back-end-react-ski-shop-GH",
+            container_name="back-end-express-socket-io-api",
             image=ecs.ContainerImage.from_registry(
                 f"{repository_uri}:api-v1-{image_tag.value_as_string}"
             ),
@@ -144,7 +144,7 @@ class AlpinePeakStack(Stack):
         # .NET API container (uses JWT, PostgreSQL, and OAuth secrets)
         dotnet_api = task_definition.add_container(
             "DotnetApiContainer",
-            container_name="back-end-v2-react-ski-shop-GH-dotnet",
+            container_name="back-end-dotnet-api",
             image=ecs.ContainerImage.from_registry(
                 f"{repository_uri}:api-v2-{image_tag.value_as_string}"
             ),
@@ -187,7 +187,7 @@ class AlpinePeakStack(Stack):
         # Use CfnService so we can wire our target group directly (no L2 import needed).
         service = ecs.CfnService(
             self, "ProductionService",
-            service_name="alpine-peak-production-cdk",
+            service_name="alpine-peak-ski-shop",
             cluster=cluster.cluster_name,
             task_definition=task_definition.task_definition_arn,
             desired_count=1,
@@ -206,7 +206,7 @@ class AlpinePeakStack(Stack):
             },
             load_balancers=[{
                 "targetGroupArn": target_group.ref,
-                "containerName": "front-end-react-ski-shop-GH",
+                "containerName": "front-end",
                 "containerPort": 80,
             }],
         )

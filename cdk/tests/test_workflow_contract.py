@@ -13,7 +13,7 @@ def test_workflow_deploys_from_the_same_commit_sha() -> None:
     assert "IMAGE_TAG: front-${{ github.sha }}" in text
     assert "IMAGE_TAG: api-v1-${{ github.sha }}" in text
     assert "IMAGE_TAG: api-v2-${{ github.sha }}" in text
-    assert "deploy-cdk:" in text
+    assert "cdk-deploy:" in text
     assert "CDK_CLI_VERSION: 2.1139.0" in text
     assert 'npm install --global "aws-cdk@$CDK_CLI_VERSION"' in text
     assert "cdk deploy AlpinePeakStack" in text

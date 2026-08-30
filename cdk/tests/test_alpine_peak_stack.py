@@ -24,11 +24,11 @@ def test_counts_and_names():
 
     # Production service name.
     t.has_resource_properties("AWS::ECS::Service", {
-        "ServiceName": "alpine-peak-production-cdk",
+        "ServiceName": "alpine-peak-ski-shop",
         "DesiredCount": 1,
         "LoadBalancers": [Match.object_like({
             "ContainerPort": 80,
-            "ContainerName": "front-end-react-ski-shop-GH",
+            "ContainerName": "front-end",
         })],
     })
 
@@ -63,9 +63,9 @@ def test_three_containers_with_immutable_images():
 
     # Three containers.
     names = Match.array_with([
-        Match.object_like({"Name": "front-end-react-ski-shop-GH"}),
-        Match.object_like({"Name": "back-end-react-ski-shop-GH"}),
-        Match.object_like({"Name": "back-end-v2-react-ski-shop-GH-dotnet"}),
+        Match.object_like({"Name": "front-end"}),
+        Match.object_like({"Name": "back-end-express-socket-io-api"}),
+        Match.object_like({"Name": "back-end-dotnet-api"}),
     ])
 
     # Each image uses Fn::Join with Ref:ImageTag.
