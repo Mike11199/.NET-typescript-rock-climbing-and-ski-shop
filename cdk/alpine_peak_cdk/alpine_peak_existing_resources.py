@@ -2,7 +2,7 @@
 
 These are live AWS resources shared across services — imported read-only,
 never created or modified by this stack. The ECR repository is managed externally
-by GitHub Actions (auto-created on first push). Everything else (ECS service, task definition, target group) is owned/created by AlpinePeakStack.
+by GitHub Actions (auto-created on first push). Everything else (ECS cluster, ECS service, task definition, target group) is owned/created by AlpinePeakStack.
 
 No value in this file is a credential or secret; SSM parameters are referenced
 by ARN only so tasks can resolve them at runtime.
@@ -10,9 +10,6 @@ by ARN only so tasks can resolve them at runtime.
 
 AWS_ACCOUNT_ID = "456461478565"
 AWS_REGION = "us-west-1"
-
-# ECS cluster (imported read-only; never created or modified).
-ECS_CLUSTER_ARN = "arn:aws:ecs:us-west-1:456461478565:cluster/rock-climbing-ski-shop"
 
 # External network/edge references. This CDK never creates or owns them.
 SERVICE_SECURITY_GROUP_ID = "sg-0190e299544ca1711"

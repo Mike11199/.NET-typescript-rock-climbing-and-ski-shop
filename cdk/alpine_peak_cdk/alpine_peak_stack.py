@@ -39,12 +39,14 @@ class AlpinePeakStack(Stack):
             availability_zones=list(existing.AVAILABILITY_ZONES),
             public_subnet_ids=list(existing.PUBLIC_SUBNET_IDS),
         )
-        cluster = ecs.Cluster.from_cluster_attributes(
-            self,
-            "ExistingCluster",
-            cluster_name=existing.ECS_CLUSTER_ARN.rsplit("/", maxsplit=1)[-1],
+
+        # Cluster owned by this stack.
+        cluster = ecs.Cluster(
+            self, "ProductionCluster",
+            cluster_name="alpine-peak-ski-shop",
             vpc=vpc,
         )
+
         service_security_group = ec2.SecurityGroup.from_security_group_id(
             self, "ExistingServiceSecurityGroup", existing.SERVICE_SECURITY_GROUP_ID
         )
