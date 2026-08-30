@@ -1,4 +1,4 @@
-name: Deploy Alpine Peak legacy and preview services
+name: Deploy Alpine Peak CDK preview service
 
 on:
   push:
@@ -17,11 +17,8 @@ concurrency:
 
 env:
   AWS_REGION: us-west-1
-  # Exact CLI version; do not float to the newest CDK v2 on each workflow run.
   CDK_CLI_VERSION: 2.1139.0
   ECR_REPOSITORY: ski-rock-climbing-shop
-  ECS_SERVICE: rock-ski-shop-github-actions-v1
-  ECS_CLUSTER: rock-climbing-ski-shop
 
 jobs:
   validate-cdk:
@@ -98,63 +95,9 @@ jobs:
           docker build --tag "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" .
           docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-  deploy-legacy-task-definition:
-    name: Deploy the current production ECS service
-    needs: build-images
-    runs-on: ubuntu-latest
-    environment: production
 
-    # This remains the live production deployment until you deliberately retire
-    # the ECS Console stack after preview verification and traffic promotion.
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Render frontend image into the legacy task definition
-        id: render-frontend
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: .aws/task-definition.json
-          container-name: front-end-react-ski-shop-GH
-          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:front-${{ github.sha }}
-
-      - name: Render Express API image into the legacy task definition
-        id: render-express
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: ${{ steps.render-frontend.outputs.task-definition }}
-          container-name: back-end-react-ski-shop-GH
-          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:api-v1-${{ github.sha }}
-
-      - name: Render .NET API image into the legacy task definition
-        id: render-dotnet
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: ${{ steps.render-express.outputs.task-definition }}
-          container-name: back-end-v2-react-ski-shop-GH-dotnet
-          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:api-v2-${{ github.sha }}
-
-      - name: Deploy the rendered task definition to the current ECS service
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
-        with:
-          task-definition: ${{ steps.render-dotnet.outputs.task-definition }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
-
-  deploy-preview-cdk:
-    name: Deploy the isolated CDK preview ECS service
+  deploy-cdk:
+    name: CDK
     needs: build-images
     runs-on: ubuntu-latest
     environment: production

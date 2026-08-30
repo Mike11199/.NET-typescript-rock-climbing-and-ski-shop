@@ -216,9 +216,8 @@ class AlpinePeakPreviewStack(Stack):
         )
 
         # Add one host-header rule on the shared ALB HTTPS listener for root domain.
-        # Requires deleting old manually-created priority=1 rule first before deploying this stack update:
-        #   aws elbv2 delete-rule --rule-arn arn:aws:elasticloadbalancing:us-west-1:456461478565:listener-rule/app/consolidated-load-balancer/cebd4e468e9c8526/119a0202f44da309/8e90fdfeee7db009 --profile michael-projects
-        # Once deleted, CDK creates its own at priority=1 pointing to this ECS service.
+        # Priority 1 is already free (legacy rule moved to priority=6). CDK will create this rule on deploy.
+        # Optional cleanup after confirming migration works: delete old legacy rule at priority=6.
         production_host = "alpine-peak-climbing-ski-gear.com"  # root domain
 
         elbv2.CfnListenerRule(
