@@ -1,44 +1,28 @@
-"""Existing Alpine Peak inputs used by the future application-owned CDK stack.
+"""Existing Alpine Peak inputs used by the CDK stack.
 
 These identifiers are live AWS resources that the Alpine Peak application uses
 but does not create during the first CDK deployment. They are inputs to the
-application stack's safe ownership transition:
+application stack:
 
 - the existing ECS cluster and networking remain external/shared;
 - the existing target group belongs to the shared ALB edge and remains external;
 - the ECS execution role, CloudWatch log groups, and SSM parameters are
   referenced by ARN/name, never recreated or read for their secret values.
 
-The future `AlpinePeakApplicationStack` *will* declare the ECS service and
-its new task-definition revisions. It cannot take ownership of the currently
-live service until a separately approved CloudFormation import/cutover occurs.
-No value in this file is a credential or a secret.
+The `AlpinePeakStack` declares the ECS service, its task definition, and a new
+target group behind the shared ALB. No value in this file is a credential or a
+secret.
 """
 
 AWS_ACCOUNT_ID = "456461478565"
 AWS_REGION = "us-west-1"
 
-# Current production service. It is retained during preview testing and is never
-# imported or modified by this CDK project.
+# ECS cluster (imported read-only; never created or modified).
 ECS_CLUSTER_ARN = "arn:aws:ecs:us-west-1:456461478565:cluster/rock-climbing-ski-shop"
-PRODUCTION_ECS_SERVICE_NAME = "rock-ski-shop-github-actions-v1"
-PRODUCTION_ECS_SERVICE_ARN = (
-    "arn:aws:ecs:us-west-1:456461478565:service/"
-    "rock-climbing-ski-shop/rock-ski-shop-github-actions-v1"
-)
-PRODUCTION_TARGET_GROUP_ARN = (
-    "arn:aws:elasticloadbalancing:us-west-1:456461478565:"
-    "targetgroup/react-ski-shop-2/374d0f142ed6d00f"
-)
-EXISTING_OWNER_STACK_NAME = (
-    "ECS-Console-V2-Service-rock-ski-shop-github-actions-v1-"
-    "rock-climbing-ski-shop-2724f5a4"
-)
 
-# New resource names created only by the preview stack. They deliberately differ
-# from every production resource name so the preview can run in parallel.
-PREVIEW_ECS_SERVICE_NAME = "alpine-peak-preview-cdk"
-PREVIEW_TARGET_GROUP_NAME = "alpine-peak-preview-cdk"
+# Resource names managed by this CDK stack.
+ECS_SERVICE_NAME = "alpine-peak-cdk"
+TARGET_GROUP_NAME = "alpine-peak-cdk"
 
 # External network/edge references. This CDK never creates or owns them.
 SERVICE_SECURITY_GROUP_ID = "sg-0190e299544ca1711"
@@ -50,10 +34,7 @@ SHARED_ALB_ARN = "arn:aws:elasticloadbalancing:us-west-1:456461478565:loadbalanc
 SHARED_ALB_CANONICAL_HOSTED_ZONE_ID = "Z368ELLRRE2KJ0"
 SHARED_ALB_DNS_NAME = "consolidated-load-balancer-1342855394.us-west-1.elb.amazonaws.com"
 
-# Preview hostname routed by the shared ALB (host-header rule).
-PREVIEW_HOST_HEADER = "preview.alpine-peak-climbing-ski-gear.com"
-
-# Route 53 hosted zone for domain routing (imported read-only; one new Alias record created/deleted with stack).
+# Route 53 hosted zone for domain routing (imported read-only).
 ROUTE53_HOSTED_ZONE_ID = "Z040844618MP488RZ84GN"
 DOMAIN_NAME = "alpine-peak-climbing-ski-gear.com"
 

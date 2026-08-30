@@ -1,20 +1,20 @@
-"""Synthesize the isolated Alpine Peak preview stack locally.
+"""Synthesize the Alpine Peak production stack locally.
 
 `cdk synth` creates only a CloudFormation template. It does not contact AWS,
-bootstrap CDK, deploy a preview, change DNS, or alter production traffic.
+bootstrap CDK, deploy, change DNS, or alter live traffic.
 """
 
 from aws_cdk import App, Environment
 
 from alpine_peak_cdk.alpine_peak_existing_resources import AWS_ACCOUNT_ID, AWS_REGION
-from alpine_peak_cdk.alpine_peak_preview_stack import AlpinePeakPreviewStack
+from alpine_peak_cdk.alpine_peak_stack import AlpinePeakStack
 
 
 def main() -> None:
     app = App()
-    AlpinePeakPreviewStack(
+    AlpinePeakStack(
         app,
-        "AlpinePeakPreviewStack",
+        "AlpinePeakStack",
         env=Environment(account=AWS_ACCOUNT_ID, region=AWS_REGION),
     )
     app.synth()

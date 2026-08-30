@@ -1,4 +1,4 @@
-name: Deploy Alpine Peak CDK preview service
+name: Deploy Alpine Peak CDK production service
 
 on:
   push:
@@ -22,7 +22,7 @@ env:
 
 jobs:
   validate-cdk:
-    name: Test and synthesize preview CDK
+    name: Test and synthesize CDK
     runs-on: ubuntu-latest
 
     steps:
@@ -43,7 +43,7 @@ jobs:
         run: |
           uv sync --frozen --group dev
           uv run pytest
-          cdk synth AlpinePeakPreviewStack
+          cdk synth AlpinePeakStack
 
   build-images:
     name: Build and push immutable commit images
@@ -102,9 +102,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
 
-    # This creates/updates only AlpinePeakPreviewStack. It does not change the
-    # shared ALB, listener, Route 53 record, ACM certificate, or production
-    # service/target group. The first successful run requires prior CDK bootstrap.
+    # This creates/updates only AlpinePeakStack. It does not change the
+    # shared ALB, listener, Route 53 record, or ACM certificate. Requires prior CDK bootstrap.
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -125,10 +124,10 @@ jobs:
       - name: Install pinned CDK CLI
         run: npm install --global "aws-cdk@$CDK_CLI_VERSION"
 
-      - name: Deploy preview service with this commit's image tag
+      - name: Deploy production service with this commit's image tag
         working-directory: cdk
         run: |
           uv sync --frozen --group dev
-          cdk deploy AlpinePeakPreviewStack \
+          cdk deploy AlpinePeakStack \
             --require-approval never \
             --parameters ImageTag=${{ github.sha }}

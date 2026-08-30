@@ -1,14 +1,8 @@
-"""Isolated, deployable Alpine Peak preview application stack.
+"""Alpine Peak production stack.
 
-This stack creates only new Alpine Peak preview resources: a Fargate service,
-its task definition, task role, and an IP target group. It deliberately does
-not create, import, modify, or attach to the shared ALB, listener, production
-target group, Route 53 zone/record, ACM certificate, VPC, subnets, or security
-groups.
-
-The separate shared-edge owner must later create a *new hostname-only* preview
-route to this target group. Production routing remains untouched until an
-explicit, separately approved promotion.
+This stack owns the Alpine Peak ECS service: a Fargate task, its task definition,
+target group, and ALB listener rule for alpine-peak-climbing-ski-gear.com. Shared
+infrastructure (ALB, VPC, subnets, security groups) is imported read-only.
 """
 
 from aws_cdk import CfnParameter, Stack
@@ -25,8 +19,8 @@ from constructs import Construct
 from . import alpine_peak_existing_resources as existing
 
 
-class AlpinePeakPreviewStack(Stack):
-    """Own an isolated, parallel ECS preview service for Alpine Peak."""
+class AlpinePeakStack(Stack):
+    """Own the production ECS service for Alpine Peak."""
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs: object) -> None:
         super().__init__(scope, construct_id, **kwargs)
@@ -62,10 +56,10 @@ class AlpinePeakPreviewStack(Stack):
             self, "ExistingExecutionRole", existing.EXECUTION_ROLE_ARN, mutable=False
         )
 
-        # New target group (L1 CFN so we can reference its ARN directly).
-        preview_target_group = elbv2.CfnTargetGroup(
-            self, "PreviewTargetGroup",
-            name=existing.PREVIEW_TARGET_GROUP_NAME,
+        # Target group (L1 CFN so we can reference its ARN directly).
+        target_group = elbv2.CfnTargetGroup(
+            self, "ProductionTargetGroup",
+            name=existing.TARGET_GROUP_NAME,
             protocol="HTTP",
             port=80,
             target_type="ip",
@@ -84,8 +78,8 @@ class AlpinePeakPreviewStack(Stack):
 
         task_definition = ecs.FargateTaskDefinition(
             self,
-            "PreviewTaskDefinition",
-            family=f"{existing.TASK_FAMILY}-preview",
+            "ProductionTaskDefinition",
+            family=f"{existing.TASK_FAMILY}-cdk",
             cpu=existing.TASK_CPU,
             memory_limit_mib=existing.TASK_MEMORY_MIB,
             execution_role=execution_role,
@@ -188,10 +182,10 @@ class AlpinePeakPreviewStack(Stack):
             security_group_id="sg-0190e299544ca1711",  # matches one of the ALB's existing SGs (required by CDK for import)
         )
 
-        # Use CfnService so we can wire our CfnTargetGroup directly (no L2 import needed).
+        # Use CfnService so we can wire our target group directly (no L2 import needed).
         service = ecs.CfnService(
-            self, "PreviewService",
-            service_name=existing.PREVIEW_ECS_SERVICE_NAME,
+            self, "ProductionService",
+            service_name="alpine-peak-production-cdk",
             cluster=cluster.cluster_name,
             task_definition=task_definition.task_definition_arn,
             desired_count=1,
@@ -209,16 +203,14 @@ class AlpinePeakPreviewStack(Stack):
                 "maximumPercent": 200,
             },
             load_balancers=[{
-                "targetGroupArn": preview_target_group.ref,
+                "targetGroupArn": target_group.ref,
                 "containerName": "front-end-react-ski-shop-GH",
                 "containerPort": 80,
             }],
         )
 
-        # Add one host-header rule on the shared ALB HTTPS listener for root domain.
-        # Priority 1 is already free (legacy rule moved to priority=6). CDK will create this rule on deploy.
-        # Optional cleanup after confirming migration works: delete old legacy rule at priority=6.
-        production_host = "alpine-peak-climbing-ski-gear.com"  # root domain
+        # Host-header rule on the shared ALB HTTPS listener for root domain.
+        production_host = "alpine-peak-climbing-ski-gear.com"
 
         elbv2.CfnListenerRule(
             self, "ProductionListenerRule",
@@ -227,10 +219,10 @@ class AlpinePeakPreviewStack(Stack):
                 "field": "host-header",
                 "hostHeaderConfig": {"values": [production_host]},
             }],
-            priority=1,  # highest priority for root domain traffic; requires deleting old manual rule first
+            priority=1,
             actions=[{
                 "type": "forward",
-                "targetGroupArn": preview_target_group.ref,
+                "targetGroupArn": target_group.ref,
             }],
         )
 
