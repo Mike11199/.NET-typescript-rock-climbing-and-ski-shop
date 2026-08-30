@@ -103,7 +103,7 @@ class AlpinePeakStack(Stack):
             "FrontendContainer",
             container_name="front-end",
             image=ecs.ContainerImage.from_registry(
-                f"{repository_uri}:front-{image_tag.value_as_string}"
+                f"{repository_uri}:front-end-{image_tag.value_as_string}"
             ),
             essential=True,
         )
@@ -116,7 +116,7 @@ class AlpinePeakStack(Stack):
             "ExpressApiContainer",
             container_name="back-end-express-socket-io-api",
             image=ecs.ContainerImage.from_registry(
-                f"{repository_uri}:api-v1-{image_tag.value_as_string}"
+                f"{repository_uri}:back-end-express-socket-io-api-{image_tag.value_as_string}"
             ),
             essential=False,
             logging=ecs.LogDrivers.aws_logs(
@@ -125,13 +125,13 @@ class AlpinePeakStack(Stack):
             secrets={
                 "JWT_SECRET_KEY": ecs.Secret.from_ssm_parameter(
                     ssm.StringParameter.from_secure_string_parameter_attributes(
-                        self, "ExpressJwtSecureParam", 
+                        self, "ExpressJwtSecureParam",
                         parameter_name=existing.JWT_PARAMETER_ARN.split("/")[-1]
                     )
                 ),
                 "MONGO_URL": ecs.Secret.from_ssm_parameter(
                     ssm.StringParameter.from_secure_string_parameter_attributes(
-                        self, "ExpressMongoSecureParam", 
+                        self, "ExpressMongoSecureParam",
                         parameter_name=existing.MONGO_PARAMETER_ARN.split("/")[-1]
                     )
                 ),
@@ -146,7 +146,7 @@ class AlpinePeakStack(Stack):
             "DotnetApiContainer",
             container_name="back-end-dotnet-api",
             image=ecs.ContainerImage.from_registry(
-                f"{repository_uri}:api-v2-{image_tag.value_as_string}"
+                f"{repository_uri}:back-end-dotnet-api-{image_tag.value_as_string}"
             ),
             essential=False,
             logging=ecs.LogDrivers.aws_logs(
@@ -155,19 +155,19 @@ class AlpinePeakStack(Stack):
             secrets={
                 "JWT_SECRET_KEY": ecs.Secret.from_ssm_parameter(
                     ssm.StringParameter.from_secure_string_parameter_attributes(
-                        self, "DotnetJwtSecureParam", 
+                        self, "DotnetJwtSecureParam",
                         parameter_name=existing.JWT_PARAMETER_ARN.split("/")[-1]
                     )
                 ),
                 "POSTGRES_URL_SKI_ROCK_SHOP": ecs.Secret.from_ssm_parameter(
                     ssm.StringParameter.from_secure_string_parameter_attributes(
-                        self, "DotnetPostgresSecureParam", 
+                        self, "DotnetPostgresSecureParam",
                         parameter_name=existing.POSTGRES_PARAMETER_ARN.split("/")[-1]
                     )
                 ),
                 "GOOGLE_OAUTH_CLIENT_ID": ecs.Secret.from_ssm_parameter(
                     ssm.StringParameter.from_secure_string_parameter_attributes(
-                        self, "DotnetGoogleOauthSecureParam", 
+                        self, "DotnetGoogleOauthSecureParam",
                         parameter_name=existing.GOOGLE_OAUTH_CLIENT_ID_PARAMETER_ARN.split("/")[-1]
                     )
                 ),

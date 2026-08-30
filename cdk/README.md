@@ -1,47 +1,31 @@
 # Alpine Peak CDK
 
-This CDK creates an isolated Alpine Peak **preview** ECS service:
+Deployed via GitHub Actions only — no local CDK commands required.
 
 ```text
-AlpinePeakPreviewStack
-  → ECS Fargate service: alpine-peak-preview-cdk
-  → target group: alpine-peak-preview-cdk
-  → task definition using commit-SHA image tags
+AlpinePeakStack
+  → ECS cluster: alpine-peak-ski-shop (CDK-managed)
+  → Fargate service: alpine-peak-ski-shop
+  → target group: alpine-peak-production-cdk-tg
+  → task definition family: alpine-peak-ski-shop
 ```
 
-GitHub Actions builds and deploys the same immutable images to both the current
-legacy service and this preview service:
-
+Three containers in one task, routed through Nginx sidecar:
 ```text
-front-<commit-sha>
-api-v1-<commit-sha>
-api-v2-<commit-sha>
+front-end              :80   → React SPA
+back-end-express-socket-io-api :5000 → Express/Socket.io API
+back-end-dotnet-api    :5001 → .NET 9 API
 ```
 
-## What this CDK does not touch
+## Shared resources (imported, not created)
 
-It does not create or modify the shared ALB, listeners, DNS, certificates, VPC,
-subnets, security groups, existing production target group, or other sites.
+CDK does NOT create or manage:
+- ALB (`consolidated-load-balancer`) and other sites' listener rules
+- VPC, subnets, security groups, route tables
+- Route 53 hosted zones / DNS records
+- ACM certificates
+- RDS PostgreSQL instance
+- MongoDB Atlas connection
+- Secrets Manager keys (JWT, OAuth, database credentials)
 
-`alpine_peak_cdk/shared_stack_resources/` records those excluded shared
-resources. It is documentation only and is not loaded by CDK.
-
-## Current deployment behavior
-
-- The legacy ECS service remains the public production service.
-- GitHub Actions updates the legacy task definition with SHA-tagged images.
-- GitHub Actions also deploys `AlpinePeakPreviewStack` after CDK bootstrap.
-- The preview service has no public route until a separately approved ALB rule
-  change sends traffic to its new target group.
-
-## Local validation
-
-```bash
-cd cdk
-uv sync --group dev
-uv run pytest
-# GitHub Actions installs the pinned CDK CLI, then runs:
-cdk synth AlpinePeakPreviewStack
-```
-
-`cdk synth` is local only; it does not deploy or change AWS resources.
+These are read-only imports in `alpine_peak_existing_resources.py`.

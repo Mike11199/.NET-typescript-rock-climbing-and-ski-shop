@@ -1,8 +1,10 @@
 """Existing Alpine Peak inputs used by the CDK stack.
 
 These are live AWS resources shared across services — imported read-only,
-never created or modified by this stack. The ECR repository is managed externally
-by GitHub Actions (auto-created on first push). Everything else (ECS cluster, ECS service, task definition, target group) is owned/created by AlpinePeakStack.
+never created or modified by this stack.
+
+The ECR repository is managed externally by GitHub Actions (auto-created on first push).
+Everything else (ECS cluster, ECS service, task definition, target group) is owned/created by AlpinePeakStack.
 
 No value in this file is a credential or secret; SSM parameters are referenced
 by ARN only so tasks can resolve them at runtime.

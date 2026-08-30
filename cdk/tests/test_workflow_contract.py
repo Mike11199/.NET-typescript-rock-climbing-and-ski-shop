@@ -3,16 +3,16 @@
 from pathlib import Path
 
 
-WORKFLOW = Path(__file__).parents[2] / ".github" / "workflows" / "aws.yml"
+WORKFLOW = Path(__file__).parents[2] / ".github" / "workflows" / "deploy-cdk-aws.yml"
 
 
 def test_workflow_deploys_from_the_same_commit_sha() -> None:
     """One commit SHA -> immutable images deployed via CDK ImageTag parameter."""
     text = WORKFLOW.read_text(encoding="utf-8")
 
-    assert "IMAGE_TAG: front-${{ github.sha }}" in text
-    assert "IMAGE_TAG: api-v1-${{ github.sha }}" in text
-    assert "IMAGE_TAG: api-v2-${{ github.sha }}" in text
+    assert "IMAGE_TAG: front-end-${{ github.sha }}" in text
+    assert "IMAGE_TAG: back-end-express-socket-io-api-${{ github.sha }}" in text
+    assert "IMAGE_TAG: back-end-dotnet-api-${{ github.sha }}" in text
     assert "cdk-deploy:" in text
     assert "CDK_CLI_VERSION: 2.1139.0" in text
     assert 'npm install --global "aws-cdk@$CDK_CLI_VERSION"' in text
