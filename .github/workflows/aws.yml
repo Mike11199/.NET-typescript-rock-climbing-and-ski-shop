@@ -18,7 +18,7 @@ concurrency:
 env:
   AWS_REGION: us-west-1
   CDK_CLI_VERSION: 2.1139.0
-  ECR_REPOSITORY: ski-rock-climbing-shop
+  ECR_REPOSITORY: alpine-peak-ski-shop
 
 jobs:
   validate-cdk:

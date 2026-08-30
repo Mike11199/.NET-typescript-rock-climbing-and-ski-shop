@@ -7,6 +7,7 @@ infrastructure (ALB, VPC, subnets, security groups) is imported read-only.
 
 from aws_cdk import CfnParameter, Stack
 from aws_cdk import aws_ec2 as ec2
+from aws_cdk import aws_ecr as ecr
 from aws_cdk import aws_ecs as ecs
 from aws_cdk import aws_elasticloadbalancingv2 as elbv2
 from aws_cdk import aws_iam as iam
@@ -30,6 +31,14 @@ class AlpinePeakStack(Stack):
             "ImageTag",
             type="String",
             description="Immutable Git commit SHA applied to all Alpine Peak container images.",
+        )
+
+        # ECR repository created/owned by this stack.
+        repo = ecr.Repository(
+            self,
+            "ProductionRepository",
+            repository_name="alpine-peak-ski-shop",
+            removal_policy=None,  # keep on delete; explicit destroy only when you decide
         )
 
         vpc = ec2.Vpc.from_vpc_attributes(
@@ -59,7 +68,7 @@ class AlpinePeakStack(Stack):
         # Target group (L1 CFN so we can reference its ARN directly).
         target_group = elbv2.CfnTargetGroup(
             self, "ProductionTargetGroup",
-            name=existing.TARGET_GROUP_NAME,
+            name="alpine-peak-cdk",
             protocol="HTTP",
             port=80,
             target_type="ip",
@@ -94,7 +103,8 @@ class AlpinePeakStack(Stack):
 
         # Use direct SSM ARNs from existing config wrapped securely (no CfnParameter tokens)
 
-        repository_uri = f"{existing.ECR_REGISTRY}/{existing.ECR_REPOSITORY}"
+        # Use the stack-created ECR repository.
+        repository_uri = repo.repository_uri
 
         # Frontend container (no secrets needed)
         frontend = task_definition.add_container(

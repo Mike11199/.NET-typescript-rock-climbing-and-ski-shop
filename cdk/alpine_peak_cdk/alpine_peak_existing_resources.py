@@ -20,10 +20,6 @@ AWS_REGION = "us-west-1"
 # ECS cluster (imported read-only; never created or modified).
 ECS_CLUSTER_ARN = "arn:aws:ecs:us-west-1:456461478565:cluster/rock-climbing-ski-shop"
 
-# Resource names managed by this CDK stack.
-ECS_SERVICE_NAME = "alpine-peak-cdk"
-TARGET_GROUP_NAME = "alpine-peak-cdk"
-
 # External network/edge references. This CDK never creates or owns them.
 SERVICE_SECURITY_GROUP_ID = "sg-0190e299544ca1711"
 VPC_ID = "vpc-031a34e2307900372"
@@ -55,9 +51,7 @@ GOOGLE_OAUTH_CLIENT_ID_PARAMETER_ARN = (
     "arn:aws:ssm:us-west-1:456461478565:parameter/GOOGLE_OAUTH_CLIENT_ID"
 )
 
-# Image repository and task-definition shape captured from live revision 321.
-ECR_REGISTRY = "456461478565.dkr.ecr.us-west-1.amazonaws.com"
-ECR_REPOSITORY = "ski-rock-climbing-shop"
+# Task-definition shape captured from live revision 321.
 TASK_FAMILY = "deploy-ski-shop-full-stack-github-actions-v3"
 TASK_CPU = 512
 TASK_MEMORY_MIB = 1024
