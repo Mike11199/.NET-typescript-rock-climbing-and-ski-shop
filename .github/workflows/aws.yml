@@ -21,16 +21,16 @@ env:
   ECR_REPOSITORY: ski-rock-climbing-shop
 
 jobs:
-  validate-cdk:
-    name: Test and synthesize CDK
+  cdk-test:
+    name: Test CDK
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
           cache-dependency-glob: cdk/uv.lock
@@ -38,22 +38,71 @@ jobs:
       - name: Install pinned CDK CLI
         run: npm install --global "aws-cdk@$CDK_CLI_VERSION"
 
-      - name: Run CDK tests and local synthesis
+      - name: Run tests
         working-directory: cdk
         run: |
           uv sync --frozen --group dev
           uv run pytest
-          cdk synth AlpinePeakStack
 
-  build-images:
-    name: Build and push immutable commit images
-    needs: validate-cdk
+  cdk-synth:
+    name: CDK synth
+    needs: cdk-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: cdk/uv.lock
+
+      - name: Install pinned CDK CLI
+        run: npm install --global "aws-cdk@$CDK_CLI_VERSION"
+
+      - name: Synthesize production stack
+        working-directory: cdk
+        run: |
+          uv sync --frozen --group dev
+          echo "--- CDK SYNTH ---"
+          cdk synth AlpinePeakStack > /dev/null 2>&1 && echo "Synthesis passed."
+
+  cdk-diff:
+    name: CDK diff
+    needs: cdk-synth
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: cdk/uv.lock
+
+      - name: Install pinned CDK CLI
+        run: npm install --global "aws-cdk@$CDK_CLI_VERSION"
+
+      - name: Diff production stack against current deployment
+        working-directory: cdk
+        run: |
+          uv sync --frozen --group dev
+          echo "--- CDK DIFF (changes to deploy) ---"
+          cdk diff AlpinePeakStack || true
+
+  build-docker-images:
+    name: Build Docker images
+    needs: cdk-diff
     runs-on: ubuntu-latest
     environment: production
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -68,7 +117,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Ensure ECR repository exists
+      - name: Ensure ECR repository exists (idempotent)
         run: |
           aws ecr create-repository --repository-name "$ECR_REPOSITORY" || true
 
@@ -100,9 +149,9 @@ jobs:
           docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
 
-  deploy-cdk:
-    name: CDK
-    needs: build-images
+  cdk-deploy:
+    name: CDK deploy
+    needs: build-docker-images
     runs-on: ubuntu-latest
     environment: production
 
@@ -110,10 +159,10 @@ jobs:
     # shared ALB, listener, Route 53 record, or ACM certificate. Requires prior CDK bootstrap.
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
           cache-dependency-glob: cdk/uv.lock
