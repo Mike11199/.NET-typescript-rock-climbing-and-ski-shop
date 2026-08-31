@@ -11,8 +11,6 @@ from aws_cdk import aws_ecs as ecs
 from aws_cdk import aws_elasticloadbalancingv2 as elbv2
 from aws_cdk import aws_iam as iam
 from aws_cdk import aws_logs as logs
-from aws_cdk import aws_route53 as route53
-from aws_cdk import aws_route53_targets as route53_targets
 from aws_cdk import aws_ssm as ssm
 from constructs import Construct
 
@@ -121,7 +119,7 @@ class AlpinePeakStack(Stack):
             image=ecs.ContainerImage.from_registry(
                 f"{repository_uri}:back-end-express-socket-io-api-{image_tag.value_as_string}"
             ),
-            essential=False,
+            essential=True,
             logging=ecs.LogDrivers.aws_logs(
                 stream_prefix="ecs", log_group=express_log_group
             ),
@@ -151,7 +149,7 @@ class AlpinePeakStack(Stack):
             image=ecs.ContainerImage.from_registry(
                 f"{repository_uri}:back-end-dotnet-api-{image_tag.value_as_string}"
             ),
-            essential=False,
+            essential=True,
             logging=ecs.LogDrivers.aws_logs(
                 stream_prefix="ecs", log_group=dotnet_log_group
             ),
@@ -180,14 +178,20 @@ class AlpinePeakStack(Stack):
             ecs.PortMapping(container_port=5001, host_port=5001, name="backendv2")
         )
 
-        # Import shared ALB (read-only; never created or modified).
-        shared_alb = elbv2.ApplicationLoadBalancer.from_application_load_balancer_attributes(
-            self, "SharedAlb",
-            load_balancer_arn=existing.SHARED_ALB_ARN,
-            security_group_id="sg-0190e299544ca1711",  # matches one of the ALB's existing SGs (required by CDK for import)
+        # Listener rule must be created before the ECS service so CloudFormation wires
+        # the target group to the ALB first; otherwise ECS can fail with:
+        # "target group does not have an associated load balancer".
+        listener_rule = elbv2.CfnListenerRule(
+            self, "ProductionListenerRule",
+            listener_arn="arn:aws:elasticloadbalancing:us-west-1:456461478565:listener/app/consolidated-load-balancer/cebd4e468e9c8526/119a0202f44da309",
+            priority=1,
+            conditions=[{
+                "field": "host-header",
+                "hostHeaderConfig": {"values": ["alpine-peak-climbing-ski-gear.com"]},
+            }],
+            actions=[{"type": "forward", "targetGroupArn": target_group.ref}],
         )
 
-        # Use CfnService so we can wire our target group directly (no L2 import needed).
         service = ecs.CfnService(
             self, "ProductionService",
             service_name="alpine-peak-ski-shop",
@@ -218,21 +222,5 @@ class AlpinePeakStack(Stack):
             }],
         )
 
-        # Host-header rule on the shared ALB HTTPS listener for root domain.
-        production_host = "alpine-peak-climbing-ski-gear.com"
-
-        elbv2.CfnListenerRule(
-            self, "ProductionListenerRule",
-            listener_arn="arn:aws:elasticloadbalancing:us-west-1:456461478565:listener/app/consolidated-load-balancer/cebd4e468e9c8526/119a0202f44da309",
-            conditions=[{
-                "field": "host-header",
-                "hostHeaderConfig": {"values": [production_host]},
-            }],
-            priority=1,
-            actions=[{
-                "type": "forward",
-                "targetGroupArn": target_group.ref,
-            }],
-        )
-
-
+        # Ensure listener rule exists before ECS service tries to use the target group.
+        service.add_dependency(listener_rule)
