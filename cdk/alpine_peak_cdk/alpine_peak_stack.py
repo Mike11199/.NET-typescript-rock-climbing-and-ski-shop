@@ -40,12 +40,15 @@ class AlpinePeakStack(Stack):
             public_subnet_ids=list(existing.PUBLIC_SUBNET_IDS),
         )
 
-        # Cluster owned by this stack.
+        # Cluster owned by this stack, configured for Fargate Spot capacity.
         cluster = ecs.Cluster(
             self, "ProductionCluster",
             cluster_name="alpine-peak-ski-shop",
             vpc=vpc,
         )
+
+        # Enable both On-Demand and Spot Fargate providers on the cluster.
+        cluster.enable_fargate_capacity_providers()
 
         service_security_group = ec2.SecurityGroup.from_security_group_id(
             self, "ExistingServiceSecurityGroup", existing.SERVICE_SECURITY_GROUP_ID
@@ -191,7 +194,11 @@ class AlpinePeakStack(Stack):
             cluster=cluster.cluster_name,
             task_definition=task_definition.task_definition_arn,
             desired_count=1,
-            launch_type="FARGATE",
+            capacity_provider_strategy=[{
+                "capacityProvider": "FARGATE_SPOT",
+                "weight": 1,
+                "base": 0,
+            }],
             network_configuration={
                 "awsvpcConfiguration": {
                     "subnets": [s.subnet_id for s in deployment_subnets],
