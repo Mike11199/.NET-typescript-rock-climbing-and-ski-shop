@@ -50,12 +50,63 @@ def test_root_domain_listener_rule():
     })
 
 
-def test_no_route53_records():
-    """No Route53 records managed by this stack."""
+def test_imported_domain_resources_match_live_aws():
+    """The import template exactly models the existing domain resources."""
     t = _template()
 
-    # No Route53 records.
-    t.resource_count_is("AWS::Route53::RecordSet", 0)
+    t.resource_count_is("AWS::Route53::HostedZone", 1)
+    t.resource_count_is("AWS::Route53::RecordSet", 2)
+    t.resource_count_is("AWS::CertificateManager::Certificate", 1)
+
+    t.has_resource_properties("AWS::Route53::HostedZone", {
+        "Name": "alpine-peak-climbing-ski-gear.com",
+        "HostedZoneConfig": {
+            "Comment": "HostedZone created by Route53 Registrar",
+        },
+    })
+    t.has_resource_properties("AWS::Route53::RecordSet", {
+        "Name": "alpine-peak-climbing-ski-gear.com.",
+        "Type": "A",
+        "AliasTarget": {
+            "DNSName": "dualstack.consolidated-load-balancer-1342855394.us-west-1.elb.amazonaws.com.",
+            "HostedZoneId": "Z368ELLRRE2KJ0",
+            "EvaluateTargetHealth": False,
+        },
+    })
+    t.has_resource_properties("AWS::Route53::RecordSet", {
+        "Name": "_35b0b2153a5b683b950c3497f289e1dc.alpine-peak-climbing-ski-gear.com.",
+        "Type": "CNAME",
+        "TTL": "300",
+        "ResourceRecords": [
+            "_bba7c99dfe4ff30d724dea58272e54cb.mhvfxnchzy.acm-validations.aws."
+        ],
+    })
+    t.has_resource_properties("AWS::CertificateManager::Certificate", {
+        "DomainName": "alpine-peak-climbing-ski-gear.com",
+        "DomainValidationOptions": [{
+            "DomainName": "alpine-peak-climbing-ski-gear.com",
+            "HostedZoneId": "Z040844618MP488RZ84GN",
+        }],
+        "KeyAlgorithm": "RSA_2048",
+        "ValidationMethod": "DNS",
+        "CertificateTransparencyLoggingPreference": "ENABLED",
+    })
+
+
+def test_imported_domain_resources_have_stable_ids_and_retain_policies():
+    cloudformation = _template().to_json()
+    expected = {
+        "AlpinePeakHostedZone",
+        "AlpinePeakAliasRecord",
+        "AlpinePeakCertificateValidationRecord",
+        "AlpinePeakCertificate",
+    }
+
+    assert expected <= set(cloudformation["Resources"])
+    for logical_id in expected:
+        resource = cloudformation["Resources"][logical_id]
+        assert resource["DeletionPolicy"] == "Retain"
+        assert resource["UpdateReplacePolicy"] == "Retain"
 
 
 def test_three_containers_with_immutable_images():

@@ -5,12 +5,14 @@ task definition, target group, and ALB listener rule for alpine-peak-climbing-sk
 Shared infrastructure (ALB, VPC, subnets, security groups) is imported read-only.
 """
 
-from aws_cdk import CfnParameter, Stack
+from aws_cdk import CfnParameter, RemovalPolicy, Stack
+from aws_cdk import aws_certificatemanager as acm
 from aws_cdk import aws_ec2 as ec2
 from aws_cdk import aws_ecs as ecs
 from aws_cdk import aws_elasticloadbalancingv2 as elbv2
 from aws_cdk import aws_iam as iam
 from aws_cdk import aws_logs as logs
+from aws_cdk import aws_route53 as route53
 from aws_cdk import aws_ssm as ssm
 from constructs import Construct
 
@@ -29,6 +31,68 @@ class AlpinePeakStack(Stack):
             type="String",
             description="Immutable Git commit SHA applied to all Alpine Peak container images.",
         )
+
+        # Existing production domain resources adopted through a one-time CDK import.
+        hosted_zone = route53.CfnHostedZone(
+            self,
+            "AlpinePeakHostedZoneResource",
+            name=existing.DOMAIN_NAME,
+            hosted_zone_config=route53.CfnHostedZone.HostedZoneConfigProperty(
+                comment=existing.HOSTED_ZONE_COMMENT
+            ),
+        )
+        hosted_zone.override_logical_id("AlpinePeakHostedZone")
+        hosted_zone.apply_removal_policy(RemovalPolicy.RETAIN)
+
+        alias_record = route53.CfnRecordSet(
+            self,
+            "AlpinePeakAliasRecordResource",
+            hosted_zone_id=existing.ROUTE53_HOSTED_ZONE_ID,
+            name=f"{existing.DOMAIN_NAME}.",
+            type="A",
+            alias_target=route53.CfnRecordSet.AliasTargetProperty(
+                dns_name=f"dualstack.{existing.SHARED_ALB_DNS_NAME}.",
+                hosted_zone_id=existing.SHARED_ALB_CANONICAL_HOSTED_ZONE_ID,
+                evaluate_target_health=False,
+            ),
+        )
+        alias_record.override_logical_id("AlpinePeakAliasRecord")
+        alias_record.apply_removal_policy(RemovalPolicy.RETAIN)
+
+        validation_record = route53.CfnRecordSet(
+            self,
+            "AlpinePeakCertificateValidationRecordResource",
+            hosted_zone_id=existing.ROUTE53_HOSTED_ZONE_ID,
+            name=existing.CERTIFICATE_VALIDATION_RECORD_NAME,
+            type="CNAME",
+            ttl="300",
+            resource_records=[existing.CERTIFICATE_VALIDATION_RECORD_VALUE],
+        )
+        validation_record.override_logical_id(
+            "AlpinePeakCertificateValidationRecord"
+        )
+        validation_record.apply_removal_policy(RemovalPolicy.RETAIN)
+
+        # This stack owns the certificate, but SharedInfrastructureStack owns the
+        # HTTPS listener and references this ARN as its required default certificate.
+        # The attachment is managed by the shared listener resource; it is not
+        # orphaned and must not also be modeled as a ListenerCertificate here.
+        certificate = acm.CfnCertificate(
+            self,
+            "AlpinePeakCertificateResource",
+            domain_name=existing.DOMAIN_NAME,
+            domain_validation_options=[
+                acm.CfnCertificate.DomainValidationOptionProperty(
+                    domain_name=existing.DOMAIN_NAME,
+                    hosted_zone_id=existing.ROUTE53_HOSTED_ZONE_ID,
+                )
+            ],
+            key_algorithm="RSA_2048",
+            validation_method="DNS",
+            certificate_transparency_logging_preference="ENABLED",
+        )
+        certificate.override_logical_id("AlpinePeakCertificate")
+        certificate.apply_removal_policy(RemovalPolicy.RETAIN)
 
         vpc = ec2.Vpc.from_vpc_attributes(
             self,

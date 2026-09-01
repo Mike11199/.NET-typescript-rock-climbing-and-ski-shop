@@ -23,9 +23,22 @@ SHARED_ALB_ARN = "arn:aws:elasticloadbalancing:us-west-1:456461478565:loadbalanc
 SHARED_ALB_CANONICAL_HOSTED_ZONE_ID = "Z368ELLRRE2KJ0"
 SHARED_ALB_DNS_NAME = "consolidated-load-balancer-1342855394.us-west-1.elb.amazonaws.com"
 
-# Route 53 hosted zone for domain routing (imported read-only).
+# Route 53 hosted zone and records adopted by AlpinePeakStack.
 ROUTE53_HOSTED_ZONE_ID = "Z040844618MP488RZ84GN"
 DOMAIN_NAME = "alpine-peak-climbing-ski-gear.com"
+HOSTED_ZONE_COMMENT = "HostedZone created by Route53 Registrar"
+CERTIFICATE_ARN = (
+    "arn:aws:acm:us-west-1:456461478565:certificate/"
+    "98b115e8-c91b-4df3-b422-58cbcd420f30"
+)
+CERTIFICATE_VALIDATION_RECORD_NAME = (
+    "_35b0b2153a5b683b950c3497f289e1dc."
+    "alpine-peak-climbing-ski-gear.com."
+)
+CERTIFICATE_VALIDATION_RECORD_VALUE = (
+    "_bba7c99dfe4ff30d724dea58272e54cb."
+    "mhvfxnchzy.acm-validations.aws."
+)
 
 AVAILABILITY_ZONES = ("us-west-1b", "us-west-1c")
 PUBLIC_SUBNET_IDS = (

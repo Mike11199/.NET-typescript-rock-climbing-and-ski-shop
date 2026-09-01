@@ -169,8 +169,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
 
-    # This creates/updates only AlpinePeakStack. It does not change the
-    # shared ALB, listener, Route 53 record, or ACM certificate. Requires prior CDK bootstrap.
+    # This creates/updates AlpinePeakStack, including its Route 53 records and ACM
+    # certificate. It does not change the shared ALB or listeners. Requires prior
+    # CDK bootstrap.
     steps:
       - name: Checkout
         uses: actions/checkout@v5
