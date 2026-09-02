@@ -1,12 +1,19 @@
-"""Alpine Peak production stack.
+"""Alpine Peak application infrastructure.
 
-This stack owns the Alpine Peak ECS service: its own ECS cluster, Fargate task,
-task definition, target group, and ALB listener rule for alpine-peak-climbing-ski-gear.com.
-Shared infrastructure (ALB, VPC, subnets, security groups) is imported read-only.
+AlpinePeakStack owns the root Route 53 A-alias record for
+alpine-peak-climbing-ski-gear.com because the record routes this application's
+domain to the shared ALB and should change or be removed with this website. The
+hosted zone and ACM certificate are instead owned by SharedDomainsStack in
+C:/Git/shared-infra-aws-cdk so domain and certificate creation precedes the
+shared HTTPS listener in a fresh environment. This stack also owns the ECS
+cluster, Fargate task, task definition, target group, and ALB listener rule.
+The A-alias is retained against accidental DNS loss; the listener rule follows
+normal application-stack deletion so it cannot leave stale target-group
+routing. The shared ALB, VPC, subnets, and security groups are referenced
+read-only.
 """
 
-from aws_cdk import CfnParameter, RemovalPolicy, Stack
-from aws_cdk import aws_certificatemanager as acm
+from aws_cdk import CfnParameter, Fn, RemovalPolicy, Stack
 from aws_cdk import aws_ec2 as ec2
 from aws_cdk import aws_ecs as ecs
 from aws_cdk import aws_elasticloadbalancingv2 as elbv2
@@ -32,67 +39,31 @@ class AlpinePeakStack(Stack):
             description="Immutable Git commit SHA applied to all Alpine Peak container images.",
         )
 
-        # Existing production domain resources adopted through a one-time CDK import.
-        hosted_zone = route53.CfnHostedZone(
-            self,
-            "AlpinePeakHostedZoneResource",
-            name=existing.DOMAIN_NAME,
-            hosted_zone_config=route53.CfnHostedZone.HostedZoneConfigProperty(
-                comment=existing.HOSTED_ZONE_COMMENT
-            ),
-        )
-        hosted_zone.override_logical_id("AlpinePeakHostedZone")
-        hosted_zone.apply_removal_policy(RemovalPolicy.RETAIN)
-
+        # The application owns its root route while SharedDomainsStack owns the
+        # long-lived zone and SharedInfrastructureStack owns the shared ALB.
         alias_record = route53.CfnRecordSet(
             self,
             "AlpinePeakAliasRecordResource",
-            hosted_zone_id=existing.ROUTE53_HOSTED_ZONE_ID,
+            hosted_zone_id=Fn.import_value("SharedAlpinePeakHostedZoneId"),
             name=f"{existing.DOMAIN_NAME}.",
             type="A",
             alias_target=route53.CfnRecordSet.AliasTargetProperty(
-                dns_name=f"dualstack.{existing.SHARED_ALB_DNS_NAME}.",
-                hosted_zone_id=existing.SHARED_ALB_CANONICAL_HOSTED_ZONE_ID,
+                dns_name=Fn.join(
+                    "",
+                    [
+                        "dualstack.",
+                        Fn.import_value("SharedLoadBalancerDnsName"),
+                        ".",
+                    ],
+                ),
+                hosted_zone_id=Fn.import_value(
+                    "SharedLoadBalancerCanonicalHostedZoneId"
+                ),
                 evaluate_target_health=False,
             ),
         )
         alias_record.override_logical_id("AlpinePeakAliasRecord")
         alias_record.apply_removal_policy(RemovalPolicy.RETAIN)
-
-        validation_record = route53.CfnRecordSet(
-            self,
-            "AlpinePeakCertificateValidationRecordResource",
-            hosted_zone_id=existing.ROUTE53_HOSTED_ZONE_ID,
-            name=existing.CERTIFICATE_VALIDATION_RECORD_NAME,
-            type="CNAME",
-            ttl="300",
-            resource_records=[existing.CERTIFICATE_VALIDATION_RECORD_VALUE],
-        )
-        validation_record.override_logical_id(
-            "AlpinePeakCertificateValidationRecord"
-        )
-        validation_record.apply_removal_policy(RemovalPolicy.RETAIN)
-
-        # This stack owns the certificate, but SharedInfrastructureStack owns the
-        # HTTPS listener and references this ARN as its required default certificate.
-        # The attachment is managed by the shared listener resource; it is not
-        # orphaned and must not also be modeled as a ListenerCertificate here.
-        certificate = acm.CfnCertificate(
-            self,
-            "AlpinePeakCertificateResource",
-            domain_name=existing.DOMAIN_NAME,
-            domain_validation_options=[
-                acm.CfnCertificate.DomainValidationOptionProperty(
-                    domain_name=existing.DOMAIN_NAME,
-                    hosted_zone_id=existing.ROUTE53_HOSTED_ZONE_ID,
-                )
-            ],
-            key_algorithm="RSA_2048",
-            validation_method="DNS",
-            certificate_transparency_logging_preference="ENABLED",
-        )
-        certificate.override_logical_id("AlpinePeakCertificate")
-        certificate.apply_removal_policy(RemovalPolicy.RETAIN)
 
         vpc = ec2.Vpc.from_vpc_attributes(
             self,
@@ -242,16 +213,14 @@ class AlpinePeakStack(Stack):
             ecs.PortMapping(container_port=5001, host_port=5001, name="backendv2")
         )
 
-        # Listener rule must be created before the ECS service so CloudFormation wires
-        # the target group to the ALB first; otherwise ECS can fail with:
-        # "target group does not have an associated load balancer".
         listener_rule = elbv2.CfnListenerRule(
-            self, "ProductionListenerRule",
-            listener_arn="arn:aws:elasticloadbalancing:us-west-1:456461478565:listener/app/consolidated-load-balancer/cebd4e468e9c8526/119a0202f44da309",
+            self,
+            "ProductionListenerRule",
+            listener_arn=Fn.import_value("SharedHttpsListenerArn"),
             priority=1,
             conditions=[{
                 "field": "host-header",
-                "hostHeaderConfig": {"values": ["alpine-peak-climbing-ski-gear.com"]},
+                "hostHeaderConfig": {"values": [existing.DOMAIN_NAME]},
             }],
             actions=[{"type": "forward", "targetGroupArn": target_group.ref}],
         )
@@ -285,6 +254,4 @@ class AlpinePeakStack(Stack):
                 "containerPort": 80,
             }],
         )
-
-        # Ensure listener rule exists before ECS service tries to use the target group.
-        service.add_dependency(listener_rule)
+        service.add_resource_dependency(listener_rule)

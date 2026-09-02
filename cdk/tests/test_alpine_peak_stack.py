@@ -44,69 +44,56 @@ def test_root_domain_listener_rule():
     # Listener rule: priority 1, matches root domain host header.
     t.has_resource_properties("AWS::ElasticLoadBalancingV2::ListenerRule", {
         "Priority": 1,
+        "ListenerArn": {"Fn::ImportValue": "SharedHttpsListenerArn"},
         "Conditions": [Match.object_like({
             "HostHeaderConfig": {"Values": ["alpine-peak-climbing-ski-gear.com"]},
         })],
     })
 
+    resource = t.to_json()["Resources"]["ProductionListenerRule"]
+    assert "DeletionPolicy" not in resource
+    assert "UpdateReplacePolicy" not in resource
+    assert t.to_json()["Resources"]["ProductionService"]["DependsOn"] == [
+        "ProductionListenerRule"
+    ]
 
-def test_imported_domain_resources_match_live_aws():
-    """The import template exactly models the existing domain resources."""
+
+def test_stack_releases_shared_domain_resources_but_keeps_root_alias():
+    """SharedDomainsStack will own the zone and certificate after migration."""
     t = _template()
 
-    t.resource_count_is("AWS::Route53::HostedZone", 1)
-    t.resource_count_is("AWS::Route53::RecordSet", 2)
-    t.resource_count_is("AWS::CertificateManager::Certificate", 1)
+    t.resource_count_is("AWS::Route53::HostedZone", 0)
+    t.resource_count_is("AWS::CertificateManager::Certificate", 0)
+    t.resource_count_is("AWS::Route53::RecordSet", 1)
 
-    t.has_resource_properties("AWS::Route53::HostedZone", {
-        "Name": "alpine-peak-climbing-ski-gear.com",
-        "HostedZoneConfig": {
-            "Comment": "HostedZone created by Route53 Registrar",
-        },
-    })
     t.has_resource_properties("AWS::Route53::RecordSet", {
         "Name": "alpine-peak-climbing-ski-gear.com.",
         "Type": "A",
+        "HostedZoneId": {"Fn::ImportValue": "SharedAlpinePeakHostedZoneId"},
         "AliasTarget": {
-            "DNSName": "dualstack.consolidated-load-balancer-1342855394.us-west-1.elb.amazonaws.com.",
-            "HostedZoneId": "Z368ELLRRE2KJ0",
+            "DNSName": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "dualstack.",
+                        {"Fn::ImportValue": "SharedLoadBalancerDnsName"},
+                        ".",
+                    ],
+                ]
+            },
+            "HostedZoneId": {
+                "Fn::ImportValue": "SharedLoadBalancerCanonicalHostedZoneId"
+            },
             "EvaluateTargetHealth": False,
         },
     })
-    t.has_resource_properties("AWS::Route53::RecordSet", {
-        "Name": "_35b0b2153a5b683b950c3497f289e1dc.alpine-peak-climbing-ski-gear.com.",
-        "Type": "CNAME",
-        "TTL": "300",
-        "ResourceRecords": [
-            "_bba7c99dfe4ff30d724dea58272e54cb.mhvfxnchzy.acm-validations.aws."
-        ],
-    })
-    t.has_resource_properties("AWS::CertificateManager::Certificate", {
-        "DomainName": "alpine-peak-climbing-ski-gear.com",
-        "DomainValidationOptions": [{
-            "DomainName": "alpine-peak-climbing-ski-gear.com",
-            "HostedZoneId": "Z040844618MP488RZ84GN",
-        }],
-        "KeyAlgorithm": "RSA_2048",
-        "ValidationMethod": "DNS",
-        "CertificateTransparencyLoggingPreference": "ENABLED",
-    })
 
 
-def test_imported_domain_resources_have_stable_ids_and_retain_policies():
-    cloudformation = _template().to_json()
-    expected = {
-        "AlpinePeakHostedZone",
-        "AlpinePeakAliasRecord",
-        "AlpinePeakCertificateValidationRecord",
-        "AlpinePeakCertificate",
-    }
+def test_root_alias_keeps_stable_id_and_retain_policy():
+    resource = _template().to_json()["Resources"]["AlpinePeakAliasRecord"]
 
-    assert expected <= set(cloudformation["Resources"])
-    for logical_id in expected:
-        resource = cloudformation["Resources"][logical_id]
-        assert resource["DeletionPolicy"] == "Retain"
-        assert resource["UpdateReplacePolicy"] == "Retain"
+    assert resource["DeletionPolicy"] == "Retain"
+    assert resource["UpdateReplacePolicy"] == "Retain"
 
 
 def test_three_containers_with_immutable_images():

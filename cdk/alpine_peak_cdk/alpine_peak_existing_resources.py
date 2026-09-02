@@ -1,10 +1,12 @@
-"""Existing Alpine Peak inputs used by the CDK stack.
+"""Existing Alpine Peak inputs used by the application CDK stack.
 
-These are live AWS resources shared across services — imported read-only,
-never created or modified by this stack.
+Shared hosted-zone and certificate ownership is defined by SharedDomainsStack
+in C:/Git/shared-infra-aws-cdk. AlpinePeakStack owns its root A-alias record and
+consumes shared hosted-zone, ALB, and listener exports for that route.
 
 The ECR repository is managed externally by GitHub Actions (auto-created on first push).
-Everything else (ECS cluster, ECS service, task definition, target group) is owned/created by AlpinePeakStack.
+The root alias, ECS cluster, service, task definition, target group, and listener
+rule are owned by AlpinePeakStack.
 
 No value in this file is a credential or secret; SSM parameters are referenced
 by ARN only so tasks can resolve them at runtime.
@@ -17,28 +19,7 @@ AWS_REGION = "us-west-1"
 SERVICE_SECURITY_GROUP_ID = "sg-0190e299544ca1711"
 VPC_ID = "vpc-031a34e2307900372"
 
-# Shared ALB (read-only import only; never created or modified).
-SHARED_ALB_ARN = "arn:aws:elasticloadbalancing:us-west-1:456461478565:loadbalancer/app/consolidated-load-balancer/cebd4e468e9c8526"
-# Canonical hosted zone ID for Route 53 Alias (required when creating an Alias to this ALB).
-SHARED_ALB_CANONICAL_HOSTED_ZONE_ID = "Z368ELLRRE2KJ0"
-SHARED_ALB_DNS_NAME = "consolidated-load-balancer-1342855394.us-west-1.elb.amazonaws.com"
-
-# Route 53 hosted zone and records adopted by AlpinePeakStack.
-ROUTE53_HOSTED_ZONE_ID = "Z040844618MP488RZ84GN"
 DOMAIN_NAME = "alpine-peak-climbing-ski-gear.com"
-HOSTED_ZONE_COMMENT = "HostedZone created by Route53 Registrar"
-CERTIFICATE_ARN = (
-    "arn:aws:acm:us-west-1:456461478565:certificate/"
-    "98b115e8-c91b-4df3-b422-58cbcd420f30"
-)
-CERTIFICATE_VALIDATION_RECORD_NAME = (
-    "_35b0b2153a5b683b950c3497f289e1dc."
-    "alpine-peak-climbing-ski-gear.com."
-)
-CERTIFICATE_VALIDATION_RECORD_VALUE = (
-    "_bba7c99dfe4ff30d724dea58272e54cb."
-    "mhvfxnchzy.acm-validations.aws."
-)
 
 AVAILABILITY_ZONES = ("us-west-1b", "us-west-1c")
 PUBLIC_SUBNET_IDS = (
