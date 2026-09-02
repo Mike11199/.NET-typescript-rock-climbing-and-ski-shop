@@ -108,6 +108,7 @@ jobs:
           echo "--- CDK DIFF (changes to deploy) ---"
           cdk diff AlpinePeakStack || true
 
+
   build-docker-images:
     name: build-docker-images
     needs: cdk-diff
@@ -169,9 +170,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
 
-    # This creates/updates AlpinePeakStack, including its Route 53 records and ACM
-    # certificate. It does not change the shared ALB or listeners. Requires prior
-    # CDK bootstrap.
+    # This creates/updates AlpinePeakStack, including its Route 53 root alias,
+    # listener rule, target group, and ECS resources. It consumes shared domain,
+    # ALB, and listener outputs and requires prior CDK bootstrap.
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -197,5 +198,6 @@ jobs:
         run: |
           uv sync --frozen --group dev
           cdk deploy AlpinePeakStack \
+            --revert-drift \
             --require-approval never \
             --parameters ImageTag=${{ github.sha }}
