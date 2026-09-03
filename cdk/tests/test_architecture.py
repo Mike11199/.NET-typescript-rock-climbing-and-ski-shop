@@ -1,5 +1,6 @@
 """Regression tests for final shared-resource ownership and deployment order."""
 
+import json
 from pathlib import Path
 
 from aws_cdk import App
@@ -32,6 +33,9 @@ def test_repository_stack_retains_live_repository_and_exports_uri():
     repository = document["Resources"]["AlpinePeakRepository"]
     assert repository["DeletionPolicy"] == "Retain"
     assert repository["UpdateReplacePolicy"] == "Retain"
+    lifecycle_policy = json.loads(
+        repository["Properties"].pop("LifecyclePolicy")["LifecyclePolicyText"]
+    )
     assert repository["Properties"] == {
         "EncryptionConfiguration": {"EncryptionType": "AES256"},
         "ImageScanningConfiguration": {"ScanOnPush": False},
@@ -41,6 +45,36 @@ def test_repository_stack_retains_live_repository_and_exports_uri():
     assert document["Outputs"]["RepositoryUri"]["Export"] == {
         "Name": "AlpinePeakRepositoryUri"
     }
+    assert lifecycle_policy["rules"] == [
+        {
+            "rulePriority": priority,
+            "description": description,
+            "selection": {
+                "tagStatus": "tagged",
+                "tagPrefixList": [prefix],
+                "countType": "imageCountMoreThan",
+                "countNumber": 3,
+            },
+            "action": {"type": "expire"},
+        }
+        for priority, description, prefix in (
+            (1, "Keep the three most recent frontend images", "front-end-"),
+            (2, "Keep the three most recent Express API images", "back-end-express-socket-io-api-"),
+            (3, "Keep the three most recent .NET API images", "back-end-dotnet-api-"),
+        )
+    ] + [
+        {
+            "rulePriority": 4,
+            "description": "Expire untagged images after one day",
+            "selection": {
+                "tagStatus": "untagged",
+                "countType": "sinceImagePushed",
+                "countUnit": "days",
+                "countNumber": 1,
+            },
+            "action": {"type": "expire"},
+        }
+    ]
 
 
 def test_application_imports_shared_network_and_repository_values():
