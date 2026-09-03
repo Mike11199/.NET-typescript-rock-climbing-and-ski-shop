@@ -28,6 +28,17 @@ def test_workflow_deploys_from_the_same_commit_sha() -> None:
     assert "npx --yes aws-cdk@2" not in text
 
 
+def test_application_deploy_excludes_the_already_deployed_repository_stack() -> None:
+    """Image parameters must be sent only to the application stack."""
+    text = WORKFLOW.read_text(encoding="utf-8")
+    application_deploy = text[text.index("cdk deploy AlpinePeakStack") :]
+
+    assert "--exclusively" in application_deploy
+    assert application_deploy.index("--exclusively") < application_deploy.index(
+        "--parameters"
+    )
+
+
 def test_workflow_does_not_create_or_switch_dns_or_listener_rules() -> None:
     """CDK deployment only; shared ALB/DNS promotion is a separate manual step."""
     text = WORKFLOW.read_text(encoding="utf-8")
