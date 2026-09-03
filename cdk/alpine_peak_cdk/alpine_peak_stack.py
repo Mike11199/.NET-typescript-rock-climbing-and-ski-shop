@@ -3,17 +3,17 @@
 AlpinePeakStack owns the root Route 53 A-alias record for
 alpine-peak-climbing-ski-gear.com because the record routes this application's
 domain to the shared ALB and should change or be removed with this website. The
-hosted zone and ACM certificate are instead owned by SharedDomainsStack in
-C:/Git/shared-infra-aws-cdk so domain and certificate creation precedes the
-shared HTTPS listener in a fresh environment. This stack also owns the ECS
-cluster, Fargate task, task definition, target group, and ALB listener rule.
-The A-alias is retained against accidental DNS loss; the listener rule follows
-normal application-stack deletion so it cannot leave stale target-group
-routing. The shared ALB, VPC, subnets, and security groups are referenced
-read-only.
+hosted zone and ACM certificate are instead owned by SharedHostedZonesStack and
+SharedCertificatesStack in C:/Git/shared-infra-aws-cdk, so domain and certificate
+creation precedes the shared HTTPS listener in a fresh environment. This stack
+also owns the ECS cluster, Fargate task, task definition, target group, and ALB
+listener rule. The A-alias is retained against accidental DNS loss; the listener
+rule follows normal application-stack deletion so it cannot leave stale routing.
+The shared ALB, VPC, subnets, and ALB security group are referenced read-only.
+The ECS service and RDS security groups are application-owned.
 """
 
-from aws_cdk import CfnParameter, Fn, RemovalPolicy, Stack
+from aws_cdk import CfnOutput, CfnParameter, Fn, RemovalPolicy, Stack
 from aws_cdk import aws_ec2 as ec2
 from aws_cdk import aws_ecs as ecs
 from aws_cdk import aws_elasticloadbalancingv2 as elbv2
@@ -39,8 +39,8 @@ class AlpinePeakStack(Stack):
             description="Immutable Git commit SHA applied to all Alpine Peak container images.",
         )
 
-        # The application owns its root route while SharedDomainsStack owns the
-        # long-lived zone and SharedInfrastructureStack owns the shared ALB.
+        # The application owns its root route while SharedHostedZonesStack owns
+        # the long-lived zone and SharedInfrastructureStack owns the shared ALB.
         alias_record = route53.CfnRecordSet(
             self,
             "AlpinePeakAliasRecordResource",
@@ -65,12 +65,22 @@ class AlpinePeakStack(Stack):
         alias_record.override_logical_id("AlpinePeakAliasRecord")
         alias_record.apply_removal_policy(RemovalPolicy.RETAIN)
 
+        vpc_id = Fn.import_value("SharedVpcId")
+        availability_zones = [
+            Fn.import_value("SharedPublicSubnet1AvailabilityZone"),
+            Fn.import_value("SharedPublicSubnet2AvailabilityZone"),
+        ]
+        public_subnet_ids = [
+            Fn.import_value("SharedPublicSubnet1Id"),
+            Fn.import_value("SharedPublicSubnet2Id"),
+        ]
+
         vpc = ec2.Vpc.from_vpc_attributes(
             self,
-            "ExistingVpc",
-            vpc_id=existing.VPC_ID,
-            availability_zones=list(existing.AVAILABILITY_ZONES),
-            public_subnet_ids=list(existing.PUBLIC_SUBNET_IDS),
+            "SharedVpc",
+            vpc_id=vpc_id,
+            availability_zones=availability_zones,
+            public_subnet_ids=public_subnet_ids,
         )
 
         # Cluster owned by this stack, configured for Fargate Spot capacity.
@@ -83,15 +93,72 @@ class AlpinePeakStack(Stack):
         # Enable both On-Demand and Spot Fargate providers on the cluster.
         cluster.enable_fargate_capacity_providers()
 
-        service_security_group = ec2.SecurityGroup.from_security_group_id(
-            self, "ExistingServiceSecurityGroup", existing.SERVICE_SECURITY_GROUP_ID
+        shared_alb_security_group = ec2.SecurityGroup.from_security_group_id(
+            self,
+            "SharedAlbSecurityGroup",
+            Fn.import_value("SharedAlbSecurityGroupId"),
+            mutable=False,
+        )
+        service_security_group = ec2.SecurityGroup(
+            self,
+            "ServiceSecurityGroup",
+            vpc=vpc,
+            description="Alpine Peak ECS service security group",
+        )
+        service_security_group.node.default_child.override_logical_id(
+            "AlpinePeakServiceSecurityGroup"
+        )
+        service_security_group.add_ingress_rule(
+            shared_alb_security_group,
+            ec2.Port.tcp(80),
+            "Allow HTTP from the shared ALB",
+        )
+
+        # The database remains manually managed. This retained group is exported
+        # so operators can attach it to the current or fresh RDS instance.
+        rds_security_group = ec2.SecurityGroup(
+            self,
+            "RdsSecurityGroup",
+            vpc=vpc,
+            description="Alpine Peak RDS security group",
+        )
+        rds_security_group.node.default_child.override_logical_id(
+            "AlpinePeakRdsSecurityGroup"
+        )
+        rds_security_group.apply_removal_policy(RemovalPolicy.RETAIN)
+        ec2.CfnSecurityGroupIngress(
+            self,
+            "RdsSecurityGroupfromApplication5432",
+            group_id=rds_security_group.security_group_id,
+            source_security_group_id=service_security_group.security_group_id,
+            ip_protocol="tcp",
+            from_port=5432,
+            to_port=5432,
+            description="Allow PostgreSQL from the Alpine Peak ECS service",
+        )
+        CfnOutput(
+            self,
+            "RdsSecurityGroupId",
+            value=rds_security_group.security_group_id,
+            export_name="AlpinePeakRdsSecurityGroupId",
         )
         deployment_subnets = [
-            ec2.Subnet.from_subnet_id(self, f"ExistingPublicSubnet{index}", subnet_id)
-            for index, subnet_id in enumerate(existing.PUBLIC_SUBNET_IDS, start=1)
+            ec2.Subnet.from_subnet_attributes(
+                self,
+                f"SharedPublicSubnet{index}",
+                subnet_id=subnet_id,
+                availability_zone=availability_zones[index - 1],
+            )
+            for index, subnet_id in enumerate(public_subnet_ids, start=1)
         ]
+        execution_role_arn = self.format_arn(
+            service="iam",
+            region="",
+            resource="role",
+            resource_name=existing.EXECUTION_ROLE_NAME,
+        )
         execution_role = iam.Role.from_role_arn(
-            self, "ExistingExecutionRole", existing.EXECUTION_ROLE_ARN, mutable=False
+            self, "ExistingExecutionRole", execution_role_arn, mutable=False
         )
 
         # Target group (L1 CFN so we can reference its ARN directly).
@@ -101,7 +168,7 @@ class AlpinePeakStack(Stack):
             protocol="HTTP",
             port=80,
             target_type="ip",
-            vpc_id=existing.VPC_ID,
+            vpc_id=vpc_id,
             health_check_enabled=True,
             health_check_path="/",
             healthy_threshold_count=5,
@@ -113,6 +180,7 @@ class AlpinePeakStack(Stack):
                 "value": "30",
             }],
         )
+        target_group.apply_removal_policy(RemovalPolicy.RETAIN)
 
         task_definition = ecs.FargateTaskDefinition(
             self,
@@ -130,9 +198,8 @@ class AlpinePeakStack(Stack):
             self, "ExistingDotnetLogGroup", existing.DOTNET_LOG_GROUP_NAME
         )
 
-        # Use the external ECR repository created by GitHub Actions on push.
-        registry = f"{existing.AWS_ACCOUNT_ID}.dkr.ecr.{self.region}.amazonaws.com"
-        repository_uri = f"{registry}/ski-rock-climbing-shop"
+        # RepositoryStack owns ECR and exports the URI before images are built.
+        repository_uri = Fn.import_value("AlpinePeakRepositoryUri")
 
         # Frontend container (no secrets needed)
         frontend = task_definition.add_container(
@@ -162,13 +229,13 @@ class AlpinePeakStack(Stack):
                 "JWT_SECRET_KEY": ecs.Secret.from_ssm_parameter(
                     ssm.StringParameter.from_secure_string_parameter_attributes(
                         self, "ExpressJwtSecureParam",
-                        parameter_name=existing.JWT_PARAMETER_ARN.split("/")[-1]
+                        parameter_name=existing.JWT_PARAMETER_NAME
                     )
                 ),
                 "MONGO_URL": ecs.Secret.from_ssm_parameter(
                     ssm.StringParameter.from_secure_string_parameter_attributes(
                         self, "ExpressMongoSecureParam",
-                        parameter_name=existing.MONGO_PARAMETER_ARN.split("/")[-1]
+                        parameter_name=existing.MONGO_PARAMETER_NAME
                     )
                 ),
             },
@@ -192,19 +259,19 @@ class AlpinePeakStack(Stack):
                 "JWT_SECRET_KEY": ecs.Secret.from_ssm_parameter(
                     ssm.StringParameter.from_secure_string_parameter_attributes(
                         self, "DotnetJwtSecureParam",
-                        parameter_name=existing.JWT_PARAMETER_ARN.split("/")[-1]
+                        parameter_name=existing.JWT_PARAMETER_NAME
                     )
                 ),
                 "POSTGRES_URL_SKI_ROCK_SHOP": ecs.Secret.from_ssm_parameter(
                     ssm.StringParameter.from_secure_string_parameter_attributes(
                         self, "DotnetPostgresSecureParam",
-                        parameter_name=existing.POSTGRES_PARAMETER_ARN.split("/")[-1]
+                        parameter_name=existing.POSTGRES_PARAMETER_NAME
                     )
                 ),
                 "GOOGLE_OAUTH_CLIENT_ID": ecs.Secret.from_ssm_parameter(
                     ssm.StringParameter.from_secure_string_parameter_attributes(
                         self, "DotnetGoogleOauthSecureParam",
-                        parameter_name=existing.GOOGLE_OAUTH_CLIENT_ID_PARAMETER_ARN.split("/")[-1]
+                        parameter_name=existing.GOOGLE_OAUTH_CLIENT_ID_PARAMETER_NAME
                     )
                 ),
             },
@@ -224,6 +291,7 @@ class AlpinePeakStack(Stack):
             }],
             actions=[{"type": "forward", "targetGroupArn": target_group.ref}],
         )
+        listener_rule.apply_removal_policy(RemovalPolicy.RETAIN)
 
         service = ecs.CfnService(
             self, "ProductionService",

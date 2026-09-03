@@ -50,10 +50,13 @@ def test_root_domain_listener_rule():
         })],
     })
 
-    resource = t.to_json()["Resources"]["ProductionListenerRule"]
-    assert "DeletionPolicy" not in resource
-    assert "UpdateReplacePolicy" not in resource
-    assert t.to_json()["Resources"]["ProductionService"]["DependsOn"] == [
+    resources = t.to_json()["Resources"]
+    listener_rule = resources["ProductionListenerRule"]
+    target_group = resources["ProductionTargetGroup"]
+    for resource in (listener_rule, target_group):
+        assert resource["DeletionPolicy"] == "Retain"
+        assert resource["UpdateReplacePolicy"] == "Retain"
+    assert resources["ProductionService"]["DependsOn"] == [
         "ProductionListenerRule"
     ]
 

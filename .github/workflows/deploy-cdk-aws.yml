@@ -9,14 +9,12 @@ on:
 permissions:
   contents: read
 
-# One release at a time. A newer push waits rather than cancelling a deployment
-# that is already replacing a healthy ECS task.
 concurrency:
   group: alpine-peak-release
   cancel-in-progress: false
 
 env:
-  AWS_REGION: us-west-1
+  AWS_REGION: ${{ vars.AWS_REGION }}
   CDK_CLI_VERSION: 2.1139.0
   ECR_REPOSITORY: ski-rock-climbing-shop
 
@@ -24,118 +22,64 @@ jobs:
   cdk-test:
     name: cdk-test
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-
       - name: Set up uv
         uses: astral-sh/setup-uv@v10.0.1
         with:
           enable-cache: true
           cache-dependency-glob: cdk/uv.lock
-
-      - name: Install pinned CDK CLI
-        run: npm install --global "aws-cdk@$CDK_CLI_VERSION"
-
       - name: Run tests
         working-directory: cdk
         run: |
           uv sync --frozen --group dev
           uv run pytest
 
-  cdk-synth:
-    name: cdk-synth
+  deploy-repository:
+    name: deploy-repository
     needs: cdk-test
     runs-on: ubuntu-latest
-
+    environment: production
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6.2.3
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
-
       - name: Set up uv
         uses: astral-sh/setup-uv@v10.0.1
         with:
           enable-cache: true
           cache-dependency-glob: cdk/uv.lock
-
       - name: Install pinned CDK CLI
         run: npm install --global "aws-cdk@$CDK_CLI_VERSION"
-
-      - name: Synthesize production stack
+      - name: Deploy retained ECR repository
         working-directory: cdk
         run: |
           uv sync --frozen --group dev
-          echo "--- CDK SYNTH ---"
-          cdk synth AlpinePeakStack
-
-  cdk-diff:
-    name: cdk-diff
-    needs: cdk-synth
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v6.2.3
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Set up uv
-        uses: astral-sh/setup-uv@v10.0.1
-        with:
-          enable-cache: true
-          cache-dependency-glob: cdk/uv.lock
-
-      - name: Install pinned CDK CLI
-        run: npm install --global "aws-cdk@$CDK_CLI_VERSION"
-
-      - name: Diff production stack against current deployment
-        working-directory: cdk
-        run: |
-          uv sync --frozen --group dev
-          echo "--- CDK DIFF (changes to deploy) ---"
-          cdk diff AlpinePeakStack || true
-
+          cdk deploy AlpinePeakRepositoryStack --require-approval never
 
   build-docker-images:
     name: build-docker-images
-    needs: cdk-diff
+    needs: deploy-repository
     runs-on: ubuntu-latest
     environment: production
-
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6.2.3
         with:
-          # Temporary credential path. Move to GitHub OIDC after a narrowly
-          # scoped AWS deploy role is created and separately audited.
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
-
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Ensure ECR repository exists (idempotent)
-        run: |
-          aws ecr create-repository --repository-name "$ECR_REPOSITORY" || true
-
       - name: Build and push immutable frontend image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -144,7 +88,6 @@ jobs:
         run: |
           docker build --tag "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" .
           docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-
       - name: Build and push immutable Express API image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -153,7 +96,6 @@ jobs:
         run: |
           docker build --tag "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" .
           docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-
       - name: Build and push immutable .NET API image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -163,37 +105,28 @@ jobs:
           docker build --tag "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" .
           docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-
-  cdk-deploy:
-    name: cdk-deploy
+  deploy-application:
+    name: deploy-application
     needs: build-docker-images
     runs-on: ubuntu-latest
     environment: production
-
-    # This creates/updates AlpinePeakStack, including its Route 53 root alias,
-    # listener rule, target group, and ECS resources. It consumes shared domain,
-    # ALB, and listener outputs and requires prior CDK bootstrap.
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-
-      - name: Set up uv
-        uses: astral-sh/setup-uv@v10.0.1
-        with:
-          enable-cache: true
-          cache-dependency-glob: cdk/uv.lock
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6.2.3
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
-
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10.0.1
+        with:
+          enable-cache: true
+          cache-dependency-glob: cdk/uv.lock
       - name: Install pinned CDK CLI
         run: npm install --global "aws-cdk@$CDK_CLI_VERSION"
-
-      - name: Deploy production service with this commit's image tag
+      - name: Deploy application with this commit's image tag
         working-directory: cdk
         run: |
           uv sync --frozen --group dev

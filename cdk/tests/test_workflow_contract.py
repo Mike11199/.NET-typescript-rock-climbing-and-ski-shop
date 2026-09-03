@@ -3,7 +3,12 @@
 from pathlib import Path
 
 
-WORKFLOW = Path(__file__).parents[2] / ".github" / "workflows" / "deploy-cdk-aws.yml"
+WORKFLOW = (
+    Path(__file__).parents[2]
+    / ".github"
+    / "workflows"
+    / "deploy-cdk-aws.yml"
+)
 
 
 def test_workflow_deploys_from_the_same_commit_sha() -> None:
@@ -13,9 +18,11 @@ def test_workflow_deploys_from_the_same_commit_sha() -> None:
     assert "IMAGE_TAG: front-end-${{ github.sha }}" in text
     assert "IMAGE_TAG: back-end-express-socket-io-api-${{ github.sha }}" in text
     assert "IMAGE_TAG: back-end-dotnet-api-${{ github.sha }}" in text
-    assert "cdk-deploy:" in text
+    assert "deploy-repository:" in text
+    assert "deploy-application:" in text
     assert "CDK_CLI_VERSION: 2.1139.0" in text
     assert 'npm install --global "aws-cdk@$CDK_CLI_VERSION"' in text
+    assert "cdk deploy AlpinePeakRepositoryStack" in text
     assert "cdk deploy AlpinePeakStack" in text
     assert "--parameters ImageTag=${{ github.sha }}" in text
     assert "npx --yes aws-cdk@2" not in text
