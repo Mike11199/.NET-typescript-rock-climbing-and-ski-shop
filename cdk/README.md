@@ -11,7 +11,8 @@ AlpinePeakStack (depends on AlpinePeakRepositoryStack)
   → ECS cluster and Fargate service: alpine-peak-ski-shop
   → target group and shared-listener rule
   → application service security group
-  → retained RDS security group
+  → retained ECS-to-RDS security group
+  → retained pgAdmin RDS access security group
 ```
 
 Three containers run in one task:
@@ -29,10 +30,13 @@ back-end-dotnet-api               :5001 → .NET API
 - `AlpinePeakRepositoryStack` owns the retained, AES256-encrypted, mutable ECR repository
   with push scanning disabled to match the existing repository.
 - `AlpinePeakStack` owns its root A-alias, listener rule, target group, ECS
-  resources, service security group, and RDS security group.
+  resources, service security group, ECS-to-RDS security group, and pgAdmin RDS
+  access security group.
 - The service security group accepts port 80 only from the shared ALB security
-  group. The RDS security group accepts PostgreSQL port 5432 only from the
-  application service security group.
+  group. The ECS-to-RDS group accepts PostgreSQL port 5432 only from the
+  application service group. The separate definition in
+  `alpine_peak_cdk/operator_rds_access.py` adds the pgAdmin group to the same
+  `AlpinePeakStack`; it is a separate file, not a separate CloudFormation stack.
 - Runtime resource names remain stable, while account- and region-dependent
   references are built from CloudFormation pseudo parameters.
 
@@ -41,25 +45,22 @@ back-end-dotnet-api               :5001 → .NET API
 - The existing ECR repository, listener rule, and target group were retained and imported without changing physical IDs.
 - Shared identifiers now come from CloudFormation exports.
 - Drift detection reports `IN_SYNC`; the final CDK diff is empty; target health and HTTPS are healthy.
-- The RDS security-group attachment remains the manual step below.
+- RDS has the two Alpine-owned access groups below attached and active.
 
-## RDS security-group manual cutover
+## RDS security groups
 
-`AlpinePeakStack` exports the retained database security-group ID as
-`AlpinePeakRdsSecurityGroupId`. CDK does **not** modify or replace the existing
-RDS instance.
+`AlpinePeakStack` owns and exports both retained groups:
 
-After deploying and verifying `AlpinePeakStack`:
+- `AlpinePeakRdsSecurityGroupId` permits PostgreSQL only from the Alpine ECS
+  service security group.
+- `AlpinePeakOperatorRdsAccessSecurityGroupId` permits public IPv4 PostgreSQL
+  for pgAdmin from a changing home address.
 
-1. Read the `AlpinePeakRdsSecurityGroupId` stack output.
-2. Manually attach that group to the current RDS instance (or to the RDS instance
-   created in a fresh environment) while keeping the current group attached.
-3. Verify the Alpine Peak ECS task can connect to PostgreSQL through port 5432.
-4. Only after successful verification, manually detach the old broad database
-   security group. Reattach it immediately if connectivity fails.
-
-This attachment and cutover are deliberate operator actions; they are not
-performed by this stack or by the disabled workflow.
+The RDS instance remains manually managed and is not created, imported, or
+modified by CDK. Its security-group attachment is an operator action. Routine
+GitHub Actions deployments deploy only `AlpinePeakStack` with the
+`--exclusively` and `--revert-drift` flags, so CloudFormation maintains both
+group definitions without changing the RDS attachment list.
 
 ## Drift repair
 

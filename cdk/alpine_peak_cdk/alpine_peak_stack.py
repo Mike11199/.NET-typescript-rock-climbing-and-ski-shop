@@ -24,6 +24,7 @@ from aws_cdk import aws_ssm as ssm
 from constructs import Construct
 
 from . import alpine_peak_existing_resources as existing
+from .operator_rds_access import add_operator_rds_access
 
 
 class AlpinePeakStack(Stack):
@@ -66,6 +67,7 @@ class AlpinePeakStack(Stack):
         alias_record.apply_removal_policy(RemovalPolicy.RETAIN)
 
         vpc_id = Fn.import_value("SharedVpcId")
+        add_operator_rds_access(self)
         availability_zones = [
             Fn.import_value("SharedPublicSubnet1AvailabilityZone"),
             Fn.import_value("SharedPublicSubnet2AvailabilityZone"),

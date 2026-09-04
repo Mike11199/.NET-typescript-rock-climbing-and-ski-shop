@@ -99,7 +99,7 @@ def test_application_imports_shared_network_and_repository_values():
 def test_application_owns_service_security_group_with_alb_only_ingress():
     template = _application_template()
 
-    template.resource_count_is("AWS::EC2::SecurityGroup", 2)
+    template.resource_count_is("AWS::EC2::SecurityGroup", 3)
     template.has_resource_properties(
         "AWS::EC2::SecurityGroup",
         {
@@ -175,10 +175,14 @@ def test_deploy_workflow_is_active_and_uses_repository_first_pipeline():
     assert not disabled.exists()
     workflow = active.read_text(encoding="utf-8")
     assert "cdk deploy AlpinePeakRepositoryStack" in workflow
+    assert "cdk deploy AlpinePeakOperatorAccessStack" not in workflow
     assert workflow.index("cdk deploy AlpinePeakRepositoryStack") < workflow.index(
         "uses: aws-actions/amazon-ecr-login@v2"
     )
     assert "cdk deploy AlpinePeakStack" in workflow
+    application_deploy = workflow[workflow.index("cdk deploy AlpinePeakStack") :]
+    assert "--exclusively" in application_deploy
+    assert "--revert-drift" in application_deploy
     assert workflow.index("docker push") < workflow.index(
         "cdk deploy AlpinePeakStack"
     )
