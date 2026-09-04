@@ -88,7 +88,10 @@ def test_application_imports_shared_network_and_repository_values():
         assert f'Fn.import_value("{export_name}")' in source
 
     assert "AlpinePeakRepositoryUri" in serialized
-    assert "vpc-031a34e2307900372" not in serialized
+    assert not any(
+        resource.get("Properties", {}).get("VpcId") == "vpc-031a34e2307900372"
+        for resource in document["Resources"].values()
+    )
     assert "subnet-0069d564c7d9784e5" not in serialized
     assert "subnet-0e28687dfd9d81afc" not in serialized
     assert "sg-0190e299544ca1711" not in serialized

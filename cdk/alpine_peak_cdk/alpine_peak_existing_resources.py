@@ -15,3 +15,10 @@ JWT_PARAMETER_NAME = "JWT_STRING_SKI_SHOP"
 MONGO_PARAMETER_NAME = "MONGO_URL_SKI_ROCK_SHOP"
 POSTGRES_PARAMETER_NAME = "POSTGRES_URL_SKI_ROCK_SHOP"
 GOOGLE_OAUTH_CLIENT_ID_PARAMETER_NAME = "GOOGLE_OAUTH_CLIENT_ID"
+
+# Existing production RDS identity; credentials remain external to CDK.
+RDS_DATABASE_IDENTIFIER = "alpine-peak-db-rds"
+# AWS Key Management Service (KMS) resource ID for encryption at rest of the
+# existing RDS storage, backups, snapshots, and Performance Insights. This does
+# not configure PostgreSQL TLS in transit and is not secret key material.
+RDS_KMS_KEY_ID = "baa6ff9f-797e-4564-b672-50080d0e04e5"

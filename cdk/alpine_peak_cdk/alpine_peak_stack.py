@@ -25,6 +25,7 @@ from constructs import Construct
 
 from . import alpine_peak_existing_resources as existing
 from .operator_rds_access import add_operator_rds_access
+from .rds_database import add_rds_database
 
 
 class AlpinePeakStack(Stack):
@@ -67,7 +68,7 @@ class AlpinePeakStack(Stack):
         alias_record.apply_removal_policy(RemovalPolicy.RETAIN)
 
         vpc_id = Fn.import_value("SharedVpcId")
-        add_operator_rds_access(self)
+        operator_rds_access_security_group = add_operator_rds_access(self)
         availability_zones = [
             Fn.import_value("SharedPublicSubnet1AvailabilityZone"),
             Fn.import_value("SharedPublicSubnet2AvailabilityZone"),
@@ -116,8 +117,7 @@ class AlpinePeakStack(Stack):
             "Allow HTTP from the shared ALB",
         )
 
-        # The database remains manually managed. This retained group is exported
-        # so operators can attach it to the current or fresh RDS instance.
+        # The application owns the retained database and its two access groups.
         rds_security_group = ec2.SecurityGroup(
             self,
             "RdsSecurityGroup",
@@ -143,6 +143,25 @@ class AlpinePeakStack(Stack):
             "RdsSecurityGroupId",
             value=rds_security_group.security_group_id,
             export_name="AlpinePeakRdsSecurityGroupId",
+        )
+        database = add_rds_database(
+            self,
+            application_security_group_id=rds_security_group.security_group_id,
+            operator_security_group_id=(
+                operator_rds_access_security_group.attr_group_id
+            ),
+        )
+        CfnOutput(
+            self,
+            "RdsDatabaseIdentifier",
+            value=database.ref,
+            description="CloudFormation-owned Alpine Peak RDS identifier",
+        )
+        CfnOutput(
+            self,
+            "RdsDatabaseEndpoint",
+            value=database.attr_endpoint_address,
+            description="Alpine Peak PostgreSQL endpoint address",
         )
         deployment_subnets = [
             ec2.Subnet.from_subnet_attributes(
