@@ -185,7 +185,7 @@ def test_deploy_workflow_is_active_and_uses_repository_first_pipeline():
     assert "cdk deploy AlpinePeakStack" in workflow
     application_deploy = workflow[workflow.index("cdk deploy AlpinePeakStack") :]
     assert "--exclusively" in application_deploy
-    assert "--revert-drift" in application_deploy
+    assert "--revert-drift" not in application_deploy
     assert workflow.index("docker push") < workflow.index(
         "cdk deploy AlpinePeakStack"
     )

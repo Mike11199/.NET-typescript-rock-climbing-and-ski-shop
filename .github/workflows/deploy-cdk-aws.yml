@@ -132,6 +132,5 @@ jobs:
           uv sync --frozen --group dev
           cdk deploy AlpinePeakStack \
             --exclusively \
-            --revert-drift \
             --require-approval never \
             --parameters ImageTag=${{ github.sha }}

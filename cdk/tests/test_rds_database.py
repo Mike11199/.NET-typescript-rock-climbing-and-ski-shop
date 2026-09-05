@@ -143,11 +143,11 @@ def test_rds_declaration_remains_in_the_main_application_stack():
     assert all(stack.stack_name != "AlpinePeakDatabaseStack" for stack in app.node.children)
 
 
-def test_workflow_keeps_exclusive_drift_aware_application_deploy():
+def test_workflow_keeps_exclusive_application_deploy_without_drift_repair():
     workflow = (
         REPO_ROOT / ".github" / "workflows" / "deploy-cdk-aws.yml"
     ).read_text(encoding="utf-8")
     application_deploy = workflow[workflow.index("cdk deploy AlpinePeakStack") :]
 
     assert "--exclusively" in application_deploy
-    assert "--revert-drift" in application_deploy
+    assert "--revert-drift" not in application_deploy

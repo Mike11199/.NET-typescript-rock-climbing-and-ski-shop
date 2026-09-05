@@ -62,9 +62,7 @@ back-end-dotnet-api               :5001 → .NET API
   for pgAdmin from a changing home address.
 
 The imported RDS instance and both attached security groups belong to
-`AlpinePeakStack`. Routine GitHub Actions deployments use `--exclusively` and
-`--revert-drift`, so CloudFormation can reconcile supported mutable database
-properties, including the declared two-group attachment list.
+`AlpinePeakStack`. Routine GitHub Actions deployments use `--exclusively` to deploy only the application stack. Automatic drift repair is disabled.
 
 The database has `DeletionPolicy: Retain` and `UpdateReplacePolicy: Retain`.
 These policies protect it from CloudFormation lifecycle removal or replacement;
@@ -73,9 +71,7 @@ values remain external to this source.
 
 ## Drift repair
 
-The application deployment uses `cdk deploy --revert-drift` so supported
-application resources are reconciled with the template. Shared infrastructure
-remains outside that repair boundary.
+Routine application deployments apply template changes without automatic drift repair. Review and resolve out-of-band resource changes separately.
 
 ## Referenced, not created
 
