@@ -14,6 +14,7 @@ AlpinePeakStack (depends on AlpinePeakRepositoryStack)
   → retained RDS instance: alpine-peak-db-rds
   → retained ECS-to-RDS security group
   → retained pgAdmin RDS access security group
+  → retained .NET CloudWatch log group: /ecs/deploy-ski-shop-back-end-v2-dotnet
 ```
 
 Two containers run in one task:
@@ -31,7 +32,7 @@ back-end-dotnet-api               :5001 → .NET API
   with push scanning disabled to match the existing repository.
 - `AlpinePeakStack` owns its root A-alias, listener rule, target group, ECS
   resources, service security group, RDS instance, ECS-to-RDS security group,
-  and pgAdmin RDS access security group.
+  pgAdmin RDS access security group, and .NET CloudWatch log group.
 - The service security group accepts port 80 only from the shared ALB security
   group. The ECS-to-RDS group accepts PostgreSQL port 5432 only from the
   application service group. The separate definition in

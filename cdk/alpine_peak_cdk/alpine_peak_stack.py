@@ -18,7 +18,6 @@ from aws_cdk import aws_ec2 as ec2
 from aws_cdk import aws_ecs as ecs
 from aws_cdk import aws_elasticloadbalancingv2 as elbv2
 from aws_cdk import aws_iam as iam
-from aws_cdk import aws_logs as logs
 from aws_cdk import aws_route53 as route53
 from aws_cdk import aws_ssm as ssm
 from constructs import Construct
@@ -26,6 +25,7 @@ from constructs import Construct
 from . import alpine_peak_existing_resources as existing
 from .operator_rds_access import add_operator_rds_access
 from .rds_database import add_rds_database
+from .runtime_dependencies import add_dotnet_log_group
 
 
 class AlpinePeakStack(Stack):
@@ -212,9 +212,7 @@ class AlpinePeakStack(Stack):
             execution_role=execution_role,
         )
 
-        dotnet_log_group = logs.LogGroup.from_log_group_name(
-            self, "ExistingDotnetLogGroup", existing.DOTNET_LOG_GROUP_NAME
-        )
+        dotnet_log_group = add_dotnet_log_group(self)
 
         # RepositoryStack owns ECR and exports the URI before images are built.
         repository_uri = Fn.import_value("AlpinePeakRepositoryUri")
