@@ -26,8 +26,8 @@
   background: rgba(0, 0, 0, 0.6);
   padding: 2rem;
   box-shadow:
-  0 4px 6px rgba(0, 0, 0, 0.3),
-  0 1px 3px rgba(0, 0, 0, 0.08);
+    0 4px 6px rgba(0, 0, 0, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .dark .register-container,
@@ -133,7 +133,6 @@
   box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
 }
 
-
 .light #header-search-input {
   background-color: #f5f5f5;
   outline: none;
@@ -152,12 +151,10 @@
   z-index: 99999999;
 }
 
-
 .dark .dropdown-menu {
   background-color: #181717;
   color: #f5f5f5;
 }
-
 
 .dark .dropdown-item {
   background-color: #181717;
@@ -221,40 +218,6 @@
   color: #333;
 }
 
-.light .cht-msg {
-  color: black;
-}
-
-.dark .cht-msg {
-  color: black;
-}
-
-.dark #adminLinksMenu .nav-link {
-  color: rgb(1, 1, 1);
-}
-
-.dark #adminLinksMenu .nav-link:hover {
-  color: rgb(42, 27, 184);
-}
-
-.dark .navbar#adminLinksMenu {
-  background-color: darkgray;
-  border-radius: 15px;
-}
-
-.light #adminLinksMenu .nav-link {
-  color: rgb(1, 1, 1);
-}
-
-.light .navbar#adminLinksMenu {
-  background-color: rgb(228, 228, 228);
-  border-radius: 15px;
-}
-
-.light #adminLinksMenu .nav-link:hover {
-  color: rgb(42, 27, 184);
-}
-
 .shake {
   animation: shake 0.5s;
 }
@@ -279,60 +242,4 @@
   100% {
     transform: translateX(0);
   }
-}
-
-.dark .toast-header {
-  color: rgb(255, 255, 255);
-  border-color: black;
-  background-color: black;
-  width: 100%;
-}
-
-.light .toast-header {
-  color: black;
-  width: 1200px;
-}
-
-.admin_chat_header {
-  width: 100%;
-}
-
-.dark .toast-body {
-  color: rgb(255, 255, 255);
-  background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
-}
-
-.light .toast-body {
-  color: rgb(0, 0, 0);
-}
-
-.chat-box-admin {
-  background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
-  border-color: rgb(87, 85, 85);
-  padding-left: 0px;
-  padding-right: 0px;
-}
-
-.dark .chat-wrapper {
-  background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
-  border-color: rgb(87, 85, 85);
-}
-
-.dark .chat-header {
-  background-image: linear-gradient(60deg, #092b52 0%, #233a53 100%);
-  border-color: rgb(87, 85, 85);
-}
-
-.dark #clientChatMsg {
-  background-image: linear-gradient(60deg, #092b52 0%, #233a53 100%);
-  border-color: rgb(87, 85, 85);
-  color: white;
-}
-
-.dark .cht-msg p {
-  color: white;
-}
-
-.dark .support_wrote_box {
-  background-color: rgb(88, 8, 88);
 }

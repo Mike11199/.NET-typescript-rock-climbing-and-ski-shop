@@ -20,6 +20,7 @@ class RepositoryStack(Stack):
             encryption=ecr.RepositoryEncryption.AES_256,
             removal_policy=RemovalPolicy.RETAIN,
         )
+        # Keep the historical Express-image retention rule after retiring its service.
         for priority, description, prefix in (
             (1, "Keep the three most recent frontend images", "front-end-"),
             (

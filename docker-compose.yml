@@ -16,14 +16,6 @@ services:
     ports:
       - "80:80"
 
-  back-end:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: react-ski-climbing-shop-back-end
-    expose:
-      - 5000
-
   back-end-v2:
     build:
       context: ./backend_v2_dotnet

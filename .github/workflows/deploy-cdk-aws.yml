@@ -88,14 +88,6 @@ jobs:
         run: |
           docker build --tag "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" .
           docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-      - name: Build and push immutable Express API image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: back-end-express-socket-io-api-${{ github.sha }}
-        working-directory: backend_v2_socket_io_api
-        run: |
-          docker build --tag "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" .
-          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
       - name: Build and push immutable .NET API image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}

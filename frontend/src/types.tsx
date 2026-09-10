@@ -136,7 +136,6 @@ export interface OrderWithProductItems extends Order {
 export interface ReduxAppState {
   cart: any;
   userRegisterLogin: any;
-  adminChat: any;
   DarkMode: any;
   getCategories: any;
   searchString: any;

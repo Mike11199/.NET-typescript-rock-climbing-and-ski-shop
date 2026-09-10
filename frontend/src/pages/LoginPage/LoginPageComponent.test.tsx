@@ -1,5 +1,5 @@
 // import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import LoginPageComponent from "./LoginPageComponent";
 // import { BrowserRouter as Router } from "react-router-dom";
@@ -79,7 +79,7 @@ afterAll(() => {
   jest.restoreAllMocks();
 });
 
-test("if admin is logged in", async () => {
+test("legacy admin accounts use the customer profile after login", async () => {
   // const querySelectorSpy = jest.spyOn(document, "querySelector");
   // const addEventListenerSpy = jest.spyOn(document, "addEventListener");
 
@@ -112,7 +112,10 @@ test("if admin is logged in", async () => {
 
   await screen.findByLabelText("Email address");
   // console.log(passwordField); // Add this line
-  expect(window.location.assign).toHaveBeenCalledWith("/admin/orders");
+  await waitFor(
+    () => expect(window.location.assign).toHaveBeenCalledWith("/user"),
+    { timeout: 2000 },
+  );
 });
 
 test("if wrong credentials toast notification modification", async () => {

@@ -5,21 +5,18 @@
   "scripts": {
     "start": "concurrently --kill-others-on-fail \"npm run server-dev\" \"npm run client\"",
     "dev": "concurrently --kill-others-on-fail \"npm run server-dev\" \"npm run client\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server-prod": "node server.js",
-    "server-dev": "cd backend_v2_socket_io_api && npx nodemon server.js --ignore ../frontend",
-    "server": "cd backend_v2_socket_io_api && npx nodemon server.js --ignore ../frontend",
-    "client": "cd frontend && npm start",
-    "seed:data": "node seeder/seeder",
-    "seed:data-d": "node seeder/seeder -d"
+    "test": "npm --prefix frontend run test:cleanup",
+    "server-prod": "dotnet run --project backend_v2_dotnet --configuration Release --no-launch-profile --urls http://0.0.0.0:5001",
+    "server-dev": "dotnet watch --project backend_v2_dotnet",
+    "server": "dotnet run --project backend_v2_dotnet",
+    "client": "cd frontend && npm start"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^7.1.0",
-    "nodemon": "^2.0.15"
+    "concurrently": "^7.1.0"
   },
   "engines": {
-    "node": "17.x"
+    "node": ">=18"
   }
 }

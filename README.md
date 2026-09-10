@@ -1,9 +1,18 @@
+# Local development
+
+From the repository root, run `make dev` to start the Vite frontend and .NET API together with hot reload. Press Ctrl+C to stop both.
+
+- First checkout: `make install` installs dependencies. Requires Node.js 18+, a .NET SDK/runtime compatible with the API's `net7.0` target, and GNU Make.
+- The API uses port 5001; Vite prints the frontend URL when it starts.
+- The API uses your existing .NET development user secrets for `ConnectionStrings:DefaultConnection` and `Jwt:Key`. Starting the app does not create a database or change AWS resources.
+- `make` or `make help` lists build, test, and individual-server commands. CDK tests also require `uv`.
+
 
 <h1>Live Website</h1>
 
 - Main Site - AWS ECS - CI/CD Pipeline and EC2 Load Balancer on Custom Domain
   - https://alpine-peak-climbing-ski-gear.com/
-  - Three docker containers hosted on AWS ECS and reverse proxied by Nginx.
+  - Two docker containers hosted on AWS ECS and reverse proxied by Nginx.
   - CI/CD pipeline rebuilds and deploys docker images to AWS ECS whenever a new commit is pushed to the `docker-aws-ecs` branch on GitHub.
   - An EC2 Application Load Balancer reroutes traffic to the ECS cluster even when the IP address of it changes due to the CI/CD pipeline.
   - EC2 Load balancer automatically redirects HTTP port 80 to HTTPS port 443 which has an AWS SSL Certificate.
@@ -52,19 +61,16 @@
 
 - Created Repositories and IRepository interfaces to set up an abstraction layer between the API's controllers and database context, and to better organize code in the application.
 
-- This was originally a MERN app, and was completely re-written.  The original backend still runs in a Docker container for Socket.io user chats.  Some admin routes/controllers are still being transitioned to the .NET API.
+- This was originally a MERN app. The storefront now uses the .NET API; the legacy admin dashboard and Socket.IO chat have been retired.
   
-- Hosted on Amazon Elastic Container Service (ECS) in three separate docker containers.  Added a custom domain name and load balancer for HTTPS.
+- Hosted on Amazon Elastic Container Service (ECS) in two separate docker containers.  Added a custom domain name and load balancer for HTTPS.
   
 - Added a GitHub actions pipeline that automatically redeploys containers on push.  Added Lambdas to detect when containers crash - emailing me via an SNS topic - and to shut the site down at night to save money.
 
 - Added the PayPal SDK and sandbox accounts to simulate live payment of an order and front/back end response of a submitted order.
 
-- Added an admin dashboard that only is displayed if a user is an admin, so that an entire new area of the site is rendered.  This Admin area includes components to add new products, edit products, mark orders as delivered, and other tasks (such as deleting products or responding to user chats), without having to directly access the database.
 
-- Implemented Socket.IO to allow for bi-directional client and server communication, to enable real-time messaging between an admin and multiple users.  This might be later transitioned to .NET's SignalR.
 
-- Used the Cloudinary service to allow an Admin to upload and delete images of a product.  Links to Cloudinary are stored in the PostgreSQL database and fetched as needed.
 
 - Used Cloudinary AI Background Removal to dynamically remove background of images when redux dark mode state variable is set (later removed due to rate limit).
 
@@ -118,7 +124,6 @@
 
 <br/>
 
-- Admin dashboard where an admin can edit/create new products, manage users, see real-time chart data with Socket.IO on sales, and response to various user chats (this is currently broken by API v2 conversion to .NET and being recreated).
 
 <br/>
 <br/>
@@ -131,7 +136,7 @@
   - https://developer.paypal.com/sdk/js/reference/#createorder
 
 - Created business/personal PayPal sandbox accounts with fake credit/debit cards, and account balances to simulate a real order.
-- On a successful response from the PayPal API, the order is marked as paid in the PostgreSQL database.  An admin must later mark the product as delivered manually.
+- On a successful response from the PayPal API, the order is marked as paid in the PostgreSQL database. Delivery management is not available in the storefront.
 
 <br/>
 <br/>
@@ -145,91 +150,9 @@
 
 <br/>
 
-<h1> Real Time Chats - Socket.IO </h1>
+<h1> Product Images </h1>
 
-- Implemented the Socket.IO libary to enable real-time, bi-directional communication between web clients and servers.  
-- This will allow for real-time chats between site users and the site admin, as well as real-time charts of sales data.
-- Used Redux so that an admin can be notified via an icon on the header and website sound that a new message has arrived from a user.
-
-<br/>
-<br/>
-
-![image](https://github.com/Mike11199/rock-climbing-and-ski-shop-mern-stack/assets/91037796/51ceb43a-6153-4c6a-afc5-12b4002420aa)
-
-
-![storeGif5](https://user-images.githubusercontent.com/91037796/211240679-522a0592-a543-4f43-a91c-940d2d28fd48.gif)
-
-<br/>
-
-```js
-Server.js
-
-//back end connects to front end with this code, listening for this message
-io.on("connection", (socket) => {
-  socket.on("client sends message", (msg) => {
-      console.log(msg);
-  })
-})
-
-```
-```js
-UserChatComponent.js
-
-  const clientSubmitChatMsg = (e) => {
-    // handler for chat message submit
-    // if the key is not enter, return
-    if (e.keyCode && e.keyCode !== 13) {
-        return
-    }
-    socket.emit("client sends message", "message from client")  //server is listening for this named event
-}
-```
-
-
-<br/>
-<br/>
-
-<br/>
-
-<h1> AI Dynamic Background Removal and Cloudinary Image Upload by Admin</h1>
-
-- Used the Cloudinary service to allow an Admin to directly upload image files when creating a product to the Cloudinary REST API.
-- Referenced Cloudinary documentation for code:
-  - https://cloudinary.com/documentation/upload_images#code_explorer_upload_multiple_files_using_a_form_unsigned
-- Stored URL of images in the PostgreSQL database as an array.  The front-end simply populates the image source with this URL to retrieve the resource from Cloudinary.
-
-<br/>
-<br/>
-
-```js
-
-const uploadImagesCloudinaryApiRequest = (images) => {
-   
-    //https://cloudinary.com/documentation/upload_images#code_explorer_upload_multiple_files_using_a_form_unsigned
-
-    //dwgvi9vwb is env cloud name from cloudinary settings
-    const url = "https://api.cloudinary.com/v1_1/dwgvi9vwb/image/upload"
-    const formData = new FormData();
-    
-    for (let i = 0; i < images.length; i++) {
-        let file = images[i];
-        formData.append("file", file);
-        formData.append("upload_preset", "gdsFDSW32") //upload preset from cloudinary settings
-        fetch(url, {
-            method: "POST",
-            body: formData,
-        })
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-        })
-    }
-}
-```
-
-![image](https://user-images.githubusercontent.com/91037796/211130625-73228d61-b1ef-46a2-b017-237aa046221a.png)
+Product images are hosted on Cloudinary. Admin upload tools have been retired.
 
 - Added dynamic background removal for dark mode based on redux state variable using Cloudinary's background removal API to be able to transform images with AI on the fly.  https://cloudinary.com/documentation/cloudinary_ai_background_removal_addon
 - Eventually reverted back to original method as hit API rate limit.  Manually removed backgrounds using https://www.photoroom.com/background-remover.  

@@ -99,13 +99,12 @@ def test_root_alias_keeps_stable_id_and_retain_policy():
     assert resource["UpdateReplacePolicy"] == "Retain"
 
 
-def test_three_containers_with_immutable_images():
+def test_two_containers_with_immutable_images():
     t = _template()
 
-    # Three containers.
+    # Only the storefront and .NET API remain.
     names = Match.array_with([
         Match.object_like({"Name": "front-end"}),
-        Match.object_like({"Name": "back-end-express-socket-io-api"}),
         Match.object_like({"Name": "back-end-dotnet-api"}),
     ])
 
@@ -115,6 +114,10 @@ def test_three_containers_with_immutable_images():
     })
 
     t.has_parameter("ImageTag", {"Type": "String"})
+    tasks = t.find_resources("AWS::ECS::TaskDefinition")
+    for task in tasks.values():
+        assert len(task["Properties"]["ContainerDefinitions"]) == 2
+        assert "MONGO_URL" not in str(task)
 
 
 def test_no_legacy_edge_resources():

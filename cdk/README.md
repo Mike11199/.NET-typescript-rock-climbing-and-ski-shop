@@ -16,11 +16,10 @@ AlpinePeakStack (depends on AlpinePeakRepositoryStack)
   → retained pgAdmin RDS access security group
 ```
 
-Three containers run in one task:
+Two containers run in one task:
 
 ```text
 front-end                         :80   → React SPA
-back-end-express-socket-io-api    :5000 → Express/Socket.io API
 back-end-dotnet-api               :5001 → .NET API
 ```
 

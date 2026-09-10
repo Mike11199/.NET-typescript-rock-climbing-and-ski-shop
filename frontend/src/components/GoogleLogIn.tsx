@@ -11,7 +11,7 @@ const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
     let token = res.credential;
     try {
       const data = await googleLogin(token);
-      if (data === undefined) {
+      if (data?.success !== "user logged in" || !data?.userLoggedIn) {
         console.log(
           "Error! Bad google log in.  Please make sure you are registered first.",
         );
@@ -23,11 +23,7 @@ const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
       if (data.userLoggedIn) {
         reduxDispatch(setReduxUserState(data.userLoggedIn));
       }
-      if (data.success === "user logged in" && !data.userLoggedIn.isAdmin) {
-        navigate("/user", { replace: true });
-      } else {
-        navigate("/admin/orders", { replace: true }); //replace: true means react deletes history of web page switch
-      }
+      navigate("/user", { replace: true });
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +57,12 @@ const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
       <GoogleOAuthProvider clientId="421793135719-tbnlgi65j46cc3oo2j74eot1ou5tg06n.apps.googleusercontent.com">
         <div
           ref={divRef}
-          style={{ width: "100%", display: "flex", justifyContent: "center", boxShadow: "2px 2px 6px rgb(0, 0, 0)" }}
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            boxShadow: "2px 2px 6px rgb(0, 0, 0)",
+          }}
         >
           <GoogleLogin
             width={`${divWidth?.toString()}`}

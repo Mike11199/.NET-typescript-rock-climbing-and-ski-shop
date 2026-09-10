@@ -17,7 +17,7 @@ interface LoginPageComponentProps {
   loginUserApiRequest: (
     email: string,
     password: string,
-    doNotLogout: boolean
+    doNotLogout: boolean,
   ) => Promise<any>;
   reduxDispatch?: Function;
   setReduxUserState: Function;
@@ -87,7 +87,8 @@ const LoginPageComponent = ({
 
     try {
       const res = await loginUserApiRequest(email, password, doNotLogout);
-      if (!res?.userLoggedIn) throw Error;
+      if (res?.success !== "user logged in" || !res?.userLoggedIn)
+        throw new Error("Login failed");
 
       setLogInUserResponseState({
         success: res?.success,
@@ -96,7 +97,7 @@ const LoginPageComponent = ({
       });
       reduxDispatch!(setReduxUserState(res?.userLoggedIn));
       toastSuccess("Logging you in!");
-      return redirectUserOrAdminAfterLogin(res);
+      return redirectAfterLogin();
     } catch (er: any) {
       setLogInUserResponseState((prevState) => ({
         ...prevState,
@@ -262,22 +263,9 @@ const LoginPageComponent = ({
 
 export default LoginPageComponent;
 
-/**
- * Redirects the user or admin to the appropriate page after a successful login.
- *
- * @param {any} res - The response object from the login API request.
- * @returns {void}
- */
-function redirectUserOrAdminAfterLogin(res: any) {
-  if (res?.success === "user logged in" && !res?.userLoggedIn?.isAdmin) {
-    setTimeout(function () {
-      window?.location?.assign("/user");
-    }, 1000);
-  } else {
-    setTimeout(function () {
-      window?.location?.assign("/admin/orders");
-    }, 1000);
-  }
+/** Return every successfully authenticated account to its customer profile. */
+function redirectAfterLogin() {
+  setTimeout(() => window.location.assign("/user"), 1000);
 }
 
 function shakeDivById(id: string): void {

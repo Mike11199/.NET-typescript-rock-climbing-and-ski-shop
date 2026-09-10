@@ -5,16 +5,14 @@ import thunk from "redux-thunk";
 import { cartReducer } from "./reducers/cartReducers";
 import { userRegisterLoginReducer } from "./reducers/userReducers";
 import { getCategoriesReducer } from "./reducers/categoryReducers";
-import { adminChatReducer } from "./reducers/adminChatReducers";
 import { setDarkModeReducer } from "./reducers/darkModeReducers";
 import { searchStringReducer } from "./reducers/searchReducers";
-import { ReduxAppState } from "types";
+import { CartProduct, ReduxAppState } from "types";
 
 const reducer = combineReducers({
   cart: cartReducer,
   userRegisterLogin: userRegisterLoginReducer,
   getCategories: getCategoriesReducer,
-  adminChat: adminChatReducer,
   DarkMode: setDarkModeReducer,
   searchString: searchStringReducer,
 });
@@ -29,7 +27,7 @@ const userInfoInLocalStorage = () => {
   } else return {};
 };
 
-let cartItemsInLocalStorage = [];
+let cartItemsInLocalStorage: CartProduct[] = [];
 
 try {
   const cartItemsJson = localStorage.getItem("cart");
@@ -52,7 +50,7 @@ const INITIAL_STATE = {
       : 0,
     cartSubtotal: cartItemsInLocalStorage
       ? cartItemsInLocalStorage.reduce(
-          (price, item) => price + item.price * item.quantity,
+          (price, item) => price + (item.price ?? 0) * item.quantity,
           0,
         )
       : 0,

@@ -212,9 +212,6 @@ class AlpinePeakStack(Stack):
             execution_role=execution_role,
         )
 
-        express_log_group = logs.LogGroup.from_log_group_name(
-            self, "ExistingExpressLogGroup", existing.EXPRESS_LOG_GROUP_NAME
-        )
         dotnet_log_group = logs.LogGroup.from_log_group_name(
             self, "ExistingDotnetLogGroup", existing.DOTNET_LOG_GROUP_NAME
         )
@@ -233,36 +230,6 @@ class AlpinePeakStack(Stack):
         )
         frontend.add_port_mappings(
             ecs.PortMapping(container_port=80, host_port=80, name="front-end-80-tcp")
-        )
-
-        # Express API container (uses JWT and MongoDB secrets)
-        express_api = task_definition.add_container(
-            "ExpressApiContainer",
-            container_name="back-end-express-socket-io-api",
-            image=ecs.ContainerImage.from_registry(
-                f"{repository_uri}:back-end-express-socket-io-api-{image_tag.value_as_string}"
-            ),
-            essential=True,
-            logging=ecs.LogDrivers.aws_logs(
-                stream_prefix="ecs", log_group=express_log_group
-            ),
-            secrets={
-                "JWT_SECRET_KEY": ecs.Secret.from_ssm_parameter(
-                    ssm.StringParameter.from_secure_string_parameter_attributes(
-                        self, "ExpressJwtSecureParam",
-                        parameter_name=existing.JWT_PARAMETER_NAME
-                    )
-                ),
-                "MONGO_URL": ecs.Secret.from_ssm_parameter(
-                    ssm.StringParameter.from_secure_string_parameter_attributes(
-                        self, "ExpressMongoSecureParam",
-                        parameter_name=existing.MONGO_PARAMETER_NAME
-                    )
-                ),
-            },
-        )
-        express_api.add_port_mappings(
-            ecs.PortMapping(container_port=5000, host_port=5000, name="backend")
         )
 
         # .NET API container (uses JWT, PostgreSQL, and OAuth secrets)

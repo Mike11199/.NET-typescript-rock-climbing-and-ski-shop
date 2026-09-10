@@ -16,7 +16,8 @@ def test_workflow_deploys_from_the_same_commit_sha() -> None:
     text = WORKFLOW.read_text(encoding="utf-8")
 
     assert "IMAGE_TAG: front-end-${{ github.sha }}" in text
-    assert "IMAGE_TAG: back-end-express-socket-io-api-${{ github.sha }}" in text
+    assert "backend_v2_socket_io_api" not in text
+    assert "back-end-express-socket-io-api" not in text
     assert "IMAGE_TAG: back-end-dotnet-api-${{ github.sha }}" in text
     assert "deploy-repository:" in text
     assert "deploy-application:" in text
