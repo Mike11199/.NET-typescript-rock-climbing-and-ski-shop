@@ -1,50 +1,29 @@
-"""Workflow contract: one commit SHA -> immutable ECR images + CDK deployment."""
-
-from pathlib import Path
+"""Immutable images, deployment order, and infrastructure boundaries."""
 
 
-WORKFLOW = (
-    Path(__file__).parents[2]
-    / ".github"
-    / "workflows"
-    / "deploy-cdk-aws.yml"
-)
+def test_release_pipeline(workflow):
+    for text in (
+        "IMAGE_TAG: front-end-${{ github.sha }}",
+        "IMAGE_TAG: back-end-dotnet-api-${{ github.sha }}",
+        "deploy-repository:", "deploy-application:", "CDK_CLI_VERSION: 2.1139.0",
+        'npm install --global "aws-cdk@$CDK_CLI_VERSION"',
+        "--parameters ImageTag=${{ github.sha }}",
+    ):
+        assert text in workflow
+    steps = ("cdk deploy AlpinePeakRepositoryStack", "uses: aws-actions/amazon-ecr-login@v2",
+             "docker push", "cdk deploy AlpinePeakStack")
+    positions = [workflow.index(step) for step in steps]
+    assert positions == sorted(positions)
+    deploy = workflow[positions[-1]:]
+    assert deploy.index("--exclusively") < deploy.index("--parameters")
 
 
-def test_workflow_deploys_from_the_same_commit_sha() -> None:
-    """One commit SHA -> immutable images deployed via CDK ImageTag parameter."""
-    text = WORKFLOW.read_text(encoding="utf-8")
-
-    assert "IMAGE_TAG: front-end-${{ github.sha }}" in text
-    assert "backend_v2_socket_io_api" not in text
-    assert "back-end-express-socket-io-api" not in text
-    assert "IMAGE_TAG: back-end-dotnet-api-${{ github.sha }}" in text
-    assert "deploy-repository:" in text
-    assert "deploy-application:" in text
-    assert "CDK_CLI_VERSION: 2.1139.0" in text
-    assert 'npm install --global "aws-cdk@$CDK_CLI_VERSION"' in text
-    assert "cdk deploy AlpinePeakRepositoryStack" in text
-    assert "cdk deploy AlpinePeakStack" in text
-    assert "--parameters ImageTag=${{ github.sha }}" in text
-    assert "npx --yes aws-cdk@2" not in text
-
-
-def test_application_deploy_excludes_the_already_deployed_repository_stack() -> None:
-    """Image parameters must be sent only to the application stack."""
-    text = WORKFLOW.read_text(encoding="utf-8")
-    application_deploy = text[text.index("cdk deploy AlpinePeakStack") :]
-
-    assert "--exclusively" in application_deploy
-    assert application_deploy.index("--exclusively") < application_deploy.index(
-        "--parameters"
-    )
-
-
-def test_workflow_does_not_create_or_switch_dns_or_listener_rules() -> None:
-    """CDK deployment only; shared ALB/DNS promotion is a separate manual step."""
-    text = WORKFLOW.read_text(encoding="utf-8")
-
-    assert "route53 change-resource-record-sets" not in text
-    assert "elbv2 create-rule" not in text
-    assert "elbv2 modify-rule" not in text
-    assert "acm request-certificate" not in text
+def test_no_manual_infrastructure_changes(workflow):
+    for text in (
+        "--revert-drift", "cdk deploy AlpinePeakOperatorAccessStack",
+        "create-repository", "describe-repositories", "backend_v2_socket_io_api",
+        "back-end-express-socket-io-api", "npx --yes aws-cdk@2",
+        "route53 change-resource-record-sets", "elbv2 create-rule",
+        "elbv2 modify-rule", "acm request-certificate",
+    ):
+        assert text not in workflow

@@ -17,7 +17,6 @@ from aws_cdk import CfnOutput, CfnParameter, Fn, RemovalPolicy, Stack
 from aws_cdk import aws_ec2 as ec2
 from aws_cdk import aws_ecs as ecs
 from aws_cdk import aws_elasticloadbalancingv2 as elbv2
-from aws_cdk import aws_iam as iam
 from aws_cdk import aws_route53 as route53
 from aws_cdk import aws_ssm as ssm
 from constructs import Construct
@@ -25,7 +24,7 @@ from constructs import Construct
 from . import alpine_peak_existing_resources as existing
 from .operator_rds_access import add_operator_rds_access
 from .rds_database import add_rds_database
-from .runtime_dependencies import add_dotnet_log_group
+from .runtime_dependencies import add_dotnet_log_group, add_execution_role
 
 
 class AlpinePeakStack(Stack):
@@ -172,15 +171,7 @@ class AlpinePeakStack(Stack):
             )
             for index, subnet_id in enumerate(public_subnet_ids, start=1)
         ]
-        execution_role_arn = self.format_arn(
-            service="iam",
-            region="",
-            resource="role",
-            resource_name=existing.EXECUTION_ROLE_NAME,
-        )
-        execution_role = iam.Role.from_role_arn(
-            self, "ExistingExecutionRole", execution_role_arn, mutable=False
-        )
+        execution_role = add_execution_role(self)
 
         # Target group (L1 CFN so we can reference its ARN directly).
         target_group = elbv2.CfnTargetGroup(

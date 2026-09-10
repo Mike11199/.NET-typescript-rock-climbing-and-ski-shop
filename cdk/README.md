@@ -9,6 +9,7 @@ AlpinePeakRepositoryStack
 
 AlpinePeakStack (depends on AlpinePeakRepositoryStack)
   → ECS cluster and Fargate service: alpine-peak-ski-shop
+  → dedicated ECS execution role
   → target group and shared-listener rule
   → application service security group
   → retained RDS instance: alpine-peak-db-rds
@@ -40,6 +41,9 @@ back-end-dotnet-api               :5001 → .NET API
   `AlpinePeakStack`; it is a separate file, not a separate CloudFormation stack.
 - `alpine_peak_cdk/rds_database.py` similarly keeps the database declaration
   readable while the resource remains part of `AlpinePeakStack`.
+- The dedicated ECS execution role permits image pulls, log delivery, and reads
+  of all SSM parameters and Secrets Manager secrets. The old `ecsTaskExecutionRole` is left
+  untouched for historical task definitions and rollback.
 - Runtime resource names remain stable, while account- and region-dependent
   references are built from CloudFormation pseudo parameters.
 

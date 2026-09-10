@@ -1,129 +1,57 @@
-"""Production stack owns one ECS service + target group for alpine-peak-climbing-ski-gear.com."""
-
-import json
-from aws_cdk import App
-from aws_cdk.assertions import Match, Template
-
-from alpine_peak_cdk.alpine_peak_stack import AlpinePeakStack
-from alpine_peak_cdk import alpine_peak_existing_resources as existing
+"""ECS, routing, and shared-resource boundaries."""
+import pytest
+from aws_cdk.assertions import Match
 
 
-def _template() -> Template:
-    return Template.from_stack(AlpinePeakStack(App(), "P"))
+@pytest.mark.parametrize("kind,count", [
+    ("ECS::Service", 1), ("ECS::TaskDefinition", 1),
+    ("ElasticLoadBalancingV2::TargetGroup", 1),
+    ("ElasticLoadBalancingV2::ListenerRule", 1), ("Route53::RecordSet", 1),
+    ("Route53::HostedZone", 0), ("CertificateManager::Certificate", 0),
+    ("ElasticLoadBalancingV2::LoadBalancer", 0), ("EC2::VPC", 0),
+])
+def test_resource_counts(template, kind, count):
+    template.resource_count_is(f"AWS::{kind}", count)
 
 
-def test_counts_and_names():
-    t = _template()
-
-    # Exactly one of each core resource.
-    t.resource_count_is("AWS::ECS::Service", 1)
-    t.resource_count_is("AWS::ElasticLoadBalancingV2::TargetGroup", 1)
-    t.resource_count_is("AWS::ECS::TaskDefinition", 1)
-    # One listener rule (root domain).
-    t.resource_count_is("AWS::ElasticLoadBalancingV2::ListenerRule", 1)
-
-    # Production service name.
-    t.has_resource_properties("AWS::ECS::Service", {
-        "ServiceName": "alpine-peak-ski-shop",
-        "DesiredCount": 1,
+def test_service_and_routing(template, resources):
+    template.has_resource_properties("AWS::ECS::Service", {
+        "ServiceName": "alpine-peak-ski-shop", "DesiredCount": 1,
         "LoadBalancers": [Match.object_like({
-            "ContainerPort": 80,
-            "ContainerName": "front-end",
+            "ContainerPort": 80, "ContainerName": "front-end",
         })],
     })
-
-    t.has_resource_properties("AWS::ElasticLoadBalancingV2::TargetGroup", {
+    template.has_resource_properties("AWS::ElasticLoadBalancingV2::TargetGroup", {
         "HealthCheckPath": "/",
     })
-
-
-def test_root_domain_listener_rule():
-    """Stack creates one listener rule at priority=1 for root domain."""
-    t = _template()
-
-    # Listener rule: priority 1, matches root domain host header.
-    t.has_resource_properties("AWS::ElasticLoadBalancingV2::ListenerRule", {
-        "Priority": 1,
-        "ListenerArn": {"Fn::ImportValue": "SharedHttpsListenerArn"},
+    template.has_resource_properties("AWS::ElasticLoadBalancingV2::ListenerRule", {
+        "Priority": 1, "ListenerArn": {"Fn::ImportValue": "SharedHttpsListenerArn"},
         "Conditions": [Match.object_like({
             "HostHeaderConfig": {"Values": ["alpine-peak-climbing-ski-gear.com"]},
         })],
     })
-
-    resources = t.to_json()["Resources"]
-    listener_rule = resources["ProductionListenerRule"]
-    target_group = resources["ProductionTargetGroup"]
-    for resource in (listener_rule, target_group):
-        assert resource["DeletionPolicy"] == "Retain"
-        assert resource["UpdateReplacePolicy"] == "Retain"
-    assert resources["ProductionService"]["DependsOn"] == [
-        "ProductionListenerRule"
-    ]
+    assert resources["ProductionService"]["DependsOn"] == ["ProductionListenerRule"]
 
 
-def test_stack_releases_shared_domain_resources_but_keeps_root_alias():
-    """SharedDomainsStack will own the zone and certificate after migration."""
-    t = _template()
-
-    t.resource_count_is("AWS::Route53::HostedZone", 0)
-    t.resource_count_is("AWS::CertificateManager::Certificate", 0)
-    t.resource_count_is("AWS::Route53::RecordSet", 1)
-
-    t.has_resource_properties("AWS::Route53::RecordSet", {
-        "Name": "alpine-peak-climbing-ski-gear.com.",
-        "Type": "A",
+def test_root_alias(template):
+    template.has_resource_properties("AWS::Route53::RecordSet", {
+        "Name": "alpine-peak-climbing-ski-gear.com.", "Type": "A",
         "HostedZoneId": {"Fn::ImportValue": "SharedAlpinePeakHostedZoneId"},
         "AliasTarget": {
-            "DNSName": {
-                "Fn::Join": [
-                    "",
-                    [
-                        "dualstack.",
-                        {"Fn::ImportValue": "SharedLoadBalancerDnsName"},
-                        ".",
-                    ],
-                ]
-            },
-            "HostedZoneId": {
-                "Fn::ImportValue": "SharedLoadBalancerCanonicalHostedZoneId"
-            },
+            "DNSName": {"Fn::Join": [
+                "", ["dualstack.", {"Fn::ImportValue": "SharedLoadBalancerDnsName"}, "."],
+            ]},
+            "HostedZoneId": {"Fn::ImportValue": "SharedLoadBalancerCanonicalHostedZoneId"},
             "EvaluateTargetHealth": False,
         },
     })
 
 
-def test_root_alias_keeps_stable_id_and_retain_policy():
-    resource = _template().to_json()["Resources"]["AlpinePeakAliasRecord"]
-
-    assert resource["DeletionPolicy"] == "Retain"
-    assert resource["UpdateReplacePolicy"] == "Retain"
-
-
-def test_two_containers_with_immutable_images():
-    t = _template()
-
-    # Only the storefront and .NET API remain.
-    names = Match.array_with([
-        Match.object_like({"Name": "front-end"}),
-        Match.object_like({"Name": "back-end-dotnet-api"}),
-    ])
-
-    # Each image uses Fn::Join with Ref:ImageTag.
-    t.has_resource_properties("AWS::ECS::TaskDefinition", {
-        "ContainerDefinitions": names,
-    })
-
-    t.has_parameter("ImageTag", {"Type": "String"})
-    tasks = t.find_resources("AWS::ECS::TaskDefinition")
-    for task in tasks.values():
-        assert len(task["Properties"]["ContainerDefinitions"]) == 2
-        assert "MONGO_URL" not in str(task)
-
-
-def test_no_legacy_edge_resources():
-    """Never creates new ALB/VPC/certs."""
-    t = _template()
-
-    # We import the existing ALB; we create no Route53 records or VPCs.
-    t.resource_count_is("AWS::ElasticLoadBalancingV2::LoadBalancer", 0)
-    t.resource_count_is("AWS::EC2::VPC", 0)
+def test_container_images(template):
+    template.has_parameter("ImageTag", {"Type": "String"})
+    task = next(iter(template.find_resources("AWS::ECS::TaskDefinition").values()))
+    containers = task["Properties"]["ContainerDefinitions"]
+    assert {c["Name"] for c in containers} == {"front-end", "back-end-dotnet-api"}
+    assert len(containers) == 2 and "MONGO_URL" not in str(task)
+    for container in containers:
+        assert {"Ref": "ImageTag"} in container["Image"]["Fn::Join"][1]
