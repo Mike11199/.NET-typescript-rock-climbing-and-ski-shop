@@ -29,6 +29,7 @@ class RepositoryStack(Stack):
                 "back-end-express-socket-io-api-",
             ),
             (3, "Keep the three most recent .NET API images", "back-end-dotnet-api-"),
+            (4, "Keep the three most recent PostgreSQL images", "postgres-"),
         ):
             repository.add_lifecycle_rule(
                 rule_priority=priority,
@@ -37,7 +38,7 @@ class RepositoryStack(Stack):
                 max_image_count=3,
             )
         repository.add_lifecycle_rule(
-            rule_priority=4,
+            rule_priority=5,
             description="Expire untagged images after one day",
             tag_status=ecr.TagStatus.UNTAGGED,
             max_image_age=Duration.days(1),

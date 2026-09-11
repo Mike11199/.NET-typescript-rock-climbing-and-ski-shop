@@ -21,6 +21,9 @@ def test_one_ec2_service_and_three_containers(resources):
         "Postgres": 128, "back-end-dotnet-api": 192, "front-end": 16,
     }
     assert task["Volumes"][0]["Host"]["SourcePath"] == "/var/lib/alpine-peak-postgres"
+    for container in task["ContainerDefinitions"]:
+        assert {"Ref": "ImageTag"} in container["Image"]["Fn::Join"][1]
+        assert {"Fn::ImportValue": "AlpinePeakRepositoryUri"} in container["Image"]["Fn::Join"][1]
 
 
 def test_persistent_on_demand_host(resources):

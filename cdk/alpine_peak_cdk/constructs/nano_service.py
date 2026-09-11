@@ -25,8 +25,10 @@ class NanoService(Construct):
         logging = ecs.GenericLogDriver(
             log_driver="json-file", options={"max-size": "5m", "max-file": "2"}
         )
-        postgres = PostgresContainer(self, "DatabaseContainer", task=task,
-                                     password=credentials.password, logging=logging)
+        postgres = PostgresContainer(
+            self, "DatabaseContainer", task=task, password=credentials.password,
+            logging=logging, repository_uri=repository_uri, image_tag=image_tag,
+        )
         ApplicationContainers(
             self, "Application", task=task, postgres=postgres.container,
             connections=credentials.connections, repository_uri=repository_uri,

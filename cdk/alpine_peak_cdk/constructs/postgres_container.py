@@ -1,18 +1,17 @@
 """The low-memory PostgreSQL container and persistent mount."""
 
-from pathlib import Path
 from aws_cdk import Duration
 from aws_cdk import aws_ecs as ecs
 from constructs import Construct
 
 
 class PostgresContainer(Construct):
-    def __init__(self, scope, construct_id, *, task, password, logging):
+    def __init__(self, scope, construct_id, *, task, password, logging, repository_uri, image_tag):
         super().__init__(scope, construct_id)
 
         postgres = task.add_container(
-            "Postgres", image=ecs.ContainerImage.from_asset(
-                str(Path(__file__).resolve().parents[2] / "postgres")
+            "Postgres", image=ecs.ContainerImage.from_registry(
+                f"{repository_uri}:postgres-{image_tag}"
             ),
             memory_limit_mib=128, memory_reservation_mib=64,
             environment={"POSTGRES_DB": "alpine-peak-db",
