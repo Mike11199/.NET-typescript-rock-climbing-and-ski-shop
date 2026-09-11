@@ -1,84 +1,29 @@
-# Alpine Peak CDK
+# Alpine Peak Climbing and Ski Shop CDK
 
-Deployment is performed by GitHub Actions. The existing ECR repository, target group, and listener rule are now owned by their final CDK stacks; routine deployments use normal `cdk deploy`.
+GitHub Actions deploys the app using AWS CDK.
 
-```text
-AlpinePeakRepositoryStack
-  → retained ECR repository: ski-rock-climbing-shop
-  → export: AlpinePeakRepositoryUri
+The frontend, .NET API, and PostgreSQL run as ECS containers on one On-Demand
+`t3.nano`. PostgreSQL data lives on retained EBS storage.
 
-AlpinePeakStack (depends on AlpinePeakRepositoryStack)
-  → ECS cluster and Fargate service: alpine-peak-ski-shop
-  → dedicated ECS execution role
-  → target group and shared-listener rule
-  → application service security group
-  → retained RDS instance: alpine-peak-db-rds
-  → retained ECS-to-RDS security group
-  → retained pgAdmin RDS access security group
-  → retained .NET CloudWatch log group: /ecs/deploy-ski-shop-back-end-v2-dotnet
-```
+## Structure
 
-Two containers run in one task:
+- `app.py` creates the repository and application stacks.
+- `alpine_peak_cdk/` contains the stack definitions.
+- `alpine_peak_cdk/constructs/` contains small constructs for networking, routing,
+  EC2, containers, credentials, and logging.
+- `postgres/` contains the PostgreSQL Docker image and configuration.
+- `tests/` checks the main infrastructure settings.
 
-```text
-front-end                         :80   → React SPA
-back-end-dotnet-api               :5001 → .NET API
-```
+## Runtime
 
-## Resource ownership
+- The pinned AMI keeps routine app deployments on the same EC2 host.
+- On-Demand EC2 has no Spot interruptions.
+- The EC2 role is limited to this app's ECS cluster; ECS fetches only the app's required secrets.
+- Container updates briefly stop the app; only one database container runs at a time.
 
-- Shared infrastructure exports the VPC, two public subnets and Availability
-  Zones, shared ALB security group, hosted zone, ALB, and HTTPS listener values.
-- `AlpinePeakRepositoryStack` owns the retained, AES256-encrypted, mutable ECR repository
-  with push scanning disabled to match the existing repository.
-- `AlpinePeakStack` owns its root A-alias, listener rule, target group, ECS
-  resources, service security group, RDS instance, ECS-to-RDS security group,
-  pgAdmin RDS access security group, and .NET CloudWatch log group.
-- The service security group accepts port 80 only from the shared ALB security
-  group. The ECS-to-RDS group accepts PostgreSQL port 5432 only from the
-  application service group. The separate definition in
-  `alpine_peak_cdk/operator_rds_access.py` adds the pgAdmin group to the same
-  `AlpinePeakStack`; it is a separate file, not a separate CloudFormation stack.
-- `alpine_peak_cdk/rds_database.py` similarly keeps the database declaration
-  readable while the resource remains part of `AlpinePeakStack`.
-- The dedicated ECS execution role permits image pulls, log delivery, and reads
-  of all SSM parameters and Secrets Manager secrets. The old `ecsTaskExecutionRole` is left
-  untouched for historical task definitions and rollback.
-- Runtime resource names remain stable, while account- and region-dependent
-  references are built from CloudFormation pseudo parameters.
+## Database
 
-## Existing account
-
-- The existing ECR repository, listener rule, and target group were retained and imported without changing physical IDs.
-- Shared identifiers now come from CloudFormation exports.
-- Drift detection reports `IN_SYNC`; the final CDK diff is empty; target health and HTTPS are healthy.
-- The existing RDS instance was imported as `AlpinePeakRdsDatabase` without
-  changing its physical identifier, endpoint, credentials, or configuration.
-- RDS has the two Alpine-owned access groups below attached and active.
-
-## RDS security groups
-
-`AlpinePeakStack` owns and exports both retained groups:
-
-- `AlpinePeakRdsSecurityGroupId` permits PostgreSQL only from the Alpine ECS
-  service security group.
-- `AlpinePeakOperatorRdsAccessSecurityGroupId` permits public IPv4 PostgreSQL
-  for pgAdmin from a changing home address.
-
-The imported RDS instance and both attached security groups belong to
-`AlpinePeakStack`. Routine GitHub Actions deployments use `--exclusively` to deploy only the application stack. Automatic drift repair is disabled.
-
-The database has `DeletionPolicy: Retain` and `UpdateReplacePolicy: Retain`.
-These policies protect it from CloudFormation lifecycle removal or replacement;
-they do not prevent deletion through the RDS service API. Credentials and secret
-values remain external to this source.
-
-## Drift repair
-
-Routine application deployments apply template changes without automatic drift repair. Review and resolve out-of-band resource changes separately.
-
-## Referenced, not created
-
-CDK does not create or manage the shared ALB/VPC/subnets, route tables, MongoDB
-Atlas, or secret values. Physical network IDs are not stored in source;
-application stacks consume stable CloudFormation exports.
+- Secrets Manager supplies the API connection string.
+- Container restarts and EC2 stop/start keep the database on EBS.
+- Replacing EC2 creates a new disk. The old disk is retained; reattach it or restore a backup manually.
+- Removing RDS from CDK retains it. Rolling back requires re-importing RDS and copying back any new writes.
