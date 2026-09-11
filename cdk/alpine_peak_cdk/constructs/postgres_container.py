@@ -10,7 +10,7 @@ class PostgresContainer(Construct):
         super().__init__(scope, construct_id)
 
         postgres = task.add_container(
-            "Postgres", image=ecs.ContainerImage.from_registry(
+            "Postgres", container_name="postgres", image=ecs.ContainerImage.from_registry(
                 f"{repository_uri}:postgres-{image_tag}"
             ),
             memory_limit_mib=128, memory_reservation_mib=64,

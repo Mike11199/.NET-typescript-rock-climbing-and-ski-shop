@@ -18,7 +18,7 @@ def test_one_ec2_service_and_three_containers(resources):
     task = one(resources, "AWS::ECS::TaskDefinition")["Properties"]
     assert task["NetworkMode"] == "host" and task["RequiresCompatibilities"] == ["EC2"]
     assert {c["Name"]: c["Memory"] for c in task["ContainerDefinitions"]} == {
-        "Postgres": 128, "back-end-dotnet-api": 192, "front-end": 16,
+        "postgres": 128, "back-end-dotnet-api": 192, "front-end": 16,
     }
     assert task["Volumes"][0]["Host"]["SourcePath"] == "/var/lib/alpine-peak-postgres"
     for container in task["ContainerDefinitions"]:
@@ -61,7 +61,7 @@ def test_secrets_and_repository(resources, stacks):
     assert any("GenerateSecretString" in s["Properties"] for s in secrets)
     task = one(resources, "AWS::ECS::TaskDefinition")["Properties"]
     api = next(c for c in task["ContainerDefinitions"] if c["Name"] == "back-end-dotnet-api")
-    assert api["DependsOn"] == [{"Condition": "HEALTHY", "ContainerName": "Postgres"}]
+    assert api["DependsOn"] == [{"Condition": "HEALTHY", "ContainerName": "postgres"}]
     assert "applicationConnectionString" in str(api["Secrets"])
     repository = Template.from_stack(stacks[0]).to_json()["Resources"]["AlpinePeakRepository"]
     assert repository["DeletionPolicy"] == "Retain"
