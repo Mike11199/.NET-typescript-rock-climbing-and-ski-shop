@@ -46,3 +46,6 @@ yarn-error.log*
 /.DEPLOYMENT_NOTES.md
 /cdk/MIGRATION_README.md
 /cdk/cdk-import-map.json
+
+# Local database backups
+/database/
