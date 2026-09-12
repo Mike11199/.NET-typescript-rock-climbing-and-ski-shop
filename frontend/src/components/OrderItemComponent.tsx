@@ -15,7 +15,6 @@ const OrderItemComponent = ({ item }: CartItemProps) => {
       <div className="orderGridProductItem">
         <div style={{ width: "100%" }}>
           <Image
-            crossOrigin="anonymous"
             src={
               item?.images?.find((x: ProductImage) => x?.isMainImage === true)
                 ?.imageUrl ?? ""

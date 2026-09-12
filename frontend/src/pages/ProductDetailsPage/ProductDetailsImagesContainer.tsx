@@ -9,7 +9,6 @@ const ProductDetailsImagesContainer = ({ product }: {product: Product | undefine
       {product?.images?.map((image, id) => (
         <div style={{ marginBottom: "2rem" }} key={id}>
           <Image
-            crossOrigin="anonymous"
             fluid
             src={image?.imageUrl ?? ""}
             style={{

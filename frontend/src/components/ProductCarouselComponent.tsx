@@ -21,7 +21,6 @@ const ProductCarouselComponent = ({
         bestSellers?.map((item, idx) => (
           <Carousel.Item key={idx}>
             <img
-              crossOrigin="anonymous"
               className="d-block w-100"
               style={{
                 height: "300px",

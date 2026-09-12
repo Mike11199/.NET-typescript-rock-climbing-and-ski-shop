@@ -45,7 +45,6 @@ const ProductForListComponent = ({ product }: { product: Product }) => {
         <div className="product-image-container">
           <img
             className="product-card-image"
-            crossOrigin="anonymous"
             src={mainThumbnailImage?.imageUrl ?? ""}
             alt={product?.name ?? ""}
           />
