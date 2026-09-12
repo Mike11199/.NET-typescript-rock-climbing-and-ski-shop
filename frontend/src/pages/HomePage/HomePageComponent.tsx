@@ -52,7 +52,7 @@ const HomePageComponent = ({ categories, getBestsellers }) => {
         <img
           className="plant_tree"
           alt="skier_vector"
-          src={"https://assets.alpine-peak-climbing-ski-gear.com/site/d1f8ddd54b61cc9c/redwood_forest_adjusted_rzjhfx.jpg"}
+          src={"https://assets.alpine-peak-climbing-ski-gear.com/site/redwood-forest.jpg"}
         />
         <div className="climate_text_div">
           <p className="climate_text_paragraph">

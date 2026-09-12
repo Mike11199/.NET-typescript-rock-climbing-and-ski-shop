@@ -1,10 +1,10 @@
 import React from "react";
-const AnimationSkierVectorImage = "https://assets.alpine-peak-climbing-ski-gear.com/site/76df6bf9d48fad9c/skier_vector.png";
-const AnimationSlopeBackgroundImage = "https://assets.alpine-peak-climbing-ski-gear.com/site/5b9a7cc31622e874/ski_slope_6.png";
+const AnimationSkierVectorImage = "https://assets.alpine-peak-climbing-ski-gear.com/site/skier.png";
+const AnimationSlopeBackgroundImage = "https://assets.alpine-peak-climbing-ski-gear.com/site/ski-slope-6.png";
 import Snowfall from "react-snowfall";
-const CloudVector = "https://assets.alpine-peak-climbing-ski-gear.com/site/377ef3152c7f0a3c/cloud_vector3.png";
-const AnimationTree = "https://assets.alpine-peak-climbing-ski-gear.com/site/920705c0f8221472/tree.png";
-const AnimationSkiChairImage = "https://assets.alpine-peak-climbing-ski-gear.com/site/a6e3dc9a66d1df2d/ski_chair.png";
+const CloudVector = "https://assets.alpine-peak-climbing-ski-gear.com/site/cloud-vector3.png";
+const AnimationTree = "https://assets.alpine-peak-climbing-ski-gear.com/site/tree.png";
+const AnimationSkiChairImage = "https://assets.alpine-peak-climbing-ski-gear.com/site/ski-chair.png";
 
 
 const HomePageSkiBannerOld = () => {
