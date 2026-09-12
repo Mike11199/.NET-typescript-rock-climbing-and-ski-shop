@@ -56,6 +56,7 @@ class MediaStack(Stack):
                 viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
                 allowed_methods=cloudfront.AllowedMethods.ALLOW_GET_HEAD,
                 cache_policy=cloudfront.CachePolicy.CACHING_OPTIMIZED,
+                response_headers_policy=cloudfront.ResponseHeadersPolicy.CORS_ALLOW_ALL_ORIGINS,
             ),
             comment="Alpine Peak media",
         )
