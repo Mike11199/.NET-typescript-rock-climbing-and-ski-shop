@@ -1,4 +1,4 @@
-"""Generate the PostgreSQL password and client connection strings."""
+"""Store the PostgreSQL password and connection strings in Secrets Manager."""
 
 from aws_cdk import CfnOutput, RemovalPolicy, SecretValue
 from aws_cdk import aws_secretsmanager as secretsmanager

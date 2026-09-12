@@ -1,4 +1,4 @@
-"""Compose the host, credentials, and three containers into one ECS service."""
+"""Connect the host, database, and application containers in one ECS service."""
 
 from aws_cdk import aws_ecs as ecs
 from constructs import Construct

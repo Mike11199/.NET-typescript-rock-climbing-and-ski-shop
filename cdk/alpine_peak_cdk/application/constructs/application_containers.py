@@ -1,9 +1,9 @@
-"""Existing API and frontend images, with local PostgreSQL credentials."""
+"""Configure the API and frontend containers, including secrets and logging."""
 
 from aws_cdk import Size
 from aws_cdk import aws_ecs as ecs, aws_ssm as ssm
 from constructs import Construct
-from .. import alpine_peak_existing_resources as existing
+from ... import alpine_peak_existing_resources as existing
 
 
 class ApplicationContainers(Construct):

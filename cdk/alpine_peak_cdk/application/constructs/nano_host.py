@@ -1,4 +1,4 @@
-"""The persistent On-Demand ECS host and its network access."""
+"""Create the persistent EC2 host, ECS cluster, security group, and public IP."""
 
 from aws_cdk import CfnOutput, RemovalPolicy
 from aws_cdk import aws_ec2 as ec2, aws_ecs as ecs

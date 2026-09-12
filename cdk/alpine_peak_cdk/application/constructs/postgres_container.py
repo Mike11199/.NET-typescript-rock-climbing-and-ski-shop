@@ -1,4 +1,4 @@
-"""The low-memory PostgreSQL container and persistent mount."""
+"""Configure PostgreSQL with its password, health check, and persistent storage."""
 
 from aws_cdk import Duration
 from aws_cdk import aws_ecs as ecs

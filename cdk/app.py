@@ -1,10 +1,10 @@
 """Define the independently deployable Alpine Peak CDK stacks."""
 
 from aws_cdk import App, Environment
-from alpine_peak_cdk.media_stack import MediaStack
+from alpine_peak_cdk.media.stack import MediaStack
 
-from alpine_peak_cdk.alpine_peak_stack import AlpinePeakStack
-from alpine_peak_cdk.repository_stack import RepositoryStack
+from alpine_peak_cdk.application.stack import AlpinePeakStack
+from alpine_peak_cdk.repository.stack import RepositoryStack
 
 
 def create_stacks(app: App):

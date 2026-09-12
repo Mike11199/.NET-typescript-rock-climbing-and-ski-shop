@@ -1,4 +1,5 @@
-"""Private media storage owned by the main application stack."""
+"""Create a private S3 bucket that retains media when the stack is deleted."""
+
 from aws_cdk import RemovalPolicy, Stack, aws_s3 as s3
 from constructs import Construct
 

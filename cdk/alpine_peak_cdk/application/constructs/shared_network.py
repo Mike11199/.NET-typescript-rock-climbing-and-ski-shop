@@ -1,4 +1,4 @@
-"""Reference the shared VPC and ALB; do not create networking infrastructure."""
+"""Import the shared VPC, public subnets, and load balancer security group."""
 
 from aws_cdk import Fn
 from aws_cdk import aws_ec2 as ec2

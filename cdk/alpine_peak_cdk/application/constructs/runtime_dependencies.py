@@ -1,4 +1,4 @@
-"""Application-owned runtime resources."""
+"""Create the API log group and ECS task execution role."""
 
 from aws_cdk import RemovalPolicy
 from aws_cdk import aws_iam as iam, aws_ecr as ecr

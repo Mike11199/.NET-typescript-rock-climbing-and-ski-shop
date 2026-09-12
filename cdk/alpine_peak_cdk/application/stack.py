@@ -2,7 +2,7 @@
 
 from aws_cdk import CfnParameter, Fn, Stack
 from constructs import Construct
-from .media_storage import MediaStorage
+from .constructs.media_storage import MediaStorage
 from .constructs.nano_service import NanoService
 from .constructs.runtime_dependencies import add_dotnet_log_group, add_execution_role
 from .constructs.shared_network import SharedNetwork

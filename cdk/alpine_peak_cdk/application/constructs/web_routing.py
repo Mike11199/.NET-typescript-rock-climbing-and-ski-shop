@@ -1,9 +1,9 @@
-"""Route the existing domain through the shared ALB to the EC2 service."""
+"""Create the Route 53 alias, load balancer listener rule, and target group."""
 
 from aws_cdk import Fn, RemovalPolicy
 from aws_cdk import aws_elasticloadbalancingv2 as elbv2, aws_route53 as route53
 from constructs import Construct
-from .. import alpine_peak_existing_resources as existing
+from ... import alpine_peak_existing_resources as existing
 
 
 class WebRouting(Construct):

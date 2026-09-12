@@ -1,4 +1,4 @@
-"""The EC2 host can operate only this app's ECS cluster."""
+"""Grant the EC2 host permission to register and run tasks in its ECS cluster."""
 
 from aws_cdk import ArnFormat, Stack
 from aws_cdk import aws_iam as iam
