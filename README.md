@@ -1,17 +1,3 @@
-# Local development
-
-From the repository root, run `make dev` to start the Vite frontend and .NET API together with hot reload. Press Ctrl+C to stop both.
-
-- First checkout: `make install` installs dependencies. Requires Node.js 18+, a .NET SDK/runtime compatible with the API's `net7.0` target, and GNU Make.
-- The API uses port 5001; Vite prints the frontend URL when it starts.
-- The API uses your existing .NET development user secrets for `ConnectionStrings:DefaultConnection` and `Jwt:Key`. Starting the app does not create a database or change AWS resources.
-- `make` or `make help` lists build, test, and individual-server commands. CDK tests also require `uv`.
-
-Images and the banner video use public CloudFront URLs, including on localhost
-and in fresh clones. No AWS credentials are needed to view them.
-
-
-
 <h1>Live Website</h1>
 
 - Main Site - AWS ECS - CI/CD Pipeline and EC2 Load Balancer on Custom Domain
@@ -45,13 +31,19 @@ and in fresh clones. No AWS credentials are needed to view them.
   - Password: testtest
 
 
+# Local development
+
+Run `make install` once, then `make dev` for Vite and .NET hot reload (API: port 5001). See `make help` for other commands.
+
+Requires Node.js 18+, a .NET 7-compatible SDK/runtime, and GNU Make (`uv` for CDK tests). Set `ConnectionStrings:DefaultConnection` and `Jwt:Key` in .NET user secrets. Media loads from CloudFront without AWS credentials.
+
  <h2>Old Site - Heroku</h2>
- 
+
 - https://recreational-equipment-shop.herokuapp.com
 
 - I followed a Udemy tutorial to initially start this project as a generic e-commerce site, to learn Cloudinary, Paypal Integration, Admin Panels, Unit Testing components, and other concepts.
 
-- Likey 10% of the time I've spent on this project or less was that portion.  Since then about 300-500+ hours have been spent overhauling and rebuilding the site, which I've done on and off in my free time.
+- Likely 10% of the time I've spent on this project or less was that portion.  Since then about 100+ hours have been spent overhauling and rebuilding the site, which I've done on and off in my free time.
 
 - That includes rebuilding the entire API as .NET, converting the front end to TypeScript, AWS hosting + CI/CD pipelines, and mobile responsiveness, etc.
 
