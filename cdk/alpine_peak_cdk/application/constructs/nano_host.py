@@ -43,11 +43,16 @@ class NanoHost(Construct):
         host.node.default_child.credit_specification = ec2.CfnInstance.CreditSpecificationProperty(
             cpu_credits="standard"
         )
-        # ECS-optimized AMI already has Docker and ECS; only register the host.
+        # Cached images can fill the disk and cause deployment image pulls to fail.
+        # Shorten ECS cleanup delays to reclaim stopped containers and unused images.
         host.add_user_data(
             f"echo ECS_CLUSTER={cluster.cluster_name} >> /etc/ecs/ecs.config",
             "echo ECS_RESERVED_MEMORY=128 >> /etc/ecs/ecs.config",
             "echo ECS_ENABLE_AWSLOGS_EXECUTIONROLE_OVERRIDE=true >> /etc/ecs/ecs.config",
+            "echo ECS_ENGINE_TASK_CLEANUP_WAIT_DURATION=1m >> /etc/ecs/ecs.config",
+            "echo ECS_IMAGE_MINIMUM_CLEANUP_AGE=1m >> /etc/ecs/ecs.config",
+            "echo ECS_IMAGE_CLEANUP_INTERVAL=10m >> /etc/ecs/ecs.config",
+            "echo ECS_NUM_IMAGES_DELETE_PER_CYCLE=100 >> /etc/ecs/ecs.config",
         )
         address = ec2.CfnEIP(self, "Address", domain="vpc")
         address.apply_removal_policy(RemovalPolicy.RETAIN)

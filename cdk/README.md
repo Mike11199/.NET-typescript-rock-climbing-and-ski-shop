@@ -45,3 +45,5 @@ CDK generates and retains the JWT secret, reusing it across deploys without rota
 The host uses a pinned AMI and retained EBS storage. Container restarts and EC2 stop/start preserve PostgreSQL data; replacing the host creates a new disk and retains the old one. Restore or migrate data before using a replacement host.
 
 Container updates briefly stop the application and database. Only one database container runs at a time. PostgreSQL image configuration lives in `postgres/`.
+
+New hosts make stopped containers and unused images eligible for cleanup after one minute, checking images every ten minutes. Existing hosts need a one-time ECS configuration update; disk sizes and ECR retention are unchanged.
