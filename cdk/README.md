@@ -1,43 +1,44 @@
 # Alpine Peak Climbing and Ski Shop CDK
 
-Deployments run only through the GitHub Actions CI/CD workflow using AWS CDK.
+The frontend, .NET API, and PostgreSQL run as one ECS task on one On-Demand `t3.nano` EC2 host. Deployments run through GitHub Actions.
 
-The frontend, .NET API, and PostgreSQL run as ECS containers on one On-Demand
-`t3.nano` EC2. PostgreSQL data lives on retained EBS storage.
+## Structure and ownership
 
-## Structure
+```text
+app.py                                  # connects the three stacks
+alpine_peak_cdk/
++-- alpine_peak_existing_resources.py    # application constants
++-- application/
+|   +-- stack.py                         # AlpinePeakStack
+|   \-- constructs/
+|       +-- nano_service.py              # connects the host and containers
+|       +-- nano_host.py                 # EC2 host, ECS cluster, disk, and public IP
+|       +-- host_role.py                 # EC2 host permissions
+|       +-- application_containers.py    # frontend and API containers
+|       +-- postgres_container.py        # database container and persistent mount
+|       +-- database_credentials.py      # Secrets Manager password and connections
+|       +-- runtime_dependencies.py      # API logs and ECS execution role
+|       +-- shared_network.py            # imports shared networking
+|       +-- web_routing.py               # Route 53 alias, ALB rule, and target group
+|       \-- media_storage.py             # retained private S3 bucket
++-- media/
+|   \-- stack.py                         # AlpinePeakMediaStack (us-east-1)
+\-- repository/
+    \-- stack.py                         # AlpinePeakRepositoryStack: retained ski-rock-climbing-shop ECR
+```
 
-- `app.py` creates the repository, application, and media delivery stacks.
-- `alpine_peak_cdk/` contains the stack definitions.
-- `alpine_peak_cdk/application/constructs/media_storage.py` defines the `MediaStorage` construct inside the application stack; its S3 bucket stays in `us-west-1`.
-- `alpine_peak_cdk/media/stack.py` defines the separate delivery stack in `us-east-1`, required for CloudFront's ACM certificate and WAF. The same CI/CD workflow deploys it with the application.
-- `postgres/` contains the PostgreSQL Docker image and configuration.
-- `tests/` checks the main infrastructure settings.
+The application stack owns the S3 bucket in `us-west-1`. The media stack owns CloudFront with a FREE-plan subscription, WAF, origin access control, the bucket policy, an ACM certificate, and Route 53 assets A/AAAA records. Its certificate and CloudFront-scoped WAF require `us-east-1`.
 
-Constructs and helpers in `alpine_peak_cdk/application/constructs/`:
+Shared infrastructure owns the VPC, subnets, ALB security group, hosted zone, ALB certificate, load balancer, and listeners. This application imports their CloudFormation exports.
 
-| File | Responsibility |
-| --- | --- |
-| `shared_network.py` | References the shared VPC, subnet, and ALB security group. |
-| `web_routing.py` | Routes the domain through the shared ALB to the EC2 service. |
-| `nano_host.py` | Creates the EC2 server, retained EBS disk, Elastic IP, and network access rules. |
-| `host_role.py` | Limits the server's IAM permissions to this app's ECS cluster. |
-| `database_credentials.py` | Generates the database password and stores connection strings in Secrets Manager. |
-| `postgres_container.py` | Configures PostgreSQL memory, health checks, and the persistent data mount. |
-| `application_containers.py` | Configures the frontend and API images, secrets, and startup dependency. |
-| `nano_service.py` | Assembles the host and containers into one ECS task and service. |
-| `runtime_dependencies.py` | Creates the API log group and ECS execution role for images, logs, and secrets. |
+## Deployment
 
-## Runtime
+Deploy shared infrastructure first; its workflow bootstraps missing CDK environments in both regions. The [site workflow](../.github/workflows/deploy-cdk-aws.yml) then deploys the repository, builds and pushes the frontend, API, and PostgreSQL images, and deploys the application and media stacks together. It reads the hosted-zone ID from shared exports.
 
-- The pinned AMI keeps routine app deployments on the same EC2 host.
-- On-Demand EC2 has no Spot interruptions.
-- The EC2 role is limited to this app's ECS cluster; ECS fetches only the app's required secrets.
-- Container updates briefly stop the app; only one database container runs at a time.
+A fresh account needs GitHub AWS credentials and the region configured, plus domain registration/name-server delegation. The existing SSM parameters `JWT_STRING_SKI_SHOP` and `GOOGLE_OAUTH_CLIENT_ID` must also be supplied. Media uploads and database schema/data migration are separate from CDK resource deployment.
 
-## Database
+## Runtime and data
 
-- Secrets Manager supplies the API connection string.
-- Container restarts and EC2 stop/start keep the database on EBS.
-- Replacing EC2 creates a new disk. The old disk is retained.
-- Removing RDS from CDK retains it. Rolling back requires re-importing RDS and copying back any new writes.
+The host uses a pinned AMI and retained EBS storage. Container restarts and EC2 stop/start preserve PostgreSQL data; replacing the host creates a new disk and retains the old one. Restore or migrate data before using a replacement host.
+
+Container updates briefly stop the application and database. Only one database container runs at a time. PostgreSQL image configuration lives in `postgres/`.
