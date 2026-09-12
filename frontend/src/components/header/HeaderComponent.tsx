@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { updateSearchString } from "../../redux/actions/searchActions";
 import { useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
-import SkiShopLogo from "../../images/new_ski_shop_logo.png";
+const SkiShopLogo = "https://assets.alpine-peak-climbing-ski-gear.com/site/059b7242a6f5879b/new_ski_shop_logo.png";
 
 const HeaderComponent = () => {
   const [searchCategoryToggle, setSearchCategoryToggle] =

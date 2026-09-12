@@ -1,7 +1,7 @@
 import { Container, Row, Col, ListGroup } from "react-bootstrap";
 
 import CartItemComponent from "../../components/CartItemComponent";
-import ShoppingCartImage from "../../images/shopping_cart.png";
+const ShoppingCartImage = "https://assets.alpine-peak-climbing-ski-gear.com/site/529a638a1a910a12/shopping_cart.png";
 import { useNavigate } from "react-router-dom";
 import { StoredUserInfo, ReduxAppState } from "types";
 import { useSelector } from "react-redux";

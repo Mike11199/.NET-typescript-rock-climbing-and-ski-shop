@@ -1,6 +1,6 @@
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import CliffFacePhoto from "../../../images/cliff_3.png";
+const CliffFacePhoto = "https://assets.alpine-peak-climbing-ski-gear.com/site/79cafd76be28e12c/cliff_3.png";
 import { StoredUserInfo } from "types";
 import {
   toastSuccess,

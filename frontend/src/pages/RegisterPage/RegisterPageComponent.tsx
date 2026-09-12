@@ -2,8 +2,8 @@ import { Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
-import RockClimbingPhoto from "../../images/climbing_inverted_2.png";
-import RappelClimbingPhoto from "../../images/rappel_5.png";
+const RockClimbingPhoto = "https://assets.alpine-peak-climbing-ski-gear.com/site/91abe7a1a24c0857/climbing_inverted_2.png";
+const RappelClimbingPhoto = "https://assets.alpine-peak-climbing-ski-gear.com/site/d0d32674a03be064/rappel_5.png";
 import { registerUserRequest } from "./RegisterPage";
 import { LoggedInOrRegisteredUserResponse } from "types";
 import {

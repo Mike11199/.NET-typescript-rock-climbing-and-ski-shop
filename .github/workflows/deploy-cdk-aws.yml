@@ -57,7 +57,7 @@ jobs:
           cache-dependency-glob: cdk/uv.lock
       - name: Install pinned CDK CLI
         run: npm install --global "aws-cdk@$CDK_CLI_VERSION"
-      - name: Deploy retained ECR repository
+      - name: Deploy repository stack
         working-directory: cdk
         run: |
           uv sync --frozen --group dev
@@ -126,11 +126,13 @@ jobs:
           cache-dependency-glob: cdk/uv.lock
       - name: Install pinned CDK CLI
         run: npm install --global "aws-cdk@$CDK_CLI_VERSION"
-      - name: Deploy application with this commit's image tag
+      - name: Deploy application and media delivery
         working-directory: cdk
         run: |
           uv sync --frozen --group dev
-          cdk deploy AlpinePeakStack \
+          HOSTED_ZONE_ID="$(aws cloudformation list-exports --query "Exports[?Name=='SharedAlpinePeakHostedZoneId'].Value | [0]" --output text)"
+          cdk deploy AlpinePeakStack AlpinePeakMediaStack \
             --exclusively \
             --require-approval never \
-            --parameters ImageTag=${{ github.sha }}
+            --parameters AlpinePeakStack:ImageTag=${{ github.sha }} \
+            --parameters AlpinePeakMediaStack:HostedZoneId="$HOSTED_ZONE_ID"

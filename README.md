@@ -7,6 +7,10 @@ From the repository root, run `make dev` to start the Vite frontend and .NET API
 - The API uses your existing .NET development user secrets for `ConnectionStrings:DefaultConnection` and `Jwt:Key`. Starting the app does not create a database or change AWS resources.
 - `make` or `make help` lists build, test, and individual-server commands. CDK tests also require `uv`.
 
+Images and the banner video use public CloudFront URLs, including on localhost
+and in fresh clones. No AWS credentials are needed to view them.
+
+
 
 <h1>Live Website</h1>
 

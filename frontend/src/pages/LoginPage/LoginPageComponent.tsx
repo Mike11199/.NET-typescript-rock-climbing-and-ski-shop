@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
-import IceClimbingPhoto from "../../images/ski_mountaineering_5.png";
-import IceCavePhoto from "../../images/ice_cave_2.png";
+const IceClimbingPhoto = "https://assets.alpine-peak-climbing-ski-gear.com/site/b0491c26cc2c18fb/ski_mountaineering_5.png";
+const IceCavePhoto = "https://assets.alpine-peak-climbing-ski-gear.com/site/0cdd09ea697913c7/ice_cave_2.png";
 import "../../../src/mobileStyles.css";
 import { AxiosResponse } from "axios";
 import GoogleLoginButton from "../../../src/components/GoogleLogIn";

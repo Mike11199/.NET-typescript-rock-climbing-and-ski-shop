@@ -6,8 +6,8 @@ import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import { Container } from "react-bootstrap";
 import { LatLngExpression } from "leaflet";
-import NASALogoImage from "../../images/nasa.png";
-import NASALandSatImage from "../../images/landsat.png";
+const NASALogoImage = "https://assets.alpine-peak-climbing-ski-gear.com/site/7b87988a99389473/nasa.png";
+const NASALandSatImage = "https://assets.alpine-peak-climbing-ski-gear.com/site/35acfe1c1f1984b0/landsat.png";
 import Select from "react-select";
 import HomePageNasaSatelliteSlider from "./HomePageNasaSatelliteSlider";
 

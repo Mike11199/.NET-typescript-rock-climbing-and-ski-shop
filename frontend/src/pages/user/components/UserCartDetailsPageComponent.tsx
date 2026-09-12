@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import Confetti from "react-dom-confetti";
-import ShoppingCartImage from "../../../images/shopping_cart.png";
+const ShoppingCartImage = "https://assets.alpine-peak-climbing-ski-gear.com/site/529a638a1a910a12/shopping_cart.png";
 import { ConfettiConfig } from "react-dom-confetti";
 import {
   CartProduct,

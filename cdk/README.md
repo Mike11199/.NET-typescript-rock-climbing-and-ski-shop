@@ -1,14 +1,16 @@
 # Alpine Peak Climbing and Ski Shop CDK
 
-GitHub Actions deploys the app using AWS CDK.
+Deployments run only through the GitHub Actions CI/CD workflow using AWS CDK.
 
 The frontend, .NET API, and PostgreSQL run as ECS containers on one On-Demand
 `t3.nano` EC2. PostgreSQL data lives on retained EBS storage.
 
 ## Structure
 
-- `app.py` creates the repository and application stacks.
+- `app.py` creates the repository, application, and media delivery stacks.
 - `alpine_peak_cdk/` contains the stack definitions.
+- `alpine_peak_cdk/media_storage.py` defines the `MediaStorage` construct inside the application stack; its S3 bucket stays in `us-west-1`.
+- `alpine_peak_cdk/media_stack.py` defines the separate delivery stack in `us-east-1`, required for CloudFront's ACM certificate and WAF. The same CI/CD workflow deploys it with the application.
 - `postgres/` contains the PostgreSQL Docker image and configuration.
 - `tests/` checks the main infrastructure settings.
 
@@ -37,5 +39,5 @@ Constructs and helpers in `alpine_peak_cdk/constructs/`:
 
 - Secrets Manager supplies the API connection string.
 - Container restarts and EC2 stop/start keep the database on EBS.
-- Replacing EC2 creates a new disk. The old disk is retained; reattach it or restore a backup manually.
+- Replacing EC2 creates a new disk. The old disk is retained.
 - Removing RDS from CDK retains it. Rolling back requires re-importing RDS and copying back any new writes.
