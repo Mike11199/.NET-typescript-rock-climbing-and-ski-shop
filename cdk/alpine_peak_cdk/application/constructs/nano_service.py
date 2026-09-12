@@ -10,7 +10,7 @@ from .postgres_container import PostgresContainer
 
 class NanoService(Construct):
     def __init__(self, scope, construct_id, *, network, routing, execution_role,
-                 repository_uri, image_tag, log_group):
+                 repository_uri, image_tag, log_group, jwt_secret):
         super().__init__(scope, construct_id)
         host = NanoHost(self, "Host", vpc=network.vpc, subnet=network.subnet,
                         alb_security_group=network.alb_security_group)
@@ -32,6 +32,7 @@ class NanoService(Construct):
         ApplicationContainers(
             self, "Application", task=task, postgres=postgres.container,
             connections=credentials.connections, repository_uri=repository_uri,
+            jwt_secret=jwt_secret,
             image_tag=image_tag, logging=logging, log_group=log_group,
         )
         self.service = ecs.CfnService(

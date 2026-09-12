@@ -19,3 +19,16 @@ def test_media(stacks):
         }},
     })
     assert stacks[1] in stacks[2].dependencies
+
+
+def test_jwt_secret(stacks):
+    app = Template.from_stack(stacks[1])
+    secret_id, = app.find_resources("AWS::SecretsManager::Secret", {
+        "Properties": {"GenerateSecretString": {"PasswordLength": 64}},
+        "DeletionPolicy": "Retain", "UpdateReplacePolicy": "Retain",
+    })
+    app.resource_count_is("AWS::SecretsManager::RotationSchedule", 0)
+    task, = app.find_resources("AWS::ECS::TaskDefinition").values()
+    api = next(c for c in task["Properties"]["ContainerDefinitions"]
+               if c["Name"] == "back-end-dotnet-api")
+    assert {"Name": "JWT_SECRET_KEY", "ValueFrom": {"Ref": secret_id}} in api["Secrets"]

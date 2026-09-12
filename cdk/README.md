@@ -16,6 +16,7 @@ alpine_peak_cdk/
 |       +-- host_role.py                 # EC2 host permissions
 |       +-- application_containers.py    # frontend and API containers
 |       +-- postgres_container.py        # database container and persistent mount
+|       +-- jwt_secret.py                # generated, retained JWT signing secret
 |       +-- database_credentials.py      # Secrets Manager password and connections
 |       +-- runtime_dependencies.py      # API logs and ECS execution role
 |       +-- shared_network.py            # imports shared networking
@@ -35,7 +36,9 @@ Shared infrastructure owns the VPC, subnets, ALB security group, hosted zone, AL
 
 Deploy shared infrastructure first; its workflow bootstraps missing CDK environments in both regions. The [site workflow](../.github/workflows/deploy-cdk-aws.yml) then deploys the repository, builds and pushes the frontend, API, and PostgreSQL images, and deploys the application and media stacks together. It reads the hosted-zone ID from shared exports.
 
-A fresh account needs GitHub AWS credentials and the region configured, plus domain registration/name-server delegation. The existing SSM parameters `JWT_STRING_SKI_SHOP` and `GOOGLE_OAUTH_CLIENT_ID` must also be supplied. Media uploads and database schema/data migration are separate from CDK resource deployment.
+A fresh account needs GitHub AWS credentials and the region configured, plus domain registration/name-server delegation. The existing SSM parameter `GOOGLE_OAUTH_CLIENT_ID` must also be supplied. Media uploads and database schema/data migration are separate from CDK resource deployment.
+
+CDK generates and retains the JWT secret, reusing it across deploys without rotation. ECS injects it automatically; `JwtSecretArn` locates it for local use.
 
 ## Runtime and data
 

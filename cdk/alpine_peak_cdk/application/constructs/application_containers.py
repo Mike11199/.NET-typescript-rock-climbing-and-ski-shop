@@ -8,7 +8,7 @@ from ... import alpine_peak_existing_resources as existing
 
 class ApplicationContainers(Construct):
     def __init__(self, scope, construct_id, *, task, postgres, connections,
-                 repository_uri, image_tag, logging, log_group):
+                 repository_uri, image_tag, logging, log_group, jwt_secret):
         super().__init__(scope, construct_id)
 
         api = task.add_container(
@@ -24,14 +24,13 @@ class ApplicationContainers(Construct):
                 "POSTGRES_URL_SKI_ROCK_SHOP": ecs.Secret.from_secrets_manager(
                     connections, "applicationConnectionString"
                 ),
-                **{key: ecs.Secret.from_ssm_parameter(
+                "JWT_SECRET_KEY": ecs.Secret.from_secrets_manager(jwt_secret),
+                "GOOGLE_OAUTH_CLIENT_ID": ecs.Secret.from_ssm_parameter(
                     ssm.StringParameter.from_secure_string_parameter_attributes(
-                        self, key, parameter_name=name
+                        self, "GOOGLE_OAUTH_CLIENT_ID",
+                        parameter_name=existing.GOOGLE_OAUTH_CLIENT_ID_PARAMETER_NAME,
                     )
-                ) for key, name in {
-                    "JWT_SECRET_KEY": existing.JWT_PARAMETER_NAME,
-                    "GOOGLE_OAUTH_CLIENT_ID": existing.GOOGLE_OAUTH_CLIENT_ID_PARAMETER_NAME,
-                }.items()},
+                ),
             },
         )
         api.add_container_dependencies(ecs.ContainerDependency(
