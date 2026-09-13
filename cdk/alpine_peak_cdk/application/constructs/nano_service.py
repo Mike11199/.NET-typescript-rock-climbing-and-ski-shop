@@ -42,6 +42,7 @@ class NanoService(Construct):
             desired_count=1, health_check_grace_period_seconds=120,
             deployment_configuration=ecs.CfnService.DeploymentConfigurationProperty(
                 minimum_healthy_percent=0, maximum_percent=100,
+                bake_time_in_minutes=5,
             ),
             load_balancers=[ecs.CfnService.LoadBalancerProperty(
                 target_group_arn=routing.target_group.ref,
