@@ -1,0 +1,33 @@
+services:
+  front-end:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+    environment:
+      VITE_API_PROXY_TARGET: http://back-end-v2:5001
+      CHOKIDAR_USEPOLLING: "true"
+    ports:
+      - "127.0.0.1:5174:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - back-end-v2
+
+  back-end-v2:
+    build:
+      context: ./backend_v2_dotnet
+      dockerfile: Dockerfile
+      target: development
+    environment:
+      ASPNETCORE_URLS: http://+:5001
+      ASPNETCORE_ENVIRONMENT: Development
+    expose:
+      - "5001"
+    volumes:
+      - ./backend_v2_dotnet:/src
+      - dotnet-packages:/root/.nuget/packages
+
+volumes:
+  dotnet-packages:

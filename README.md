@@ -33,7 +33,7 @@
 
 # Local development
 
-Run `make install` once, then `make dev` for Vite and .NET hot reload (API: port 5001). See `make help` for other commands.
+Run `make dev` for Vite and .NET hot reload in Docker, then open http://localhost:5174. Use `make down` to stop the development stack. See `make help` for other commands.
 
 Requires Node.js 18+, a .NET 7-compatible SDK/runtime, and GNU Make (`uv` for CDK tests). Set `ConnectionStrings:DefaultConnection` and `Jwt:Key` in .NET user secrets. Media loads from CloudFront without AWS credentials.
 

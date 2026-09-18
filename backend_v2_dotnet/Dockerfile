@@ -1,6 +1,15 @@
 # docker build -t back-github-actions-v2 .
 # docker run -d -p 5001:5001 back-github-actions-v2
 
+# Development: source is bind-mounted at /src by docker-compose.dev.yml.
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS development
+WORKDIR /src
+COPY ["./backend_v2.csproj", "."]
+RUN dotnet restore "backend_v2.csproj"
+COPY . .
+EXPOSE 5001
+CMD ["dotnet", "watch", "run", "--project", "backend_v2.csproj", "--urls", "http://0.0.0.0:5001"]
+
 # Stage 1: Base
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app

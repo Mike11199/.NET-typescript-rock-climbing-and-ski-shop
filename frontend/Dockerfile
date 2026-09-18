@@ -17,6 +17,14 @@
 # $ docker tag c245bc4cc4bd  456461478565.dkr.ecr.us-west-1.amazonaws.com/ski-rock-climbing-shop:react-ski-rock-climbing-shop
 # $ docker push 456461478565.dkr.ecr.us-west-1.amazonaws.com/ski-rock-climbing-shop:react-ski-rock-climbing-shop
 # ************Dockerfile for AWS**************
+FROM node:18-alpine AS development
+WORKDIR /app
+COPY ["package.json", "package-lock.json*", "./"]
+RUN npm ci
+COPY . .
+EXPOSE 5173
+CMD ["npm", "start", "--", "--host", "0.0.0.0", "--port", "5173"]
+
 FROM node:18-alpine as build
 WORKDIR /app
 COPY ["package.json", "package-lock.json*", "./"]
