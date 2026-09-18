@@ -1,9 +1,9 @@
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { setReduxUserState } from "../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
-import { useWindowWidth } from "@react-hook/window-size";
 import { useEffect, useState, useRef } from "react";
 import { toastError } from "../../src/utils/ToastNotifications";
+import "./GoogleLogIn.css";
 
 const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
   const navigate = useNavigate();
@@ -35,21 +35,28 @@ const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
     );
   };
 
-  const windowWidth = useWindowWidth();
   const [divWidth, setDivWidth] = useState(0);
   const divRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const container = divRef.current;
+    if (!container) return;
     const handleResize = () => {
-      if (divRef.current) {
-        setDivWidth(divRef.current.offsetWidth);
-      }
+      // Google supports at most 400 CSS pixels, even on wider screens.
+      setDivWidth(
+        Math.min(400, Math.floor(container.getBoundingClientRect().width)),
+      );
     };
 
     handleResize();
+    if (typeof ResizeObserver !== "undefined") {
+      const observer = new ResizeObserver(handleResize);
+      observer.observe(container);
+      return () => observer.disconnect();
+    }
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [windowWidth]);
+  }, []);
 
   return (
     <div>
@@ -57,19 +64,25 @@ const GoogleLoginButton = ({ googleLogin, reduxDispatch }) => {
       <GoogleOAuthProvider clientId="421793135719-tbnlgi65j46cc3oo2j74eot1ou5tg06n.apps.googleusercontent.com">
         <div
           ref={divRef}
+          className="google-login-button"
           style={{
             width: "100%",
+            maxWidth: 400,
+            minWidth: 0,
+            minHeight: 40,
+            marginInline: "auto",
             display: "flex",
             justifyContent: "center",
-            boxShadow: "2px 2px 6px rgb(0, 0, 0)",
           }}
         >
-          <GoogleLogin
-            width={`${divWidth?.toString()}`}
-            theme={"filled_black"}
-            onSuccess={onSuccess}
-            onError={onFailure}
-          />
+          {divWidth > 0 && (
+            <GoogleLogin
+              width={String(divWidth)}
+              theme={"filled_black"}
+              onSuccess={onSuccess}
+              onError={onFailure}
+            />
+          )}
         </div>
       </GoogleOAuthProvider>
     </div>

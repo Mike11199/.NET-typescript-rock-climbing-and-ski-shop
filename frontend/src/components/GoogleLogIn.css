@@ -1,0 +1,17 @@
+/* Center each SDK wrapper, not just the outer React component. Google may
+   replace the initial HTML button with an iframe of a different width. */
+.google-login-button > div,
+.google-login-button > div > div,
+.google-login-button > div > div > div {
+  display: grid;
+  justify-items: center;
+  width: 100%;
+  min-width: 0;
+}
+
+.google-login-button iframe {
+  display: block;
+  justify-self: center;
+  /* Preserve Google's negative margins: the iframe includes extra space
+     around the visible button. Auto margins shift that button to the right. */
+}
